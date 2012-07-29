@@ -1,1 +1,1 @@
-andrew panget
+This is a sample vi command
