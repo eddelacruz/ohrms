@@ -1,167 +1,86 @@
-
 # --- !Ups
 
-
-
-
 create table dental_services(
-
 id char(36) NOT NULL,
-
 name varchar(200) NOT NULL,
-
 type varchar(200),
 target tinyint(1),
-
 price varchar(50),
-
 date_created TIMESTAMP,
-
 date_last_updated TIMESTAMP,
-
 PRIMARY KEY(id));
-
-
 
 create table users(
 id char(36) NOT NULL,
-
 user_name varchar(200) NOT NULL,
-
 password varchar(200) NOT NULL,
-
 role tinyint(1),
 status tinyint(1),
-
 date_created TIMESTAMP,
-
 PRIMARY KEY(id));
-
-
 
 create table dentist(
 id char(36) NOT NULL,
-
 first_name varchar(200),
-
 middle_name varchar(200),
-
 last_name varchar(200),
-
 address varchar(200),
-
 contact_no varchar (100),
-
 prc_no varchar(100),
-
 user_id char(36) NOT NULL,
-
 PRIMARY KEY(id),
-
 FOREIGN KEY (user_id) REFERENCES users(id));
-
-
 
 create table specialization(
 dentist_id char(36) NOT NULL,
-
 name varchar(200),
-
 foreign key (dentist_id) references dentist(id));
-
-
-
 
 create table medical_history(
 id char(36) NOT NULL,
-
 name varchar(200),
-
 PRIMARY KEY(id));
-
-
 
 create table patients(
 id char(36) NOT NULL,
-
 first_name varchar(200),
-
 middle_name varchar(200),
-
 last_name varchar(200),
-
 medical_history_id char(36),
-
 address varchar(200),
-
 contact_no varchar(100),
-
 date_of_birth DATE,
-
 image varchar(200),
-
 status tinyint(1),
-
 date_created TIMESTAMP,
-
 date_last_updated TIMESTAMP,
-
 Primary key(id),
-
 FOREIGN KEY (medical_history_id) REFERENCES medical_history(id));
-
-
 
 create table staff(
 id char(36) NOT NULL,
-
 first_name varchar(200),
-
 middle_name varchar(200),
-
 last_name varchar(200),
-
 position varchar(200),
-
 user_id char(36),
-
 date_created TIMESTAMP,
-
 Primary key(id),
-
 FOREIGN KEY (user_id) REFERENCES users(id));
-
-
-
-
 
 create table payments(
 id char(36) NOT NULL,
-
 payment_type tinyint(1),
-
 amount_paid varchar(50),
-
 balance varchar(50),
-
 completion_date DATE,
-
-patient_id char(36),
-
 date_created TIMESTAMP,
-
 Primary key(id),
-
 FOREIGN KEY (patient_id) REFERENCES patients(id));
-
-
-
-
 
 insert into dental_services values ('ed1ea643-585a-4571-b751-a5e517a7bce2','Prophylaxis','Cleaning','1','690','2012-11-19 03:14:07','2012-11-20 01:18:05');
 insert into dental_services values ('5dd97b8a-a821-4c65-82b0-88c18bd9de39','Prosthodontics','fixed bridgework','2','1060','2012-10-10 09:44:37','2012-11-20 01:18:05');
 insert into dental_services values ('11e5fd54-5b4c-44be-9381-1a09ed659045','Root Canal','Root Canal','1','450','2012-11-27 07:34:17','2012-11-29 02:28:15');
-
 
 insert into users values ('c7e5ef5d-07eb-4904-abbe-0aa73c13490f','cvbautista','12345','1','1','2012-11-27 07:34:17');
 insert into users values ('b2c12f2d-0117-45ac-b791-d49557340a41','jbernardo','54321','1','1','2012-10-17 07:34:17');
@@ -176,8 +95,7 @@ insert into medical_history values ('a140df5e-172e-4ee1-a907-d36285b35d2d','nagp
 insert into medical_history values ('446e5bb1-b504-462d-8b01-79ad86d8b26c','nagpabrace');
 insert into medical_history values ('3feff37e-577d-4805-a3a6-c0ea2d4194dd','nagpalinis');
 
-INSERT INTO patients VALUES
-(
+INSERT INTO patients VALUES (
 'b2be3ffc-f16f-42c8-a2da-756a2576d13f',
 'Billy',
 'Protacio',
@@ -192,8 +110,7 @@ INSERT INTO patients VALUES
 '2012-10-10 09:44:37'
 );
 
-INSERT INTO patients VALUES
-(
+INSERT INTO patients VALUES (
 'a5434d36-dd94-425e-87a3-3c859db7b130',
 'Elizer',
 'Dionisio',
@@ -207,7 +124,6 @@ INSERT INTO patients VALUES
 '2012-10-11 09:44:37',
 '2012-10-12 09:44:37'
 );
-
 
 select * from patients;INSERT INTO `ohrms`.`staff`
 (`id`,
@@ -228,8 +144,6 @@ VALUES
 '2012-09-09 07:34:17'
 );
 
-
-
 INSERT INTO `ohrms`.`payments`
 (`id`,
 `payment_type`,
@@ -248,13 +162,6 @@ VALUES
 'a5434d36-dd94-425e-87a3-3c859db7b130',
 '2012-09-09 07:34:17'
 );
-
-
-
-
-
-
-
 
 # --- !Downs
 
