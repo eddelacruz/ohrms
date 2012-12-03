@@ -177,7 +177,7 @@ jQuery(function($){
             Miscellaneous
         ==============*/
 
-        FORMALIZE.init.placeholder();
+        /* FORMALIZE.init.placeholder();
 
         (function(){
 
@@ -379,7 +379,7 @@ jQuery(function($){
 
                 e.preventDefault();
             });
-        })();
+        })();    */
 
         // sliders
         $('.slider').each(function(){
