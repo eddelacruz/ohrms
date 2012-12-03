@@ -8,8 +8,12 @@ import views._
 
 object Application extends Controller {
   
-  def index = Action {
-    Ok(html.index("Your new application is ready."))
+  def dashboard = Action {
+    Ok(html.dboard("Your new application is ready."))
+  }
+
+  def treatmentPlan = Action {
+    Ok(html.treatment_plan())
   }
 
   def samplePdf(id: String): Result = {
