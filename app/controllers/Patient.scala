@@ -5,7 +5,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views._
-import ws.PatientService
+import ws.services.PatientService
 
 /**
  * Created with IntelliJ IDEA.

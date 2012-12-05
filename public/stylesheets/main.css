@@ -2238,21 +2238,25 @@ nav.jsubmenu .submenu li.last a {
 /*================
     Form
 ================== */
-.form-label {
+.form-details label {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.form-details label.upper {
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+.form-details .form-label, .form-details input[type="text"], .form-details textarea {
+  width: 90%;
+}
+.form-details .form-label {
   background: #fff;
   background: -webkit-linear-gradient(top, #ffffff, #f0f0f0);
   box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
   color: #484848;
-  width: 300px;
-  height: 25px;
   padding: 3px 8px 0px 8px;
-}
-.form-label-iconized {
-  padding-left: 30px;
-}
-.form-label-iconized .glyph {
-  position: absolute;
+  height: 29px;
 }
 .form-image {
   width: 170px;
@@ -2260,7 +2264,13 @@ nav.jsubmenu .submenu li.last a {
   position: relative;
 }
 .form-details {
+  margin: 0 auto;
   position: relative;
+  width: 79%;
+}
+.form-details .field.left, .form-details .field.right {
+  padding-left: 0;
+  width: 50%;
 }
 .patient-image {
   width: 160px;

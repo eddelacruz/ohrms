@@ -1,17 +1,56 @@
-@(patientList: List[ws.PatientList])
+@(patientList: List[ws.services.PatientList])
 
 @main("patient"){
 
-        <table>
-            @patientList.map{     pl =>
-            <tr>
-                <td>@pl.id&nbsp</td>
-                <td>@pl.firstName&nbsp</td>
-                <td>@pl.middleName&nbsp</td>
-            </tr>
-            }
+<!-- Patient List -->
+<header class="grid_12 head">
+    <h1>Patient List</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
 
-        </table>
-
+<div class="simple-box grid_12">
+    <div class="inner">
+        <div class="box-content">
+            <div class="grid_11 table">
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="first">Complete Name</th>
+                            <th>Address</th>
+                            <th>Contact No.</th>
+                            <th class="last">Medical History</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @patientList.map { pl =>
+                        <tr>
+                            <td>@pl.lastName, @pl.firstName @pl.middleName</td>
+                            <td>@pl.address</td>
+                            <td>@pl.contactNo</td>
+                            <td>@pl.medicalHistoryId</td>
+                        </tr>
+                        }
+                        </tbody>
+                    </table>
+                    <footer class="extension bottom inright pagination right">
+                        <nav>
+                            <ul>
+                                <li class="first"><a href="#">« previous</a></li>
+                                <li><a href="#">01</a></li>
+                                <li><a href="#">02</a></li>
+                                <li class="active"><a href="#">03</a></li>
+                                <li><a href="#">04</a></li>
+                                <li><a href="#">05</a></li>
+                                <li class="disabled last"><span>disabled »</span></li>
+                            </ul>
+                        </nav>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Patient List -->
 
 }
