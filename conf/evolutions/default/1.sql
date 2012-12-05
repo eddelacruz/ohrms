@@ -70,6 +70,7 @@ FOREIGN KEY (user_id) REFERENCES users(id));
 
 create table payments(
 id char(36) NOT NULL,
+patient_id char(36),
 payment_type tinyint(1),
 amount_paid varchar(50),
 balance varchar(50),

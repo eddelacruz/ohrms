@@ -1,0 +1,17 @@
+@(patientList: List[ws.PatientList])
+
+@main("patient"){
+
+        <table>
+            @patientList.map{     pl =>
+            <tr>
+                <td>@pl.id&nbsp</td>
+                <td>@pl.firstName&nbsp</td>
+                <td>@pl.middleName&nbsp</td>
+            </tr>
+            }
+
+        </table>
+
+
+}
