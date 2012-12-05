@@ -3,7 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                           controllers.Application.dashboard
+GET     /treatment_plan             controllers.Application.treatmentPlan
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
