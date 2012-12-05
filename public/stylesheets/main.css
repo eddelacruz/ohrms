@@ -2281,11 +2281,13 @@ nav.jsubmenu .submenu li.last a {
   background: white;
   margin-bottom: 5px;
 }
-.tab svg {
+#svg-chart svg {
   width: 100%;
   max-width: 800px;
   display: block;
   margin: 0 auto 0;
+  height: 400px;
+  min-height: 400px;
 }
 .tab .grid_11 {
   float: none;
