@@ -4,7 +4,7 @@ import play.api._
 import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
-import views._
+import views.html.{patient, modal}
 import ws.services.PatientService
 
 /**
@@ -16,8 +16,16 @@ import ws.services.PatientService
  */
 object Patient extends Controller {
 
+  def getTreatmentPlan(id: String) = Action {
+    Ok(patient.treatment_plan(PatientService.getPatientListById(id)))
+  }
+
   def getList = Action {
-    Ok(html.patient.list(PatientService.getPatientList))
+    Ok(patient.list(PatientService.getPatientList))
+  }
+
+  def getAddForm = Action {
+    Ok("add form")
   }
 
 }

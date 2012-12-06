@@ -4,8 +4,9 @@
 
 # Home page
 GET     /                           controllers.Application.dashboard
-GET     /treatment_plan             controllers.Application.treatmentPlan
-GET     /patients               controllers.Patient.getList
+GET     /patients/:id/treatment_plan             controllers.Patient.getTreatmentPlan(id: String)
+GET     /patients                   controllers.Patient.getList
+GET     /patients/add               controllers.Patient.getAddForm
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 # Map static resources from the /public folder to the /assets URL path

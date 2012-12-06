@@ -12,10 +12,6 @@ object Application extends Controller {
     Ok(html.dboard("Your new application is ready."))
   }
 
-  def treatmentPlan = Action {
-    Ok(html.treatment_plan())
-  }
-
   def samplePdf(id: String): Result = {
     return PDF.ok(html.samplePdf.render)
   }

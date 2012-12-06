@@ -1,3 +1,5 @@
+@(patientList: List[ws.services.PatientList])
+
 @main("Treatment Plan") {
 <!-- # Treatment Plan -->
 <header class="grid_12 head">
@@ -10,7 +12,9 @@
 <header>
     <div class="inner">
         <div class="left title">
-            <h1>Kunis, Mila Dionisio</h1>
+            @patientList.map { pl =>
+            <h1>@pl.lastName, @pl.firstName @pl.middleName</h1>
+            }
         </div>
         <div class="right">
             <nav>
@@ -30,7 +34,7 @@
     <div class="columns">
         <div class="form-image left center">
             <div class="itemdata">
-                <a href='@routes.Assets.at("images/thumbs/media1-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/media1-160x160.jpg")' alt="profilePicture"></a>
+                <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
                 <div class="categories">
                     <a href="#" class="bt grey small"><span class="glyph image"></span>Change image</a>
                     <a href="#" class="bt blue small"><span class="glyph html-code"></span>Edit</a>
@@ -39,23 +43,24 @@
 
         </div>
         <div class="form-details right">
+            @patientList.map { pl =>
             <div class="field left">
                 <ul>
                     <li>
                         <label>Patient ID:</label>
-                        <label class="form-label">P-11212012</label>
+                        <label class="form-label">@pl.id</label>
                     </li>
                     <li>
                         <label>First Name:</label>
-                        <label class="form-label">Mila</label>
+                        <label class="form-label">@pl.firstName</label>
                     </li>
                     <li>
                         <label>Middle Name:</label>
-                        <label class="form-label">Dionisio</label>
+                        <label class="form-label">@pl.middleName</label>
                     </li>
                     <li>
                         <label>Last Name:</label>
-                        <label class="form-label">Kunis</label>
+                        <label class="form-label">@pl.lastName</label>
                     </li>
                 </ul>
             </div>
@@ -63,18 +68,19 @@
                 <ul>
                     <li>
                         <label>Address:</label>
-                        <label class="form-label">#23 Poblacion, Malolos City, Bulacan</label>
+                        <label class="form-label">@pl.address</label>
                     </li>
                     <li>
                         <label>Contact Number:</label>
-                        <label class="form-label">12091029</label>
+                        <label class="form-label">@pl.contactNo</label>
                     </li>
                     <li>
                         <label>Birthdate:</label>
-                        <label class="form-label">11/12/2012</label>
+                        <label class="form-label">@pl.dateOfBirth</label>
                     </li>
                 </ul>
             </div>
+            }
         </div>
     </div>
 </div>

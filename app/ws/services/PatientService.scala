@@ -52,4 +52,41 @@ object PatientService{
     }
   }
 
+  def getPatientListById(id: String): List[PatientList] = {
+    DB.withConnection {
+      implicit c =>
+        val patientList: List[PatientList] = SQL(
+          """
+            |select
+            |id,
+            |first_name,
+            |middle_name,
+            |last_name,
+            |medical_history_id,
+            |address,
+            |contact_no,
+            |date_of_birth,
+            |image
+            |from
+            |patients
+            |where
+            |id = {id}
+          """.stripMargin).on('id -> id).as{
+          get[String]("id") ~
+            get[String]("first_name") ~
+            get[String]("middle_name") ~
+            get[String]("last_name") ~
+            get[String]("medical_history_id") ~
+            get[String]("address") ~
+            get[String]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[String]("image") map {
+            case a~b~c~d~e~f~g~h~i => PatientList(a,b,c,d,e,f,g,h.toString,i)
+          }*
+        }
+        patientList
+    }
+  }
+
+
 }

@@ -60,7 +60,7 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @patientList.map { pl =>
                 <tr>
-                    <td class="  sorting_1">@pl.lastName, @pl.firstName @pl.middleName</td>
+                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.id)">@pl.lastName, @pl.firstName @pl.middleName</a></td>
                     <td class=" ">@pl.address</td>
                     <td class=" ">@pl.contactNo</td>
                     <td class=" ">28/2/2013</td>
