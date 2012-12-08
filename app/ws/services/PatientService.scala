@@ -5,8 +5,9 @@ import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
 import java.util.Date
+import ws.generator.UUIDGenerator
 
-case class PatientList(id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
+case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,6 +20,7 @@ case class PatientList(id: String, firstName: String, middleName: String, lastNa
 object PatientService{
 
   def getPatientList: List[PatientList] = {
+    val status = 1
     DB.withConnection {
       implicit c =>
         val patientList: List[PatientList] = SQL(
@@ -35,7 +37,8 @@ object PatientService{
             |image
             |from
             |patients
-          """.stripMargin).as{
+            |where status = {status}
+          """.stripMargin).on('status -> status).as{
           get[String]("id") ~
           get[String]("first_name") ~
           get[String]("middle_name") ~
@@ -72,7 +75,7 @@ object PatientService{
             |where
             |id = {id}
           """.stripMargin).on('id -> id).as{
-          get[String]("id") ~
+            get[String]("id") ~
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
@@ -85,6 +88,44 @@ object PatientService{
           }*
         }
         patientList
+    }
+  }
+
+  def addPatient(p: PatientList): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO `ohrms`.`patients`
+            |VALUES
+            |(
+            |{id},
+            |{first_name},
+            |{middle_name},
+            |{last_name},
+            |{medical_history_id},
+            |{address},
+            |{contact_no},
+            |{date_of_birth},
+            |{image},
+            |{status},
+            |{date_created},
+            |{date_last_updated}
+            |);
+          """.stripMargin).on(
+        'id -> p.id,
+        'first_name -> p.firstName,
+        'middle_name -> p.middleName,
+        'last_name -> p.lastName,
+        'medical_history_id -> UUIDGenerator.generateUUID("medical_history"), //for testing
+        'address -> p.address,
+        'contact_no -> p.contactNo,
+        'date_of_birth -> p.dateOfBirth,
+        'image -> p.image,
+        'status -> 1,
+        'date_created -> "1",
+        'date_last_updated -> "0000-00-00 00:00:00"
+        ).executeUpdate()
     }
   }
 

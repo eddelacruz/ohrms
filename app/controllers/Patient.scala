@@ -6,6 +6,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
 import ws.services.PatientService
+import ws.generator.UUIDGenerator
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,9 +26,12 @@ object Patient extends Controller {
   }
 
   def getAddForm = Action {
-    Ok("add form")
+    Ok(patient.add())
   }
 
+  def submitAddForm = Action {
+    Ok("submit add form")
+  }
 }
 
 

@@ -1,10 +1,10 @@
 @(patientList: List[ws.services.PatientList])
 
-@main("patient"){
+@main(Messages("patient.title")){
 
 <!-- Patient List -->
 <header class="grid_12 head center">
-    <h1>Patient List</h1>
+    <h1>@Messages("patient.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -24,7 +24,7 @@
         </div>
         <div class="dataTables_filter" id="DataTables_Table_0_filter">
             <label>
-                <span class="textnode">Search: </span>
+                <span class="textnode">@Messages("misc.search"): </span>
                 <input type="text" aria-controls="DataTables_Table_0" id="acpro_inp2">
             </label>
         </div>

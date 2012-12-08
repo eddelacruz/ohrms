@@ -1,0 +1,28 @@
+button.add=Add
+button.cancel=Cancel
+button.close=Close
+
+chart.title=Dental Chart
+chart.personal.title=Personal Dental Chart
+
+calendar.title=Calendar
+
+dashboard.title=Dashboard
+
+misc.search=Search
+
+patient.title=Patients
+patient.list.title=Patient List
+patient.add.title=Add Patient
+patient.profile.title=Profile
+patient.medical.history.title=Medical History
+
+report.title=Reports
+
+scheduler.title=Scheduler
+
+service.title=Services
+
+
+
+
