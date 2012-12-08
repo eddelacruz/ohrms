@@ -2,8 +2,10 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# Home page
-GET     /                           controllers.Application.dashboard
+
+GET     /                           controllers.Application.login
+POST    /login_attemp               controllers.Application.authenticate
+GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan             controllers.Patient.getTreatmentPlan(id: String)
 GET     /patients                   controllers.Patient.getList
 GET     /patients/add               controllers.Patient.getAddForm
