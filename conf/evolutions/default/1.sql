@@ -126,7 +126,7 @@ INSERT INTO patients VALUES (
 '2012-10-12 09:44:37'
 );
 
-select * from patients;INSERT INTO `ohrms`.`staff`
+INSERT INTO `staff`
 (`id`,
 `first_name`,
 `middle_name`,
@@ -145,7 +145,7 @@ VALUES
 '2012-09-09 07:34:17'
 );
 
-INSERT INTO `ohrms`.`payments`
+INSERT INTO `payments`
 (`id`,
 `payment_type`,
 `amount_paid`,
