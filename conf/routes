@@ -8,10 +8,12 @@ POST    /login_attemp               controllers.Application.authenticate
 GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan             controllers.Patient.getTreatmentPlan(id: String)
 GET     /patients                   controllers.Patient.getList
+POST    /patients                   controllers.Patient.submitAddForm
 GET     /patients/add               controllers.Patient.getAddForm
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 GET     /json/patients              controllers.Json.getPatientList
+POST    /json/patients              controllers.Json.submitPatientAddForm
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
 
 # Map static resources from the /public folder to the /assets URL path

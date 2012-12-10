@@ -8,7 +8,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
 import ws.services.PatientList
-import ws.delegate.PatientDelegate
+import ws.delegates.PatientDelegate
 import ws.generator.UUIDGenerator
 
 /**
@@ -19,20 +19,6 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 object Patient extends Controller {
-
-  val _patientProfileForm = Form(
-    mapping(
-      "id" -> text,
-      "firstName" -> text,
-      "middleName" -> text,
-      "lastName" -> text,
-      "medicalHistory" -> text,
-      "address" -> text,
-      "contactNo" -> text,
-      "dateOfBirth" -> text,
-      "image" -> text
-    )(PatientList.apply)(PatientList.unapply)
-  )
 
   def getTreatmentPlan(id: String) = Action {
     Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
@@ -47,14 +33,18 @@ object Patient extends Controller {
   }
 
   def submitAddForm = Action {
-/*    implicit request =>
-      _patientProfileForm.bindFromRequest.fold(
-        formWithErrors => BadRequest
+    implicit request =>
+      PatientDelegate._patientProfileForm.bindFromRequest.fold(
+        formWithErrors => {
+          println("Form errors: "+formWithErrors.errors)
+          BadRequest
+        },
         patient => {
-          println()
+          var params = request.body.asFormUrlEncoded.get
+          PatientDelegate.submitAddPatientForm(params)
+          Redirect("/patients")
         }
-      )*/
-    Ok("ok")
+      )
   }
 }
 

@@ -29,24 +29,26 @@
 <div id="tab-1" class="tab">
     <div class="">
         <div class="form-details">
-            <!--helper.form(action = routes.Patient.submitAddForm){-->
+            @helper.form(action = routes.Patient.submitAddForm){
             <div class="field left">
+                <input type="hidden" name="id" value="">
+                <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
                 <ul>
                     <li>
                         <label class="upper">First Name:</label>
-                        <input type="text">
+                        <input type="text" name="first_name">
                     </li>
                     <li>
                         <label>Middle Name:</label>
-                        <input type="text">
+                        <input type="text" name="last_name">
                     </li>
                     <li>
                         <label>Last Name:</label>
-                        <input type="text">
+                        <input type="text" name="middle_name">
                     </li>
                     <li>
                         <label>Image:<br></label>
-                        <div class="customfile"><input type="file" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                        <div class="customfile"><input type="file" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
                     </li>
                 </ul>
             </div>
@@ -54,25 +56,26 @@
                 <ul>
                     <li>
                         <label class="upper">Address:</label>
-                        <textarea id="textarea-input-grow" class="autogrow" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                        <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                     </li>
                     <li>
                         <label>Contact Number:</label>
-                        <input type="text">
+                        <input type="text" name="contact_no">
 
                     </li>
                     <li>
                         <label>Birthdate:</label>
-                        <input type="text" class="datepicker hasDatepicker" id="datepicker">
+                        <input type="text" name="date_of_birth">
+                        <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
                     </li>
                 </ul>
             </div>
-            <!--}-->
         </div>
     </div>
     <footer class="pane">
         <input type="submit" class="bt blue right" value="@Messages("button.add")">
     </footer>
+            }
 </div>
 <div id="tab-2" class="tab" style="display: none; ">
     <ul class="button-bar blue small">

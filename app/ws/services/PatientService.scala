@@ -113,17 +113,17 @@ object PatientService{
             |{date_last_updated}
             |);
           """.stripMargin).on(
-        'id -> p.id,
+        'id -> UUIDGenerator.generateUUID("patients"),
         'first_name -> p.firstName,
         'middle_name -> p.middleName,
         'last_name -> p.lastName,
-        'medical_history_id -> UUIDGenerator.generateUUID("medical_history"), //for testing
+        'medical_history_id -> p.medicalHistoryId,
         'address -> p.address,
         'contact_no -> p.contactNo,
         'date_of_birth -> p.dateOfBirth,
         'image -> p.image,
         'status -> 1,
-        'date_created -> "1",
+        'date_created -> "0000-00-00 00:00:00",
         'date_last_updated -> "0000-00-00 00:00:00"
         ).executeUpdate()
     }

@@ -35,16 +35,19 @@ trait WsHelper {
 
   def doPost(endPoint: String, params: Map[String, Seq[String]]) = {
     var rest = ohrmsUrl.get + endPoint
+    println("POSTING: >>>>>>>>"+rest)
     WS.url(rest).post(params).await.get
   }
 
   def doPut(endPoint: String, params: Map[String, Seq[String]]) = {
     var rest = ohrmsUrl.get + endPoint
+    println("PUTTING: >>>>>>>>"+rest)
     WS.url(rest).put(params).await.get
   }
 
   def doDelete(endPoint: String, params: Map[String, Seq[String]]) = {
     var rest = ohrmsUrl.get + endPoint
+    println("DELETING: >>>>>>>>"+rest)
     params.map { p =>
       rest += "&" + p._1 + "=" + p._2(0)
     }

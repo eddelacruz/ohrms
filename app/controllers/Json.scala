@@ -28,4 +28,27 @@ object Json extends Controller with WsHelper with PatientListDeserializer {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientListById(id)))))
   }
 
+  def submitPatientAddForm = Action {
+    implicit request =>
+      val id = ""
+      val firstName = request.body.asFormUrlEncoded.get("first_name").head
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
+      val lastName = request.body.asFormUrlEncoded.get("last_name").head
+      val address = request.body.asFormUrlEncoded.get("address").head
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
+      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
+      val image = request.body.asFormUrlEncoded.get("image").head
+      val medicalHistoryId = request.body.asFormUrlEncoded.get("medical_history_id").head
+      val pl = PatientList("", firstName, middleName, lastName, medicalHistoryId, address, contactNo, dateOfBirth, image)
+
+      if (PatientService.addPatient(pl) >= 1) {
+        Redirect("/patients")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
+  }
+
 }
