@@ -5,7 +5,7 @@ import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
 import java.util.Date
-// import org.joda.time._
+import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 
 case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
@@ -39,6 +39,7 @@ object PatientService {
             |from
             |patients
             |where status = {status}
+            |order by last_name asc
           """.stripMargin).on('status -> status).as {
           get[String]("id") ~
             get[String]("first_name") ~
@@ -93,8 +94,8 @@ object PatientService {
   }
 
   def addPatient(p: PatientList): Long = {
-    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
-    var task = "Add"
+    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    val task = "Add"
     p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
       implicit c =>
@@ -127,17 +128,17 @@ object PatientService {
           'date_of_birth -> p.dateOfBirth,
           'image -> p.image,
           'status -> 1,
-          'date_created -> "0000-00-00 00:00:00", //DateTime.now(), //must be date.now
-          'date_last_updated -> "2012-12-12" //DateTime.now() //must be date.now
+          'date_created -> DateWithTime.dateNow,
+          'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task) //cached user_id when login
+        AuditLogService.logTask(p, currentUser, task) //TODO cached user_id when login
     }
 
   }
 
   def updatePatient(p: PatientList): Long = {
-    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
-    var task = "Update"
+    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //TODO static cvbautista
+    val task = "Update"
     DB.withConnection {
       implicit c =>
         SQL(
@@ -161,9 +162,9 @@ object PatientService {
           'contact_no -> p.contactNo,
           'date_of_birth -> p.dateOfBirth,
           'image -> p.image,
-          'date_last_updated -> "2012-12-12 12:12:12" //DateTime.now() //must be date.now
+          'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task) //cached user_id when login
+        AuditLogService.logTask(p, currentUser, task) //TODO cached user_id when login
     }
 
   }

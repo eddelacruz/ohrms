@@ -37,7 +37,6 @@
                 <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
                 <div class="categories">
                     <a href="#" class="bt grey small"><span class="glyph image"></span>Change image</a>
-                    <a href="#" class="bt blue small"><span class="glyph html-code"></span>Edit</a>
                 </div>
             </div>
 
@@ -245,6 +244,11 @@
         </div>
     </div>
 </div>
+<footer class="pane">
+    @patientList.map { p =>
+    <a class="bt blue right" href="@routes.Patient.getUpdateForm(p.id)">@Messages("button.edit")</a>
+    }
+</footer>
 </div>
 <!-- /Profile, Dental Chart, Medical History -->
 }
