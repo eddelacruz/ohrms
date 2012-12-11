@@ -10,7 +10,7 @@ GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPl
 GET     /patients                   controllers.Patient.getList(start : Int ?= 0, count : Int ?= 25)
 POST    /patients                   controllers.Patient.submitAddForm
 POST    /patients/update            controllers.Patient.submitUpdateForm
-POST    /patient/delete             controllers.Patient.deleteInformation
+POST    /patient/delete         controllers.Patient.deleteInformation(id: String)
 GET     /patients/:id/treatment_plan/update               controllers.Patient.getUpdateForm(id: String)
 GET     /patients/add               controllers.Patient.getAddForm
 GET     /settings/audit_log         controllers.Settings.auditLog

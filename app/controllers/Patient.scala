@@ -67,11 +67,11 @@ object Patient extends Controller {
        )
   }
 
-  def deleteInformation = Action {
+  def deleteInformation(id: String) = Action {
     implicit request =>
-      val id = Map("id" -> request.body.asFormUrlEncoded.get("id"))
-      PatientDelegate.deleteInformation(id)
-      Redirect("/patients/"+id+"/treatment_plan")
+      val params = Map("id" -> Seq(id))
+      PatientDelegate.deleteInformation(params)
+      Redirect("/patients")
   }
 
 }
