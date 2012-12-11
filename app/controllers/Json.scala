@@ -57,6 +57,27 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   def submitPatientUpdateForm = Action {
     implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("").head
+      val firstName = request.body.asFormUrlEncoded.get("").head
+      val middleName = request.body.asFormUrlEncoded.get("e").head
+      val lastName = request.body.asFormUrlEncoded.get("").head
+      val address = request.body.asFormUrlEncoded.get("").head
+      val contactNo = request.body.asFormUrlEncoded.get("").head
+      val dateOfBirth = request.body.asFormUrlEncoded.get("").head
+      val image = request.body.asFormUrlEncoded.get("").head
+      val medicalHistoryId = request.body.asFormUrlEncoded.get("").head
+      val pl = PatientList(id, firstName, middleName, lastName, medicalHistoryId, address, contactNo, dateOfBirth, image)
+
+      if (PatientService.updatePatient(pl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
+  def submitPatientDeleteForm = Action {
+    implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
       val firstName = request.body.asFormUrlEncoded.get("first_name").head
       val middleName = request.body.asFormUrlEncoded.get("middle_name").head

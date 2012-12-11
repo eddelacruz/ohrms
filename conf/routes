@@ -10,6 +10,7 @@ GET     /patients/:id/treatment_plan             controllers.Patient.getTreatmen
 GET     /patients                   controllers.Patient.getList
 POST    /patients                   controllers.Patient.submitAddForm
 POST    /patients/update            controllers.Patient.submitUpdateForm
+DELETE  /patient/delete            controllers.Patient.submitDeleteForm
 GET     /patients/:id/treatment_plan/update               controllers.Patient.getUpdateForm(id: String)
 GET     /patients/add               controllers.Patient.getAddForm
 GET     /settings/audit_log         controllers.Settings.auditLog
@@ -18,8 +19,11 @@ GET     /sample                     controllers.Application.samplePdf(id: String
 GET     /json/patients              controllers.Json.getPatientList
 POST    /json/patients              controllers.Json.submitPatientAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm
+DELETE  /json/patient/delete        controllers.Json.submitPatientDeleteForm
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
 GET     /json/settings/audit_log    controllers.Json.auditLog
+
+
 
 
 # Map static resources from the /public folder to the /assets URL path

@@ -87,5 +87,11 @@ object PatientDelegate extends WsHelper{
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+  def submitDeletePatientForm(params: Map[String, Seq[String]]) = {
+    val res = doDelete("/json/patient/delete", params)
+    println()
+    println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
 
 }

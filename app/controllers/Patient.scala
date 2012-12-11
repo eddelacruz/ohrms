@@ -65,8 +65,28 @@ object Patient extends Controller {
            Redirect("/patients/"+id+"/treatment_plan")
          }
        )
-
   }
+
+  def getDeleteForm(id: String) = Action {
+    Ok(patient.update(PatientService.getPatientListById(id)))
+  }
+
+  def submitDeleteForm = Action {
+    implicit request =>
+      PatientDelegate._patientProfileForm.bindFromRequest.fold(
+        formWithErrors => {
+          println("Form errors: "+formWithErrors.errors)
+          BadRequest
+        },
+        patient => {
+          val params = request.body.asFormUrlEncoded.get
+          val id = request.body.asFormUrlEncoded.get("id").head
+          PatientDelegate.submitUpdatePatientForm(params)
+          Redirect("/patients/"+id+"/treatment_plan")
+        }
+      )
+  }
+
 }
 
 
