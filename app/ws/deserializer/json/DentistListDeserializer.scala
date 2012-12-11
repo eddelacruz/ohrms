@@ -23,7 +23,7 @@ trait DentistListDeserializer {
       (json \ "prcNo").as[String],
       (json \ "image").as[String],
       (json \ "userName").as[String],
-      (json \ "name").as[String]
+      (json \ "serviceName").as[List[String]]
     )
 
     def writes(d: DentistList): JsValue = JsObject(
@@ -37,7 +37,7 @@ trait DentistListDeserializer {
         "prcNo" -> JsString(d.prcNo),
         "image" -> JsString(d.image),
         "userName" -> JsString(d.userName),
-        "name" -> JsString(d.name)
+        "serviceName" -> JsArray(d.serviceName.map(sn => JsString(sn)))
       )
     )
   }

@@ -2,12 +2,11 @@ package ws.delegates
 
 import play.api.libs.concurrent.Promise
 import play.api.libs.ws._
-import play.api.libs.json.{JsValue, JsObject}
+import play.api.libs.json.{JsString, JsValue, JsObject}
 import collection.mutable.ListBuffer
 import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.libs.json.JsObject
 import ws.services.DentistList
 import play.api.libs.ws.Response
 
@@ -31,7 +30,7 @@ object DentistDelegate extends WsHelper{
       "prc_no" -> text,
       "image" -> text ,
       "user_name" -> text,
-      "name" -> text
+      "service_name" -> seq(text)
     )(DentistList.apply)(DentistList.unapply)
   )
 
@@ -56,11 +55,32 @@ object DentistDelegate extends WsHelper{
       (j \ "lastName").as[String],
       (j \ "address").as[String],
       (j \ "contactNo").as[String],
-      (j \ "prcno").as[String],
+      (j \ "prcNo").as[String],
       (j \ "image").as[String],
-      (j \ "user_name").as[String],
-      (j \ "name").as[String]
+      (j \ "userName").as[String],
+      (j \ "serviceName").as[Seq[String]]
     )
+  }
+
+
+  def getDentistInformationById(id: String) = {
+    val res: Promise[Response] = doGet("/json/dentists/%s/information" format(id))
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[DentistList]()
+
+    (json \ "DentistList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToDentistList(d)
+    })
+    dl.toList
+  }
+
+
+  def submitUpdateDentistForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/dentists/update", params)
+    println()
+    println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
 }

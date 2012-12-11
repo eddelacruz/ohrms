@@ -20,6 +20,12 @@ patient.update.title=Update Patient
 patient.profile.title=Profile
 patient.medical.history.title=Medical History
 
+dentist.title=Dentists
+dentist.list.title=Dentists List
+dentist.add.title=Add Dentists
+dentist.update.title=Update Dentists
+dentist.profile.title=Profile
+
 report.title=Reports
 
 scheduler.title=Scheduler

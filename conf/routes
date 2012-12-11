@@ -14,6 +14,9 @@ GET     /patients/:id/treatment_plan/update               controllers.Patient.ge
 GET     /patients/add               controllers.Patient.getAddForm
 GET     /settings/audit_log         controllers.Settings.auditLog
 GET     /dentists                   controllers.Dentist.getList(start : Int ?= 0, count : Int ?= 25)
+GET     /dentists/:id/information          controllers.Dentist.getDentistInformationById(id: String)
+POST    /dentists/update            controllers.Dentist.submitUpdateForm
+GET     /dentists/:id/information/update               controllers.Dentist.getUpdateForm(id: String)
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 
@@ -22,6 +25,8 @@ GET     /json/dentists              controllers.Json.getDentistList(start : Int 
 POST    /json/patients              controllers.Json.submitPatientAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
+GET     /json/dentists/:id/information     controllers.Json.getDentistInformationById(id: String)
+POST    /json/dentists/update       controllers.Json.submitDentistUpdateForm
 GET     /json/settings/audit_log    controllers.Json.auditLog
 
 

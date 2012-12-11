@@ -1,0 +1,261 @@
+@(dentistList: List[ws.services.DentistList])
+
+@main("Dentist Information") {
+<!-- # Treatment Plan -->
+<header class="grid_12 head">
+    <h1>Dentist Information</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<!-- Profile, Dental Chart, Medical History -->
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            @dentistList.map { dl =>
+            <h1>@dl.lastName, @dl.firstName @dl.middleName</h1>
+            }
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="columns">
+        <div class="form-image left center">
+            <div class="itemdata">
+                <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
+                <div class="categories">
+                    <a href="#" class="bt grey small"><span class="glyph image"></span>Change image</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-details right">
+            @dentistList.map { dl =>
+            <div class="field left">
+                <ul>
+                    <li>
+                        <label>Dentist ID:</label>
+                        <label class="form-label">@dl.id</label>
+                    </li>
+                    <li>
+                        <label>First Name:</label>
+                        <label class="form-label">@dl.firstName</label>
+                    </li>
+                    <li>
+                        <label>Middle Name:</label>
+                        <label class="form-label">@dl.middleName</label>
+                    </li>
+                    <li>
+                        <label>Last Name:</label>
+                        <label class="form-label">@dl.lastName</label>
+                    </li>
+                    <li>
+                        <label>User Name:</label>
+                        <label class="form-label">@dl.userName</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+                    <li>
+                        <label>Address:</label>
+                        <label class="form-label">@dl.address</label>
+                    </li>
+                    <li>
+                        <label>Contact Number:</label>
+                        <label class="form-label">@dl.contactNo</label>
+                    </li>
+                    <li>
+                        <label>PRC No:</label>
+                        <label class="form-label">@dl.prcNo</label>
+                    </li>
+                    <li>
+                        <label>Specialization:</label>
+                        <label class="form-label">@dl.serviceName</label>
+                    </li>
+                </ul>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<div id="tab-2" class="tab">
+    <ul class="button-bar blue small">
+        <li class="first active"><a href="#">Adult</a></li>
+        <li class="last"><a href="#">Child</a></li>
+    </ul>
+    <!--  SVG Chart -->
+    <div id="svg-chart">
+    </div>
+    <!--  /SVG Chart -->
+    <!-- Dental Services -->
+    <div class="box grid_11">
+        <header>
+            <div class="inner">
+                <div class="left title">
+                    <h1>Dental Services</h1>
+
+                </div>
+                <div class="right">
+                    <a href="#" class="close">close</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-content">
+            <div class="grid_11 table">
+                <div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th class="first">Name</th>
+                            <th>Code</th>
+                            <th>Price</th>
+                            <th>Target</th>
+                            <th>Date Performed</th>
+                            <th class="last">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Oral Prophylaxis</td>
+                            <td>OP</td>
+                            <td><span class="pesos">P</span> 500.00</td>
+                            <td>Inclusive</td>
+                            <td>11/30/2012 5:00 PM</td>
+                            <td class="center"><span class="label label-success">Success</span></td>
+                        </tr>
+                        <tr class="even">
+                            <td>Periodic Oral Evaluation</td>
+                            <td>POE</td>
+                            <td><span class="pesos">P</span> 500.00</td>
+                            <td>Inclusive</td>
+                            <td>11/30/2012 5:00 PM</td>
+                            <td><center><span class="label label-success">Success</span></center></td>
+                        </tr>
+                        <tr>
+                            <td>Extraction</td>
+                            <td>EX</td>
+                            <td><span class="pesos">P</span> 300.00</td>
+                            <td>Selective</td>
+                            <td>11/30/2012 5:00 PM</td>
+                            <td class="center"><span class="label label-warning">Pending</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <footer class="extension bottom inright pagination right">
+                        <nav>
+                            <ul>
+                                <li class="first"><a href="#">« previous</a></li>
+                                <li><a href="#">01</a></li>
+                                <li><a href="#">02</a></li>
+                                <li class="active"><a href="#">03</a></li>
+                                <li><a href="#">04</a></li>
+                                <li><a href="#">05</a></li>
+                                <li class="disabled last"><span>disabled »</span></li>
+                            </ul>
+                        </nav>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Dental Services -->
+</div>
+<div id="tab-3" class="tab">
+    <div class="simple-box">
+        <div class="grid_11 boxed-table">
+            <div>
+                <!-- Table - Allergies to -->
+                <table>
+                    <thead>
+                    <tr>
+                        <th class="first">Allergic or Unusual reaction to:</th>
+                        <th>Description</th>
+                        <th class="last">Status</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Penicillins</td>
+                        <td></td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Aspirins</td>
+                        <td></td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Oral Prophylaxis</td>
+                        <td>-</td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- /Table - Allergies to -->
+                <!-- Table - General -->
+                <table>
+                    <thead>
+                    <tr>
+                        <th class="first">General</th>
+                        <th>Description</th>
+                        <th class="last">Status</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Lost of appetite</td>
+                        <td></td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Always hungry</td>
+                        <td></td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Always thirsty</td>
+                        <td>-</td>
+                        <td class="checkbox">
+                            <input type="checkbox" class="ui-helper-hidden-accessible">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- /Table - General -->
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="pane">
+    @dentistList.map { d =>
+    <a class="bt blue right" href="@routes.Dentist.getUpdateForm(d.id)">@Messages("button.edit")</a>
+    }
+</footer>
+</div>
+<!-- /Profile, Dental Chart, Medical History -->
+}

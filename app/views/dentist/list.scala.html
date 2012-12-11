@@ -65,11 +65,11 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @dentistList.map { dl =>
                 <tr>
-                    <td class="  sorting_1">@dl.lastName, @dl.firstName @dl.middleName</a></td>
+                    <td class="  sorting_1"><a href="@routes.Dentist.getDentistInformationById(dl.id)">@dl.lastName, @dl.firstName @dl.middleName</a></td>
                     <td class=" ">@dl.address</td>
                     <td class=" ">@dl.contactNo</td>
                     <td class=" ">@dl.prcNo</td>
-                    <td class=" ">@dl.name</td>
+                    <td class=" ">@dl.serviceName</td>
                 </tr>
                 }
                 </tbody>

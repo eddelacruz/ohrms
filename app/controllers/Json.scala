@@ -28,6 +28,10 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getDentistList(start, count)))))
   }
 
+  def getDentistInformationById(id : String) = Action {
+    Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getDentistListById(id)))))
+  }
+
   def getPatientTreatmentPlan(id: String) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientListById(id)))))
   }
@@ -73,6 +77,30 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val pl = PatientList(id, firstName, middleName, lastName, medicalHistoryId, address, contactNo, dateOfBirth, image)
 
       if (PatientService.updatePatient(pl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
+
+  def submitDentistUpdateForm = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").head
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
+      val lastName = request.body.asFormUrlEncoded.get("last_name").head
+      val address = request.body.asFormUrlEncoded.get("address").head
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
+      val prcNo = request.body.asFormUrlEncoded.get("prc_no").head
+      val image = request.body.asFormUrlEncoded.get("image").head
+      val sn = request.body.asFormUrlEncoded.get("service_name").head
+      val userName = request.body.asFormUrlEncoded.get("user_name").head
+      var serviceName: Seq[String] = Seq(sn)
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, serviceName)
+
+      if (DentistService.updateDentist(dl) >= 1) {
         Status(200)
       } else {
         BadRequest
