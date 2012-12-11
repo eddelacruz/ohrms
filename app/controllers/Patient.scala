@@ -24,8 +24,8 @@ object Patient extends Controller {
     Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
   }
 
-  def getList = Action {
-    Ok(patient.list(PatientDelegate.getPatientList))
+  def getList(start: Int, count: Int) = Action {
+    Ok(patient.list(PatientDelegate.getPatientList(start,count)))
   }
 
   def getAddForm = Action {

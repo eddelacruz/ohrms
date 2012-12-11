@@ -1,5 +1,5 @@
 @(form: Form[(String,String)])
-<!DOCTYPE html>
+
 <html class=" -webkit-"><head>
     <meta charset="UTF-8">
     <title>Sabertooth - Login</title>
@@ -85,24 +85,13 @@
                         <!-- If you don't want that the theme opens that fancy menu through ajax, remove "jmenu" class -->
                         <!-- If you want the fancy menu, the "action" must return the dashboard html (or similar page), so that we can extract menu informations. A AJAX request will be made
 with the form data (without the X-Request-With header), if the response is a valid successfully logged-user page, the fancy menu will appear, otherwise the form will procced normally -->
-                 @helper.form(routes.Application.authenticate) {
+                        @helper.form(routes.Application.authenticate) {
 
                         <form action="dashboard.php" class="jmenu">
                             <header class="head">
                                 <h1>Login</h1>
-
-                                <div class="alignright">
-                                    <div class="note small">
-                                        <input id="ck" type="checkbox" class="ui-helper-hidden-accessible">
-                                        <label for="ck" class="ui-checkbox">remember your password?</label>
-                                    </div>
-                                </div>
                                 <div class="clear"></div><span class="divider"></span>
                             </header>
-                            <div class="alert grey air">
-                                <p><strong>No password needed!</strong> Just click login.</p>
-                                <a class="close" href="#">close</a>
-                            </div>
                             <div class="field fullwidth iconized">
                                 <label class="glyph user" for="undefined" style="top: 7px; left: 8px;"></label><input type="text" placeholder="Login" data-icon="user" name="user_name" id="user_name" value="@form("user_name").value">
                             </div>
@@ -125,15 +114,16 @@ with the form data (without the X-Request-With header), if the response is a val
                         </div>
                     </div>
                 </div>
-            }
+                @form.globalError.map { error =>
+                </br></br> </br> </br>  <font color="red">
+                @error.message
+            </font>
+                }
             </div>
         </div>
     </section>
 </div>
-@form.globalError.map { error =>
-</br></br> </br> </br>  <font color="red">
-    @error.message
-</font>
+
 }
 <!-- /wrapper -->
 

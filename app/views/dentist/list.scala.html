@@ -1,10 +1,10 @@
-@(patientList: List[ws.services.PatientList])
+@(dentistList: List[ws.services.DentistList])
 
-@main(Messages("patient.title")){
+@main(Messages("dentist.title")){
 
 <!-- Patient List -->
 <header class="grid_12 head center">
-    <h1>@Messages("patient.list.title")</h1>
+    <h1>@Messages("dentist.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -34,23 +34,28 @@
             <table class="datatable dataTable" id="DataTables_Table_0">
                 <thead>
                 <tr role="row">
-                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Complete Name
+                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 168px;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                        <div class="parentsort">Complete name
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 204px;" aria-label="Browser: activate to sort column ascending">
                         <div class="parentsort">Address
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">Contact Number
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 184px;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Contact number
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">Last Service
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 184px;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">PRC No
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 184px;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Specialization
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -58,12 +63,13 @@
                 </thead>
 
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                @patientList.map { pl =>
+                @dentistList.map { dl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.id)">@pl.lastName, @pl.firstName @pl.middleName</a></td>
-                    <td class=" ">@pl.address</td>
-                    <td class=" ">@pl.contactNo</td>
-                    <td class=" ">28/2/2013</td>
+                    <td class="  sorting_1">@dl.lastName, @dl.firstName @dl.middleName</a></td>
+                    <td class=" ">@dl.address</td>
+                    <td class=" ">@dl.contactNo</td>
+                    <td class=" ">@dl.prcNo</td>
+                    <td class=" ">@dl.name</td>
                 </tr>
                 }
                 </tbody>

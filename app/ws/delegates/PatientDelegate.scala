@@ -35,8 +35,8 @@ object PatientDelegate extends WsHelper{
     )(PatientList.apply)(PatientList.unapply)
   )
 
-  def getPatientList = {
-    val res: Promise[Response] = doGet("/json/patients")
+  def getPatientList(start: Int, count: Int) = {
+    val res: Promise[Response] = doGet("/json/patients?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val pl = ListBuffer[PatientList]()
 
