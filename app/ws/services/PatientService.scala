@@ -5,6 +5,7 @@ import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
 import java.util.Date
+// import org.joda.time._
 import ws.generator.UUIDGenerator
 
 case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
@@ -17,7 +18,7 @@ case class PatientList(var id: String, firstName: String, middleName: String, la
  * To change this template use File | Settings | File Templates.
  */
 
-object PatientService{
+object PatientService {
 
   def getPatientList: List[PatientList] = {
     val status = 1
@@ -38,20 +39,20 @@ object PatientService{
             |from
             |patients
             |where status = {status}
-          """.stripMargin).on('status -> status).as{
+          """.stripMargin).on('status -> status).as {
           get[String]("id") ~
-          get[String]("first_name") ~
-          get[String]("middle_name") ~
-          get[String]("last_name") ~
-          get[String]("medical_history_id") ~
-          get[String]("address") ~
-          get[String]("contact_no") ~
-          get[Date]("date_of_birth") ~
-          get[String]("image") map {
-            case a~b~c~d~e~f~g~h~i => PatientList(a,b,c,d,e,f,g,h.toString,i)
-          }*
+            get[String]("first_name") ~
+            get[String]("middle_name") ~
+            get[String]("last_name") ~
+            get[String]("medical_history_id") ~
+            get[String]("address") ~
+            get[String]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[String]("image") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+          } *
         }
-      patientList
+        patientList
     }
   }
 
@@ -74,8 +75,8 @@ object PatientService{
             |patients
             |where
             |id = {id}
-          """.stripMargin).on('id -> id).as{
-            get[String]("id") ~
+          """.stripMargin).on('id -> id).as {
+          get[String]("id") ~
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
@@ -84,14 +85,17 @@ object PatientService{
             get[String]("contact_no") ~
             get[Date]("date_of_birth") ~
             get[String]("image") map {
-            case a~b~c~d~e~f~g~h~i => PatientList(a,b,c,d,e,f,g,h.toString,i)
-          }*
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+          } *
         }
         patientList
     }
   }
 
   def addPatient(p: PatientList): Long = {
+    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    var task = "Add"
+    p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
       implicit c =>
         SQL(
@@ -113,20 +117,22 @@ object PatientService{
             |{date_last_updated}
             |);
           """.stripMargin).on(
-        'id -> UUIDGenerator.generateUUID("patients"),
-        'first_name -> p.firstName,
-        'middle_name -> p.middleName,
-        'last_name -> p.lastName,
-        'medical_history_id -> p.medicalHistoryId,
-        'address -> p.address,
-        'contact_no -> p.contactNo,
-        'date_of_birth -> p.dateOfBirth,
-        'image -> p.image,
-        'status -> 1,
-        'date_created -> "0000-00-00 00:00:00",
-        'date_last_updated -> "0000-00-00 00:00:00"
+          'id -> p.id,
+          'first_name -> p.firstName,
+          'middle_name -> p.middleName,
+          'last_name -> p.lastName,
+          'medical_history_id -> p.medicalHistoryId,
+          'address -> p.address,
+          'contact_no -> p.contactNo,
+          'date_of_birth -> p.dateOfBirth,
+          'image -> p.image,
+          'status -> 1,
+          'date_created -> "0000-00-00 00:00:00", //DateTime.now(), //must be date.now
+          'date_last_updated -> "2012-12-12" //DateTime.now() //must be date.now
         ).executeUpdate()
+        AuditLogService.logTask(p, currentUser, task) //cached user_id when login
     }
+
   }
 
 
