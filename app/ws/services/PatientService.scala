@@ -170,5 +170,25 @@ object PatientService {
 
   }
 
+  def deletePatient(id: String): Long = {
+    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    var task = "Delete"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE patients SET
+            |status = {status},
+            |date_last_updated = {date_last_updated}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0,
+          'date_last_updated -> DateWithTime.dateNow
+        ).executeUpdate()
+        //AuditLogService.logTask(id, currentUser, task)
+    }
+
+  }
 
 }

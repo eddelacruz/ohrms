@@ -65,15 +65,15 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   def submitPatientUpdateForm = Action {
     implicit request =>
-      val id =  request.body.asFormUrlEncoded.get("id").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
-      val image = request.body.asFormUrlEncoded.get("image").head
-      val medicalHistoryId = request.body.asFormUrlEncoded.get("medical_history_id").head
+      val id =  request.body.asFormUrlEncoded.get("").head
+      val firstName = request.body.asFormUrlEncoded.get("").head
+      val middleName = request.body.asFormUrlEncoded.get("e").head
+      val lastName = request.body.asFormUrlEncoded.get("").head
+      val address = request.body.asFormUrlEncoded.get("").head
+      val contactNo = request.body.asFormUrlEncoded.get("").head
+      val dateOfBirth = request.body.asFormUrlEncoded.get("").head
+      val image = request.body.asFormUrlEncoded.get("").head
+      val medicalHistoryId = request.body.asFormUrlEncoded.get("").head
       val pl = PatientList(id, firstName, middleName, lastName, medicalHistoryId, address, contactNo, dateOfBirth, image)
 
       if (PatientService.updatePatient(pl) >= 1) {
@@ -83,7 +83,6 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         Status(500)
       }
   }
-
 
   def submitDentistUpdateForm = Action {
     implicit request =>
@@ -101,6 +100,18 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, serviceName)
 
       if (DentistService.updateDentist(dl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
+  def deletePatientInformation = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+
+      if (PatientService.deletePatient(id) >= 1) {
         Status(200)
       } else {
         BadRequest

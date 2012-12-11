@@ -7,3 +7,5 @@ curl -i -H "Accept: application/json" -X POST -d "id=a5434d36-dd94-425e-87a3-3c8
 
 
 curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" -d "first_name=Billy Bago" -d "middle_name=Vergel" -d "last_name=Bautista" -d "medical_history_id=446e5bb1-b504-462d-8b01-79ad86d8b26c" -d "address=San Miguel, Bulacan" -d "contact_no=123" -d "date_of_birth=0000-00-00 00:00:00" -d "image=anon.jpg" http://localhost:9000/json/patients/update
+
+curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" http://localhost:9000/patient/delete

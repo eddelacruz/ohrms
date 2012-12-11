@@ -87,5 +87,10 @@ object PatientDelegate extends WsHelper{
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+  def deleteInformation(id: Map[String, Seq[String]]) = {
+    val res = doPost("/json/patient/delete", id)
+    println()
+    println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
 
 }
