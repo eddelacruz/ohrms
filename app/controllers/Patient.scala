@@ -7,7 +7,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
-import ws.services.PatientList
+import ws.services.{PatientList, PatientService}
 import ws.delegates.PatientDelegate
 import ws.generator.UUIDGenerator
 
@@ -45,6 +45,27 @@ object Patient extends Controller {
           Redirect("/patients")
         }
       )
+  }
+
+  def getUpdateForm(id: String) = Action {
+    Ok(patient.update(PatientService.getPatientListById(id)))
+  }
+
+  def submitUpdateForm = Action {
+     implicit request =>
+       PatientDelegate._patientProfileForm.bindFromRequest.fold(
+         formWithErrors => {
+           println("Form errors: "+formWithErrors.errors)
+           BadRequest
+         },
+         patient => {
+           val params = request.body.asFormUrlEncoded.get
+           val id = request.body.asFormUrlEncoded.get("id").head
+           PatientDelegate.submitUpdatePatientForm(params)
+           Redirect("/patients/"+id+"/treatment_plan")
+         }
+       )
+
   }
 }
 

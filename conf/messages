@@ -1,4 +1,5 @@
 button.add=Add
+button.update=Update
 button.cancel=Cancel
 button.close=Close
 
@@ -14,6 +15,7 @@ misc.search=Search
 patient.title=Patients
 patient.list.title=Patient List
 patient.add.title=Add Patient
+patient.update.title=Update Patient
 patient.profile.title=Profile
 patient.medical.history.title=Medical History
 

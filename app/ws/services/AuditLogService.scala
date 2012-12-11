@@ -8,7 +8,6 @@ import anorm.SqlParser._
 import anorm.~
 import java.util.Date
 import org.joda.time._
-import org.springframework.format.datetime.DateFormatter
 
 case class AuditLog(id: String, task: String, description: String, dateCreated: String, author: String)
 
@@ -25,6 +24,7 @@ object AuditLogService {
     var description: String = ""
     task match {
       case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
+      case "Update" => description = l.firstName +" "+ l.lastName + "'s profile was updated"
       case _ => ""
     }
     val dateNow: String = DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" "+DateTime.now.getHourOfDay+":"+DateTime.now.getMinuteOfHour+":"+DateTime.now.getSecondOfMinute
@@ -32,7 +32,7 @@ object AuditLogService {
       implicit c =>
         SQL(
           """
-            |INSERT INTO `ohrms`.`audit_log`
+            |INSERT INTO audit_log
             |VALUES
             |(
             |{id},

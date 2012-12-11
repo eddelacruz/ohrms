@@ -135,5 +135,38 @@ object PatientService {
 
   }
 
+  def updatePatient(p: PatientList): Long = {
+    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    var task = "Update"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE patients SET
+            |first_name = {first_name},
+            |middle_name = {middle_name},
+            |last_name = {last_name},
+            |address = {address},
+            |contact_no = {contact_no},
+            |date_of_birth = {date_of_birth},
+            |image = {image},
+            |date_last_updated = {date_last_updated}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> p.id,
+          'first_name -> p.firstName,
+          'middle_name -> p.middleName,
+          'last_name -> p.lastName,
+          'address -> p.address,
+          'contact_no -> p.contactNo,
+          'date_of_birth -> p.dateOfBirth,
+          'image -> p.image,
+          'date_last_updated -> "2012-12-12 12:12:12" //DateTime.now() //must be date.now
+        ).executeUpdate()
+        AuditLogService.logTask(p, currentUser, task) //cached user_id when login
+    }
+
+  }
+
 
 }

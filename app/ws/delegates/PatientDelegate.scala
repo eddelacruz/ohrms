@@ -80,4 +80,12 @@ object PatientDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+  def submitUpdatePatientForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/patients/update", params)
+    println()
+    println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
+
 }
