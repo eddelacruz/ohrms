@@ -7,7 +7,8 @@ import play.api.Play.current
 import anorm.SqlParser._
 import anorm.~
 import java.util.Date
-//import org.joda.time._
+import org.joda.time._
+import org.springframework.format.datetime.DateFormatter
 
 case class AuditLog(id: String, task: String, description: String, dateCreated: String, author: String)
 
@@ -26,6 +27,7 @@ object AuditLogService {
       case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
       case _ => ""
     }
+    val dateNow: String = DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" "+DateTime.now.getHourOfDay+":"+DateTime.now.getMinuteOfHour+":"+DateTime.now.getSecondOfMinute
     DB.withConnection {
       implicit c =>
         SQL(
@@ -44,7 +46,7 @@ object AuditLogService {
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
           'description -> description,
-          'date_created -> "0000-00-00 00:00:00" //DateTime.now()//must be date.now "0000-00-00 00:00:00"
+          'date_created -> dateNow//must be date.now "0000-00-00 00:00:00"
         ).executeUpdate()
     }
   }
