@@ -170,45 +170,23 @@ object PatientService {
 
   }
 
-  def deletedPatient(p: PatientList): Long = {
+  def deletePatient(id: String): Long = {
     var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
     var task = "Delete"
-    p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
       implicit c =>
         SQL(
           """
-            |INSERT INTO `ohrms`.`patients`
-            |VALUES
-            |(
-            |{id},
-            |{first_name},
-            |{middle_name},
-            |{last_name},
-            |{medical_history_id},
-            |{address},
-            |{contact_no},
-            |{date_of_birth},
-            |{image},
-            |{status},
-            |{date_created},
-            |{date_last_updated}
-            |);
+            |UPDATE patients SET
+            |status = {status},
+            |date_last_updated = {date_last_updated}
+            |WHERE id = {id};
           """.stripMargin).on(
-          'id -> p.id,
-          'first_name -> p.firstName,
-          'middle_name -> p.middleName,
-          'last_name -> p.lastName,
-          'medical_history_id -> p.medicalHistoryId,
-          'address -> p.address,
-          'contact_no -> p.contactNo,
-          'date_of_birth -> p.dateOfBirth,
-          'image -> p.image,
+          'id -> id,
           'status -> 0,
-          'date_created -> "0000-00-00 00:00:00", //DateTime.now(), //must be date.now
-          'date_last_updated -> "2012-12-12" //DateTime.now() //must be date.now
+          'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task) //cached user_id when login
+        //AuditLogService.logTask(id, currentUser, task)
     }
 
   }

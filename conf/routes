@@ -10,7 +10,7 @@ GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPl
 GET     /patients                   controllers.Patient.getList(start : Int ?= 0, count : Int ?= 25)
 POST    /patients                   controllers.Patient.submitAddForm
 POST    /patients/update            controllers.Patient.submitUpdateForm
-DELETE  /patient/delete            controllers.Patient.submitDeleteForm
+POST    /patient/delete             controllers.Patient.deleteInformation
 GET     /patients/:id/treatment_plan/update               controllers.Patient.getUpdateForm(id: String)
 GET     /patients/add               controllers.Patient.getAddForm
 GET     /settings/audit_log         controllers.Settings.auditLog
@@ -22,7 +22,7 @@ GET     /json/patients              controllers.Json.getPatientList(start : Int 
 GET     /json/dentists              controllers.Json.getDentistList(start : Int ?= 0, count : Int ?= 25)
 POST    /json/patients              controllers.Json.submitPatientAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm
-DELETE  /json/patient/delete        controllers.Json.submitPatientDeleteForm
+POST    /json/patient/delete        controllers.Json.deletePatientInformation
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
 GET     /json/settings/audit_log    controllers.Json.auditLog
 
