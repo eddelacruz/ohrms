@@ -5,10 +5,10 @@ import play.api.mvc._
 import play.api.libs.json._
 import play.api.libs.json.Json._
 import views.html.{patient, modal}
-import ws.services.{PatientList, PatientService, AuditLogService}
+import ws.services.{PatientList, PatientService, AuditLogService, DentistList, DentistService}
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer}
+import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer}
 
 
 /**
@@ -18,10 +18,14 @@ import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer}
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer{
+object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer{
 
-  def getPatientList = Action {
-    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList))))
+  def getPatientList(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
+  }
+
+  def getDentistList(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getDentistList(start, count)))))
   }
 
   def getPatientTreatmentPlan(id: String) = Action {

@@ -20,7 +20,7 @@ case class PatientList(var id: String, firstName: String, middleName: String, la
 
 object PatientService {
 
-  def getPatientList: List[PatientList] = {
+  def getPatientList(start: Int, count: Int): List[PatientList] = {
     val status = 1
     DB.withConnection {
       implicit c =>
@@ -39,7 +39,8 @@ object PatientService {
             |from
             |patients
             |where status = {status}
-          """.stripMargin).on('status -> status).as {
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
             get[String]("first_name") ~
             get[String]("middle_name") ~
