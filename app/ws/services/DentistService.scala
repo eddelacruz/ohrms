@@ -41,6 +41,7 @@ object DentistService {
             |LEFT OUTER JOIN users u
             |ON d.user_id=u.id
             |where d.status = {status}
+            |ORDER BY d.last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~

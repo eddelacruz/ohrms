@@ -1,5 +1,6 @@
 button.add=Add
 button.update=Update
+button.edit=Edit
 button.cancel=Cancel
 button.close=Close
 
