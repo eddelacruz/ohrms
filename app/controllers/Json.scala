@@ -150,12 +150,23 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   }
 
-
   def deletePatientInformation = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
 
       if (PatientService.deletePatient(id) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
+  def deleteDentistInformation = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+
+      if (DentistService.deleteDentist(id) >= 1) {
         Status(200)
       } else {
         BadRequest

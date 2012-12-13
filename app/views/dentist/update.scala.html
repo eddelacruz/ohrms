@@ -5,7 +5,7 @@
 <!-- Update Dentist -->
 
 <header class="grid_12 head center">
-    <h1>@Messages("patient.update.title")</h1>
+    <h1>@Messages("dentist.update.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -61,7 +61,7 @@
                 </ul>
             </div>
             <div class="field right">
-                <ul>
+                <ul class="specialization_list">
                     <li>
                         <label class="upper">Address:</label>
                         <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.address</textarea>
@@ -74,15 +74,19 @@
                         <label>PRC No:</label>
                         <input type="text" name="prc_no" value="@dl.prcNo">
                     </li>
+                    <label>Specialization</label>
+                    @for(sn <- dl.specializationName){
                     <li>
-                        <label>Specialization:</label>
-                    </li>
+                        <input type="text" name="specializationName[0]" data-count=0 value="@sn" style="width: 81%;">
+                        <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
+                    </li><br/>
+                    }
                 </ul>
             </div>
         </div>
     </div>
     <footer class="pane">
-        <a id="delete_dentist" class="bt red left" href="#" data-patient_id="@dl.id">@Messages("button.delete")</a>
+        <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
         <input type="submit" class="bt blue right" value="@Messages("button.update")">
     </footer>
     }

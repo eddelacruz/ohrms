@@ -92,4 +92,11 @@ object DentistDelegate extends WsHelper{
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
+
+  def deleteInformation(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/dentists/delete", params)
+    println()
+    println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
+    println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
 }
