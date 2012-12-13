@@ -1,11 +1,10 @@
 package controllers
 
-import play.api.mvc.{Action, Controller}
+import play.api.mvc._
 import views.html._
-import ws.delegates.DentistDelegate
+import ws.delegates.{DentistDelegate}
 import ws.services.{DentistService}
 import play.api.data
-import play.api.mvc._
 import data.Forms._
 
 /**
@@ -28,7 +27,7 @@ object Dentist extends Controller {
 
 
   def getUpdateForm(id: String) = Action {
-    Ok(dentist.update_dentist(DentistService.getDentistListById(id)))
+    Ok(dentist.update(DentistService.getDentistListById(id)))
   }
 
   def submitUpdateForm = Action {
@@ -46,5 +45,25 @@ object Dentist extends Controller {
         }
       )
 
+  }
+
+
+  def getAddForm = Action {
+    Ok(dentist.add())
+  }
+
+  def submitAddForm = Action {
+    implicit request =>
+      DentistDelegate._dentistProfileForm.bindFromRequest.fold(
+        formWithErrors => {
+          println("Form errors: "+formWithErrors.errors)
+          BadRequest
+        },
+        dentist => {
+          var params = request.body.asFormUrlEncoded.get
+          DentistDelegate.submitAddDentistForm(params)
+          Redirect("/patients")
+        }
+      )
   }
 }

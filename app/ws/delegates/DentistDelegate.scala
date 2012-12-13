@@ -30,6 +30,7 @@ object DentistDelegate extends WsHelper{
       "prc_no" -> text,
       "image" -> text ,
       "user_name" -> text,
+      "password" -> text,
       "service_name" -> seq(text)
     )(DentistList.apply)(DentistList.unapply)
   )
@@ -58,7 +59,8 @@ object DentistDelegate extends WsHelper{
       (j \ "prcNo").as[String],
       (j \ "image").as[String],
       (j \ "userName").as[String],
-      (j \ "serviceName").as[Seq[String]]
+      (j \ "password").as[String],
+      (j \ "specializationName").as[Seq[String]]
     )
   }
 
@@ -83,4 +85,11 @@ object DentistDelegate extends WsHelper{
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+
+  def submitAddDentistForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/dentists", params)
+    println()
+    println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
 }

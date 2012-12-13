@@ -623,3 +623,15 @@ var eventHistory = (function(){
 
     return methods;
 })();
+
+$(window).load(function(){
+    $('#specialization_list a').live("click",
+        function(e){
+           var currentIndex = parseInt($('#specialization_list input[type="text"]:last').attr("data-count"))+1;
+           var dataCount = currentIndex
+           var name = "specializationName["+(currentIndex)+"]";
+           e.preventDefault();
+           $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
+        }
+    );
+});

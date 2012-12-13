@@ -6,6 +6,7 @@ import play.api.Play.current
 import play.api.db.DB
 import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
+import ws.generator.UUIDGenerator
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +16,12 @@ import collection.mutable.ListBuffer
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentistList(var id: String, firstName: String, middleName: String, lastName: String, address: String, contactNo: String, prcNo: String, image: String, userName: String, serviceName: Seq[String])
+case class DentistList(var id: String, firstName: String, middleName: String, lastName: String, address: String, contactNo: String, prcNo: String, image: String, userName: String, password: String, specializationName: Seq[String])
+case class Specialization(dentistId: String, name: String)
 
 object DentistService {
+
+  val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f"
 
   def getDentistList(start: Int, count: Int): List[DentistList] = {
     val status = 1
@@ -52,7 +56,7 @@ object DentistService {
             get[String]("prc_no") ~
             get[String]("image")~
             get[String]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, getSpecializationToList(a))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, "", getSpecializationToList(a))
           } *
         }
         dentistList
@@ -62,7 +66,7 @@ object DentistService {
   def getSpecializationToList(id: String): Seq[String] = {
     DB.withConnection {
       implicit c =>
-        var specializationList: Seq[String] = SQL(
+        val specializationList: Seq[String] = SQL(
           """
             |select name
             |from specializations
@@ -108,7 +112,7 @@ object DentistService {
             get[String]("prc_no") ~
             get[String]("image")~
             get[String]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, getSpecializationToList(id))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, "", getSpecializationToList(id))
           } *
         }
         dentistList
@@ -117,7 +121,6 @@ object DentistService {
 
 
   def updateDentist(d: DentistList): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //TODO static cvbautista
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -131,7 +134,6 @@ object DentistService {
             |contact_no = {contact_no},
             |prc_no = {prc_no},
             |image = {image},
-            |status = {status},
             |date_last_updated = {date_last_updated}
             |WHERE id = {id};
           """.stripMargin).on(
@@ -145,9 +147,96 @@ object DentistService {
           'image -> d.image,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(d, currentUser, task) //TODO cached user_id when login
+        AuditLogService.logTaskDentist(d, currentUser, task) //TODO cached user_id when login
     }
 
   }
+
+  def addDentist(d: DentistList): Long = {
+    val task = "Add"
+    val userId = UUIDGenerator.generateUUID("users")
+    d.id = UUIDGenerator.generateUUID("dentists")
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO `ohrms`.`users`
+            |VALUES
+            |(
+            |{id},
+            |{user_name},
+            |{password},
+            |{role},
+            |{status},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> userId,
+          'user_name -> d.userName,
+          'password -> d.password,
+          'role -> 1, //Dentist
+          'status -> 1,
+          'date_created -> DateWithTime.dateNow
+        ).executeUpdate()
+      //AuditLogService.logTaskDentist(s, currentUser, task)
+    }
+    DB.withTransaction {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO dentists
+            |VALUES
+            |(
+            |{id},
+            |{first_name},
+            |{middle_name},
+            |{last_name},
+            |{address},
+            |{contact_no},
+            |{prc_no},
+            |{user_id},
+            |{image},
+            |{status},
+            |{date_created},
+            |{date_last_updated}
+            |);
+          """.stripMargin).on(
+          'id -> d.id,
+          'first_name -> d.firstName,
+          'middle_name -> d.middleName,
+          'last_name -> d.lastName,
+          'address -> d.address,
+          'contact_no -> d.contactNo,
+          'prc_no -> d.prcNo,
+          'user_id -> userId,
+          'image -> d.image,
+          'status -> 1,
+          'date_created -> DateWithTime.dateNow,
+          'date_last_updated -> DateWithTime.dateNow
+        ).executeUpdate()
+        AuditLogService.logTaskDentist(d, currentUser, task) //TODO cached user_id when login
+    }
+  }
+
+  def addSpecialization(s: Specialization): Long = {
+    val task = "Add"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO specializations
+            |VALUES
+            |(
+            |{dentist_id},
+            |{name}
+            |);
+          """.stripMargin).on(
+          'dentist_id -> s.dentistId,
+          'name -> s.name
+        ).executeUpdate()
+        //AuditLogService.logTaskDentist(s, currentUser, task)
+    }
+  }
+
 
 }

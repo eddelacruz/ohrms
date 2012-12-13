@@ -18,6 +18,8 @@ GET     /dentists                   controllers.Dentist.getList(start : Int ?= 0
 GET     /dentists/:id/information          controllers.Dentist.getDentistInformationById(id: String)
 POST    /dentists/update            controllers.Dentist.submitUpdateForm
 GET     /dentists/:id/information/update               controllers.Dentist.getUpdateForm(id: String)
+POST    /dentists                   controllers.Dentist.submitAddForm
+GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 
@@ -29,6 +31,7 @@ POST    /json/patient/delete        controllers.Json.deletePatientInformation
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
 GET     /json/dentists/:id/information     controllers.Json.getDentistInformationById(id: String)
 POST    /json/dentists/update       controllers.Json.submitDentistUpdateForm
+POST    /json/dentists              controllers.Json.submitDentistAddForm
 GET     /json/settings/audit_log    controllers.Json.auditLog
 
 

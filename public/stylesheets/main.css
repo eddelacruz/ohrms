@@ -2246,7 +2246,7 @@ nav.jsubmenu .submenu li.last a {
   margin-top: 0px;
   margin-bottom: 5px;
 }
-.form-details .form-label, .form-details input[type="text"], .form-details textarea {
+.form-details .form-label, .form-details input[type="text"], .form-details input[type="password"], .form-details textarea {
   width: 90%;
 }
 .form-details .form-label {
@@ -2256,7 +2256,7 @@ nav.jsubmenu .submenu li.last a {
   border: 1px solid #ccc;
   color: #484848;
   padding: 3px 8px 0px 8px;
-  height: 29px;
+  min-height: 29px;
 }
 .form-image {
   width: 170px;
@@ -2301,4 +2301,9 @@ nav.jsubmenu .submenu li.last a {
 }
 .pesos {
   text-decoration: line-through;
+}
+ul li a.bt {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.1);
 }

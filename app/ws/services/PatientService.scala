@@ -171,8 +171,8 @@ object PatientService {
   }
 
   def deletePatient(id: String): Long = {
-    var currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
-    var task = "Delete"
+    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    val task = "Delete"
     DB.withConnection {
       implicit c =>
         SQL(
@@ -186,9 +186,8 @@ object PatientService {
           'status -> 0,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        //AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTask(id, currentUser, task)
     }
-
   }
 
 }

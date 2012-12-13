@@ -1,0 +1,95 @@
+@(dentistList: List[ws.services.DentistList])
+
+@main(Messages("dentist.title")){
+
+<!-- Update Dentist -->
+
+<header class="grid_12 head center">
+    <h1>@Messages("patient.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            <h1></h1>
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Profile</a></li>
+                    <li><a href="#tab-2">Personal Dental Chart</a></li>
+                    <li><a href="#tab-3">Medical History</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="">
+        <div class="form-details">
+            @dentistList.map { dl =>
+            @helper.form(action = routes.Dentist.submitUpdateForm){
+            <div class="field left">
+                <input type="hidden" name="id" value="@dl.id">
+                <ul>
+                    <li>
+                        <label>First Name:</label>
+                        <input type="text" name="first_name" value="@dl.firstName">
+                    </li>
+                    <li>
+                        <label>Middle Name:</label>
+                        <input type="text" name="middle_name" value="@dl.middleName">
+
+                    </li>
+                    <li>
+                        <label>Last Name:</label>
+                        <input type="text" name="last_name" value="@dl.lastName">
+                    </li>
+                    <li>
+                        <label>Username:</label>
+                        <input type="text" name="user_name" value="@dl.userName">
+                    </li>
+                    <li>
+                        <label>Image:<br></label>
+                        <div class="customfile"><input type="file" value="@dl.image" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+                    <li>
+                        <label class="upper">Address:</label>
+                        <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.address</textarea>
+                    </li>
+                    <li>
+                        <label>Contact Number:</label>
+                        <input type="text" name="contact_no" value="@dl.contactNo">
+                    </li>
+                    <li>
+                        <label>PRC No:</label>
+                        <input type="text" name="prc_no" value="@dl.prcNo">
+                    </li>
+                    <li>
+                        <label>Specialization:</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer class="pane">
+        <a id="delete_dentist" class="bt red left" href="#" data-patient_id="@dl.id">@Messages("button.delete")</a>
+        <input type="submit" class="bt blue right" value="@Messages("button.update")">
+    </footer>
+    }
+    }
+</div>
+</div>
+</div>
+
+<!-- /Update Dentist -->
+}
