@@ -2007,7 +2007,7 @@ ul.userlist li:hover a {
 /*================
     Calendar
 ================== */
-.fullcalendar .fc-content table {
+.fullcalendar .fc-content table, #calendar .fc-content table {
   background: #fff;
 }
 .fc-event-skin {
@@ -2241,12 +2241,19 @@ nav.jsubmenu .submenu li.last a {
 .form-details label {
   margin-top: 5px;
   margin-bottom: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
 }
 .form-details label.upper {
   margin-top: 0px;
   margin-bottom: 5px;
 }
-.form-details .form-label, .form-details input[type="text"], .form-details input[type="password"], .form-details textarea {
+.form-details .form-label,
+.form-details input[type="text"],
+.form-details input[type="password"],
+.form-details textarea,
+.form-details label {
   width: 90%;
 }
 .form-details .form-label {
@@ -2266,7 +2273,7 @@ nav.jsubmenu .submenu li.last a {
 .form-details {
   margin: 0 auto;
   position: relative;
-  width: 79%;
+  width: 100%;
 }
 .form-details .field.left, .form-details .field.right {
   padding-left: 0;
@@ -2306,4 +2313,7 @@ ul li a.bt {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.1);
+}
+div.mode-1{
+  width: 78%;
 }

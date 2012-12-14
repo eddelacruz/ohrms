@@ -76,7 +76,8 @@ object PatientService {
             |from
             |patients
             |where
-            |id = {id}
+            |id = {id} AND
+            |status = 1
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
             get[String]("first_name") ~

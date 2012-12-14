@@ -101,7 +101,8 @@ object DentistService {
             |INNER JOIN users u
             |ON d.user_id=u.id
             |WHERE
-            |d.id = {id}
+            |d.id = {id} AND
+            |d.status = 1
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
             get[String]("first_name") ~

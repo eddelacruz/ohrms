@@ -21,6 +21,7 @@ POST    /dentists/delete            controllers.Dentist.deleteInformation(id: St
 GET     /dentists/:id/information/update               controllers.Dentist.getUpdateForm(id: String)
 POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
+GET     /scheduler                  controllers.Scheduler.getCalendar
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 

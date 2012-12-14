@@ -25,7 +25,7 @@
 
 <div class="box-content">
 <div id="tab-1" class="tab">
-    <div class="">
+    <div class="center">
         <div class="form-details">
             @helper.form(action = routes.Dentist.submitAddForm){
             <div class="field left">
@@ -73,10 +73,19 @@
                         <label>Password:</label>
                         <input type="password" name="password">
                     </li>
-                    <li>
+<!--                    <li>
                         <label>Specialization</label>
                         <input type="text" name="specializationName[0]" data-count=0 value="" style="width: 81%;">
                         <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
+                    </li>-->
+                    <li>
+                        <select class="chosen chzn-done" id="post-categories" data-placeholder="Select categories" multiple="" style="display: none;">
+                            <option selected="">Metallica</option>
+                            <option>System of a Down</option>
+                            <option>The White Stripes</option>
+                            <option>Queen</option>
+                            <option selected="">Dream Theater</option>
+                        </select>
                     </li>
                     <br/>
                 </ul>
