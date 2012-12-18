@@ -9,7 +9,27 @@ curl -i -H "Accept: application/json" -X POST -d "id=a5434d36-dd94-425e-87a3-3c8
 curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" -d "first_name=Billy Bago" -d "middle_name=Vergel" -d "last_name=Bautista" -d "medical_history_id=446e5bb1-b504-462d-8b01-79ad86d8b26c" -d "address=San Miguel, Bulacan" -d "contact_no=123" -d "date_of_birth=0000-00-00 00:00:00" -d "image=anon.jpg" http://localhost:9000/json/patients/update
 
 curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" http://localhost:9000/patients/delete
-curl -i -H "Accept: application/json" -X POST -d "id=f8b75f57-6965-4a2d-bef2-182cfcb9b0c8" http://localhost:9000/dentists/delete
+
+curl -i -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"teeth_structure": [{"service_id": "2bf84e44-eb3c-46b6-8a92-57e8ed127f39", "type": "t", "view": "facial","name": "k","fill": 1,"root": 0,"grid": {}},{"service_id": "2bf84e44-eb3c-46b6-8a92-57e8ed127f39", "type":"c", "view": "facial","name": "b","fill": 1,"root": 0,"grid": {}}]}' http://localhost:9000/treatment_plan
 
 
 curl -i -H "Accept: application/json" -X POST -d "id=abcdefgh-f16f-42c8-a2da-756a2576d13f" -d "first_name=Elizer" -d "middle_name=Dionisio" -d "last_name=Dela Cruz" -d "address=Balagtas" -d "contact_no=123" -d "prc_no=prc123" -d "image=img.png" -d "status=1" -d "service_name[0]=Spec1" -d "service_name[1]=Spec2" -d "user_name=elidc93" -d "password=12345" http://localhost:9000/json/dentists
+
+
+/* joining statement for treatment plan
+SELECT
+tp.`id`,
+s.`name` as 'service_name',
+s.`code` as 'service_code',
+s.`target`,
+s.`type` as 'service_type',
+s.`price` as 'service_price',
+s.`color`,
+tp.`date_performed`,
+ttha.`name` as 'teeth_name',
+ttha.`view` as 'teeth_view',
+ttha.`position` as 'teeth_position',
+ttha.`type` as 'teeth_type'
+FROM dental_services as s inner join (treatment_plan as tp inner join teeth_affected as ttha)
+on s.`id` = tp.`service_id` and tp.`id` = ttha.`treatment_plan_id`;
+*/

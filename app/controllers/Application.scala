@@ -49,4 +49,5 @@ object Application extends Controller {
   def samplePdf(id: String): Result = {
     return PDF.ok(html.samplePdf.render)
   }
+
 }

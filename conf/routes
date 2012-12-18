@@ -22,7 +22,9 @@ GET     /dentists/:id/information/update               controllers.Dentist.getUp
 POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /scheduler                  controllers.Scheduler.getCalendar
-GET     /sample                     controllers.Application.samplePdf(id: String)
+POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
+GET     /reports/patient_list       controllers.Reports._patientList(id: String)
+GET     /sample                     controllers.Application.samplePdf(id: String ?= "0")
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)
@@ -36,6 +38,7 @@ POST    /json/dentists/update       controllers.Json.submitDentistUpdateForm
 POST    /json/dentists/delete       controllers.Json.deleteDentistInformation
 POST    /json/dentists              controllers.Json.submitDentistAddForm
 GET     /json/settings/audit_log    controllers.Json.auditLog
+POST    /json/treatment_plan        controllers.Json.addTreatmentPlan
 
 
 # Map static resources from the /public folder to the /assets URL path
