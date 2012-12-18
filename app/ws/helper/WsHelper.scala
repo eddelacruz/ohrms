@@ -39,6 +39,12 @@ trait WsHelper {
     WS.url(rest).post(params).await.get
   }
 
+  def doPost(endPoint: String, params: JsValue) = {
+    var rest = ohrmsUrl.get + endPoint
+    println("POSTING: >>>>>>>>"+rest)
+    WS.url(rest).post(params).await.get
+  }
+
   def doPut(endPoint: String, params: Map[String, Seq[String]]) = {
     var rest = ohrmsUrl.get + endPoint
     println("PUTTING: >>>>>>>>"+rest)
