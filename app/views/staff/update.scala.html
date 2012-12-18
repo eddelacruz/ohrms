@@ -1,0 +1,84 @@
+@(staffList: List[ws.services.StaffList])
+
+@main(Messages("staff.title")){
+
+<!-- Update dentalService -->
+<header class="grid_12 head center">
+    <h1>@Messages("staff.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav>
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="center">
+                <div class="form-details">
+                    @staffList.map { sl =>
+                    @helper.form(action = routes.Staff.submitUpdateForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="@sl.id">
+                        <ul>
+                            <li>
+                                <label class="upper">First Name:</label>
+                                <input type="text" name="first_name" value="@sl.firstName">
+                            </li>
+                            <li>
+                                <label class="upper">Last Name:</label>
+                                <input type="text" name="last_name" value="@sl.lastName">
+                            </li>
+                            <li>
+                                <label class="upper">Middle Name:</label>
+                                <input type="text" name="middle_name" value="@sl.middleName">
+                            </li>
+                            <li>
+                                <label class="upper">Position:</label>
+                                <input type="text" name="position" value="@sl.position">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field right">
+                        <ul>
+
+                            <li>
+                                <label>Contact No:</label>
+                                <input type="text" name="contact" value="@sl.contactNo">
+
+                            </li>
+                            <li>
+                                <label>Address:</label>
+                                <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
+                            </li>
+                            <li>
+                                <label>Username:</label>
+                                <input type="text" name="user_name" value="@sl.userName">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <footer class="pane">
+                <a id="delete_patient" class="bt red left" href="#" data-patient_id="@sl.id">@Messages("button.delete")</a>
+                <input type="submit" class="bt blue right" value="@Messages("button.update")">
+            </footer>
+            }
+            }
+        </div>
+    </div>
+</div>
+}
