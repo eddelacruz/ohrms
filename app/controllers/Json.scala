@@ -22,11 +22,7 @@ import ws.services.StaffList
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-<<<<<<< HEAD
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with TreatmentPlanDeserializer{
-=======
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer{
->>>>>>> 8dcf999421e7157a532f5427fb4e9dfe0101659d
+object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -344,7 +340,5 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         Status(500)
       }
   }
-
-
 
 }
