@@ -1,0 +1,74 @@
+@main(Messages("dentalService.title")){
+
+<!-- Add service -->
+<header class="grid_12 head center">
+    <h1>@Messages("dentalService.add.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            <h1></h1>
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Information</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="center">
+        <div class="form-details">
+            @helper.form(action = routes.DentalService.submitAddForm){
+            <div class="field left">
+                <input type="hidden" name="id" value="">
+               <ul>
+                    <li>
+                        <label class="upper">Service Name:</label>
+                        <input type="text" name="name">
+                    </li>
+                    <li>
+                        <label>Service Code:</label>
+                        <input type="text" name="code">
+                    </li>
+                    <li>
+                        <label>Type:</label>
+                        <input type="text" name="type">
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+                    <li>
+                        <label>Target:<br></label>
+                        <input type="text" name="target">
+                    </li>
+                    <li>
+                        <label>Price:</label>
+                        <input type="text" name="price">
+                    </li>
+                    <li>
+                        <label>Color:</label>
+                        <input type="text" name="color">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer class="pane">
+        <input type="submit" class="bt blue right" value="@Messages("button.add")">
+    </footer>
+    }
+</div>
+</div>
+</div>
+<!-- /Add service -->
+}

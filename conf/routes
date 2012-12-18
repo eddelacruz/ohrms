@@ -23,6 +23,12 @@ POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /scheduler                  controllers.Scheduler.getCalendar
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
+GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
+GET     /dental_services/:id/information          controllers.DentalService.getDentalServiceInformationById(id: String)
+POST    /dental_services                  controllers.DentalService.submitAddForm
+GET     /dental_services/add               controllers.DentalService.getAddForm
+POST    /dental_services/update            controllers.DentalService.submitUpdateForm
+GET    /dental_services/:id/information/update      controllers.DentalService.getUpdateForm(id: String)
 GET     /reports/patient_list       controllers.Reports._patientList(id: String)
 GET     /sample                     controllers.Application.samplePdf(id: String ?= "0")
 
@@ -39,6 +45,10 @@ POST    /json/dentists/delete       controllers.Json.deleteDentistInformation
 POST    /json/dentists              controllers.Json.submitDentistAddForm
 GET     /json/settings/audit_log    controllers.Json.auditLog
 POST    /json/treatment_plan        controllers.Json.addTreatmentPlan
+GET     /json/dental_services            controllers.Json.getDentalServiceList(start : Int ?= 0, count : Int ?= 25)
+GET     /json/dental_services/:id/information     controllers.Json.getDentalServiceInformationById(id: String)
+POST    /json/dental_services/update       controllers.Json.submitDentalServiceUpdateForm
+POST    /json/dental_services              controllers.Json.submitDentalServiceAddForm
 
 
 # Map static resources from the /public folder to the /assets URL path

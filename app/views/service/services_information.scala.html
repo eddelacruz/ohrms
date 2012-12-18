@@ -1,0 +1,81 @@
+@(dentalServiceList: List[ws.services.DentalServiceList])
+
+@main("Dental Service") {
+<header class="grid_12 head">
+    <h1>Dental Service</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            @dentalServiceList.map { dl =>
+            <h1>@dl.name</h1>
+            }
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Information</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="columns">
+
+        <div class="form-details right mode-1">
+            @dentalServiceList.map { dl =>
+            <div class="field left">
+                <ul>
+                    <li>
+                        <label>Dental Service ID:</label>
+                        <label class="form-label">@dl.id</label>
+                    </li>
+                    <li>
+                        <label>Service Name:</label>
+                        <label class="form-label">@dl.name</label>
+                    </li>
+                    <li>
+                        <label>Service Code:</label>
+                        <label class="form-label">@dl.code</label>
+                    </li>
+                    <li>
+                        <label>Type:</label>
+                        <label class="form-label">@dl.sType</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+                    <li>
+                        <label>Target:</label>
+                        <label class="form-label">@dl.target</label>
+                    </li>
+                    <li>
+                        <label>Price</label>
+                        <label class="form-label">PHP @dl.price.00</label>
+                    </li>
+                    <li>
+                        <label>Color:</label>
+                        <label class="form-label">@dl.color</label>
+                    </li>
+                </ul>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<footer class="pane">
+    @dentalServiceList.map { ds =>
+    <a class="bt blue right" href="@routes.DentalService.getUpdateForm(ds.id)">@Messages("button.edit")</a>
+    }
+</footer>
+</div>
+}
