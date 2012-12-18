@@ -22,6 +22,7 @@ GET     /dentists/:id/information/update               controllers.Dentist.getUp
 POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /scheduler                  controllers.Scheduler.getCalendar
+GET     /reports/patient_list       controllers.Reports._patientList(id: String)
 GET     /sample                     controllers.Application.samplePdf(id: String)
 
 
