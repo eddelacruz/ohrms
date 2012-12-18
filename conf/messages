@@ -28,6 +28,12 @@ dentist.add.title=Add Dentist
 dentist.update.title=Update Dentist
 dentist.profile.title=Profile
 
+dentalService.title=Dental Services
+dentalService.list.title=Dental Services List
+dentalService.add.title=Add Dental Services
+dentalService.update.title=Update Dental Services
+dentalService.profile.title=Profile
+
 report.title=Reports
 
 scheduler.title=Scheduler

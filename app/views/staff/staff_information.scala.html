@@ -1,0 +1,85 @@
+@(staffList: List[ws.services.StaffList])
+
+@main("Staff") {
+<header class="grid_12 head">
+    <h1>Staff</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            @staffList.map { s =>
+            <h1>@s.lastName, @s.firstName @s.middleName</h1>
+            }
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Profile</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="columns">
+
+        <div class="form-details right mode-1">
+            @staffList.map { s =>
+            <div class="field left">
+                <ul>
+                    <li>
+                        <label>Staff ID:</label>
+                        <label class="form-label">@s.id</label>
+                    </li>
+                    <li>
+                        <label>First Name:</label>
+                        <label class="form-label">@s.firstName</label>
+                    </li>
+                    <li>
+                        <label>Middle Name:</label>
+                        <label class="form-label">@s.middleName</label>
+                    </li>
+                    <li>
+                        <label>Last Name:</label>
+                        <label class="form-label">@s.lastName</label>
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+                    <li>
+                        <label>Contact No:</label>
+                        <label class="form-label">@s.contactNo</label>
+                    </li>
+                    <li>
+                        <label>Address:</label>
+                        <label class="form-label">@s.address</label>
+                    </li>
+
+                    <li>
+                        <label>Position:</label>
+                        <label class="form-label">@s.position</label>
+                    </li>
+                    <li>
+                        <label>Username:</label>
+                        <label class="form-label">@s.userName</label>
+                    </li>
+                </ul>
+            </div>
+            }
+        </div>
+    </div>
+</div>
+<footer class="pane">
+    @staffList.map { s =>
+    <a class="bt blue right" href="@routes.Staff.getUpdateForm(s.id)">@Messages("button.edit")</a>
+    }
+</footer>
+</div>
+}

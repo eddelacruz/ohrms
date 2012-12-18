@@ -1,0 +1,102 @@
+@(dentalServiceList: List[ws.services.DentalServiceList])
+
+@main(Messages("dentalService.title")){
+
+<!--  List -->
+<header class="grid_12 head center">
+    <h1>@Messages("dentalService.list.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="grid_12">
+    <div class="extension top fullwidth">
+        <div id="DataTables_Table_0_length" class="dataTables_length">
+            <label>
+                <span class="textnode">Show </span>
+                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
+                    <option value="10" selected="selected">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="textnode"> entries</span>
+            </label>
+        </div>
+        <div class="dataTables_filter" id="DataTables_Table_0_filter">
+            <label>
+                <span class="textnode">@Messages("misc.search"): </span>
+                <input type="text" aria-controls="DataTables_Table_0" id="acpro_inp2">
+            </label>
+        </div>
+        <div class="clear"></div></div>
+    <div class="table">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+            <table class="datatable dataTable" id="DataTables_Table_0">
+                <thead>
+                <tr role="row">
+                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                        <div class="parentsort">Service Name
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
+                        <div class="parentsort">Code
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Type
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Target
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Price
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Color
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                @dentalServiceList.map { dsl =>
+                <tr>
+                    <td class="  sorting_1"><a href="@routes.DentalService.getDentalServiceInformationById(dsl.id)">@dsl.name</a></td>
+                    <td class=" ">@dsl.code</td>
+                    <td class=" ">@dsl.sType</td>
+                    <td class=" ">@dsl.target</td>
+                    <td class=" ">PHP @dsl.price.00</td>
+                    <td class=" ">@dsl.color</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+            <div class="extension bottom inright pagination">
+                <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
+                    <a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a>
+                    <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                                                <span>
+                                                    <a tabindex="0" class="paginate_active">1</a>
+                                                    <a tabindex="0" class="paginate_button">2</a>
+                                                    <a tabindex="0" class="paginate_button">3</a>
+                                                    <a tabindex="0" class="paginate_button">4</a>
+                                                </span>
+                    <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
+                    <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- / List -->
+
+}
