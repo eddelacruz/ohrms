@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, target: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
+case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, target: Int, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
 
 object TreatmentPlanService {
 
@@ -64,6 +64,50 @@ object TreatmentPlanService {
         'view -> tp.teethView,
         'type -> tp.teethType
       ).executeUpdate()
+    }
+  }
+
+  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
+    DB.withConnection {
+      implicit c =>
+        val treatmentPlan: List[TreatmentPlanType] = SQL(
+          """
+            |SELECT
+            |tp.`id`,
+            |s.`id` as 'service_id',
+            |s.`name` as 'service_name',
+            |s.`code` as 'service_code',
+            |s.`target`,
+            |s.`type` as 'service_type',
+            |s.`price` as 'service_price',
+            |s.`color`,
+            |tp.`date_performed`,
+            |ttha.`name` as 'teeth_name',
+            |ttha.`view` as 'teeth_view',
+            |ttha.`position` as 'teeth_position',
+            |ttha.`type` as 'teeth_type'
+            |FROM dental_services as s inner join (treatment_plan as tp inner join teeth_affected as ttha)
+            |on s.`id` = tp.`service_id` and tp.`id` = ttha.`treatment_plan_id`
+            |ORDER BY service_name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('start -> start, 'count -> count).as {
+            get[String]("treatment_plan.id") ~
+            get[String]("dental_services.id") ~
+            get[String]("dental_services.name") ~
+            get[String]("dental_services.code") ~
+            get[Int]("dental_services.target") ~
+            get[String]("dental_services.type") ~
+            get[String]("dental_services.price") ~
+            get[String]("dental_services.color") ~
+            get[Date]("treatment_plan.date_performed") ~
+            get[String]("teeth_affected.name") ~
+            get[String]("teeth_affected.view") ~
+            get[String]("teeth_affected.position") ~
+            get[String]("teeth_affected.type") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m => TreatmentPlanType(a, b, c, d, e, f, g, h, i.toString, j, k, l, m)
+          } *
+        }
+        treatmentPlan
     }
   }
 

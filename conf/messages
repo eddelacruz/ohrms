@@ -4,6 +4,7 @@ button.edit=Edit
 button.cancel=Cancel
 button.close=Close
 button.delete=Delete
+button.save.changes=Save Changes
 
 chart.title=Dental Chart
 chart.personal.title=Personal Dental Chart

@@ -7,9 +7,10 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
-import ws.services.{PatientList, PatientService}
-import ws.delegates.PatientDelegate
+import ws.services.{TreatmentPlanService, PatientList, PatientService}
+import ws.delegates.{PatientDelegate, TreatmentPlanDelegate}
 import ws.generator.UUIDGenerator
+import ws.services
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +26,7 @@ object Patient extends Controller {
   }
 
   def getList(start: Int, count: Int) = Action {
-    Ok(patient.list(PatientDelegate.getPatientList(start,count)))
+    Ok(patient.list(PatientDelegate.getPatientList(start,count), TreatmentPlanDelegate.getTreatmentPlan(start,count)))
   }
 
   def getAddForm = Action {
@@ -47,8 +48,8 @@ object Patient extends Controller {
       )
   }
 
-  def getUpdateForm(id: String) = Action {
-    Ok(patient.update(PatientService.getPatientListById(id)))
+  def getUpdateForm(id: String, start: Int, count: Int) = Action {
+    Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count))) //Todo make PatientService to delegate
   }
 
   def submitUpdateForm = Action {

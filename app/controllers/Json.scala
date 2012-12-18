@@ -9,7 +9,7 @@ import views.html.{patient, modal}
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer}
+import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer, TreatmentPlanDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.PatientList
 import ws.services.DentistList
@@ -22,7 +22,7 @@ import ws.services.DentistList
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer{
+object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with TreatmentPlanDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -176,20 +176,45 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   def addTreatmentPlan = Action {
     implicit request =>
-      var i = 0
+      var index = 0
       val teethStructure = request.body.asJson.get.\("teeth_structure")
 
       val treatmentPlanId = UUIDGenerator.generateUUID("treatment_plan")
       val serviceId = teethStructure(0).\("service_id").as[String]
       TreatmentPlanService.addTreatment(treatmentPlanId, serviceId)
 
-      addTeethAffected(treatmentPlanId, teethStructure)
+      try{
+        while (teethStructure(index) != null) {
+          val tView = teethStructure(index).\("view").as[String]
+          val tName = teethStructure(index).\("name").as[String]
+          val tType = teethStructure(index).\("type").as[String]
+          val tPosition = tName match {
+            case "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" => "upper"
+            case "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" => "lower"
+          }
+          // 1 - Inclusive, 2 - Selective Fill, 3 - Selective Root, 4 - Selective Bridge, 5 - Selective Grid
+          val target = 2
+          val tp = new TreatmentPlanType(treatmentPlanId, "", "", "", target, "", "", "", "", tName, tView, tPosition, tType)
+          index += 1
+          TreatmentPlanService.addTeethAffected(tp)
+        }
+      } catch {
+        case e: Exception =>
+          println("----->>>>> (END OF ITERATION OF TEETH AFFECTED) <<<<<-----")
+          println(e)
+      }
       println("\n \n----->>>>> (TEETH STRUCTURE JSON) <<<<<-----")
       println(teethStructure)
       Status(200)
   }
 
-  def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
+  def getTreatmentPlan(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+  }
+
+  //TODO donot delete for future use
+  /*def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
+    println("hoi bruha")
     var index = 0
     try{
       while (teethStructure(index) != null) {
@@ -212,6 +237,6 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         println(e)
     }
     Status(200)
-  }
+  }*/
 
 }

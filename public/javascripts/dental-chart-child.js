@@ -9,7 +9,7 @@ window.onload = function() {
   var color_stroke_click = "orange";
   var none = "none"
 
-  var service_id = "abc";
+  var service_id = "2bf84e44-eb3c-46b6-8a92-57e8ed127f39"; //Extraction
   var prop = "fill"
   var facial = "facial"
   var mid = "mid"
@@ -21,14 +21,31 @@ window.onload = function() {
 
   var ts = { "teeth_structure": [] };
 
+  $("#add_treatment_plan").on('click', function() {
+    var $this = $(this)
+    console.log("Adding treatment")
+    console.log(ts)
+    $.ajax({
+        url: "/treatment_plan",
+        type: "POST",
+        data: JSON.stringify(ts),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function() {
+            console.log("treatment_plan");
+            window.location.href = "/patients";
+        }
+    })
+  });
+
   $('#teeth-status').on('click', function() {
     alert(JSON.stringify(ts, null, 4));
     $(this).css('cursor','pointer');
   });
 
-  var unsetProperty = function(s, prop, r, n) {
+  var unsetProperty = function(s, prop, v, n) {
     for (i=0; i < ts.teeth_structure.length; i++) {
-      if (ts.teeth_structure[i].service_id === s && ts.teeth_structure[i].region === r && ts.teeth_structure[i].name === n) {
+      if (ts.teeth_structure[i].service_id === s && ts.teeth_structure[i].view === v && ts.teeth_structure[i].name === n) {
         ts.teeth_structure[i][prop] = 0;
       }
     };
@@ -37,7 +54,7 @@ window.onload = function() {
   var checkIfExist = function(s, prop, v, n) {
     var flag = 0
     for (i=0; i < ts.teeth_structure.length; i++) {
-      if (ts.teeth_structure[i].service_id === s && ts.teeth_structure[i].view === r && ts.teeth_structure[i].name === n) {
+      if (ts.teeth_structure[i].service_id === s && ts.teeth_structure[i].view === v && ts.teeth_structure[i].name === n ) {
         flag = 1;
         ts.teeth_structure[i][prop] = 1
       }
@@ -59,14 +76,10 @@ window.onload = function() {
     if (ts.teeth_structure.length === 0) {
       if (prop === "fill") {
         ts.teeth_structure.push({"service_id": s, "type": t, "view": v, "name": n, "fill": 1, "root": 0, "bridge": 0, "grid": {}});
-      } else if (prop === "root"){
-        ts.teeth_structure.push({"service_id": s, "type": t, "view": v, "name": n, "fill": 0, "root": 1, "bridge": 0, "grid": {}});
       };
     } else if (checkIfExist(s, prop, v, n) === 0) {
       if (prop === "fill") {
         ts.teeth_structure.push({"service_id": s, "type": t, "view": v, "name": n, "fill": 1, "root": 0, "bridge": 0, "grid": {}});
-      } else if (prop === "root"){
-        ts.teeth_structure.push({"service_id": s, "type": t, "view": v, "name": n, "fill": 0, "root": 1, "bridge": 0, "grid": {}});
       };
     }
   };
@@ -74,8 +87,8 @@ window.onload = function() {
   /*** A ***/
   var fa_fill = obj.path("M 207.96875 82.78125 C 199.19975 82.69629 188.6736 83.12632 187.34375 83.90625 C 185.05243 85.25007 181.9197 95.58455 181.875 102 C 181.8339 107.88594 184.71589 112.48871 189.90625 114.8125 C 193.59213 116.46271 194.42556 116.49616 198.53125 115.25 C 201.02818 114.49212 204.02847 113.881 205.1875 113.875 C 206.34654 113.869 209.56673 114.59303 212.375 115.5 C 217.33613 117.10226 217.62374 117.0806 221.90625 115 C 224.58237 113.69984 226.69655 111.88162 227.28125 110.34375 C 228.82211 106.29097 228.38254 99.10699 226.34375 94.71875 C 225.30732 92.48797 223.91078 89.20861 223.25 87.4375 C 222.46256 85.32691 221.16579 83.96263 219.46875 83.5 C 217.85892 83.06114 213.23015 82.83225 207.96875 82.78125 z ")
   .attr({ fill: color_start, stroke: none, cursor: 'pointer' })
-  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, c, prop, facial, "a"); } )
-  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, c, prop, facial, "a"); } )
+  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, child, prop, facial, "a"); } )
+  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, prop, facial, "a"); } )
   .hover(
     function() { if (this.attr("fill") === color_start) { this.attr({ fill: color_hover }); } },
     function() { if (this.attr("fill") === color_hover) { this.attr({ fill: color_start }); } }
@@ -88,8 +101,8 @@ window.onload = function() {
 
   var ma_fill = obj.path("M 218.59375 138.53125 C 215.67485 138.53125 212.47015 138.96407 211.46875 139.5 C 210.46736 140.03592 205.73586 140.75171 200.9375 141.09375 C 190.47245 141.83974 184.66455 144.54577 182.9375 149.5 C 182.33796 151.21984 181.84375 157.3949 181.84375 163.21875 C 181.84375 174.26119 183.03597 179.06719 186.46875 182.09375 C 188.75117 184.10608 198.67853 189.13398 199.25 188.5625 C 199.99147 187.82103 195.01587 175.15985 192.59375 171.625 C 190.42483 168.45967 190.15339 168.34744 188.5 169.84375 C 187.15566 171.06035 186.4664 171.18514 185.59375 170.3125 C 184.72111 169.43986 184.95686 168.61537 186.5625 166.90625 C 188.45642 164.89026 188.55315 164.21725 187.59375 160.4375 C 187.00525 158.11902 186.78747 155.96253 187.09375 155.65625 C 188.28585 154.46416 189.78089 156.59714 190.375 160.3125 C 190.71722 162.45267 191.35608 164.1875 191.8125 164.1875 C 192.26891 164.1875 192.39357 164.9563 192.09375 165.90625 C 191.51212 167.74913 193.51919 165.66287 196.8125 160.96875 C 197.71146 159.68742 200.23797 158.0965 202.4375 157.4375 C 207.24462 155.99725 208.18815 154.75161 206.1875 152.53125 C 205.36237 151.6155 204.39847 149.53475 204.03125 147.90625 L 203.375 144.9375 L 205.9375 147.90625 C 207.35298 149.53475 208.78327 152.1267 209.125 153.65625 C 209.46673 155.1858 210.81188 157.12883 212.09375 157.96875 C 213.37562 158.80866 214.40625 160.06639 214.40625 160.78125 C 214.40625 161.4961 215.79502 163.0582 217.46875 164.25 L 220.5 166.40625 L 217.34375 169.3125 C 215.44031 171.05102 213.78743 171.84992 213.25 171.3125 C 212.71258 170.77507 212.93321 169.94851 213.8125 169.21875 C 215.08146 168.16562 214.81856 167.32822 211.84375 163.1875 L 208.40625 158.40625 L 203.96875 159.9375 C 201.34039 160.83307 198.82685 162.52424 197.84375 164.0625 C 196.92819 165.49508 195.50921 167.20677 194.6875 167.875 C 193.492 168.84719 193.44799 169.26283 194.46875 169.9375 C 195.17035 170.40122 197.45362 174.72331 199.53125 179.5625 C 204.00605 189.98515 207.2961 192.59754 212.5 189.8125 C 213.74893 189.14409 214.4528 187.70077 214.5 185.625 C 214.5808 182.06897 217.0613 177.25145 219.65625 175.625 C 220.95541 174.81072 222.06452 174.95659 224.21875 176.1875 L 227.0625 177.8125 L 228.375 173.21875 C 229.7542 168.47523 230.01417 152.43671 228.8125 146.03125 C 227.79822 140.62466 224.92177 138.53125 218.59375 138.53125 z M 221.21875 177.3125 C 220.276 177.44161 219.44244 178.96581 217.8125 182.625 C 216.51339 185.54148 216.72857 188.85445 218.21875 188.84375 C 218.5678 188.84075 220.2983 187.49724 222.0625 185.84375 C 225.80241 182.33852 226.03472 180.95764 223.25 178.4375 C 222.39224 177.66124 221.7844 177.235 221.21875 177.3125 z ")
   .attr({ fill: color_start, stroke: none })
-  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, c, prop, mid, "a"); } )
-  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, c, prop, mid, "a"); } )
+  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, child, prop, mid, "a"); } )
+  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, prop, mid, "a") } )
   .hover(
     function() { if (this.attr("fill") === color_start) { this.attr({ fill: color_hover }); } },
     function() { if (this.attr("fill") === color_hover) { this.attr({ fill: color_start }); } }
@@ -103,8 +116,8 @@ window.onload = function() {
   /*** B ***/
   var fb_fill = obj.path("m 261.75,82.5625 c -5.88467,-0.03062 -12.21533,0.69267 -13.34375,1.90625 -2.18772,2.35282 -5.375,13.93038 -5.375,19.53125 0,4.49306 0.44916,5.96445 2.25,7.65625 2.87869,2.70439 8.82488,5.21395 10.09375,4.25 0.54284,-0.41239 3.078,-1.3112 5.625,-2 3.87857,-1.04891 5.33308,-1.03 8.90625,0.1875 10.40299,3.54465 15.39367,-6.15289 9.8125,-19.0625 -4.33862,-10.03551 -4.43672,-10.15791 -9.0625,-11.5625 C 268.64922,82.85933 265.2808,82.5809 261.75,82.5625 Z")
   .attr({ fill: color_start, stroke: none })
-  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, c, prop, facial, "b"); } )
-  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, c, prop, facial, "b"); } )
+  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, child, prop, facial, "b"); } )
+  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, prop, facial, "b") } )
   .hover(
     function() { if (this.attr("fill") === color_start) { this.attr({ fill: color_hover }); } },
     function() { if (this.attr("fill") === color_hover) { this.attr({ fill: color_start }); } }
@@ -116,8 +129,8 @@ window.onload = function() {
 
   var mb_fill = obj.path("M 267.46875 138.21875 C 266.71402 138.23205 265.88052 138.25125 264.9375 138.28125 C 256.17943 138.55975 254.54018 139.12312 248.84375 143.6875 C 245.31469 146.51523 245.25127 146.68183 244.78125 155.125 C 244.22545 165.10892 245.01102 167.25315 251.03125 172.40625 C 254.97254 175.77983 262.1152 179.83605 264.34375 179.9375 C 264.93813 179.9646 268.09992 178.25285 271.34375 176.15625 C 278.45075 171.56278 280.40594 167.98664 281.8125 156.96875 C 282.95691 148.00432 281.96092 144.9995 276.3125 140.5 C 273.83947 138.53 272.75185 138.12575 267.46875 138.21875 z M 258.75 145.96875 C 258.8147 145.96145 258.8779 145.9632 258.9375 146 C 260.06869 146.69911 260.07516 150.70353 258.9375 151.90625 C 258.07939 152.81342 259.82186 160.20964 262 164.84375 C 263.03249 167.04041 262.42155 169.125 260.71875 169.125 C 260.18416 169.125 259.83402 168.55354 259.96875 167.875 C 260.65742 164.40677 254.14024 150.375 251.84375 150.375 C 250.10713 150.375 250.91094 156.85828 252.90625 159 C 254.12066 160.30351 254.47459 161.36012 253.84375 161.75 C 251.12925 163.42765 248.06317 156.10225 249.34375 151 C 250.15633 147.76245 253.51558 147.03281 255.375 149.6875 C 256.80646 151.73119 256.8516 151.71073 257.46875 148.625 C 257.77127 147.11238 258.29709 146.01955 258.75 145.96875 z M 268.625 147.4375 C 268.9119 147.41437 269.23356 147.58958 269.59375 147.96875 C 270.07505 148.47538 270.15428 151.0153 269.75 153.59375 C 269.06463 157.96497 269.17096 158.28125 271.15625 158.28125 C 272.61255 158.28125 273.98242 157.01268 275.5 154.3125 C 276.72035 152.14118 278.11691 150.375 278.625 150.375 C 280.14043 150.375 279.70076 152.25129 277.4375 155.3125 C 275.70171 157.6603 275.53085 158.45085 276.53125 159.65625 C 278.42758 161.94119 276.78182 163.66769 274.59375 161.6875 C 272.64148 159.92071 270.6875 160.47669 270.6875 162.78125 C 270.6875 163.56346 270.23033 164.1875 269.6875 164.1875 C 269.14469 164.1875 268.6875 163.73527 268.6875 163.1875 C 268.6875 162.63973 267.37849 160.79782 265.75 159.09375 C 261.6875 154.84279 261.71301 151.16201 265.78125 154.84375 C 267.3368 156.25148 267.4703 156.07147 267.375 152.4375 C 267.29303 149.31113 267.76431 147.5069 268.625 147.4375 z ")
   .attr({ fill: color_start, stroke: none })
-  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, c, prop, mid, "b"); } )
-  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, c, prop, mid, "b"); } )
+  .click( function() { this.attr({ fill: color_click }); setProperty(service_id, child, prop, mid, "b"); } )
+  .dblclick( function() { this.attr({ fill: color_start }); unsetProperty(service_id, prop, mid, "b") } )
   .hover(
     function() { if (this.attr("fill") === color_start) { this.attr({ fill: color_hover }); } },
     function() { if (this.attr("fill") === color_hover) { this.attr({ fill: color_start }); } }
