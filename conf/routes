@@ -4,7 +4,7 @@
 
 
 GET     /                           controllers.Application.login
-POST    /login_attemp               controllers.Application.authenticate
+POST    /login_attempt              controllers.Application.authenticate
 GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String)
 GET     /patients                   controllers.Patient.getList(start : Int ?= 0, count : Int ?= 25)
@@ -38,7 +38,6 @@ GET     /staffs/:id/update                controllers.Staff.getUpdateForm(id: St
 
 
 GET     /reports/patient_list       controllers.Reports._patientList(id: String)
-GET     /sample                     controllers.Application.samplePdf(id: String ?= "0")
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)

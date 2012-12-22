@@ -1,16 +1,22 @@
 package controllers
 
 import play.api._
-import play.api.mvc.Result._
 import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
-import play.mvc.Result
+import play.api.mvc.Result._
 import util.pdf.PDF
 import views._
 import ws.services.LoginService
 
 object Application extends Controller {
+
+  def IsAuthenticated(r: Request[AnyContent] => Result): Action[AnyContent] = {
+    Action { implicit request =>
+      println("LoggingAction")
+      r(request)
+    }
+  }
 
   val loginForm = Form(
     tuple(
@@ -21,7 +27,7 @@ object Application extends Controller {
     })
   )
 
-  def login = Action { implicit request =>
+  def login = IsAuthenticated { implicit request =>
     Ok(views.html.login(loginForm))
   }
 
@@ -46,8 +52,8 @@ object Application extends Controller {
     Ok(html.dboard("Your new application is ready."))
   }
 
-  def samplePdf(id: String): Result = {
+/*  def samplePdf(id: String): Result = {
     return PDF.ok(html.samplePdf.render)
-  }
+  }*/
 
 }

@@ -78,7 +78,8 @@ object LoginService {
         """.stripMargin)
       .on(
         'user_name -> user_name,
-        'password -> password
+        'password -> password,
+        'role -> role
       ).as(LoginService.userList.singleOpt)
     }
   }
