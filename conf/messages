@@ -4,6 +4,7 @@ button.edit=Edit
 button.cancel=Cancel
 button.close=Close
 button.delete=Delete
+button.save.changes=Save Changes
 
 chart.title=Dental Chart
 chart.personal.title=Personal Dental Chart
@@ -26,6 +27,12 @@ dentist.list.title=Dentist List
 dentist.add.title=Add Dentist
 dentist.update.title=Update Dentist
 dentist.profile.title=Profile
+
+dentalService.title=Dental Services
+dentalService.list.title=Dental Services List
+dentalService.add.title=Add Dental Services
+dentalService.update.title=Update Dental Services
+dentalService.profile.title=Profile
 
 report.title=Reports
 

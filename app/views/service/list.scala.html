@@ -1,10 +1,10 @@
-@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@(dentalServiceList: List[ws.services.DentalServiceList])
 
-@main(Messages("patient.title")){
+@main(Messages("dentalService.title")){
 
-<!-- Patient List -->
+<!--  List -->
 <header class="grid_12 head center">
-    <h1>@Messages("patient.list.title")</h1>
+    <h1>@Messages("dentalService.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -35,22 +35,32 @@
                 <thead>
                 <tr role="row">
                     <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Complete Name
+                        <div class="parentsort">Service Name
                             <div class="sorticon"></div>
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
-                        <div class="parentsort">Address
+                        <div class="parentsort">Code
                             <div class="sorticon"></div>
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">Contact Number
+                        <div class="parentsort">Type
                             <div class="sorticon"></div>
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">Last Service
+                        <div class="parentsort">Target
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Price
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                        <div class="parentsort">Color
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -58,12 +68,14 @@
                 </thead>
 
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                @patientList.map { pl =>
+                @dentalServiceList.map { dsl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.id)">@pl.lastName, @pl.firstName @pl.middleName</a></td>
-                    <td class=" ">@pl.address</td>
-                    <td class=" ">@pl.contactNo</td>
-                    <td class=" ">28/2/2013</td>
+                    <td class="  sorting_1"><a href="@routes.DentalService.getDentalServiceInformationById(dsl.id)">@dsl.name</a></td>
+                    <td class=" ">@dsl.code</td>
+                    <td class=" ">@dsl.sType</td>
+                    <td class=" ">@dsl.target</td>
+                    <td class=" ">PHP @dsl.price.00</td>
+                    <td class=" ">@dsl.color</td>
                 </tr>
                 }
                 </tbody>
@@ -85,6 +97,6 @@
         </div>
     </div>
 </div>
-<!-- /Patient List -->
+<!-- / List -->
 
 }

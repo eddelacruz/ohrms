@@ -1,0 +1,88 @@
+package ws.delegates
+
+import play.api.libs.concurrent.Promise
+import play.api.libs.ws._
+import play.api.libs.json.{JsString, JsValue, JsObject}
+import collection.mutable.ListBuffer
+import ws.helper.WsHelper
+import play.api.data.Form
+import play.api.data.Forms._
+import ws.services.DentalServiceList
+import play.api.libs.ws.Response
+
+/**
+ * Created with IntelliJ IDEA.
+ * User: joh
+ * Date: 12/18/12
+ * Time: 8:58 PM
+ * To change this template use File | Settings | File Templates.
+ */
+object DentalServiceDelegate extends WsHelper{
+
+  val _dentalServiceProfileForm = Form(
+    mapping(
+      "id" -> text,
+      "name" -> text,
+      "code" -> text,
+      "type" -> text,
+      "target" -> text,
+      "price" -> text,
+      "color" -> text
+    )(DentalServiceList.apply)(DentalServiceList.unapply)
+  )
+
+  def getDentalServiceList(start: Int, count: Int) = {
+    val res: Promise[Response] = doGet("/json/dental_services?start="+start+"&count="+count)
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[DentalServiceList]()
+
+    (json \ "DentalServiceList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToDentalServiceList(d)
+    })
+    dl.toList
+  }
+
+
+  def convertToDentalServiceList (j: JsValue): DentalServiceList = {
+    new DentalServiceList(
+      (j \ "id").as[String],
+      (j \ "name").as[String],
+      (j \ "code").as[String],
+      (j \ "sType").as[String],
+      (j \ "target").as[String],
+      (j \ "price").as[String],
+      (j \ "color").as[String]
+    )
+  }
+
+
+  def getDentalServiceInformationById(id: String) = {
+    val res: Promise[Response] = doGet("/json/dental_services/%s/information" format(id))
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[DentalServiceList]()
+
+    (json \ "DentalServiceList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToDentalServiceList(d)
+    })
+    dl.toList
+  }
+
+  def submitAddDentalServiceForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/dental_services", params)
+    println()
+    println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
+  def submitUpdateDentalServiceForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/dental_services/update", params)
+    println()
+    println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
+
+
+}

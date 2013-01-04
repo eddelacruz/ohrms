@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList])
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
 
 @main(Messages("patient.title")){
 
@@ -120,30 +120,16 @@
                         </tr>
                         </thead>
                         <tbody>
+                        @treatmentPlan.map { tp =>
                         <tr>
-                            <td>Oral Prophylaxis</td>
-                            <td>OP</td>
-                            <td><span class="pesos">P</span> 500.00</td>
-                            <td>Inclusive</td>
-                            <td>11/30/2012 5:00 PM</td>
+                            <td>@tp.serviceName</td>
+                            <td>@tp.serviceCode</td>
+                            <td><span class="pesos">P</span> @tp.servicePrice</td>
+                            <td>@tp.target</td>
+                            <td>--</td>
                             <td class="center"><span class="label label-success">Success</span></td>
                         </tr>
-                        <tr class="even">
-                            <td>Periodic Oral Evaluation</td>
-                            <td>POE</td>
-                            <td><span class="pesos">P</span> 500.00</td>
-                            <td>Inclusive</td>
-                            <td>11/30/2012 5:00 PM</td>
-                            <td><center><span class="label label-success">Success</span></center></td>
-                        </tr>
-                        <tr>
-                            <td>Extraction</td>
-                            <td>EX</td>
-                            <td><span class="pesos">P</span> 300.00</td>
-                            <td>Selective</td>
-                            <td>11/30/2012 5:00 PM</td>
-                            <td class="center"><span class="label label-warning">Pending</span></td>
-                        </tr>
+                        }
                         </tbody>
                     </table>
                     <footer class="extension bottom inright pagination right">
@@ -163,7 +149,7 @@
             </div>
         </div>
         <footer class="pane">
-            <input type="submit" class="bt blue right" value="Save Changes">
+            <a id="add_treatment_plan" class="bt blue right" href="#">@Messages("button.save.changes")</a>
         </footer>
     </div>
     <!-- /Dental Services -->

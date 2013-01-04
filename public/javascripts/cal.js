@@ -13,8 +13,13 @@ $(document).ready(function() {
 		},
 		selectable: true,
 		selectHelper: true,
-		select: function(start, end, allDay) {
-			var title = prompt('Event Title:');
+		select: function(start, end, allDay, e) {
+            $('#addPatientModal').modal({top: 'center'});
+            e.preventDefault();
+            var firstName = $('#addPatientModal input[name=first_name]').attr("value")
+            var middleName = $('#addPatientModal input[name=middle_name]').attr("value")
+            var lastName = $('#addPatientModal input[name=last_name]').attr("value")
+			var title = lastName+", "+firstName+" "+middleName;
 			if (title) {
 				calendar.fullCalendar('renderEvent',
 					{
@@ -30,7 +35,4 @@ $(document).ready(function() {
 		},
 		editable: true
 	});
-
 });
-
-

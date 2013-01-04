@@ -1,0 +1,80 @@
+@(dentalServiceList: List[ws.services.DentalServiceList])
+
+@main(Messages("dentalService.title")){
+
+<!-- Update dentalService -->
+<header class="grid_12 head center">
+    <h1>@Messages("dentalService.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+<header>
+    <div class="inner">
+        <div class="left title">
+            <h1></h1>
+        </div>
+        <div class="right">
+            <nav>
+                <ul>
+                    <li class="active first"><a href="#tab-1">Information</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="close">close</a>
+        </div>
+    </div>
+</header>
+
+<div class="box-content">
+<div id="tab-1" class="tab">
+    <div class="center">
+        <div class="form-details">
+            @dentalServiceList.map { dl =>
+            @helper.form(action = routes.DentalService.submitUpdateForm){
+            <div class="field left">
+                <input type="hidden" name="id" value="@dl.id">
+                <ul>
+                    <li>
+                        <label class="upper">Service Name:</label>
+                        <input type="text" name="name" value="@dl.name">
+                    </li>
+                    <li>
+                        <label>Code:</label>
+                        <input type="text" name="code" value="@dl.code">
+                    </li>
+                    <li>
+                        <label>Type:</label>
+                        <input type="text" name="type" value="@dl.sType">
+                    </li>
+                </ul>
+            </div>
+            <div class="field right">
+                <ul>
+
+                    <li>
+                        <label>Target:</label>
+                        <input type="text" name="target" value="@dl.target">
+
+                    </li>
+                    <li>
+                        <label>Price:</label>
+                        <input type="text" name="price" value="@dl.price">
+                    </li>
+                    <li>
+                        <label>Color:</label>
+                        <input type="text" name="color" value="@dl.color">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <footer class="pane">
+        <a id="delete_patient" class="bt red left" href="#" data-patient_id="@dl.id">@Messages("button.delete")</a>
+        <input type="submit" class="bt blue right" value="@Messages("button.update")">
+    </footer>
+    }
+    }
+</div>
+</div>
+</div>
+}
