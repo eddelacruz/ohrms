@@ -20,6 +20,14 @@ case class PatientList(var id: String, firstName: String, middleName: String, la
 
 object PatientService {
 
+  def getRowCountOfTable(tableName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
+        rowCount[Long]("c")
+    }
+  }
+
   def getPatientList(start: Int, count: Int): List[PatientList] = {
     val status = 1
     DB.withConnection {

@@ -47,7 +47,8 @@ $(document).ready(function() {
             var $this = $(this);
             count = parseInt($this.val());
             start = 0;
-            evt.preventDefault()
+            evt.preventDefault();
+
             $.ajax({
                 url : endpoint+"?start="+start+"&count="+count,
                 type: "GET",

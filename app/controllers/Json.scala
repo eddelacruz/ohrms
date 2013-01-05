@@ -341,4 +341,9 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       }
   }
 
+  def getRowCountOfTable(tableName: String) = Action {
+    implicit request =>
+      Ok(PatientService.getRowCountOfTable(tableName).toString)
+  }
+
 }
