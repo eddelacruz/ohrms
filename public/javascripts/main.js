@@ -584,7 +584,7 @@ jQuery(function($){
                 }
             };
 
-            $('.datatable').each(function(){
+            /*$('.datatable').each(function(){
                 var $this = $(this);
                 var ownOptions = dataTableOptions;
 
@@ -597,7 +597,7 @@ jQuery(function($){
                     ownOptions.iDisplayLength = 5;
                 }
                 $this.dataTable(ownOptions);
-            });
+            });*/
         })();
     });
 });

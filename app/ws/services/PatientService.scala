@@ -42,7 +42,7 @@ object PatientService {
             |ORDER BY last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
-          get[String]("id") ~
+            get[String]("id") ~
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~

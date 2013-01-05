@@ -1,12 +1,14 @@
 package controllers
 
 import play.api._
+import cache.Cache
 import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
 import play.api.mvc.Result._
 import util.pdf.PDF
 import views._
+import play.api.Play.current
 import ws.services.LoginService
 
 object Application extends Controller {
@@ -23,7 +25,10 @@ object Application extends Controller {
       "user_name" -> text,
       "password" -> text
     ) verifying ("Invalid username or password", result => result match {
-      case (user_name, password) => LoginService.authenticate(user_name, password).isDefined
+      case (user_name, password) => {
+        println("<><><><><><><><><><><><><><><><><>"+LoginService.authenticate(user_name, password))
+        LoginService.authenticate(user_name, password).isDefined
+      }
     })
   )
 
@@ -34,7 +39,10 @@ object Application extends Controller {
   def authenticate = Action { implicit request =>
     loginForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.login(formWithErrors)),
-      userList => Redirect(routes.Application.dashboard()).withSession("user_name" -> userList._1)
+      userList => {
+        Cache.set("user_name", userList._1)
+        Redirect(routes.Application.dashboard())
+      }
     )
   }
 

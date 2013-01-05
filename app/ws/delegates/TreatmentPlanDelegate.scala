@@ -29,7 +29,7 @@ object TreatmentPlanDelegate extends WsHelper{
     val json: JsValue = res.await.get.json
     val tp = ListBuffer[TreatmentPlanType]()
 
-    println(json)
+    //println(json) TODO print the json of Treatmentplan
 
     (json \ "TreatmentPlan").as[Seq[JsObject]].map({
       t =>

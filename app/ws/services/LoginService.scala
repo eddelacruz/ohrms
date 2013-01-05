@@ -15,7 +15,7 @@ import play.api.Play.current
  * Time: 7:53 PM
  * To change this template use File | Settings | File Templates.
  */
-case class UserList(username:String, password:String, role: String)
+case class UserList(username:String, password:String, role: Int)
 
 object LoginService {
 
@@ -42,7 +42,7 @@ object LoginService {
   val userList = {
     get[String]("user_name") ~
     get[String]("password") ~
-    get[String]("role")  map {
+    get[Int]("role") map {
       case user_name~password~role=>
         UserList(user_name, password, role)
     }
@@ -78,8 +78,7 @@ object LoginService {
         """.stripMargin)
       .on(
         'user_name -> user_name,
-        'password -> password,
-        'role -> role
+        'password -> password
       ).as(LoginService.userList.singleOpt)
     }
   }
