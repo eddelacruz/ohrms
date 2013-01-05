@@ -1,0 +1,82 @@
+@(dentistList: List[ws.services.DentistList])
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Dentist List</title>
+    <style type="text/css">
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-family: sans-serif;
+        }
+        .sub-title {
+            text-align: center;
+            font-size: 11px;
+            font-weight: normal;
+            color: #8E8F92;
+            font-family: sans-serif;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            display: table;
+            white-space: normal;
+            line-height: normal;
+            font-family: sans-serif;
+            font-weight: normal;
+            font-size: 12px;
+            font-variant: normal;
+            font-style: normal;
+            color: #000;
+            text-align: auto;
+            border-spacing: 2px;
+            border-color: #000;
+        }
+        .center {
+            text-align: center;
+        }
+        .medium-font {
+            font-size: 14px;
+            font-weight: medium;
+        }
+        .table-header {
+            color: #09A;
+            background-color: #E4FFFF;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .br-1 {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="title">
+    Dentist List
+</div>
+<div class="sub-title">
+    List of Dentist as of December 12, 2012
+</div>
+<div class="br-1"></div>
+<table class="table" border="1">
+    <tr class="center table-header">
+        <th>Complete Name</th>
+        <th>Address</th>
+        <th>Contact Number</th>
+        <th>PRC No</th>
+        <th>Specialization(s)</th>
+    </tr>
+    @dentistList.map { pl =>
+    <tr>
+        <td>@pl.firstName @pl.middleName @pl.lastName</td>
+        <td>@pl.address</td>
+        <td>@pl.contactNo</td>
+        <td>12-90-2012</td>
+        <td>Rawr</td>
+    </tr>       }
+</table>
+</body>
+
+</html>

@@ -6,6 +6,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views._
+import ws.delegates.{DentistDelegate, PatientDelegate}
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,8 +16,11 @@ import views._
  * To change this template use File | Settings | File Templates.
  */
 object Reports {
-  def _patientList(id: String): Result = {
-    return PDF.ok(html.reports._patientList.render)
+  def _patientList(start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start,count)))
+  }
+  def _dentistList(start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start,count)))
   }
 }
 
