@@ -7,7 +7,9 @@ GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
 GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String)
-GET     /patients/search       controllers.Patient.searchPatientByLastName(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+GET     /dentists/search       controllers.Dentist.searchDentistList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+GET     /patients/search       controllers.Patient.search(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+
 GET     /patients                   controllers.Patient.getList(start : Int ?= 0, count : Int ?= 25)
 POST    /patients                   controllers.Patient.submitAddForm
 POST    /patients/update            controllers.Patient.submitUpdateForm
@@ -42,6 +44,7 @@ GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/patients/search     controllers.Json.searchPatientListByLastName(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
+GET     /json/dentists/search     controllers.Json.searchDentistList(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
 GET     /json/dentists              controllers.Json.getDentistList(start : Int ?= 0, count : Int ?= 25)
 POST    /json/patients              controllers.Json.submitPatientAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm

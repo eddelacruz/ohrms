@@ -123,6 +123,9 @@ object PatientService {
             |patients
             |where status = {status}
             |and last_name like "%"{filter}"%"
+            |or first_name like "%"{filter}"%"
+            |or middle_name like "%"{filter}"%"
+            |or address like "%"{filter}"%"
             |ORDER BY last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status,'filter -> filter, 'start -> start, 'count -> count).as {

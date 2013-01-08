@@ -25,7 +25,7 @@ object Patient extends Controller {
     Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
   }
 
-  def searchPatientByLastName(start: Int, count: Int, filter: String) = Action {
+  def search(start: Int, count: Int, filter: String) = Action {
     println("start "+start+" count"+count);
     Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
   }

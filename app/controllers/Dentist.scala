@@ -17,6 +17,11 @@ import data.Forms._
 
 object Dentist extends Controller {
 
+  def searchDentistList(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(dentist.list(DentistDelegate.searchDentistList(start,count,filter)))
+  }
+
   def getList(start: Int, count: Int) = Action {
     Ok(dentist.list(DentistDelegate.getDentistList(start,count)))
   }
