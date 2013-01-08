@@ -21,6 +21,14 @@ case class Specialization(dentistId: String, name: String)
 
 object DentistService {
 
+  def getRowCountOfTable(tableName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
+        rowCount[Long]("c")
+    }
+  }
+
   val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f"
 
   def getDentistList(start: Int, count: Int): List[DentistList] = {

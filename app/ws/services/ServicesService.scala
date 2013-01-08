@@ -20,6 +20,15 @@ case class DentalServiceList(var id: String, name: String, code: String, sType: 
 
 object ServicesService {
 
+  def getRowCountOfTable(tableName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
+        rowCount[Long]("c")
+    }
+  }
+
+
   def getDentalServiceList(start: Int, count: Int): List[DentalServiceList] = {
 
     DB.withConnection {
