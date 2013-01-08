@@ -25,8 +25,13 @@ object Patient extends Controller {
     Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
   }
 
+  def searchPatientByLastName(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+  }
+
   def getList(start: Int, count: Int) = Action {
-    Ok(patient.list(PatientDelegate.getPatientList(start,count), TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+    Ok(patient.list(PatientDelegate.getPatientList(start,count),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
   }
 
   def getAddForm = Action {
@@ -47,6 +52,8 @@ object Patient extends Controller {
         }
       )
   }
+
+
 
   def getUpdateForm(id: String, start: Int, count: Int) = Action {
     Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count))) //Todo make PatientService to delegate

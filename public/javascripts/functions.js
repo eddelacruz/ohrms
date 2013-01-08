@@ -118,4 +118,17 @@ $(document).ready(function() {
         }
     );
 
+    $('#search_box').keypress(function(e){
+        $(this).val()
+        console.log(e);
+        if(e.keyCode === '13'){
+            $.ajax({
+                url: endpoint+"?filter="+filter,
+                type: "GET",
+                success:
+                    console.log('success kuno');
+            })
+        }
+    });
+
 });

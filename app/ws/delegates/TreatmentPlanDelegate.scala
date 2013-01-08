@@ -44,7 +44,7 @@ object TreatmentPlanDelegate extends WsHelper{
       (j \ "serviceId").as[String],
       (j \ "serviceName").as[String],
       (j \ "serviceCode").as[String],
-      (j \ "target").as[Int],
+      (j \ "target").as[String],
       (j \ "serviceType").as[String],
       (j \ "servicePrice").as[String],
       (j \ "color").as[String],

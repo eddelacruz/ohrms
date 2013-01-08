@@ -1,8 +1,9 @@
-@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@(patientList: List[ws.services.PatientList],treatmentPlan: List[ws.services.TreatmentPlanType])
 
 @main(Messages("patient.title")){
 
 <!-- Patient List -->
+
 <header class="grid_12 head center">
     <h1>@Messages("patient.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
@@ -25,7 +26,9 @@
         <div class="dataTables_filter" id="DataTables_Table_0_filter">
             <label>
                 <span class="textnode">@Messages("misc.search"): </span>
-                <input type="text" aria-controls="DataTables_Table_0" id="acpro_inp2">
+                @helper.form(action=routes.Patient.searchPatientByLastName()) {
+                <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
+                }
             </label>
         </div>
         <div class="clear"></div></div>
