@@ -62,6 +62,43 @@ object ServicesService {
     }
   }
 
+
+  def searchServiceList(start: Int, count: Int, filter: String): List[DentalServiceList] = {
+    DB.withConnection {
+      implicit c =>
+        val dentalServiceList: List[DentalServiceList] = SQL(
+          """
+            |select
+            |id,
+            |name,
+            |code,
+            |type,
+            |target,
+            |price,
+            |color
+            |from
+            |dental_services
+            |where name like "%"{filter}"%"
+            |or type like "%"{filter}"%"
+            |or color like "%"{filter}"%"
+            |or price like "%"{filter}"%"
+            |ORDER BY name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("name") ~
+            get[String]("code") ~
+            get[String]("type") ~
+            get[Boolean]("target") ~   // TODO ni eli get TinyInt
+            get[String]("price") ~
+            get[String]("color") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e.toString(), f, g)
+          } *
+        }
+        dentalServiceList
+    }
+  }
+
   def getDentalServiceListById(id :String): List[DentalServiceList]  = {
 
     DB.withConnection {

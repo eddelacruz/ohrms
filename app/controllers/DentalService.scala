@@ -20,6 +20,11 @@ import ws.generator.UUIDGenerator
  */
 object DentalService extends Controller{
 
+  def searchServiceList(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(service.list(DentalServiceDelegate.searchServiceList(start,count,filter)))
+  }
+
   def getList(start: Int, count: Int) = Action {
     Ok(service.list(DentalServiceDelegate.getDentalServiceList(start,count)))
   }

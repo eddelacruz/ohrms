@@ -36,6 +36,10 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.searchDentistList(start, count, filter)))))
   }
 
+  def searchServiceList(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("DentalServiceList" -> toJson(ServicesService.searchServiceList(start, count, filter)))))
+  }
+
   def getDentistList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getDentistList(start, count)))))
   }
