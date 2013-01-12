@@ -25,10 +25,10 @@
         </div>
         <div class="dataTables_filter" id="DataTables_Table_0_filter">
             <label>
-                <span class="textnode">@Messages("misc.search"): </span>
-                @helper.form(action=routes.Patient.search()) {
-                <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
-                }
+                <form action="@routes.Patient.search()" method="GET">
+                    <span class="textnode">@Messages("misc.search"): </span>
+                    <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
+                </form>
             </label>
         </div>
         <div class="clear"></div></div>

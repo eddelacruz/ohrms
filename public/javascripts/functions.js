@@ -118,7 +118,7 @@ $(document).ready(function() {
         }
     );
 
-    $('#search_box').keypress(function(e){
+    /*$('#search_box').keypress(function(e){
         $(this).val()
         console.log(e);
         if(e.keyCode === '13'){
@@ -129,6 +129,6 @@ $(document).ready(function() {
                     console.log('success kuno');
             })
         }
-    });
+    });*/
 
 });
