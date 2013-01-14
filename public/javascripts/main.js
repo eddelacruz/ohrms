@@ -634,6 +634,20 @@ $(window).load(function(){
            $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
+
+
+
+ $(document).ready(function() {
+       $("#resize").click(function() {
+         $('#blah').resize({
+             scale: 0.5, // 0.5 = 50%
+             maxWidth: 200 //,
+             // maxHeight: 150
+         });
+       });
+     });
+
+
 /*    $(function() {
         $( ".datepicker" ).datepicker({
         dateFormat: 'yy-mm-dd'

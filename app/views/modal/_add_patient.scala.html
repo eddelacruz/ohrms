@@ -15,6 +15,19 @@
         <div class="center">
             <div class="form-details mode-1">
                 <div class="field left">
+                    <script type="text/javascript">
+                        function readURL(input) {
+                        if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                        $('#blah')
+                        .attr('src', e.target.result)
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                        }
+                        };
+                    </script>
                     <ul>
                         <li>
                             <label class="upper">First Name:</label>
@@ -30,6 +43,9 @@
                         </li>
                         <li>
                             <label>Image:<br></label>
+                            <input type='file' onchange="readURL(this)" />
+                            <img id="blah" src="#" alt="your image" />
+
                             <!--<div class="customfile"><input type="file" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>-->
                         </li>
                     </ul>
