@@ -20,6 +20,14 @@ case class PatientList(var id: String, firstName: String, middleName: String, la
 
 object PatientService {
 
+  def getRowCountOfTable(tableName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
+        rowCount[Long]("c")
+    }
+  }
+
   def getPatientList(start: Int, count: Int): List[PatientList] = {
     val status = 1
     DB.withConnection {
@@ -42,7 +50,7 @@ object PatientService {
             |ORDER BY last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
-          get[String]("id") ~
+            get[String]("id") ~
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
@@ -92,6 +100,48 @@ object PatientService {
           } *
         }
         patientList
+    }
+  }
+
+  def searchPatientListByLastName(start: Int,count: Int,filter: String): List[PatientList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val searchPatientList: List[PatientList] = SQL(
+          """
+            |select
+            |id,
+            |first_name,
+            |middle_name,
+            |last_name,
+            |medical_history_id,
+            |address,
+            |contact_no,
+            |date_of_birth,
+            |image
+            |from
+            |patients
+            |where status = {status}
+            |and last_name like "%"{filter}"%"
+            |or first_name like "%"{filter}"%"
+            |or middle_name like "%"{filter}"%"
+            |or address like "%"{filter}"%"
+            |ORDER BY last_name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status,'filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("first_name") ~
+            get[String]("middle_name") ~
+            get[String]("last_name") ~
+            get[String]("medical_history_id") ~
+            get[String]("address") ~
+            get[String]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[String]("image") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+          } *
+        }
+        searchPatientList
     }
   }
 

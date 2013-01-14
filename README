@@ -15,6 +15,8 @@ curl -i -H "Accept: application/json" -H "Content-type: application/json" -X POS
 
 curl -i -H "Accept: application/json" -X POST -d "id=abcdefgh-f16f-42c8-a2da-756a2576d13f" -d "first_name=Elizer" -d "middle_name=Dionisio" -d "last_name=Dela Cruz" -d "address=Balagtas" -d "contact_no=123" -d "prc_no=prc123" -d "image=img.png" -d "status=1" -d "service_name[0]=Spec1" -d "service_name[1]=Spec2" -d "user_name=elidc93" -d "password=12345" http://localhost:9000/json/dentists
 
+curl -i -H "Accept: text/plain" -X POST -d "keyword=abcdefgh" http://localhost:9000/patients
+
 
 /* joining statement for treatment plan
 SELECT

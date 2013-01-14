@@ -584,7 +584,7 @@ jQuery(function($){
                 }
             };
 
-            $('.datatable').each(function(){
+            /*$('.datatable').each(function(){
                 var $this = $(this);
                 var ownOptions = dataTableOptions;
 
@@ -597,7 +597,7 @@ jQuery(function($){
                     ownOptions.iDisplayLength = 5;
                 }
                 $this.dataTable(ownOptions);
-            });
+            });*/
         })();
     });
 });
@@ -634,6 +634,7 @@ $(window).load(function(){
            $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
+<<<<<<< HEAD
 
 
 
@@ -650,8 +651,28 @@ $(window).load(function(){
 
 /*    $(function() {
         $( ".datepicker" ).datepicker({
+=======
+    /*$(function() {
+        $( "#datepicker" ).datepicker({
+>>>>>>> 08ca88d09835a288c22045a3bbdacc8b78ba1249
         dateFormat: 'yy-mm-dd'
         });
     });*/
+
+    var $latestPatients = $('.box-content.no-inner-space.latest-patients ul li');
+
+    var delay = 2000;
+
+    $latestPatients.each(function() {
+        $(this).slideUp(300).delay(delay).fadeIn(400);
+        delay+=1000;
+        console.log(delay);
+        if (delay >= 6000){
+            //$(this).parent().children(':first').hide();
+            //console.log(hide);
+            $('.box-content.no-inner-space.latest-patients ul li').hide();
+            //console.log('behind');
+        }
+    });
 
 });

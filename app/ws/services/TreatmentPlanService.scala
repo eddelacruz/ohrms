@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, target: Int, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
+case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, target: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
 
 object TreatmentPlanService {
 
@@ -95,7 +95,7 @@ object TreatmentPlanService {
             get[String]("dental_services.id") ~
             get[String]("dental_services.name") ~
             get[String]("dental_services.code") ~
-            get[Int]("dental_services.target") ~
+            get[Int]("dental_services.target") ~    // TODO elizer tinyint
             get[String]("dental_services.type") ~
             get[String]("dental_services.price") ~
             get[String]("dental_services.color") ~
@@ -104,7 +104,7 @@ object TreatmentPlanService {
             get[String]("teeth_affected.view") ~
             get[String]("teeth_affected.position") ~
             get[String]("teeth_affected.type") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m => TreatmentPlanType(a, b, c, d, e, f, g, h, i.toString, j, k, l, m)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m => TreatmentPlanType(a, b, c, d, e.toString, f, g, h, i.toString, j, k, l, m)
           } *
         }
         treatmentPlan

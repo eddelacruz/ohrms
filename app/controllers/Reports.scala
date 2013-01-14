@@ -16,9 +16,9 @@ import ws.delegates.{DentistDelegate, PatientDelegate}
  * To change this template use File | Settings | File Templates.
  */
 object Reports {
-  def _patientList(start: Int, count: Int): Result = {
-    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start,count)))
-  }
+  // def _patientList(start: Int, count: Int): Result = {
+  //   return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start,count)))
+  //}
   def _dentistList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start,count)))
   }

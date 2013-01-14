@@ -2,7 +2,8 @@
 
 <!DOCTYPE html>
 
-<html class=" -webkit-"><head>
+<html class=" -webkit-">
+<head>
     <meta charset="UTF-8">
     <title>Sabertooth - @title</title>
     <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
@@ -65,8 +66,8 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.metadata.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/main.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/demo.js")'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/raphael-min.js")'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>
+    <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/raphael-min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>-->
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-resize.js")'></script>
@@ -101,7 +102,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="@routes.Application.logout()">
                         <span class="glyph settings"></span>
                     </a>
                 </li>

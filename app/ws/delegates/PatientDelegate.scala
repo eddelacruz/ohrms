@@ -61,6 +61,18 @@ object PatientDelegate extends WsHelper{
     )
   }
 
+  def searchPatientListByLastName(start: Int, count: Int, filter: String) = {
+    val res: Promise[Response] = doGet("/json/patients/search?start="+start+"&count="+count+"&filter="+filter)
+    val json: JsValue = res.await.get.json
+    val spl = ListBuffer[PatientList]()
+
+    (json \ "PatientList").as[Seq[JsObject]].map({
+      sp =>
+        spl += convertToPatientList(sp)
+    })
+    spl.toList
+  }
+
   def getPatientListById(id: String) = {
     val res: Promise[Response] = doGet("/json/patients/"+id+"/treatment_plan")
     val json: JsValue = res.await.get.json
@@ -79,6 +91,14 @@ object PatientDelegate extends WsHelper{
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
+
+  def searchPatientForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/patients", params)
+    println()
+    println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
 
   def submitUpdatePatientForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/patients/update", params)

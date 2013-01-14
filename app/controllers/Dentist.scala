@@ -6,6 +6,7 @@ import ws.delegates.{DentistDelegate}
 import ws.services.{DentistService}
 import play.api.data
 import data.Forms._
+import Application.Secured
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,10 +16,17 @@ import data.Forms._
  * To change this template use File | Settings | File Templates.
  */
 
-object Dentist extends Controller {
+object Dentist extends Controller with Secured{
 
-  def getList(start: Int, count: Int) = Action {
-    Ok(dentist.list(DentistDelegate.getDentistList(start,count)))
+  def searchDentistList(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(dentist.list(DentistDelegate.searchDentistList(start,count,filter)))
+  }
+
+  def getList(start: Int, count: Int) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(dentist.list(DentistDelegate.getDentistList(start,count)))
   }
 
   def getDentistInformationById(id: String) = Action {

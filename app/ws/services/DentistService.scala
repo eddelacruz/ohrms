@@ -21,7 +21,60 @@ case class Specialization(dentistId: String, name: String)
 
 object DentistService {
 
+  def getRowCountOfTable(tableName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
+        rowCount[Long]("c")
+    }
+  }
+
   val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f"
+
+  def searchDentistList(start: Int, count: Int, filter: String): List[DentistList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val dentistList: List[DentistList] = SQL(
+          """
+            |select
+            |d.id,
+            |d.first_name,
+            |d.middle_name,
+            |d.last_name,
+            |d.address,
+            |d.contact_no,
+            |d.prc_no,
+            |d.image,
+            |u.user_name
+            |from
+            |dentists d
+            |INNER JOIN users u
+            |ON d.user_id=u.id
+            |where d.status = {status}
+            |and d.last_name like "%"{filter}"%"
+            |or d.first_name like "%"{filter}"%"
+            |or d.middle_name like "%"{filter}"%"
+            |or d .address like "%"{filter}"%"
+            |or d.prc_no like "%"{filter}"%"
+            |ORDER BY d.last_name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("first_name") ~
+            get[String]("middle_name") ~
+            get[String]("last_name") ~
+            get[String]("address") ~
+            get[String]("contact_no") ~
+            get[String]("prc_no") ~
+            get[String]("image")~
+            get[String]("user_name") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, "", getSpecializationToList(a))
+          } *
+        }
+        dentistList
+    }
+  }
 
   def getDentistList(start: Int, count: Int): List[DentistList] = {
     val status = 1

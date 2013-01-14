@@ -25,9 +25,11 @@ object TreatmentPlanDelegate extends WsHelper{
   }
 
   def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
-    val res: Promise[Response] = doGet("/json/treatment_plan?start=%s&count=%s" format(start, count))
+    val res: Promise[Response] = doGet("/json/treatment_plan?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val tp = ListBuffer[TreatmentPlanType]()
+
+    //println(json) TODO print the json of Treatmentplan
 
     (json \ "TreatmentPlan").as[Seq[JsObject]].map({
       t =>
@@ -42,7 +44,7 @@ object TreatmentPlanDelegate extends WsHelper{
       (j \ "serviceId").as[String],
       (j \ "serviceName").as[String],
       (j \ "serviceCode").as[String],
-      (j \ "target").as[Int],
+      (j \ "target").as[String],
       (j \ "serviceType").as[String],
       (j \ "servicePrice").as[String],
       (j \ "color").as[String],
