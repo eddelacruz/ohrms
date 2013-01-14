@@ -20,6 +20,11 @@ import ws.generator.UUIDGenerator
  */
 object Staff extends Controller {
 
+  def searchStaffList(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(staff.list(StaffDelegate.searchStaffList(start,count,filter)))
+  }
+
   def getList(start: Int, count: Int) = Action {
     Ok(staff.list(StaffDelegate.getStaffList(start,count)))
   }

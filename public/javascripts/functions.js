@@ -39,7 +39,14 @@ $(document).ready(function() {
     var count = 1;
     var start = 0;
     var page = 1;
+    var filter = "";
     var endpoint = window.location.pathname;
+    var endpointsearch = window.location.search.replace("?","&");
+    var urls;
+
+
+
+
 
     //show # of entries
 	$('select[name="DataTables_Table_0_length"]').on( "change",
@@ -47,10 +54,17 @@ $(document).ready(function() {
             var $this = $(this);
             count = parseInt($this.val());
             start = 0;
+            if (endpointsearch.length == 0){
+                    urls = endpoint+"?start="+start+"&count="+count
+                }
+            else {
+                    urls = endpoint+"?start="+start+"&count="+count+endpointsearch
+            }
             evt.preventDefault();
-
+            console.log(urls);
+             console.log(endpointsearch.length);
             $.ajax({
-                url : endpoint+"?start="+start+"&count="+count,
+                url : urls,
                 type: "GET",
                 success:
                     function(res) {
@@ -60,8 +74,9 @@ $(document).ready(function() {
                         $('span a.paginate_button').html(1);
                     }
             })
+            }
             //alert("start "+start+"count "+count);
-        }
+
 	);
 
     //next
@@ -118,7 +133,7 @@ $(document).ready(function() {
         }
     );
 
-    $('#search_box').keypress(function(e){
+    /*$('#search_box').keypress(function(e){
         $(this).val()
         console.log(e);
         if(e.keyCode === '13'){
@@ -129,6 +144,6 @@ $(document).ready(function() {
                     console.log('success kuno');
             })
         }
-    });
+    });*/
 
 });
