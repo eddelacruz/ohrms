@@ -634,10 +634,26 @@ $(window).load(function(){
            $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
-/*    $(function() {
-        $( ".datepicker" ).datepicker({
+    /*$(function() {
+        $( "#datepicker" ).datepicker({
         dateFormat: 'yy-mm-dd'
         });
     });*/
+
+    var $latestPatients = $('.box-content.no-inner-space.latest-patients ul li');
+
+    var delay = 2000;
+
+    $latestPatients.each(function() {
+        $(this).slideUp(300).delay(delay).fadeIn(400);
+        delay+=1000;
+        console.log(delay);
+        if (delay >= 6000){
+            //$(this).parent().children(':first').hide();
+            //console.log(hide);
+            $('.box-content.no-inner-space.latest-patients ul li').hide();
+            //console.log('behind');
+        }
+    });
 
 });

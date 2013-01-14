@@ -34,11 +34,11 @@ staff.add.title=Add Staff
 staff.update.title=Update Staff
 staff.profile.title=Profile
 
-dentalService.title=Dental Services
-dentalService.list.title=Dental Services List
-dentalService.add.title=Add Dental Services
-dentalService.update.title=Update Dental Services
-dentalService.profile.title=Profile
+dental.service.title=Dental Services
+dental.service.list.title=Dental Services List
+dental.service.add.title=Add Dental Services
+dental.service.update.title=Update Dental Services
+dental.service.profile.title=Profile
 
 report.title=Reports
 
@@ -47,6 +47,8 @@ scheduler.title=Scheduler
 service.title=Services
 
 settings.audit.log.title=Audit Log
+
+login.title=Login
 
 
 

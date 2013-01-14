@@ -95,7 +95,7 @@ object TreatmentPlanService {
             get[String]("dental_services.id") ~
             get[String]("dental_services.name") ~
             get[String]("dental_services.code") ~
-            get[Boolean]("dental_services.target") ~    // TODO elizer tinyint
+            get[Int]("dental_services.target") ~    // TODO elizer tinyint
             get[String]("dental_services.type") ~
             get[String]("dental_services.price") ~
             get[String]("dental_services.color") ~
