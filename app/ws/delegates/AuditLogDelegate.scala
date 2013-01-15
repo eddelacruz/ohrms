@@ -21,7 +21,17 @@ import play.api.libs.ws.Response
  */
 object AuditLogDelegate extends WsHelper{
 
-  def getAllLogs = {
+  val _auditLogProfileForm = Form(
+    mapping(
+      "id" -> text,
+      "task" -> text,
+      "description" -> text,
+      "dateCreated" -> text,
+      "author" -> text
+    )(AuditLog.apply)(AuditLog.unapply)
+  )
+
+  def getAllLogs(start: Int, count: Int) = {
     val res: Promise[Response] = doGet("/json/settings/audit_log")
     val json: JsValue = res.await.get.json
     val al = ListBuffer[AuditLog]()
@@ -31,6 +41,18 @@ object AuditLogDelegate extends WsHelper{
         al += convertToAuditLog(a)
     })
     al.toList
+  }
+
+  def searchAuditLog(start: Int, count: Int, filter: String) = {
+    val res: Promise[Response] = doGet("/json/settings/audit_log/search?start="+start+"&count="+count+"&filter="+filter)
+    val json: JsValue = res.await.get.json
+    val sdl = ListBuffer[AuditLog]()
+
+    (json \ "AuditLog").as[Seq[JsObject]].map({
+      sd =>
+        sdl += convertToAuditLog(sd)
+    })
+    sdl.toList
   }
 
   def convertToAuditLog(j: JsValue): AuditLog = {

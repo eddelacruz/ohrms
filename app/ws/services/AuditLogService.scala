@@ -9,7 +9,7 @@ import anorm.~
 import java.util.Date
 import ws.helper.DateWithTime
 
-case class AuditLog(id: String, task: String, description: String, dateCreated: String, author: String)
+case class AuditLog(var id: String, task: String, description: String, dateCreated: String, author: String)
 
 /**
  * Created with IntelliJ IDEA.
@@ -171,7 +171,7 @@ object AuditLogService {
 
 
 
-  def getAllLogs(): List[AuditLog] = {
+  def getAllLogs(start: Int, count: Int): List[AuditLog] = {
     DB.withConnection {
       implicit c =>
         val auditLog: List[AuditLog] = SQL(
@@ -190,7 +190,8 @@ object AuditLogService {
             |	a.user_id = u.id
             |ORDER BY
             | a.date_created desc
-          """.stripMargin).as{
+            |LIMIT {start}, {count}
+          """.stripMargin).on('start -> start, 'count -> count).as{
             get[String]("id") ~
             get[String]("task") ~
             get[String]("description") ~
@@ -201,7 +202,41 @@ object AuditLogService {
         }
         auditLog
     }
+  }
 
+  def searchAuditLog(start: Int, count: Int, filter: String): List[AuditLog] = {
+    DB.withConnection {
+      implicit c =>
+        val auditLog: List[AuditLog] = SQL(
+          """
+            |SELECT
+            | a.id,
+            |	a.task,
+            |	a.description,
+            |	a.date_created,
+            |	u.user_name
+            |FROM
+            |    audit_log as a
+            |INNER JOIN
+            |    users as u
+            |ON
+            |	a.user_id = u.id
+            |WHERE a.task like "%"{filter}"%"
+            |or a.description like "%"{filter}"%"
+            |ORDER BY
+            | a.date_created desc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("task") ~
+            get[String]("description") ~
+            get[Date]("date_created") ~
+            get[String]("user_name")map {
+            case a ~ b ~ c ~ d ~ e  => AuditLog(a, b, c, d.toString, e)
+          } *
+        }
+        auditLog
+    }
   }
 
 }

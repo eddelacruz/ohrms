@@ -36,6 +36,10 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.searchDentistList(start, count, filter)))))
   }
 
+  def searchAuditLog(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("AuditLog" -> toJson(AuditLogService.searchAuditLog(start, count, filter)))))
+  }
+
   def searchStaffList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("StaffList" -> toJson(StaffService.searchStaffList(start, count, filter)))))
   }
@@ -95,8 +99,8 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   }
 
-  def auditLog = Action {
-    Ok(JsObject(Seq("AuditLog" -> toJson(AuditLogService.getAllLogs()))))
+  def auditLog(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("AuditLog" -> toJson(AuditLogService.getAllLogs(start,count)))))
   }
 
   def submitPatientUpdateForm = Action {
