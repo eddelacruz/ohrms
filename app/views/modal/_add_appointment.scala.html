@@ -1,9 +1,9 @@
-<!-- AddPatientModal -->
-<div class="box grid_11" id="addPatientModal" hidden="">
+<!-- AddAppointmentModal -->
+<div class="box grid_11" id="addAppointmentModal" hidden="">
     <header>
         <div class="inner">
             <div class="left title">
-                <h1>@Messages("patient.add.title")</h1>
+                <h1>@Messages("scheduler.appointment.add.title") </h1><h1 id="appointmentDate"></h1>
             </div>
             <div class="right">
                 <a href="#" class="close">close</a>
@@ -20,6 +20,10 @@
                     <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
                     <ul>
                         <li>
+                            <label class="upper">Description:</label>
+                            <textarea name="description" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                        </li>
+                        <li>
                             <label class="upper">First Name:</label>
                             <input type="text" name="first_name">
                         </li>
@@ -31,33 +35,31 @@
                             <label>Last Name:</label>
                             <input type="text" name="last_name">
                         </li>
-                        <input type="hidden" name="image" value="anon-160x160.jpg"/>
                     </ul>
                 </div>
                 <div class="field right">
                     <ul>
                         <li>
-                            <label class="upper">Address:</label>
-                            <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                            <label>Dentist Name:</label>
+                            <input type="text" name="dentist_id">
                         </li>
                         <li>
                             <label>Contact Number:</label>
                             <input type="text" name="contact_no">
-
                         </li>
                         <li>
-                            <label>Birthdate:</label>
-                            <input id="datepicker" type="text" name="date_of_birth">
-                            <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
+                            <label class="upper">Address:</label>
+                            <textarea name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </div>
         <footer class="pane">
-            <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
+            <input id="addButtonAppointmentModal" type="submit" class="bt blue right close" value="@Messages("scheduler.appointment.add.title")">
         </footer>
 
     </div>
 </div>
-<!-- /AddPatientModal -->
+<!-- /AddAppointmentModal -->

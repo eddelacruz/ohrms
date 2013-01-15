@@ -44,6 +44,8 @@ dental.service.profile.title=Profile
 report.title=Reports
 
 scheduler.title=Scheduler
+scheduler.appointment.title=Appointment
+scheduler.appointment.add.title=Add Appointment
 
 service.title=Services
 
