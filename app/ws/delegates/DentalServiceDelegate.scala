@@ -25,7 +25,7 @@ object DentalServiceDelegate extends WsHelper{
       "name" -> text,
       "code" -> text,
       "type" -> text,
-      "target" -> text,
+      "target" -> number,
       "price" -> text,
       "color" -> text
     )(DentalServiceList.apply)(DentalServiceList.unapply)
@@ -62,7 +62,7 @@ object DentalServiceDelegate extends WsHelper{
       (j \ "name").as[String],
       (j \ "code").as[String],
       (j \ "sType").as[String],
-      (j \ "target").as[String],
+      (j \ "target").as[Int],
       (j \ "price").as[String],
       (j \ "color").as[String]
     )

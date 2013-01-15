@@ -11,7 +11,6 @@ import play.api.mvc.RequestHeader
 import play.api.mvc.Security.Authenticated
 import util.pdf.PDF
 import views._
-import play.api.Play.current
 import ws.services.LoginService
 import views.html.patient
 import ws.delegates.PatientDelegate
@@ -47,9 +46,6 @@ object Application extends Controller {
       )
   }
 
-
-
-  //private def username(request: RequestHeader) = request.session.get("user_name")
 
   def dashboard = IsAuthenticated {
     username =>

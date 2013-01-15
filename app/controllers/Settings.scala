@@ -3,6 +3,7 @@ package controllers
 import play.api.mvc._
 import views._
 import ws.delegates.AuditLogDelegate
+import Application.Secured
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,10 +12,12 @@ import ws.delegates.AuditLogDelegate
  * Time: 8:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Settings extends Controller {
+object Settings extends Controller with Secured {
 
-  def auditLog() = Action{
-    Ok(html.settings.audit_log(AuditLogDelegate.getAllLogs))
+  def auditLog() = IsAuthenticated{
+    username =>
+      implicit request =>
+        Ok(html.settings.audit_log(AuditLogDelegate.getAllLogs))
   }
 
 }
