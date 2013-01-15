@@ -29,13 +29,17 @@ object Dentist extends Controller with Secured{
         Ok(dentist.list(DentistDelegate.getDentistList(start,count)))
   }
 
-  def getDentistInformationById(id: String) = Action {
-    Ok(dentist.dentist_information(DentistDelegate.getDentistInformationById(id)))
+  def getDentistInformationById(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(dentist.dentist_information(DentistDelegate.getDentistInformationById(id)))
   }
 
 
-  def getUpdateForm(id: String) = Action {
-    Ok(dentist.update(DentistService.getDentistListById(id)))
+  def getUpdateForm(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(dentist.update(DentistService.getDentistListById(id)))
   }
 
   def submitUpdateForm = Action {
@@ -56,8 +60,10 @@ object Dentist extends Controller with Secured{
   }
 
 
-  def getAddForm = Action {
-    Ok(dentist.add())
+  def getAddForm = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(dentist.add())
   }
 
   def submitAddForm = Action {

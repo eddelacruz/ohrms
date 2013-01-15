@@ -277,7 +277,7 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val name = request.body.asFormUrlEncoded.get("name").head
       val code = request.body.asFormUrlEncoded.get("code").head
       val sType = request.body.asFormUrlEncoded.get("type").head
-      val target = request.body.asFormUrlEncoded.get("target").head
+      val target = request.body.asFormUrlEncoded.get("target").head.toInt
       val price = request.body.asFormUrlEncoded.get("price").head
       val color = request.body.asFormUrlEncoded.get("color").head
       val dl = DentalServiceList("", name, code, sType, target, price, color)
@@ -298,7 +298,7 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val name = request.body.asFormUrlEncoded.get("name").head
       val code = request.body.asFormUrlEncoded.get("code").head
       val sType = request.body.asFormUrlEncoded.get("type").head
-      val target = request.body.asFormUrlEncoded.get("target").head
+      val target = request.body.asFormUrlEncoded.get("target").head.toInt
       val price = request.body.asFormUrlEncoded.get("price").head
       val color = request.body.asFormUrlEncoded.get("color").head
       val dl = DentalServiceList(id, name, code, sType, target, price, color)

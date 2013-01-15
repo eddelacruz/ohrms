@@ -21,7 +21,7 @@ case class AuditLog(id: String, task: String, description: String, dateCreated: 
 object AuditLogService {
 
   def logTask(l: PatientList, currentUser: String, task: String): Long = {
-    var description: String = ""
+      var description: String = ""
     task match {
       case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
       case "Update" => description = l.firstName +" "+ l.lastName + "'s profile was updated"
@@ -108,6 +108,68 @@ object AuditLogService {
         ).executeUpdate()
     }
   }
+
+  def logTaskServices(l: DentalServiceList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.name + "'s profile was added"
+      case "Update" => description = l.name + "'s profile was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskStaff(l: StaffList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
+      case "Update" => description = l.firstName +" "+ l.lastName + "'s profile was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
+    }
+  }
+
+
 
   def getAllLogs(): List[AuditLog] = {
     DB.withConnection {

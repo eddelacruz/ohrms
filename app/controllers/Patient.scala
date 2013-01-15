@@ -11,6 +11,7 @@ import ws.services.{TreatmentPlanService, PatientList, PatientService}
 import ws.delegates.{PatientDelegate, TreatmentPlanDelegate}
 import ws.generator.UUIDGenerator
 import ws.services
+import Application.Secured
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,9 +20,11 @@ import ws.services
  * Time: 3:46 AM
  * To change this template use File | Settings | File Templates.
  */
-object Patient extends Controller {
+object Patient extends Controller with Secured{
 
-  def getTreatmentPlan(id: String) = Action {
+  def getTreatmentPlan(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
   }
 
@@ -30,12 +33,16 @@ object Patient extends Controller {
     Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
   }
 
-  def getList(start: Int, count: Int) = Action {
-    Ok(patient.list(PatientDelegate.getPatientList(start,count),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+  def getList(start: Int, count: Int) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(patient.list(PatientDelegate.getPatientList(start,count),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
   }
 
-  def getAddForm = Action {
-    Ok(patient.add())
+  def getAddForm = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(patient.add())
   }
 
   def submitAddForm = Action {
@@ -55,8 +62,10 @@ object Patient extends Controller {
 
 
 
-  def getUpdateForm(id: String, start: Int, count: Int) = Action {
-    Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count))) //Todo make PatientService to delegate
+  def getUpdateForm(id: String, start: Int, count: Int) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count))) //Todo make PatientService to delegate
   }
 
   def submitUpdateForm = Action {

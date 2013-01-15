@@ -5,8 +5,11 @@ import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
 import java.util.Date
+import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
+import ws.services.LoginService.authenticate
+import controllers.Application.Secured
 
 case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
 
@@ -18,7 +21,7 @@ case class PatientList(var id: String, firstName: String, middleName: String, la
  * To change this template use File | Settings | File Templates.
  */
 
-object PatientService {
+object PatientService extends Secured{
 
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
@@ -145,12 +148,30 @@ object PatientService {
     }
   }
 
+  def getUserId = {
+    val user = Cache.getAs[String]("user_name").toString
+    val username =  user.replace("Some", "").replace("(","").replace(")","")
+    DB.withConnection {
+      implicit c =>
+      val getCurrentUserId = SQL(
+        """
+          |select
+          |id
+          |from users
+          |where user_name = {username}
+        """.stripMargin
+      ).on('username -> username).apply().head
+      getCurrentUserId[String]("id")
+     }
+  }
+
   def addPatient(p: PatientList): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    println(getUserId)
+    val currentUser = getUserId
     val task = "Add"
     p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
-      implicit c =>
+          implicit c =>
         SQL(
           """
             |INSERT INTO `ohrms`.`patients`
@@ -183,13 +204,13 @@ object PatientService {
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task) //TODO cached user_id when login
+        AuditLogService.logTask(p, currentUser, task)
     }
 
   }
 
   def updatePatient(p: PatientList): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //TODO static cvbautista
+    val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -222,7 +243,7 @@ object PatientService {
   }
 
   def deletePatient(id: String): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    val currentUser = getUserId
     val task = "Delete"
     DB.withConnection {
       implicit c =>

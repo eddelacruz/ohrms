@@ -4,6 +4,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
+import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
@@ -16,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentalServiceList(var id: String, name: String, code: String, sType: String, target: String, price: String, color: String)
+case class DentalServiceList(var id: String, name: String, code: String, sType: String, target: Int, price: String, color: String)
 
 object ServicesService {
 
@@ -52,10 +53,10 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Boolean]("target") ~   // TODO ni eli get TinyInt
+            get[Int]("target") ~
             get[String]("price") ~
             get[String]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e.toString(), f, g)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
         dentalServiceList
@@ -89,10 +90,10 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Boolean]("target") ~   // TODO ni eli get TinyInt
+            get[Int]("target") ~
             get[String]("price") ~
             get[String]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e.toString(), f, g)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
         dentalServiceList
@@ -122,19 +123,35 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Boolean]("target") ~   // TODO ni eli get TinyInt
+            get[Int]("target") ~
             get[String]("price") ~
             get[String]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e.toString(), f, g)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
         dentalServiceList
     }
   }
 
+  def getUserId = {
+    val user = Cache.getAs[String]("user_name").toString
+    val username =  user.replace("Some", "").replace("(","").replace(")","")
+    DB.withConnection {
+      implicit c =>
+        val getCurrentUserId = SQL(
+          """
+            |select
+            |id
+            |from users
+            |where user_name = {username}
+          """.stripMargin
+        ).on('username -> username).apply().head
+        getCurrentUserId[String]("id")
+    }
+  }
 
   def addDentalService(d: DentalServiceList): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    val currentUser = getUserId
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("dental_services")
     DB.withConnection {
@@ -165,13 +182,13 @@ object ServicesService {
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-       // AuditLogService.logTask(d, currentUser, task) //TODO cached user_id when login
+       AuditLogService.logTaskServices(d, currentUser, task)
     }
 
   }
 
   def updateDentalService(d: DentalServiceList): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //TODO static cvbautista
+    val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -196,7 +213,7 @@ object ServicesService {
           'color -> d.color,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-     //   AuditLogService.logTask(d, currentUser, task) //TODO cached user_id when login
+      AuditLogService.logTaskServices(d, currentUser, task)
     }
 
   }

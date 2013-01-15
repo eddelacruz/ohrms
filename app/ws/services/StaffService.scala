@@ -4,6 +4,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
+import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
@@ -20,7 +21,6 @@ case class StaffList(var id: String, firstName: String, middleName: String, last
 
 object StaffService {
 
-  val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f"
 
   def getStaffList(start: Int, count: Int): List[StaffList] = {
     val status = 1
@@ -137,7 +137,25 @@ object StaffService {
     }
   }
 
+  def getUserId = {
+    val user = Cache.getAs[String]("user_name").toString
+    val username =  user.replace("Some", "").replace("(","").replace(")","")
+    DB.withConnection {
+      implicit c =>
+        val getCurrentUserId = SQL(
+          """
+            |select
+            |id
+            |from users
+            |where user_name = {username}
+          """.stripMargin
+        ).on('username -> username).apply().head
+        getCurrentUserId[String]("id")
+    }
+  }
+
   def updateStaff(d: StaffList): Long = {
+    val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -162,12 +180,13 @@ object StaffService {
           'position -> d.position,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        // AuditLogService.logTaskStaff(d, currentUser, task) //TODO cached user_id when login
+      AuditLogService.logTaskStaff(d, currentUser, task)
     }
 
   }
 
   def addStaff(d: StaffList): Long = {
+    val currentUser = getUserId
     val task = "Add"
     val userId = UUIDGenerator.generateUUID("users")
     d.id = UUIDGenerator.generateUUID("staffs")
@@ -193,7 +212,7 @@ object StaffService {
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-      //AuditLogService.logTaskDentist(s, currentUser, task)
+      AuditLogService.logTaskStaff(d, currentUser, task)
     }
     DB.withTransaction {
       implicit c =>
@@ -227,7 +246,7 @@ object StaffService {
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-       // AuditLogService.logTaskStaff(d, currentUser, task) //TODO cached user_id when login
+       AuditLogService.logTaskStaff(d, currentUser, task) //TODO cached user_id when login
     }
   }
 

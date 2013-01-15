@@ -4,6 +4,7 @@ import anorm._
 import anorm.SqlParser._
 import play.api.Play.current
 import play.api.db.DB
+import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
@@ -173,8 +174,25 @@ object DentistService {
     }
   }
 
+  def getUserId = {
+    val user = Cache.getAs[String]("user_name").toString
+    val username =  user.replace("Some", "").replace("(","").replace(")","")
+    DB.withConnection {
+      implicit c =>
+        val getCurrentUserId = SQL(
+          """
+            |select
+            |id
+            |from users
+            |where user_name = {username}
+          """.stripMargin
+        ).on('username -> username).apply().head
+        getCurrentUserId[String]("id")
+    }
+  }
 
   def updateDentist(d: DentistList): Long = {
+    val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -201,12 +219,13 @@ object DentistService {
           'image -> d.image,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTaskDentist(d, currentUser, task) //TODO cached user_id when login
+        AuditLogService.logTaskDentist(d, currentUser, task)
     }
 
   }
 
   def addDentist(d: DentistList): Long = {
+    val currentUser = getUserId
     val task = "Add"
     val userId = UUIDGenerator.generateUUID("users")
     d.id = UUIDGenerator.generateUUID("dentists")
@@ -232,7 +251,7 @@ object DentistService {
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-      //AuditLogService.logTaskDentist(s, currentUser, task)
+     // AuditLogService.logTaskDentist(d, currentUser, task)
     }
     DB.withTransaction {
       implicit c =>
@@ -268,11 +287,12 @@ object DentistService {
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTaskDentist(d, currentUser, task) //TODO cached user_id when login
+        AuditLogService.logTaskDentist(d, currentUser, task)
     }
   }
 
   def addSpecialization(s: Specialization): Long = {
+    val currentUser = getUserId
     val task = "Add"
     DB.withConnection {
       implicit c =>
@@ -288,13 +308,13 @@ object DentistService {
           'dentist_id -> s.dentistId,
           'name -> s.name
         ).executeUpdate()
-        //AuditLogService.logTaskDentist(s, currentUser, task)
+      //  AuditLogService.logTaskDentist(d, currentUser, task)
     }
   }
 
 
   def deleteDentist(id: String): Long = {
-    val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f" //static cvbautista
+    val currentUser = getUserId
     val task = "Delete"
     println("pumasok dito")
     DB.withConnection {

@@ -10,6 +10,7 @@ import views.html.{staff, modal}
 import ws.services.{StaffService}
 import ws.delegates.StaffDelegate
 import ws.generator.UUIDGenerator
+import controllers.Application.Secured
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,23 +19,29 @@ import ws.generator.UUIDGenerator
  * Time: 12:45 AM
  * To change this template use File | Settings | File Templates.
  */
-object Staff extends Controller {
+object Staff extends Controller with Secured{
 
   def searchStaffList(start: Int, count: Int, filter: String) = Action {
     println("start "+start+" count"+count);
     Ok(staff.list(StaffDelegate.searchStaffList(start,count,filter)))
   }
 
-  def getList(start: Int, count: Int) = Action {
-    Ok(staff.list(StaffDelegate.getStaffList(start,count)))
+  def getList(start: Int, count: Int) =  IsAuthenticated{
+    username =>
+      implicit request =>
+       Ok(staff.list(StaffDelegate.getStaffList(start,count)))
   }
 
-  def getStaffById(id: String) = Action {
-    Ok(staff.staff_information(StaffDelegate.getStaffById(id)))
+  def getStaffById(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(staff.staff_information(StaffDelegate.getStaffById(id)))
   }
 
-  def getUpdateForm(id: String) = Action {
-    Ok(staff.update(StaffService.getStaffListById(id)))
+  def getUpdateForm(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(staff.update(StaffService.getStaffListById(id)))
   }
 
   def submitUpdateForm = Action {
@@ -55,8 +62,10 @@ object Staff extends Controller {
   }
 
 
-  def getAddForm = Action {
-    Ok(staff.add())
+  def getAddForm = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(staff.add())
   }
 
   def submitAddForm = Action {
