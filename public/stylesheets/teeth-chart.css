@@ -1,0 +1,72 @@
+.no-highlight{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/*for jquery-ui*/
+.ui-box {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -khtml-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #AAA;
+    background: white url(images/ui-bg_glass_65_ffffff_1x400.png) 50% 50% repeat-x;
+    font-weight: normal;
+    color: #212121;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+.ui-accordion .ui-accordion-content{
+    max-height: 60px;
+    font-size: 120%;
+}
+.center{
+    text-align: left;
+}
+#selectable { list-style-type: none; margin: 0; padding: 0; }
+#selectable li { margin: 3px; padding: 0.4em; height: 30px; }
+.ui-accordion .ui-accordion-content {
+    padding: 1em 1em;
+}
+.float-none {
+    float: none;
+}
+.float-left {
+    float: left;
+}
+.dentistTools{
+    left: 400px;
+}
+#dentistTools h4{
+    margin-top: 6px;
+    margin-bottom: 3px;
+}
+.gum {
+    width: 70px;
+    height: 110px;
+    margin: auto;
+}
+.absolute {
+    position: absolute;
+}
+.gum canvas {
+    position: relative;
+    cursor: pointer;
+}
+.face {
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    height: 600px;
+}
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable{
+    font-size: 130%;
+}
+.mouth{
+    display: inline-block;
+    text-align: center;
+}

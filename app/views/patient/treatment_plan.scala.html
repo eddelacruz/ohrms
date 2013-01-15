@@ -7,6 +7,45 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<!--Dentist Tools-->
+<div id="dentistTools" title="Dentist Tools">
+    <h4>Selected Teeth: </h4>
+    <div class="selected-tooth ui-box center">
+    </div>
+    <h4>Dental Services:</h4>
+    <div class="dental-services ui-box center">
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+        <button>Button</button>
+    </div>
+    <div id="accordion">
+        <h3>Condition</h3>
+        <div>
+            <ul id="selectable">
+                <button id="CVTY" class="dental_service ui-widget-content" data-type="paint" data-color="#F39814">CAVITY</button>
+                <button id="DCY" class="dental_service ui-widget-content" data-type="paint" data-color="#5E1300">DECAY</button>
+                <button id="EXT" class="dental_service ui-widget-content" data-type="symbol" data-color="red" data-symbol="crossout">EXTRACTED</button>
+                <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
+            </ul>
+        </div>
+        <h3>Examination/Diagnosis</h3>
+        <div>Second content panel</div>
+        <h3>Periodontics</h3>
+        <div>Second content panel</div>
+        <h3>Crowns/Bridges</h3>
+        <div>Second content panel</div>
+        <h3>Endodontics</h3>
+        <div>Second content panel</div>
+    </div>
+</div>
+<!--/Dentist Tools-->
+
 <!-- Profile, Dental Chart, Medical History -->
 <div class="box grid_12">
 <header>
@@ -85,10 +124,125 @@
         <li class="first"><a href="#">Adult</a></li>
         <li class="last active"><a id="teeth-status" href="#">Child</a></li>
     </ul>
-    <!--  SVG Chart -->
-    <div id="svg-chart">
+    <br>
+    <!--Teeth Chart-->
+
+    <div class="face no-highlight">
+        <div class="mouth">
+            <div id='FA' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFA' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFA' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFA' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FB' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFB' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFB' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFB' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FC' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='canvasFC_DCY' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='maskCanvasFC' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFC' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFC' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FD' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFD' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFD' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFD' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FE' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFE' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFE' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFE' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FF' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFF' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFF' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFF' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FG' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFG' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFG' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFG' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FH' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFH' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFH' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFH' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FI' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFI' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFI' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFI' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+            <div id='FJ' class="gum float-left">
+                <div class='absolute'>
+                    <canvas id='maskCanvasFJ' width='70' height='130'></canvas>
+                </div>
+                <div class='absolute'>
+                    <canvas id='outlineFJ' width='70' height='130'></canvas>
+                </div>
+                <canvas id='tempCanvasFJ' width='70' height='130'></canvas>
+                <input type='checkbox'>
+            </div>
+        </div>
+        <!-- <div class="absolute float-right">
+                  <input id='dentalToolsBtn' type='button' value='Dental Tools'>
+                  <input id='pasta' class='dentalService' type='button' value='Pasta' data-color='red'>
+                  <input id='tartar' class='dentalService' type='button' value='Tartar' data-color='black'>
+                  <h2>Dental Service: </h2><span id='curService'></span>
+              </div> -->
     </div>
-    <!--  /SVG Chart -->
+
+
+    <!--/Teeth Chart-->
     <!-- Dental Services -->
     <div class="box grid_11">
         <header>
