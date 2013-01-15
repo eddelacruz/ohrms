@@ -73,6 +73,18 @@ object StaffDelegate extends WsHelper{
     dl.toList
   }
 
+  def searchStaffList(start: Int, count: Int, filter: String) = {
+    val res: Promise[Response] = doGet("/json/staffs/search?start="+start+"&count="+count+"&filter="+filter)
+    val json: JsValue = res.await.get.json
+    val sdl = ListBuffer[StaffList]()
+
+    (json \ "StaffList").as[Seq[JsObject]].map({
+      sd =>
+        sdl += convertToStaffList(sd)
+    })
+    sdl.toList
+  }
+
   def submitUpdateStaffForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/staffs/update", params)
     println()

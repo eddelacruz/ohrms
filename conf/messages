@@ -28,6 +28,12 @@ dentist.add.title=Add Dentist
 dentist.update.title=Update Dentist
 dentist.profile.title=Profile
 
+staff.title=Staffs
+staff.list.title=Staff List
+staff.add.title=Add Staff
+staff.update.title=Update Staff
+staff.profile.title=Profile
+
 dental.service.title=Dental Services
 dental.service.list.title=Dental Services List
 dental.service.add.title=Add Dental Services

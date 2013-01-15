@@ -31,6 +31,18 @@ object DentalServiceDelegate extends WsHelper{
     )(DentalServiceList.apply)(DentalServiceList.unapply)
   )
 
+  def searchServiceList(start: Int, count: Int, filter: String) = {
+    val res: Promise[Response] = doGet("/json/dental_services/search?start="+start+"&count="+count+"&filter="+filter)
+    val json: JsValue = res.await.get.json
+    val sdsl = ListBuffer[DentalServiceList]()
+
+    (json \ "DentalServiceList").as[Seq[JsObject]].map({
+      sds =>
+        sdsl += convertToDentalServiceList(sds)
+    })
+    sdsl.toList
+  }
+
   def getDentalServiceList(start: Int, count: Int) = {
     val res: Promise[Response] = doGet("/json/dental_services?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json

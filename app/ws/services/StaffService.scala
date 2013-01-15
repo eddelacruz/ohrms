@@ -60,6 +60,47 @@ object StaffService {
     }
   }
 
+  def searchStaffList(start: Int, count: Int, filter: String): List[StaffList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val staffList: List[StaffList] = SQL(
+          """
+            |select
+            |d.id,
+            |d.first_name,
+            |d.middle_name,
+            |d.last_name,
+            |d.contact_no,
+            |d.address,
+            |d.position,
+            |u.user_name
+            |from
+            |staffs d
+            |INNER JOIN users u
+            |ON d.user_id=u.id
+            |where d.status = {status}
+            |and d.last_name like "%"{filter}"%"
+            |or d.first_name like "%"{filter}"%"
+            |or d.middle_name like "%"{filter}"%"
+            |ORDER BY d.last_name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("first_name") ~
+            get[String]("middle_name") ~
+            get[String]("last_name") ~
+            get[String]("contact_no") ~
+            get[String]("address") ~
+            get[String]("position") ~
+            get[String]("user_name") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, "")
+          } *
+        }
+        staffList
+    }
+  }
+
   def getStaffListById(id: String): List[StaffList] = {
     DB.withConnection {
       implicit c =>
