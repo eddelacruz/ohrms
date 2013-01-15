@@ -634,27 +634,47 @@ $(window).load(function(){
            $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
-<<<<<<< HEAD
-
 
 
  $(document).ready(function() {
-       $("#resize").click(function() {
+       $('#image_uploader').hover(function() {
          $('#blah').resize({
-             scale: 0.5, // 0.5 = 50%
-             maxWidth: 200 //,
-             // maxHeight: 150
-         });
+           scale: 0.5,
+           maxWidth: 200
+         })
        });
      });
 
+function res() {
+                        $('#blah').resize({
+                        scale: 0.5, // 0.5 = 50%
+                        maxWidth: 200 //,
+                        // maxHeight: 150
+                        });
+                        console.log("res pumasok");
+                        }
 
-/*    $(function() {
-        $( ".datepicker" ).datepicker({
-=======
+                        function readURL(input) {
+                        console.log(input);
+                        if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+
+                        reader.onload = function (e) {
+                        $('#blah').attr('src', e.target.result)
+                        };
+
+                        /*$('#blah').;*/
+                        reader.readAsDataURL(input.files[0]);
+                        };
+                        }
+
+                        $('input[type=file]').change(function() {
+                        console.log("pumasok sa image upasdfasdf")
+                        readURL($(this));
+                        })
+
     /*$(function() {
         $( "#datepicker" ).datepicker({
->>>>>>> 08ca88d09835a288c22045a3bbdacc8b78ba1249
         dateFormat: 'yy-mm-dd'
         });
     });*/
