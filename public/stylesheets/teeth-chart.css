@@ -24,9 +24,6 @@
     max-height: 60px;
     font-size: 120%;
 }
-.center{
-    text-align: left;
-}
 #selectable { list-style-type: none; margin: 0; padding: 0; }
 #selectable li { margin: 3px; padding: 0.4em; height: 30px; }
 .ui-accordion .ui-accordion-content {
