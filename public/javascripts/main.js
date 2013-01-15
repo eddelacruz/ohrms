@@ -695,4 +695,10 @@ function res() {
         }
     });
 
+    //Dentist Tools Dialog Box
+
+    $('#dentistToolsDialog').click(function(){
+        $('#dentistTools').show();
+    })
+
 });
