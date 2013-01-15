@@ -31,11 +31,7 @@
                             <label>Last Name:</label>
                             <input type="text" name="last_name">
                         </li>
-
-                        <li>
-                            <label>Image:<br></label>
-                            <input type='file' name="image" onchange="readURL(this)" />
-                        </li>
+                        <input type="hidden" name="image" value="anon-160x160.jpg"/>
                     </ul>
                 </div>
                 <div class="field right">
@@ -59,7 +55,7 @@
             </div>
         </div>
         <footer class="pane">
-            <input type="submit" class="bt blue right" value="@Messages("button.save")">
+            <input type="submit" class="bt blue right" value="@Messages("button.add")">
         </footer>
         }
     </div>

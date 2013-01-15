@@ -35,9 +35,6 @@
         <div class="form-image left center">
             <div class="itemdata">
                 <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
-                <div class="categories">
-                    <a href="#" class="bt grey small"><span class="glyph image"></span>Change image</a>
-                </div>
             </div>
 
         </div>
@@ -45,10 +42,10 @@
             @patientList.map { pl =>
             <div class="field left">
                 <ul>
-                    <li>
+                    <!--<li>
                         <label>Patient ID:</label>
                         <label class="form-label">@pl.id</label>
-                    </li>
+                    </li>-->
                     <li>
                         <label>First Name:</label>
                         <label class="form-label">@pl.firstName</label>
