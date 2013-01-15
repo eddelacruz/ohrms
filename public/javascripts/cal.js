@@ -15,28 +15,44 @@ $(document).ready(function() {
     }
 
     //TODO Add Client side only for now
+    // a non-ajax option    follow-up light blue pending-blue time_rescheduled-dilaw date_rescheduled-orange cancelled-red completed-green
+    //element.css('border-color', '#BD362F');
+    //element.children('.fc-event, .fc-agenda .fc-event-time, .fc-event a, .fc-event-inner.fc-event-skin').css({'background-color' : '#EE5F5B', 'border-color' : '#BD362F'}).css('text-shadow: 0 1px 0 #BD362F');
+
     $('#addButton').click(function(e){
         e.preventDefault();
         firstName = $('#addPatientModal input[name=first_name]').attr("value")
         middleName = $('#addPatientModal input[name=middle_name]').attr("value")
         lastName = $('#addPatientModal input[name=last_name]').attr("value")
         title = lastName+", "+firstName+" "+middleName;
-        $calendar.fullCalendar('renderEvent', {
-            title: title,
-            start: startVar,
-            end: endVar,
-            allDay: allDayVar
-        });
+
+        $calendar.fullCalendar('renderEvent',
+            {
+                title: title,
+                start: startVar,
+                end: endVar,
+                allDay: allDayVar,
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                status: 'pending'
+            },
+            true
+        );
         clearFields();
+        $calendar.fullCalendar('option', 'eventColor', '#EE5F5B')
+        console.log('added an event!');
     });
 
-    //show all events
+
+    //show all events  hiuyewhd3519
     $('#showEventsButton').click(function(e){
         e.preventDefault();
-        $calendar.fullCalendar('clientEvents').map( function(item) { console.log(item.title, item) } );
-        /*for(var i=0; i > $calendar.fullCalendar('clientEvents').length; i++){
-            alert($calendar.fullCalendar('clientEvents').title);
-        }*/
+            $calendar.fullCalendar('clientEvents').map( function(item){
+            alert("Appointment for "+item.firstName+item.middleName+item.lastName);
+            alert("Appointment for "+item.status);
+            console.log(item);
+        });
     })
 
 
@@ -55,18 +71,10 @@ $(document).ready(function() {
             startVar = start
             endVar = end
             allDayVar = allDay
-            console.log("leche!");
+            console.log("selected!");
 
             $('#addPatientModal').modal({top: 'center'});
             e.preventDefault();
-        },
-        eventClick: function(calEvent, jsEvent, view) {
-            alert('Event: ' + calEvent.title);
-            alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-            alert('View: ' + view.name);
-
-            // change the border color just for fun
-            $(this).css('border-color', 'red');
         },
         editable: true
     });
