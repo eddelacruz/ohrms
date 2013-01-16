@@ -29,6 +29,7 @@ GET     /dentists/:id/information/update               controllers.Dentist.getUp
 POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /scheduler                  controllers.Scheduler.getCalendar
+POST    /scheduler                  controllers.Appointments.submitAddForm
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
 GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
 GET     /dental_services/:id/information          controllers.DentalService.getDentalServiceInformationById(id: String)
@@ -55,6 +56,7 @@ GET     /json/settings/audit_log/search     controllers.Json.searchAuditLog(star
 GET     /json/dentists              controllers.Json.getDentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/staffs                controllers.Json.getStaffList(start : Int ?= 0, count : Int ?= 25)
 POST    /json/patients              controllers.Json.submitPatientAddForm
+POST    /json/scheduler              controllers.Json.submitAppointmentsAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm
 POST    /json/patients/delete       controllers.Json.deletePatientInformation
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
