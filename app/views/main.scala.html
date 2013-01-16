@@ -71,7 +71,7 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-resize.js")'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.9.2.custom.js.js")'></script>
+    <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.9.2.custom.js")'></script>-->
 
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/teeth-chart.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery-ui-1.9.2.custom.css")'>
@@ -85,10 +85,10 @@
             <!-- navigation menu -->
             <nav class="main-nav">
                 <ul>
-                    <li class="active first"><a href="#" name="Dashboard"><span class="glyph cloud"></span> @Messages("dashboard.title")</a></li>
+                    <li class="active first"><a href="@routes.Application.dashboard()" name="Dashboard"><span class="glyph cloud"></span> @Messages("dashboard.title")</a></li>
                     <li><a href="@routes.Patient.getList()" name="Patients"><span class="glyph user"></span> @Messages("patient.title")</a></li>
                     <li><a href="@routes.Scheduler.getCalendar()" name="Scheduler"><span class="glyph clock"></span> @Messages("scheduler.title")</a></li>
-                    <li><a href="#" name="Services"><span class="glyph list"></span> @Messages("service.title")</a></li>
+                    <li><a href="@routes.DentalService.getList()" name="Services"><span class="glyph list"></span> @Messages("service.title")</a></li>
                     <li><a href="#" name="Reports"><span class="glyph rating"></span> @Messages("report.title")</a></li>
                 </ul>
             </nav>
