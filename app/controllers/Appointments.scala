@@ -19,13 +19,7 @@ import Application.Secured
  * Time: 8:15 AM
  * To change this template use File | Settings | File Templates.
  */
-object Appointments extends Controllers with Secured {
-
-  def getAddForm = IsAuthenticated {
-    username =>
-      implicit request =>
-        Ok(modal._add_appointment())
-  }
+object Appointments extends Controller with Secured {
 
   def submitAddForm = Action {
     implicit request =>
@@ -34,10 +28,10 @@ object Appointments extends Controllers with Secured {
           println("Form errors: "+formWithErrors.errors)
           BadRequest
         },
-        appointment => {
-          var params = request.body.asFormUrlEncoded.get
-          AppointmentDelegate.submitAddPatientForm(params)
-          Redirect("/appointments")
+        scheduler => {
+          val params = request.body.asFormUrlEncoded.get
+          AppointmentDelegate.submitAddAppointmentsForm(params)
+          Redirect("/scheduler")
         }
       )
   }

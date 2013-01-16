@@ -9,7 +9,7 @@ import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.JsObject
-import ws.services.Appointment
+import ws.services.AppointmentService
 import play.api.libs.ws.Response
 
 /**
@@ -54,8 +54,8 @@ object AppointmentDelegate extends WsHelper {
     )
   }
 
-  def submitAddAppointmentForm(params: Map[String, Seq[String]]) = {
-    val res = doPost("/json/appointments", params)
+  def submitAddAppointmentsForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/scheduler", params)
     println()
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)

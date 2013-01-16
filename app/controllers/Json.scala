@@ -366,4 +366,29 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       Ok(PatientService.getRowCountOfTable(tableName).toString)
   }
 
+  def submitAppointmentsAddForm = Action {
+    implicit request =>
+      val id = ""
+      val description = request.body.asFormUrlEncoded.get("description").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").head
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
+      val lastName = request.body.asFormUrlEncoded.get("last_name").head
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
+      val address = request.body.asFormUrlEncoded.get("address").head
+      val dateStart = request.body.asFormUrlEncoded.get("date_start").head
+      val dateEnd = request.body.asFormUrlEncoded.get("date_end").head
+      val dentistId = request.body.asFormUrlEncoded.get("dentist_id").head
+      val status = request.body.asFormUrlEncoded.get("status").head.toInt
+      val pl = AppointmentList("", description,firstName, middleName, lastName, dentistId, contactNo, address,  status, dateStart, dateEnd)
+
+      if (AppointmentService.addAppointment(pl) >= 1) {
+        Redirect("/scheduler")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
+  }
+
 }

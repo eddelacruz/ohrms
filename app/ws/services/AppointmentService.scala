@@ -10,7 +10,7 @@ import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
-case class AppointmentList(var id: String, description: String, firstName: String, middleName: String, lastName: String,dentist_Id: String,contactNo: String, address: String, status: Int, dateStart: String, dateEnd: String)
+case class AppointmentList(var id: String, description: String, firstName: String, middleName: String, lastName: String,dentistId: String,contactNo: String, address: String, status: Int, dateStart: String, dateEnd: String)
 /**
  * Created with IntelliJ IDEA.
  * User: joh
@@ -38,11 +38,11 @@ object AppointmentService extends Secured {
     }
   }
 
-  def addAppointment(a: AppointmentList): Long = {
+  def addAppointment(d: AppointmentList): Long = {
     println(getUserId)
     val currentUser = getUserId
     val task = "Add"
-    a.id = UUIDGenerator.generateUUID("appointments")
+    d.id = UUIDGenerator.generateUUID("appointments")
     DB.withConnection {
       implicit c =>
         SQL(
@@ -71,11 +71,11 @@ object AppointmentService extends Secured {
           'dentist_id -> d.dentistId,
           'contact_no -> d.contactNo,
           'address -> d.address,
-          'status -> 1,
+          'status -> d.status,
           'date_start -> d.dateStart,
           'date_end -> d.dateEnd
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task)
+        //AuditLogService.logTask(d, currentUser, task)
     }
   }
 }
