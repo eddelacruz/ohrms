@@ -1,6 +1,8 @@
 // onready
 jQuery(function($){
+
     eventHistory.add(function(){
+
         /*============
             Modal
         ==============*/
@@ -625,6 +627,7 @@ var eventHistory = (function(){
 })();
 
 $(window).load(function(){
+
     $('#specialization_list a').live("click",
         function(e){
            var currentIndex = parseInt($('#specialization_list input[type="text"]:last').attr("data-count"))+1;
@@ -694,11 +697,4 @@ function res() {
             //console.log('behind');
         }
     });
-
-    //Dentist Tools Dialog Box
-
-    $('#dentistToolsDialog').click(function(){
-        $('#dentistTools').show();
-    })
-
 });

@@ -133,6 +133,12 @@ $(document).ready(function() {
         }
     );
 
+
+    $('#dentistToolsDialog').click(function() {
+      $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').hide();
+      //alert("pumasok");
+    });
+
     /*$('#search_box').keypress(function(e){
         $(this).val()
         console.log(e);

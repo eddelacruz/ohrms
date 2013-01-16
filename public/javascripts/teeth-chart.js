@@ -77,7 +77,19 @@ drawFGOutline();
 drawFHOutline();
 drawFIOutline();
 drawFJOutline();
-/*drawFKOutline();
+
+drawMAOutline();
+drawMBOutline();
+drawMCOutline();
+drawMDOutline();
+drawMEOutline();
+drawMFOutline();
+drawMGOutline();
+drawMHOutline();
+drawMIOutline();
+drawMJOutline();
+
+drawFKOutline();
 drawFLOutline();
 drawFMOutline();
 drawFNOutline();
@@ -86,7 +98,7 @@ drawFPOutline();
 drawFQOutline();
 drawFROutline();
 drawFSOutline();
-drawFTOutline();*/
+drawFTOutline();
 
 //function to repaint the area just by entering the position
 

@@ -62,8 +62,10 @@
 }
 .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable{
     font-size: 130%;
+    display: none;
 }
-.mouth{
+.mouth.child{
+    width: 700px;
     display: inline-block;
     text-align: center;
 }

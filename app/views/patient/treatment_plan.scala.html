@@ -8,7 +8,7 @@
 </header>
 
 <!--Dentist Tools-->
-<div id="dentistTools" title="Dentist Tools">
+<div id="dentistTools" title="Dentist Tools" style="display: none;">
     <h4>Selected Teeth: </h4>
     <div class="selected-tooth ui-box center">
     </div>
@@ -125,123 +125,325 @@
         <li class="last active"><a id="teeth-status" href="#">Child</a></li>
     </ul>
     <ul class="button-bar orange small">
-        <li class="first last"><a href="#" id="dentistToolsDialog">Dentist Tools</a></li>
+        <li class="first last"><a id="dentistToolsDialog">Dentist Tools</a></li>
     </ul>
     <br>
     <!--Teeth Chart-->
 
     <div class="face no-highlight">
-        <div class="mouth">
-            <div id='FA' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFA' width='70' height='130'></canvas>
+        <div class="mouth child">
+            <div>
+                <div id='FA' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFA' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFA' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFA' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFA' width='70' height='130'></canvas>
+                <div id='FB' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFB' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFB' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFB' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFA' width='70' height='130'></canvas>
-                <input type='checkbox'>
+                <div id='FC' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='canvasFC_DCY' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFC' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFC' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFC' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FD' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFD' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFD' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFD' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FE' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFE' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFE' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFE' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FF' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFF' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFF' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFF' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FG' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFG' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFG' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFG' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FH' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFH' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFH' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFH' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FI' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFI' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFI' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFI' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='FJ' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFJ' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFJ' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFJ' width='70' height='130'></canvas>
+                    <input type='checkbox'>
+                </div>
             </div>
-            <div id='FB' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFB' width='70' height='130'></canvas>
+            <br><br><br><br><br><br><br><br>
+            <div>
+                <div id='MA' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMA' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMA' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMA' width='70' height='60'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFB' width='70' height='130'></canvas>
+                <div id='MB' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMB' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMB' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMB' width='70' height='60'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFB' width='70' height='130'></canvas>
-                <input type='checkbox'>
+                <div id='MC' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMC' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMC' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMC' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MD' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMD' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMD' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMD' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='ME' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasME' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineME' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasME' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MF' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMF' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMF' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMF' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MG' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMG' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMG' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMG' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MH' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMH' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMH' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMH' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MI' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMI' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMI' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMI' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
+                <div id='MJ' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasMJ' width='70' height='60'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineMJ' width='70' height='60'></canvas>
+                    </div>
+                    <canvas id='tempCanvasMJ' width='70' height='60'></canvas>
+                    <input type='checkbox'>
+                </div>
             </div>
-            <div id='FC' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='canvasFC_DCY' width='70' height='130'></canvas>
+            <br><br><br>
+            <div>
+                <div id='FK' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFK' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFK' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFK' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='maskCanvasFC' width='70' height='130'></canvas>
+                <div id='FL' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFL' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFL' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFL' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFC' width='70' height='130'></canvas>
+                <div id='FM' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFM' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFM' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFM' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFC' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FD' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFD' width='70' height='130'></canvas>
+                <div id='FN' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFN' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFN' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFN' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFD' width='70' height='130'></canvas>
+                <div id='FO' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFO' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFO' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFO' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFD' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FE' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFE' width='70' height='130'></canvas>
+                <div id='FP' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFP' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFP' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFP' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFE' width='70' height='130'></canvas>
+                <div id='FQ' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFQ' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFQ' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFQ' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFE' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FF' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFF' width='70' height='130'></canvas>
+                <div id='FR' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFR' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFR' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFR' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFF' width='70' height='130'></canvas>
+                <div id='FS' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFS' width='70' height='130'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFS' width='70' height='130'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFS' width='70' height='130'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <canvas id='tempCanvasFF' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FG' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFG' width='70' height='130'></canvas>
+                <div id='FT' class="gum float-left">
+                    <div class='absolute'>
+                        <canvas id='maskCanvasFT' width='50' height='80'></canvas>
+                    </div>
+                    <div class='absolute'>
+                        <canvas id='outlineFT' width='50' height='80'></canvas>
+                    </div>
+                    <canvas id='tempCanvasFT' width='50' height='80'></canvas>
+                    <input type='checkbox'>
                 </div>
-                <div class='absolute'>
-                    <canvas id='outlineFG' width='70' height='130'></canvas>
-                </div>
-                <canvas id='tempCanvasFG' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FH' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFH' width='70' height='130'></canvas>
-                </div>
-                <div class='absolute'>
-                    <canvas id='outlineFH' width='70' height='130'></canvas>
-                </div>
-                <canvas id='tempCanvasFH' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FI' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFI' width='70' height='130'></canvas>
-                </div>
-                <div class='absolute'>
-                    <canvas id='outlineFI' width='70' height='130'></canvas>
-                </div>
-                <canvas id='tempCanvasFI' width='70' height='130'></canvas>
-                <input type='checkbox'>
-            </div>
-            <div id='FJ' class="gum float-left">
-                <div class='absolute'>
-                    <canvas id='maskCanvasFJ' width='70' height='130'></canvas>
-                </div>
-                <div class='absolute'>
-                    <canvas id='outlineFJ' width='70' height='130'></canvas>
-                </div>
-                <canvas id='tempCanvasFJ' width='70' height='130'></canvas>
-                <input type='checkbox'>
             </div>
         </div>
-        <!-- <div class="absolute float-right">
-                  <input id='dentalToolsBtn' type='button' value='Dental Tools'>
-                  <input id='pasta' class='dentalService' type='button' value='Pasta' data-color='red'>
-                  <input id='tartar' class='dentalService' type='button' value='Tartar' data-color='black'>
-                  <h2>Dental Service: </h2><span id='curService'></span>
-              </div> -->
     </div>
 
 
