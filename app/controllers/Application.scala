@@ -29,6 +29,11 @@ object Application extends Controller {
     })
   )
 
+  def billySample = Action{
+    implicit request =>
+    Ok(html.reports.billy())
+  }
+
   def login = Action {
     implicit request =>
       Ok(views.html.login(loginForm))

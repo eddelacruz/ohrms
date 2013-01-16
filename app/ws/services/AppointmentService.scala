@@ -22,8 +22,7 @@ case class AppointmentList(var id: String, description: String, firstName: Strin
 object AppointmentService extends Secured {
 
   def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
+    val username =  Cache.getAs[String]("user_name").get
     DB.withConnection {
       implicit c =>
         val getCurrentUserId = SQL(
@@ -35,6 +34,44 @@ object AppointmentService extends Secured {
           """.stripMargin
         ).on('username -> username).apply().head
         getCurrentUserId[String]("id")
+    }
+  }
+
+  //TODO lagyan kung sino ang nagrecord ng appointment
+  def getAllAppointments = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |id,
+            |description,
+            |first_name,
+            |middle_name,
+            |last_name,
+            |dentist_id,
+            |contact_no,
+            |address,
+            |status,
+            |date_start,
+            |date_end
+            |from appointments
+          """.stripMargin
+        ).as {
+          get[String]("id") ~
+          get[String]("description") ~
+          get[String]("first_name") ~
+          get[String]("middle_name") ~
+          get[String]("last_name") ~
+          get[String]("dentist_id") ~
+          get[String]("contact_no") ~
+          get[String]("address")~
+          get[Int]("status")~
+          get[Date]("date_start")~
+          get[Date]("date_end") map {
+          case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, j.toString, k.toString)
+        } *
+      }
     }
   }
 

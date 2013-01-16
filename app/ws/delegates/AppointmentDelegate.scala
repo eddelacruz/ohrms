@@ -38,6 +38,18 @@ object AppointmentDelegate extends WsHelper {
     )(AppointmentList.apply)(AppointmentList.unapply)
   )
 
+  /*def getAllLogs(start: Int, count: Int) = {
+    val res: Promise[Response] = doGet("/json/settings/audit_log")
+    val json: JsValue = res.await.get.json
+    val al = ListBuffer[AuditLog]()
+
+    (json \ "AuditLog").as[Seq[JsObject]].map({
+      a =>
+        al += convertToAuditLog(a)
+    })
+    al.toList
+  }*/
+
   def convertToAppointmentList (j: JsValue): AppointmentList = {
     new AppointmentList(
       (j \ "id").as[String],

@@ -45,6 +45,7 @@ POST    /staffs/update             controllers.Staff.submitUpdateForm
 GET     /staffs/:id/update                controllers.Staff.getUpdateForm(id: String)
 #GET     /reports/patient_list       controllers.Reports._patientList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
+GET     /sample/billy               controllers.Application.billySample
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)
@@ -75,6 +76,7 @@ GET     /json/staffs            controllers.Json.getStaffList(start : Int ?= 0, 
 GET     /json/staffs/:id     controllers.Json.getStaffById(id: String)
 POST    /json/staffs/update       controllers.Json.submitStaffUpdateForm
 POST    /json/staffs              controllers.Json.submitStaffAddForm
+GET     /json/appointments       controllers.Json.getAllAppointments
 GET     /json/:tableName/row_count         controllers.Json.getRowCountOfTable(tableName: String)
 
 

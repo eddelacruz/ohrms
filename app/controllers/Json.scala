@@ -8,7 +8,7 @@ import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer}
+import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.PatientList
 import ws.services.DentistList
@@ -22,7 +22,7 @@ import ws.services.StaffList
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer{
+object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -389,6 +389,11 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         Status(500)
       }
 
+  }
+
+  def getAllAppointments = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAllAppointments))))
   }
 
 }
