@@ -15,8 +15,9 @@
                 <span class="textnode">Show </span>
                 <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
                     <option value="10" selected="selected">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
+                    <option value="1">1</option>
+                    <option value="3">3</option>
+                    <option value="5">5</option>
                     <option value="100">100</option>
                 </select>
                 <span class="textnode"> entries</span>
@@ -24,8 +25,10 @@
         </div>
         <div class="dataTables_filter" id="DataTables_Table_0_filter">
             <label>
-                <span class="textnode">Search: </span>
-                <input type="text" aria-controls="DataTables_Table_0" id="acpro_inp2">
+                <form action="@routes.Settings.searchAuditLog()" method="GET">
+                    <span class="textnode">@Messages("misc.search"): </span>
+                    <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
+                </form>
             </label>
         </div>
         <div class="clear"></div></div>
@@ -87,9 +90,6 @@
                     <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
                                                 <span>
                                                     <a tabindex="0" class="paginate_active">1</a>
-                                                    <a tabindex="0" class="paginate_button">2</a>
-                                                    <a tabindex="0" class="paginate_button">3</a>
-                                                    <a tabindex="0" class="paginate_button">4</a>
                                                 </span>
                     <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
                     <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>

@@ -30,7 +30,6 @@ object DentistService {
     }
   }
 
-  val currentUser = "c7e5ef5d-07eb-4904-abbe-0aa73c13490f"
 
   def searchDentistList(start: Int, count: Int, filter: String): List[DentistList] = {
     val status = 1

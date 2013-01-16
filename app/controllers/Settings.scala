@@ -14,10 +14,15 @@ import Application.Secured
  */
 object Settings extends Controller with Secured {
 
-  def auditLog() = IsAuthenticated{
+  def auditLog(start: Int, count: Int) = IsAuthenticated{
     username =>
       implicit request =>
-        Ok(html.settings.audit_log(AuditLogDelegate.getAllLogs))
+        Ok(html.settings.audit_log(AuditLogDelegate.getAllLogs(start,count)))
+  }
+
+  def searchAuditLog(start: Int, count: Int, filter: String) = Action {
+    println("start "+start+" count"+count);
+    Ok(html.settings.audit_log(AuditLogDelegate.searchAuditLog(start,count,filter)))
   }
 
 }
