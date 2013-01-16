@@ -8,7 +8,6 @@ import java.util.Date
 import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
-import ws.services.LoginService.authenticate
 import controllers.Application.Secured
 
 case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
