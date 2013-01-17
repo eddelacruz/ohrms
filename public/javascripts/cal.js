@@ -9,11 +9,43 @@ $(document).ready(function() {
     var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     var title, firstName, middleName, lastName, description, dentistName, contactNo, address;
     var exists = false;
+    var appointments;
+    var appointmentsProperties = ["id", "description", "firstName", "middleName", "lastName", "address", "contactNo", "dateEnd", "dateStart", "dentistId"]
 
 
-    /*$.getJSON("http",
+    $.getJSON("/json/appointments",
         function(data){
-            alert(data.msg);
+            //console.log(data["AppointmentList"][0].id);
+            //console.log(data["AppointmentList"][0]["id"]);
+            $.each(data, function(key, value){
+                $.each(value, function(ky, vl){
+                    /*$.each(vl, function(k, v){
+                        console.log( k + ":" + v);
+                    })*/
+                    $calendar.fullCalendar('addEventSource',
+                        [{
+                            title: vl.lastName+", "+vl.firstName+" "+vl.middleName+" - "+vl.description,
+                            start: new Date(Date.parse(vl.dateStart)),
+                            end: new Date(Date.parse(vl.dateEnd)),
+                            allDay: "false",
+                            firstName: "firstName",
+                            middleName: "middleName",
+                            lastName: "lastName",
+                            dentistId: "dentistId",
+                            description: "description",
+                            contactNo: "contactNo",
+                            address: "address",
+                            status: ''
+                        }]);
+                })
+            })
+    });
+
+    /*$.ajax({
+       dataType: "json/appointments",
+       url: "",
+       data: data,
+       success: alert("hehe")
     });*/
 
     /*var date = new Date();
@@ -162,15 +194,19 @@ $(document).ready(function() {
             endVar = end
             allDayVar = allDay
             console.log(start, end);
-            if(start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear() && start.getDay() === end.getDay()){
-                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDay()+", "+start.getFullYear()
+            if(start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear() && start.getDate() === end.getDate()){
+                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()
             } else {
-                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDay()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDay()+","+end.getFullYear()
+                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
-
-            console.log("selected!");
+            //TODO lagyan ng get hour at minutes
+            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+"00:00:00";
+            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+"00:00:00";
+            console.log("ito ang selected na start at end "+start+end);
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
+            $('input[name=date_start]').attr("value", start);
+            $('input[name=date_end]').attr("value", end);
             e.preventDefault();
         },
         eventDrop: function ( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
