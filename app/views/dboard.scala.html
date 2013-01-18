@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList])
+@(patientList: List[ws.services.PatientList], appointmentsToday: List[ws.services.AppointmentList])
 
 @main(Messages("dashboard.title")) {
     <!-- # Dashboard -->
@@ -27,7 +27,7 @@
             <div class="inner">
                 <div class="left title">
                     <h1>Today's Appoinments</h1>
-                    <a href="#">view scheduler »</a>
+                    <a href="@routes.Scheduler.getCalendar()">view scheduler »</a>
                 </div>
                 <div class="right">
                     <a href="#" class="close">close</a>
@@ -37,36 +37,18 @@
 
         <div class="box-content no-inner-space" style="display: block; ">
             <ul class="userlist">
+                @appointmentsToday.map { at =>
                 <li class="first">
                     <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
                     <div class="info-l">
-                        <a href="#" class="title">Kunis, Mila D.</a>
-                        <span>Oral Prophylaxis, Ex...</span>
+                        <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
+                        <span>@at.description</span>
                     </div>
                     <div class="info-r">
                         <span>10 am</span>
                     </div>
                 </li>
-                <li>
-                    <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
-                    <div class="info-l">
-                        <a href="#" class="title">Madrigal, Ehra D.C.</a>
-                        <span>Extraction</span>
-                    </div>
-                    <div class="info-r">
-                        <span>12 pm</span>
-                    </div>
-                </li>
-                <li class="last">
-                    <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
-                    <div class="info-l">
-                        <a href="#" class="title">Song Hye Kyo</a>
-                        <span>Oral Prophylaxis</span>
-                    </div>
-                    <div class="info-r">
-                        <span>1:30 pm</span>
-                    </div>
-                </li>
+                }
             </ul>
         </div>
     </div>
@@ -122,8 +104,6 @@
 
         <div class="box-content no-inner-space latest-patients" style="display: block; ">
             <ul class="userlist">
-
-
                 @patientList.map { pl =>
                 <li class="">
                     <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.jpg")" width="40" height="40" alt="avatar"></div>

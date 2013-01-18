@@ -13,7 +13,7 @@ import util.pdf.PDF
 import views._
 import ws.services.LoginService
 import views.html.patient
-import ws.delegates.PatientDelegate
+import ws.delegates.{PatientDelegate, AppointmentDelegate}
 
 object Application extends Controller {
 
@@ -57,7 +57,7 @@ object Application extends Controller {
       implicit request =>
         val start = 0
         val count = 5
-        Ok(html.dboard(PatientDelegate.getPatientList(start,count)))
+        Ok(html.dboard(PatientDelegate.getPatientList(start,count), AppointmentDelegate.getAppointmentsToday))
   }
 
   def logout = Action {
