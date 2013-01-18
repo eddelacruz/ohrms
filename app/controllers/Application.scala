@@ -23,7 +23,6 @@ object Application extends Controller {
       "password" -> text
     ) verifying("Invalid username or password", result => result match {
       case (user_name, password) => {
-        println("<><><><><><><><><><><><><><><><><>" + LoginService.authenticate(user_name, password))
         LoginService.authenticate(user_name, password).isDefined
       }
     })
@@ -44,8 +43,10 @@ object Application extends Controller {
       loginForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.login(formWithErrors)),
         userList => {
-          Cache.set("user_name", userList._1)
-          println("user_name is: " + userList._1)
+          val usrList = LoginService.authenticate(userList._1, userList._2).get
+          Cache.set("user_name", usrList.username)
+          Cache.set("role", usrList.role)
+          println(">>> Successfully logged in: " + usrList.username)
           Redirect(routes.Application.dashboard())
         }
       )

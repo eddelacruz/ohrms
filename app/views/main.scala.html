@@ -1,4 +1,6 @@
 @(title: String)(content: Html)
+@import play.cache.Cache
+
 
 <!DOCTYPE html>
 
@@ -113,7 +115,7 @@
                 <li class="last">
                     <a href="#" class="tooltip" original-title="edit profile">
                         <span class="glyph user"></span>
-                        <span class="text">Dr. Kureha</span>
+                        <span class="text">@(play.cache.Cache.get("user_name"))</span>
                     </a>
                 </li>
             </ul>
