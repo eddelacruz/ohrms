@@ -200,9 +200,8 @@ $(document).ready(function() {
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
             //TODO lagyan ng get hour at minutes
-            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+"00:00:00";
-            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+"00:00:00";
-            console.log("ito ang selected na start at end "+start+end);
+            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
+            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
