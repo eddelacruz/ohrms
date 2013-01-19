@@ -15,7 +15,7 @@ import ws.services.LoginService
 import views.html.patient
 import ws.delegates.{PatientDelegate, AppointmentDelegate}
 
-object Application extends Controller {
+object Application extends Controller{
 
   val loginForm = Form(
     tuple(
@@ -47,7 +47,7 @@ object Application extends Controller {
           Cache.set("user_name", usrList.username)
           Cache.set("role", usrList.role)
           println(">>> Successfully logged in: " + usrList.username)
-          Redirect(routes.Application.dashboard())
+          Redirect(routes.Application.dashboard()).withSession(Security.username -> usrList.username)
         }
       )
   }
@@ -63,15 +63,14 @@ object Application extends Controller {
 
   def logout = Action {
     Cache.set("user_name", null)
-    Redirect(routes.Application.login).withNewSession.flashing(
-      "success" -> "You are now logged out."
-    )
+    Cache.set("role", null)
+    Redirect(routes.Application.login).withNewSession
   }
 
 
-
   private def username(request: RequestHeader) = {
-    Cache.getAs[String]("user_name")
+    //Cache.getAs[String]("user_name")
+    request.session.get(Security.username)
   }
 
   private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
@@ -88,7 +87,8 @@ object Application extends Controller {
 
   trait Secured {
     private def username(request: RequestHeader) = {
-      Cache.getAs[String]("user_name")
+      //Cache.getAs[String]("user_name")
+      request.session.get(Security.username)
     }
 
     private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
