@@ -1,5 +1,6 @@
 $(function() {
     $( "#dentistTools" ).dialog({
+        autoOpen: false,
         width: 360
     });
     $( "#accordion" ).accordion({
@@ -13,6 +14,12 @@ $(function() {
         $(this).css('color', '#FFF');
         $(this).css('text-shadow', 'rgba(0, 0, 0, 0.796875) 0px 1px 4px, rgba(255, 255, 255, 0.296875) 0px 0px 10px');
     });
+});
+
+//hide/show of dentist tools dialog
+$('#dentistToolsButton').click(function(){
+    //alert('peekaboo!');
+    $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("blind");
 });
 
 // Array Remove - By John Resig (MIT Licensed)

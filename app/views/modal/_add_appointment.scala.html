@@ -23,7 +23,7 @@
                             <textarea name="description" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
                         <li>
-                            <label class="upper">First Name:</label>
+                            <label>First Name:</label>
                             <input type="text" name="first_name">
                         </li>
                         <li>
@@ -47,13 +47,21 @@
                             <input type="text" name="contact_no">
                         </li>
                         <li>
-                            <label class="upper">Address:</label>
+                            <label>Address:</label>
                             <textarea name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
-                        <input type="text" name="date_start">
-                        <input type="text" name="date_end">
+                        <li>
+                            <label>Status:</label>
+                            <select name="status">
+                                <option value="1">Pending</option>
+                                <option value="2">Time/Date Rescheduled</option>
+                                <option value="3">Cancelled</option>
+                                <option value="4">Completed</option>
+                            </select>
+                        </li>
+                        <input type="hidden" name="date_start">
+                        <input type="hidden" name="date_end">
 
-                        <input type="hidden" name="status" value="1">
                     </ul>
                 </div>
             </div>

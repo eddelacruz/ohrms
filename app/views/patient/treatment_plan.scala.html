@@ -7,45 +7,6 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
-<!--Dentist Tools-->
-<div id="dentistTools" title="Dentist Tools" style="display: none;">
-    <h4>Selected Teeth: </h4>
-    <div class="selected-tooth ui-box center">
-    </div>
-    <h4>Dental Services:</h4>
-    <div class="dental-services ui-box center">
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-    </div>
-    <div id="accordion">
-        <h3>Condition</h3>
-        <div>
-            <ul id="selectable">
-                <button id="CVTY" class="dental_service ui-widget-content" data-type="paint" data-color="#F39814">CAVITY</button>
-                <button id="DCY" class="dental_service ui-widget-content" data-type="paint" data-color="#5E1300">DECAY</button>
-                <button id="EXT" class="dental_service ui-widget-content" data-type="symbol" data-color="red" data-symbol="crossout">EXTRACTED</button>
-                <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
-            </ul>
-        </div>
-        <h3>Examination/Diagnosis</h3>
-        <div>Second content panel</div>
-        <h3>Periodontics</h3>
-        <div>Second content panel</div>
-        <h3>Crowns/Bridges</h3>
-        <div>Second content panel</div>
-        <h3>Endodontics</h3>
-        <div>Second content panel</div>
-    </div>
-</div>
-<!--/Dentist Tools-->
-
 <!-- Profile, Dental Chart, Medical History -->
 <div class="box grid_12">
 <header>
@@ -124,12 +85,8 @@
         <li class="first"><a href="#">Adult</a></li>
         <li class="last active"><a id="teeth-status" href="#">Child</a></li>
     </ul>
-    <ul class="button-bar orange small">
-        <li class="first last"><a id="dentistToolsDialog">Dentist Tools</a></li>
-    </ul>
     <br>
     <!--Teeth Chart-->
-
     <div class="face no-highlight">
         <div class="mouth child">
             <div>
@@ -141,7 +98,6 @@
                         <canvas id='outlineFA' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFA' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FB' class="gum float-left">
                     <div class='absolute'>
@@ -151,7 +107,6 @@
                         <canvas id='outlineFB' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFB' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FC' class="gum float-left">
                     <div class='absolute'>
@@ -164,7 +119,6 @@
                         <canvas id='outlineFC' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFC' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FD' class="gum float-left">
                     <div class='absolute'>
@@ -174,7 +128,6 @@
                         <canvas id='outlineFD' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFD' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FE' class="gum float-left">
                     <div class='absolute'>
@@ -184,7 +137,6 @@
                         <canvas id='outlineFE' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFE' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FF' class="gum float-left">
                     <div class='absolute'>
@@ -194,7 +146,6 @@
                         <canvas id='outlineFF' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFF' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FG' class="gum float-left">
                     <div class='absolute'>
@@ -204,7 +155,6 @@
                         <canvas id='outlineFG' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFG' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FH' class="gum float-left">
                     <div class='absolute'>
@@ -214,7 +164,6 @@
                         <canvas id='outlineFH' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFH' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FI' class="gum float-left">
                     <div class='absolute'>
@@ -224,7 +173,6 @@
                         <canvas id='outlineFI' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFI' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FJ' class="gum float-left">
                     <div class='absolute'>
@@ -234,7 +182,6 @@
                         <canvas id='outlineFJ' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFJ' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
             </div>
             <br><br><br><br><br><br><br><br>
@@ -247,7 +194,6 @@
                         <canvas id='outlineMA' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMA' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MB' class="gum float-left">
                     <div class='absolute'>
@@ -257,7 +203,6 @@
                         <canvas id='outlineMB' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMB' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MC' class="gum float-left">
                     <div class='absolute'>
@@ -267,7 +212,6 @@
                         <canvas id='outlineMC' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMC' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MD' class="gum float-left">
                     <div class='absolute'>
@@ -277,7 +221,6 @@
                         <canvas id='outlineMD' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMD' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='ME' class="gum float-left">
                     <div class='absolute'>
@@ -287,7 +230,6 @@
                         <canvas id='outlineME' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasME' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MF' class="gum float-left">
                     <div class='absolute'>
@@ -297,7 +239,6 @@
                         <canvas id='outlineMF' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMF' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MG' class="gum float-left">
                     <div class='absolute'>
@@ -307,7 +248,6 @@
                         <canvas id='outlineMG' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMG' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MH' class="gum float-left">
                     <div class='absolute'>
@@ -317,7 +257,6 @@
                         <canvas id='outlineMH' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMH' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MI' class="gum float-left">
                     <div class='absolute'>
@@ -327,7 +266,6 @@
                         <canvas id='outlineMI' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMI' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='MJ' class="gum float-left">
                     <div class='absolute'>
@@ -337,7 +275,6 @@
                         <canvas id='outlineMJ' width='70' height='60'></canvas>
                     </div>
                     <canvas id='tempCanvasMJ' width='70' height='60'></canvas>
-                    <input type='checkbox'>
                 </div>
             </div>
             <br><br><br>
@@ -350,7 +287,6 @@
                         <canvas id='outlineFK' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFK' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FL' class="gum float-left">
                     <div class='absolute'>
@@ -360,7 +296,6 @@
                         <canvas id='outlineFL' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFL' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FM' class="gum float-left">
                     <div class='absolute'>
@@ -370,7 +305,6 @@
                         <canvas id='outlineFM' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFM' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FN' class="gum float-left">
                     <div class='absolute'>
@@ -380,7 +314,6 @@
                         <canvas id='outlineFN' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFN' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FO' class="gum float-left">
                     <div class='absolute'>
@@ -390,7 +323,6 @@
                         <canvas id='outlineFO' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFO' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FP' class="gum float-left">
                     <div class='absolute'>
@@ -400,7 +332,6 @@
                         <canvas id='outlineFP' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFP' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FQ' class="gum float-left">
                     <div class='absolute'>
@@ -410,7 +341,6 @@
                         <canvas id='outlineFQ' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFQ' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FR' class="gum float-left">
                     <div class='absolute'>
@@ -420,7 +350,6 @@
                         <canvas id='outlineFR' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFR' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FS' class="gum float-left">
                     <div class='absolute'>
@@ -430,7 +359,6 @@
                         <canvas id='outlineFS' width='70' height='130'></canvas>
                     </div>
                     <canvas id='tempCanvasFS' width='70' height='130'></canvas>
-                    <input type='checkbox'>
                 </div>
                 <div id='FT' class="gum float-left">
                     <div class='absolute'>
@@ -440,13 +368,10 @@
                         <canvas id='outlineFT' width='50' height='80'></canvas>
                     </div>
                     <canvas id='tempCanvasFT' width='50' height='80'></canvas>
-                    <input type='checkbox'>
                 </div>
             </div>
         </div>
     </div>
-
-
     <!--/Teeth Chart-->
     <!-- Dental Services -->
     <div class="box grid_11">

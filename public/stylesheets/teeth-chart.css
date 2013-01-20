@@ -69,3 +69,6 @@
     display: inline-block;
     text-align: center;
 }
+#dentistToolsButton{
+    cursor: pointer;
+}

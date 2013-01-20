@@ -94,10 +94,12 @@ object AppointmentService extends Secured {
             |date_end
             |from appointments
             |where
-            |    {date_now} BETWEEN date_start AND date_end
+            | ({date_now_all_day} BETWEEN date_start AND date_end)
+            |or
+            | ({date_now} BETWEEN date_start AND date_end)
             |order by date_start asc;
           """.stripMargin
-        ).on('date_now -> DateWithTime.dateNowAllDay).as {
+        ).on('date_now_all_day -> DateWithTime.dateNowAllDay, 'date_now -> DateWithTime.dateNow).as {
           get[String]("id") ~
             get[String]("description") ~
             get[String]("first_name") ~

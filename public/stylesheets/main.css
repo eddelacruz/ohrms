@@ -2253,7 +2253,8 @@ nav.jsubmenu .submenu li.last a {
 .form-details input[type="text"],
 .form-details input[type="password"],
 .form-details textarea,
-.form-details label {
+.form-details label,
+.form-details select{
   width: 90%;
 }
 .form-details .form-label {
@@ -2317,3 +2318,11 @@ ul li a.bt {
 div.mode-1{
   width: 78%;
 }
+
+/*Calendar event color*/
+.fc-agenda .eventColor1 .fc-event-time,
+.eventColor1 a {
+    background-color: green; /* background color */
+    border-color: green;     /* border color */
+    color: yellow;           /* text color */
+    }

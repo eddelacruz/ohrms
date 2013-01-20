@@ -30,7 +30,7 @@ object Application extends Controller{
 
   def billySample = Action{
     implicit request =>
-    Ok(html.reports.billy())
+      Ok(html.reports.billy())
   }
 
   def login = Action {

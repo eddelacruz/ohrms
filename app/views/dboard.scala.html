@@ -45,7 +45,16 @@
                         <span>@at.description</span>
                     </div>
                     <div class="info-r">
-                        <span>10 am</span>
+                        @if(at.dateStart.split(" ")(1).split(":")(0).toInt >= 12){
+                            <span>@(at.dateStart.split(" ")(1).split(":")(0).toInt % 12):@at.dateStart.split(" ")(1).split(":")(1) pm</span>
+                        } else {
+                            @if((at.dateStart.split(" ")(1).split(":")(0).toInt == 0)){
+                                <span></span>
+                            } else {
+                                <span>@at.dateStart.split(" ")(1).split(":")(0):@at.dateStart.split(" ")(1).split(":")(1) am</span>
+                            }
+                        }
+
                     </div>
                 </li>
                 }
@@ -109,8 +118,7 @@
                     <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.jpg")" width="40" height="40" alt="avatar"></div>
                     <div class="info-l">
                         <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title">@pl.lastName, @pl.firstName @pl.middleName</a>
-                        <span>@pl.address</span><br>
-                        <span>2 hours ago</span>
+                        <span>@pl.address</span>
                     </div>
                 </li>
                 }
