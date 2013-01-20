@@ -48,6 +48,7 @@ scheduler.appointment.title=Appointment
 scheduler.appointment.add.title=Add Appointment
 
 service.title=Services
+service.add.title=Add Dental Service
 
 settings.audit.log.title=Audit Log
 

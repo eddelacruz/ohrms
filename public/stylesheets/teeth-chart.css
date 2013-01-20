@@ -61,8 +61,13 @@
     height: 600px;
 }
 .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable{
-    font-size: 130%;
-    display: none;
+    font-size: 110%;
+}
+.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable h4{
+    font-size: 110%;
+}
+button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only{
+    margin-bottom: 5px;
 }
 .mouth.child{
     width: 700px;

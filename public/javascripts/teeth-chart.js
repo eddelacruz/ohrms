@@ -1,8 +1,8 @@
 $(function() {
     $( "#dentistTools" ).dialog({
         autoOpen: false,
-        width: 360
-    });
+        width: 375
+    })
     $( "#accordion" ).accordion({
         autoHeight: false,
         clearStyle: true
@@ -18,8 +18,7 @@ $(function() {
 
 //hide/show of dentist tools dialog
 $('#dentistToolsButton').click(function(){
-    //alert('peekaboo!');
-    $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("blind");
+    $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("fold");
 });
 
 // Array Remove - By John Resig (MIT Licensed)

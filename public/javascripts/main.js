@@ -682,6 +682,7 @@ function res() {
         });
     });*/
 
+    //dashboard live effect
     var $latestPatients = $('.box-content.no-inner-space.latest-patients ul li');
 
     var delay = 2000;
@@ -697,4 +698,18 @@ function res() {
             //console.log('behind');
         }
     });
+
+    //context menu
+    $('.gum').contextPopup({
+      title: 'My Popup Menu',
+      items: [
+        { label:'Some Item',
+          icon:'icons/shopping-basket.png',
+          action:function(e){
+           //alert('clicked 1');
+           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+e);
+           e.preventDefault();
+          }
+        }
+      ]});
 });
