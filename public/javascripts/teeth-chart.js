@@ -41,6 +41,7 @@ var imageObj2;
 
 
 var curTooth = new Array();
+var curService = new Array();
 var clickX = new Array();
 var clickY = new Array();
 var clickDrag = new Array();
@@ -117,9 +118,7 @@ function loadPaint(tooth) {
         var imageData = ctx.getImageData(0,0, imageWidth, imageHeight);
         var pixel = imageData.data;
 
-
-
-        // if white then change alpha to 0
+        // if white then change alpha to 0  for the eraser
         var r=0, g=1, b=2,a=3;
         for (var p = 0; p<pixel.length; p+=4)
         {
@@ -130,8 +129,6 @@ function loadPaint(tooth) {
         ctx.putImageData(imageData,0,0);
     }
     imageObj.src = tempImageDataUrl;
-
-
 };
 
 $('#clearButton').click(function() {
@@ -157,7 +154,7 @@ function drawMask(tooth) {
     maskCtx.save()*/
 };
 
-/*PAINT FUNCTION*/
+/*PAINT and SYMBOL FUNCTION*/
 
 
 function addClick(x, y, dragging) {
@@ -204,21 +201,20 @@ function redefineFunctions() {
             addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
             redraw();
         } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1)){
-            console.log('whynot?'+tooth+toolType+toolData);
+            //console.log('whynot?'+tooth+toolType+toolData);
             setSymbol(tooth, toolType, toolData)
-            var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-            $(cv).each(function() {
+            var $cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+            $cv.each(function() {
                 var id = $(this).attr('id');
                 var c=document.getElementById(id);
                 var ctx=c.getContext("2d");
                 var ctxWidth = parseInt($('#'+c.id).attr('width'));
                 var ctxHeight = parseInt($('#'+c.id).attr('height'));
-                var ctxZero = 0
 
-                ctx.moveTo(ctxZero+10, ctxZero+5);
+                ctx.moveTo(0+10, 0+5);
                 ctx.lineTo(ctxWidth-10, ctxHeight-5);
                 ctx.moveTo(ctxWidth-10, ctxZero+5);
-                ctx.lineTo(ctxZero+10, ctxHeight-5);
+                ctx.lineTo(0+10, ctxHeight-5);
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 6;
                 ctx.stroke();
@@ -324,7 +320,8 @@ function setSymbol(tooth, toolType, toolData) {
             var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
             var tempCanvas = "#"+tooth+".gum>canvas";
             var t = tooth+"_"+toolData;
-            if ($(c).length === 0) { //check if not-exists ung canvas, if-not exists add div
+            //check if not-exists ung canvas, if-not exists add div
+            if ($(c).length === 0) {
                 $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
             } else {
                 $(c).parent().remove()
@@ -350,4 +347,3 @@ $('.gum input[type=checkbox]').click(function() {
         console.log("else "+curTooth);
     }
 });
-

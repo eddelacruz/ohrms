@@ -705,7 +705,6 @@ function res() {
             {label:'Dentist Tools',
             icon:'/assets/images/favicon.png',
             action: function(){
-                console.log(target);
                 $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("fold")
                 }
             }
