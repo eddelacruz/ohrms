@@ -39,7 +39,7 @@ var violet = '#cb3594'
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, listedPaint = new Array("OP", "CVTY", "DCY"), listedSymbol = new Array("EXT"), maskDataUrl;
 var imageObj2;
 
-
+var toothWithService = new Array();
 var curTooth = new Array();
 var curService = new Array();
 var clickX = new Array();
@@ -111,7 +111,7 @@ drawFTOutline();
 //function to repaint the area just by entering the position
 
 //function to save the previously painted teeth area
-function loadPaint(tooth) {
+function loadPaint() {
     var imageObj = new Image();
     imageObj.onload = function() {
         ctx.drawImage(imageObj, 0, 0);
@@ -129,6 +129,10 @@ function loadPaint(tooth) {
         ctx.putImageData(imageData,0,0);
     }
     imageObj.src = tempImageDataUrl;
+    if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
+        toothWithService.push(tooth+"_"+toolData); //end of paint
+        console.log(toothWithService);
+    }
 };
 
 $('#clearButton').click(function() {
@@ -193,7 +197,6 @@ function redefineFunctions() {
             //console.log('mousedown'+toolData);
             var mouseX = e.pageX - this.offsetLeft;
             var mouseY = e.pageY - this.offsetTop;
-
             paint = true;
             addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
             redraw();
@@ -201,6 +204,8 @@ function redefineFunctions() {
             //console.log('whynot?'+tooth+toolType+toolData);
             setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+
+            //todo switch here for ext only
             $(cv).each(function() {
                 var id = $(this).attr('id');
                 var c = document.getElementById(id);
@@ -233,7 +238,7 @@ function redefineFunctions() {
             //console.log("posibleng i-save sa db x:"+clickX+" at y:"+clickY); //for printing the click Array
             paint = false;
             clearPaint(tooth);
-            loadPaint(tooth);
+            loadPaint();
         };
     });
 
@@ -318,8 +323,15 @@ function setSymbol(tooth, toolType, toolData) {
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
             $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+            if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
+                toothWithService.push(tooth+"_"+toolData); //end of symbol
+                console.log(toothWithService);
+            }
         } else {
-            $(c).parent().remove()
+            $(c).parent().remove();
+            var index = $.inArray(tooth, toothWithService);
+            toothWithService.remove(index);
+            console.log(toothWithService); //symbol only has remove from toothWithService
         }
     };
 };
