@@ -2,7 +2,8 @@ $(function() {
     $( "#dentistTools" ).dialog({
         autoOpen: false,
         width: 375
-    })
+    }).dialog('option', 'position', [500,500]);
+
     $( "#accordion" ).accordion({
         autoHeight: false,
         clearStyle: true

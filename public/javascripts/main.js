@@ -701,15 +701,14 @@ function res() {
 
     //context menu
     $('.gum').contextPopup({
-      title: 'My Popup Menu',
-      items: [
-        { label:'Some Item',
-          icon:'icons/shopping-basket.png',
-          action:function(e){
-           //alert('clicked 1');
-           console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+e);
-           e.preventDefault();
-          }
-        }
-      ]});
+        items: [
+            {label:'Dentist Tools',
+            icon:'/assets/images/favicon.png',
+            action: function(){
+                console.log(target);
+                $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("fold")
+                }
+            }
+            ]
+    });
 });

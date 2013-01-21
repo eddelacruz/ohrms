@@ -97,7 +97,8 @@ jQuery.fn.contextPopup = function(menuData) {
       });
 
     // When clicking on a link in menu: clean up (in addition to handlers on link already)
-    menu.find('a').click(function() {
+    menu.find('a').click(function(e) {
+      e.preventDefault();
       bg.remove();
       menu.remove();
     });
