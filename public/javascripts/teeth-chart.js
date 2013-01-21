@@ -203,8 +203,8 @@ function redefineFunctions() {
         } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1)){
             //console.log('whynot?'+tooth+toolType+toolData);
             setSymbol(tooth, toolType, toolData)
-            var $cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-            $cv.each(function() {
+            var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+            $(cv).each(function() {
                 var id = $(this).attr('id');
                 var c=document.getElementById(id);
                 var ctx=c.getContext("2d");
@@ -213,7 +213,7 @@ function redefineFunctions() {
 
                 ctx.moveTo(0+10, 0+5);
                 ctx.lineTo(ctxWidth-10, ctxHeight-5);
-                ctx.moveTo(ctxWidth-10, ctxZero+5);
+                ctx.moveTo(ctxWidth-10, 0+5);
                 ctx.lineTo(0+10, ctxHeight-5);
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 6;
