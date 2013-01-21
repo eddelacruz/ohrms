@@ -154,9 +154,7 @@ function drawMask(tooth) {
     maskCtx.save()*/
 };
 
-/*PAINT and SYMBOL FUNCTION*/
-
-
+/*Paint and Symbol Function*/
 function addClick(x, y, dragging) {
     clickX.push(x);
     clickY.push(y);
@@ -190,7 +188,6 @@ function redraw() {
 };
 
 function redefineFunctions() {
-
     $tempCanvas.mousedown(function(e){
         if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1)){
             //console.log('mousedown'+toolData);
@@ -202,12 +199,12 @@ function redefineFunctions() {
             redraw();
         } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1)){
             //console.log('whynot?'+tooth+toolType+toolData);
-            setSymbol(tooth, toolType, toolData)
+            setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
             $(cv).each(function() {
                 var id = $(this).attr('id');
-                var c=document.getElementById(id);
-                var ctx=c.getContext("2d");
+                var c = document.getElementById(id);
+                var ctx = c.getContext("2d");
                 var ctxWidth = parseInt($('#'+c.id).attr('width'));
                 var ctxHeight = parseInt($('#'+c.id).attr('height'));
 
@@ -273,15 +270,15 @@ $('#selectable button').click(function() {
     };
 });
 
+//selecting the current tooth focus by mouse
 $('.gum canvas').hover(function() {
     var $this = $(this);
     tooth = $this.parent().attr('id');
     imageWidth = $this.attr('width');
     imageHeight = $this.attr('height');
-    if( $.inArray(tooth, curTooth) != -1){
+    if($.inArray(tooth, curTooth) != -1){
         switch(toolType){
             case 'symbol':
-                //setSymbol(tooth, toolType, toolData);
                 setVariables(tooth, toolType, toolData);
                 redefineFunctions();
                 break;
@@ -290,7 +287,7 @@ $('.gum canvas').hover(function() {
                 break;
             default:
                 tooth = "";
-                console.log("no toolType selected");
+                console.log("No Tool Selected.");
                 break;
         }
     }
@@ -301,10 +298,10 @@ function setPaint(tooth, toolType, toolData) {
     if ( $.inArray(toolData, listedPaint) >= -1 || $.inArray(toolData, listedSymbol) >= -1) {
         console.log('===========================> setPaint'+tooth);
         var gum = "#"+tooth+".gum";
+        var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
-        var $c = $("#canvas"+tooth+"_"+toolData);
         //check if not-exists ung canvas, if-not exists add div
-        if ($c.length <= 0 && toolType != "") {
+        if ($(c).length <= 0 && toolType != "") {
             $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
         }
         setVariables(tooth, toolType, toolData);
@@ -318,10 +315,9 @@ function setSymbol(tooth, toolType, toolData) {
         case 'EXT':
             console.log("==========================> setSymbol: "+tooth);
             var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-            var tempCanvas = "#"+tooth+".gum>canvas";
             var t = tooth+"_"+toolData;
             //check if not-exists ung canvas, if-not exists add div
-            if ($(c).length === 0) {
+            if ($(c).length <= 0) {
                 $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
             } else {
                 $(c).parent().remove()
