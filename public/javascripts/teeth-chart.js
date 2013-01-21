@@ -278,12 +278,14 @@ $('.gum canvas').hover(function() {
     imageHeight = $this.attr('height');
     if($.inArray(tooth, curTooth) != -1){
         switch(toolType){
-            case 'symbol':
+            case 'paint':
+                setPaint(tooth, toolType, toolData);
                 setVariables(tooth, toolType, toolData);
                 redefineFunctions();
                 break;
-            case 'paint':
-                setPaint(tooth, toolType, toolData);
+            case 'symbol':
+                setVariables(tooth, toolType, toolData);
+                redefineFunctions();
                 break;
             default:
                 tooth = "";
@@ -295,36 +297,30 @@ $('.gum canvas').hover(function() {
 
 //creating canvas to put paint on
 function setPaint(tooth, toolType, toolData) {
-    if ( $.inArray(toolData, listedPaint) >= -1 || $.inArray(toolData, listedSymbol) >= -1) {
+    if ( $.inArray(toolData, listedPaint) >= -1) {
         console.log('===========================> setPaint'+tooth);
         var gum = "#"+tooth+".gum";
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
         //check if not-exists ung canvas, if-not exists add div
-        if ($(c).length <= 0 && toolType != "") {
+        if ($(c).length <= 0) {
             $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
         }
-        setVariables(tooth, toolType, toolData);
-        redefineFunctions();
     };
 };
 
 //creating canvas to put symbol on
 function setSymbol(tooth, toolType, toolData) {
-    switch(toolData) {
-        case 'EXT':
-            console.log("==========================> setSymbol: "+tooth);
-            var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-            var t = tooth+"_"+toolData;
-            //check if not-exists ung canvas, if-not exists add div
-            if ($(c).length <= 0) {
-                $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
-            } else {
-                $(c).parent().remove()
-            }
-            break;
-        default:
-            console.log('pumasok sa default ng setSymbol');
+    if ( $.inArray(toolData, listedSymbol) >= -1) {
+        console.log("==========================> setSymbol: "+tooth);
+        var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+        var t = tooth+"_"+toolData;
+        //check if not-exists ung canvas, if-not exists add div
+        if ($(c).length <= 0) {
+            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+        } else {
+            $(c).parent().remove()
+        }
     };
 };
 
