@@ -8,11 +8,12 @@ import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{AuditLogDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
+import ws.deserializer.json.{AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.PatientList
 import ws.services.DentistList
 import ws.services.StaffList
+import ws.services.ClinicList
 
 
 /**
@@ -22,7 +23,7 @@ import ws.services.StaffList
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer{
+object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -76,6 +77,18 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientListById(id)))))
   }
 
+  def getClinicListById(id: String) = Action {
+    Ok(JsObject(Seq("ClinicList" -> toJson(ClinicService.getClinicListById(id)))))
+  }
+
+  def getClinicList(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("ClinicList" -> toJson(ClinicService.getClinicList(start, count)))))
+  }
+
+  def searchClinicList(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("ClinicList" -> toJson(ClinicService.searchClinicList(start, count, filter)))))
+  }
+
   def submitPatientAddForm = Action {
     implicit request =>
       val id = ""
@@ -97,6 +110,40 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         Status(500)
       }
 
+  }
+
+  def submitClinicAddForm = Action {
+    implicit request =>
+      val id = ""
+      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").head
+      val address = request.body.asFormUrlEncoded.get("address").head
+      val image = request.body.asFormUrlEncoded.get("image").head
+      val pl = ClinicList("", clinicName, address, image)
+
+      if (ClinicService.addClinic(pl) >= 1) {
+        Redirect("/clinic")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
+  }
+
+  def submitClinicUpdateForm = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").head
+      val address = request.body.asFormUrlEncoded.get("address").head
+      val image = request.body.asFormUrlEncoded.get("image").head
+      val pl = ClinicList(id, clinicName, address, image)
+
+      if (ClinicService.updateClinic(pl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
   }
 
   def auditLog(start: Int, count: Int) = Action {

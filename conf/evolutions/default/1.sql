@@ -51,13 +51,6 @@ date_created TIMESTAMP,
 date_last_updated TIMESTAMP,
 Primary key(id));
 
-create table medical_history(
-id char(36) NOT NULL,
-patient_id char(36),
-description varchar(200),
-PRIMARY KEY(id),
-foreign key (patient_id) references patients(id));
-
 create table staff(
 id char(36) NOT NULL,
 first_name varchar(200),
