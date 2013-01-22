@@ -10,7 +10,7 @@ import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
-case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, medicalHistoryId: String, address: String, contactNo: String, dateOfBirth: String, image: String)
+case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, address: String, contactNo: String, dateOfBirth: String, image: String)
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,7 +41,6 @@ object PatientService extends Secured{
             |first_name,
             |middle_name,
             |last_name,
-            |medical_history_id,
             |address,
             |contact_no,
             |date_of_birth,
@@ -56,12 +55,11 @@ object PatientService extends Secured{
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
-            get[String]("medical_history_id") ~
             get[String]("address") ~
             get[String]("contact_no") ~
             get[Date]("date_of_birth") ~
             get[String]("image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, f, g, h.toString, i)
           } *
         }
         patientList
@@ -78,7 +76,6 @@ object PatientService extends Secured{
             |first_name,
             |middle_name,
             |last_name,
-            |medical_history_id,
             |address,
             |contact_no,
             |date_of_birth,
@@ -93,12 +90,11 @@ object PatientService extends Secured{
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
-            get[String]("medical_history_id") ~
             get[String]("address") ~
             get[String]("contact_no") ~
             get[Date]("date_of_birth") ~
             get[String]("image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, f, g, h.toString, i)
           } *
         }
         patientList
@@ -116,7 +112,6 @@ object PatientService extends Secured{
             |first_name,
             |middle_name,
             |last_name,
-            |medical_history_id,
             |address,
             |contact_no,
             |date_of_birth,
@@ -135,12 +130,11 @@ object PatientService extends Secured{
             get[String]("first_name") ~
             get[String]("middle_name") ~
             get[String]("last_name") ~
-            get[String]("medical_history_id") ~
             get[String]("address") ~
             get[String]("contact_no") ~
             get[Date]("date_of_birth") ~
             get[String]("image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, e, f, g, h.toString, i)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i => PatientList(a, b, c, d, f, g, h.toString, i)
           } *
         }
         searchPatientList
@@ -180,7 +174,6 @@ object PatientService extends Secured{
             |{first_name},
             |{middle_name},
             |{last_name},
-            |{medical_history_id},
             |{address},
             |{contact_no},
             |{date_of_birth},
@@ -194,7 +187,6 @@ object PatientService extends Secured{
           'first_name -> p.firstName,
           'middle_name -> p.middleName,
           'last_name -> p.lastName,
-          'medical_history_id -> p.medicalHistoryId,
           'address -> p.address,
           'contact_no -> p.contactNo,
           'date_of_birth -> p.dateOfBirth,
