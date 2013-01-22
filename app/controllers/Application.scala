@@ -13,9 +13,9 @@ import util.pdf.PDF
 import views._
 import ws.services.LoginService
 import views.html.patient
-import ws.delegates.PatientDelegate
+import ws.delegates.{PatientDelegate, AppointmentDelegate}
 
-object Application extends Controller {
+object Application extends Controller{
 
   val loginForm = Form(
     tuple(
@@ -23,7 +23,6 @@ object Application extends Controller {
       "password" -> text
     ) verifying("Invalid username or password", result => result match {
       case (user_name, password) => {
-        println("<><><><><><><><><><><><><><><><><>" + LoginService.authenticate(user_name, password))
         LoginService.authenticate(user_name, password).isDefined
       }
     })
@@ -31,7 +30,7 @@ object Application extends Controller {
 
   def billySample = Action{
     implicit request =>
-    Ok(html.reports.billy())
+      Ok(html.reports.billy())
   }
 
   def login = Action {
@@ -44,9 +43,11 @@ object Application extends Controller {
       loginForm.bindFromRequest.fold(
         formWithErrors => BadRequest(views.html.login(formWithErrors)),
         userList => {
-          Cache.set("user_name", userList._1)
-          println("user_name is: " + userList._1)
-          Redirect(routes.Application.dashboard())
+          val usrList = LoginService.authenticate(userList._1, userList._2).get
+          Cache.set("user_name", usrList.username)
+          Cache.set("role", usrList.role)
+          println(">>> Successfully logged in: " + usrList.username)
+          Redirect(routes.Application.dashboard()).withSession(Security.username -> usrList.username)
         }
       )
   }
@@ -57,20 +58,19 @@ object Application extends Controller {
       implicit request =>
         val start = 0
         val count = 5
-        Ok(html.dboard(PatientDelegate.getPatientList(start,count)))
+        Ok(html.dboard(PatientDelegate.getPatientList(start,count), AppointmentDelegate.getAppointmentsToday))
   }
 
   def logout = Action {
     Cache.set("user_name", null)
-    Redirect(routes.Application.login).withNewSession.flashing(
-      "success" -> "You are now logged out."
-    )
+    Cache.set("role", null)
+    Redirect(routes.Application.login).withNewSession
   }
 
 
-
   private def username(request: RequestHeader) = {
-    Cache.getAs[String]("user_name")
+    //Cache.getAs[String]("user_name")
+    request.session.get(Security.username)
   }
 
   private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
@@ -87,7 +87,8 @@ object Application extends Controller {
 
   trait Secured {
     private def username(request: RequestHeader) = {
-      Cache.getAs[String]("user_name")
+      //Cache.getAs[String]("user_name")
+      request.session.get(Security.username)
     }
 
     private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())

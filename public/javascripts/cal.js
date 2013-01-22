@@ -15,91 +15,60 @@ $(document).ready(function() {
 
     $.getJSON("/json/appointments",
         function(data){
-            //console.log(data["AppointmentList"][0].id);
-            //console.log(data["AppointmentList"][0]["id"]);
+            //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
-                    /*$.each(vl, function(k, v){
-                        console.log( k + ":" + v);
-                    })*/
+                    var s = new Date(Date.parse(vl.dateStart));
+                    var e = new Date(Date.parse(vl.dateEnd));
+                    var allDay = (s.getHours() === 0) ? true : false;
+                    var color, borderColor, textColor;
+                    switch(vl.status) {
+                    case 1: //pending blue
+                        color = '#006dcc';
+                        borderColor = '#0044cc';
+                        textColor = '#fff';
+                        break;
+                    case 2: //rescheduled yellow
+                        color = '#fbb450';
+                        borderColor = '#f89406';
+                        textColor = '#fff';
+                        break;
+                    case 3: //cancelled red
+                        color = '#ee5f5b';
+                        borderColor = '#bd362f';
+                        textColor = '#fff';
+                        break;
+                    case 4: //completed green
+                        color = '#62c462';
+                        borderColor = '#51a351';
+                        textColor = '#fff';
+                        break;
+                    default:
+                        color = '#006dcc';
+                        borderColor = '#0044cc';
+                        textColor = '#fff';
+                    }
                     $calendar.fullCalendar('addEventSource',
                         [{
                             title: vl.lastName+", "+vl.firstName+" "+vl.middleName+" - "+vl.description,
-                            start: new Date(Date.parse(vl.dateStart)),
-                            end: new Date(Date.parse(vl.dateEnd)),
-                            allDay: "false",
-                            firstName: "firstName",
-                            middleName: "middleName",
-                            lastName: "lastName",
-                            dentistId: "dentistId",
-                            description: "description",
-                            contactNo: "contactNo",
-                            address: "address",
-                            status: ''
+                            start: new Date(s.getFullYear(), s.getMonth(), s.getDate(), s.getHours(), s.getMinutes()),
+                            end: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes()),
+                            allDay: allDay,
+                            firstName: vl.firstName,
+                            middleName: vl.middleName,
+                            lastName: vl.lastName,
+                            dentistId: vl.dentistId,
+                            description: vl.description,
+                            contactNo: vl.contactNo,
+                            address: vl.address,
+                            status: vl.status,
+                            color: color,
+                            borderColor: borderColor,
+                            textColor: textColor
                         }]);
                 })
             })
     });
-
-    /*$.ajax({
-       dataType: "json/appointments",
-       url: "",
-       data: data,
-       success: alert("hehe")
-    });*/
-
-    /*var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();*/
-
-    /*$('.fullcalendar').fullCalendar('addEventSource', [
-    {
-        title: 'All Day Event',
-        start: new Date(y, m, 1)
-    },
-    {
-        title: 'Long Event',
-        start: new Date(y, m, d-5),
-        end: new Date(y, m, d-2)
-    },
-    {
-        id: 999,
-        title: 'Repeating Event',
-        start: new Date(y, m, d-3, 16, 0),
-        allDay: false
-    },
-    {
-        id: 999,
-        title: 'Repeating Event',
-        start: new Date(y, m, d+4, 16, 0),
-        allDay: false
-    },
-    {
-        title: 'Meeting',
-        start: new Date(y, m, d, 10, 30),
-        allDay: false
-    },
-    {
-        title: 'Lunch',
-        start: new Date(y, m, d, 12, 0),
-        end: new Date(y, m, d, 14, 0),
-        allDay: false
-    },
-    {
-        title: 'Birthday Party',
-        start: new Date(y, m, d+1, 19, 0),
-        end: new Date(y, m, d+1, 22, 30),
-        allDay: false
-    },
-    {
-        title: 'Click for Google',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        url: 'http://google.com/'
-    }
-    ]);*/
-
 
     function clearFields(){
         $('#addAppointmentModal input[name=first_name]').attr("value",'');
@@ -168,7 +137,7 @@ $(document).ready(function() {
 
     });
 
-    //show all events  hiuyewhd3519
+    //show all events
     $('#showEventsButton').click(function(e){
         e.preventDefault();
         $calendar.fullCalendar('clientEvents').map( function(item){
@@ -193,23 +162,21 @@ $(document).ready(function() {
             startVar = start
             endVar = end
             allDayVar = allDay
-            console.log(start, end);
             if(start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear() && start.getDate() === end.getDate()){
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()
             } else {
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
             //TODO lagyan ng get hour at minutes
-            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+"00:00:00";
-            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+"00:00:00";
-            console.log("ito ang selected na start at end "+start+end);
+            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
+            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
             $('input[name=date_end]').attr("value", end);
             e.preventDefault();
         },
-        eventDrop: function ( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
+        /*eventDrop: function ( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
             $calendar.fullCalendar('clientEvents').map( function(item){
                 //check if may kapareho ng araw and oras and dentists.. if meron
                 try {
@@ -226,7 +193,7 @@ $(document).ready(function() {
         },
         eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
             alert("hi");
-        },
+        },*/
         editable: true
     });
 

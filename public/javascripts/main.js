@@ -682,6 +682,7 @@ function res() {
         });
     });*/
 
+    //dashboard live effect
     var $latestPatients = $('.box-content.no-inner-space.latest-patients ul li');
 
     var delay = 2000;
@@ -696,5 +697,17 @@ function res() {
             $('.box-content.no-inner-space.latest-patients ul li').hide();
             //console.log('behind');
         }
+    });
+
+    //context menu
+    $('.gum').contextPopup({
+        items: [
+            {label:'Dentist Tools',
+            icon:'/assets/images/favicon.png',
+            action: function(){
+                $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("fold")
+                }
+            }
+            ]
     });
 });

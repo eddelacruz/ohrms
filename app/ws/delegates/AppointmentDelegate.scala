@@ -4,12 +4,11 @@ import play.api.libs.concurrent.Promise
 import play.api.libs.ws._
 import play.api.libs.json.{JsValue, JsObject}
 import collection.mutable.ListBuffer
-import ws.services.AppointmentList
+import ws.services.{AppointmentList, AppointmentService}
 import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.libs.json.JsObject
-import ws.services.AppointmentService
 import play.api.libs.ws.Response
 
 /**
@@ -71,6 +70,18 @@ object AppointmentDelegate extends WsHelper {
     println()
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
+  def getAppointmentsToday() = {
+    val res: Promise[Response] = doGet("/json/appointments/today")
+    val json: JsValue = res.await.get.json
+    val al = ListBuffer[AppointmentList]()
+
+    (json \ "AppointmentList").as[Seq[JsObject]].map({
+      a =>
+        al += convertToAppointmentList(a)
+    })
+    al.toList
   }
 }
 

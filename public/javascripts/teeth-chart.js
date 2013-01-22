@@ -1,7 +1,9 @@
 $(function() {
     $( "#dentistTools" ).dialog({
-        width: 360
-    });
+        autoOpen: false,
+        width: 375
+    }).dialog('option', 'position', [500,500]);
+
     $( "#accordion" ).accordion({
         autoHeight: false,
         clearStyle: true
@@ -13,6 +15,11 @@ $(function() {
         $(this).css('color', '#FFF');
         $(this).css('text-shadow', 'rgba(0, 0, 0, 0.796875) 0px 1px 4px, rgba(255, 255, 255, 0.296875) 0px 0px 10px');
     });
+});
+
+//hide/show of dentist tools dialog
+$('#dentistToolsButton').click(function(){
+    $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').show("fold");
 });
 
 // Array Remove - By John Resig (MIT Licensed)
@@ -32,8 +39,9 @@ var violet = '#cb3594'
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, listedPaint = new Array("OP", "CVTY", "DCY"), listedSymbol = new Array("EXT"), maskDataUrl;
 var imageObj2;
 
-
+var toothWithService = new Array();
 var curTooth = new Array();
+var curService = new Array();
 var clickX = new Array();
 var clickY = new Array();
 var clickDrag = new Array();
@@ -103,16 +111,14 @@ drawFTOutline();
 //function to repaint the area just by entering the position
 
 //function to save the previously painted teeth area
-function loadPaint(tooth) {
+function loadPaint() {
     var imageObj = new Image();
     imageObj.onload = function() {
         ctx.drawImage(imageObj, 0, 0);
         var imageData = ctx.getImageData(0,0, imageWidth, imageHeight);
         var pixel = imageData.data;
 
-
-
-        // if white then change alpha to 0
+        // if white then change alpha to 0  for the eraser
         var r=0, g=1, b=2,a=3;
         for (var p = 0; p<pixel.length; p+=4)
         {
@@ -123,8 +129,10 @@ function loadPaint(tooth) {
         ctx.putImageData(imageData,0,0);
     }
     imageObj.src = tempImageDataUrl;
-
-
+    if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
+        toothWithService.push(tooth+"_"+toolData); //end of paint
+        console.log(toothWithService);
+    }
 };
 
 $('#clearButton').click(function() {
@@ -150,9 +158,7 @@ function drawMask(tooth) {
     maskCtx.save()*/
 };
 
-/*PAINT FUNCTION*/
-
-
+/*Paint and Symbol Function*/
 function addClick(x, y, dragging) {
     clickX.push(x);
     clickY.push(y);
@@ -186,32 +192,31 @@ function redraw() {
 };
 
 function redefineFunctions() {
-
     $tempCanvas.mousedown(function(e){
         if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1)){
             //console.log('mousedown'+toolData);
             var mouseX = e.pageX - this.offsetLeft;
             var mouseY = e.pageY - this.offsetTop;
-
             paint = true;
             addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
             redraw();
         } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1)){
-            console.log('whynot?'+tooth+toolType+toolData);
-            setSymbol(tooth, toolType, toolData)
+            //console.log('whynot?'+tooth+toolType+toolData);
+            setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+
+            //todo switch here for ext only
             $(cv).each(function() {
                 var id = $(this).attr('id');
-                var c=document.getElementById(id);
-                var ctx=c.getContext("2d");
+                var c = document.getElementById(id);
+                var ctx = c.getContext("2d");
                 var ctxWidth = parseInt($('#'+c.id).attr('width'));
                 var ctxHeight = parseInt($('#'+c.id).attr('height'));
-                var ctxZero = 0
 
-                ctx.moveTo(ctxZero+10, ctxZero+5);
+                ctx.moveTo(0+10, 0+5);
                 ctx.lineTo(ctxWidth-10, ctxHeight-5);
-                ctx.moveTo(ctxWidth-10, ctxZero+5);
-                ctx.lineTo(ctxZero+10, ctxHeight-5);
+                ctx.moveTo(ctxWidth-10, 0+5);
+                ctx.lineTo(0+10, ctxHeight-5);
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 6;
                 ctx.stroke();
@@ -233,7 +238,7 @@ function redefineFunctions() {
             //console.log("posibleng i-save sa db x:"+clickX+" at y:"+clickY); //for printing the click Array
             paint = false;
             clearPaint(tooth);
-            loadPaint(tooth);
+            loadPaint();
         };
     });
 
@@ -270,24 +275,26 @@ $('#selectable button').click(function() {
     };
 });
 
+//selecting the current tooth focus by mouse
 $('.gum canvas').hover(function() {
     var $this = $(this);
     tooth = $this.parent().attr('id');
     imageWidth = $this.attr('width');
     imageHeight = $this.attr('height');
-    if( $.inArray(tooth, curTooth) != -1){
+    if($.inArray(tooth, curTooth) != -1){
         switch(toolType){
-            case 'symbol':
-                //setSymbol(tooth, toolType, toolData);
+            case 'paint':
+                setPaint(tooth, toolType, toolData);
                 setVariables(tooth, toolType, toolData);
                 redefineFunctions();
                 break;
-            case 'paint':
-                setPaint(tooth, toolType, toolData);
+            case 'symbol':
+                setVariables(tooth, toolType, toolData);
+                redefineFunctions();
                 break;
             default:
                 tooth = "";
-                console.log("no toolType selected");
+                console.log("No Tool Selected.");
                 break;
         }
     }
@@ -295,36 +302,37 @@ $('.gum canvas').hover(function() {
 
 //creating canvas to put paint on
 function setPaint(tooth, toolType, toolData) {
-    if ( $.inArray(toolData, listedPaint) >= -1 || $.inArray(toolData, listedSymbol) >= -1) {
+    if ( $.inArray(toolData, listedPaint) >= -1) {
         console.log('===========================> setPaint'+tooth);
         var gum = "#"+tooth+".gum";
+        var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
-        var $c = $("#canvas"+tooth+"_"+toolData);
         //check if not-exists ung canvas, if-not exists add div
-        if ($c.length <= 0 && toolType != "") {
+        if ($(c).length <= 0) {
             $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
         }
-        setVariables(tooth, toolType, toolData);
-        redefineFunctions();
     };
 };
 
 //creating canvas to put symbol on
 function setSymbol(tooth, toolType, toolData) {
-    switch(toolData) {
-        case 'EXT':
-            console.log("==========================> setSymbol: "+tooth);
-            var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-            var tempCanvas = "#"+tooth+".gum>canvas";
-            var t = tooth+"_"+toolData;
-            if ($(c).length === 0) { //check if not-exists ung canvas, if-not exists add div
-                $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
-            } else {
-                $(c).parent().remove()
+    if ( $.inArray(toolData, listedSymbol) >= -1) {
+        console.log("==========================> setSymbol: "+tooth);
+        var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+        var t = tooth+"_"+toolData;
+        //check if not-exists ung canvas, if-not exists add div
+        if ($(c).length <= 0) {
+            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+            if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
+                toothWithService.push(tooth+"_"+toolData); //end of symbol
+                console.log(toothWithService);
             }
-            break;
-        default:
-            console.log('pumasok sa default ng setSymbol');
+        } else {
+            $(c).parent().remove();
+            var index = $.inArray(tooth, toothWithService);
+            toothWithService.remove(index);
+            console.log(toothWithService); //symbol only has remove from toothWithService
+        }
     };
 };
 
@@ -343,4 +351,3 @@ $('.gum input[type=checkbox]').click(function() {
         console.log("else "+curTooth);
     }
 });
-

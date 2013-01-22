@@ -396,4 +396,9 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAllAppointments))))
   }
 
+  def getAllAppointmentsToday = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAppointmentsToday))))
+  }
+
 }

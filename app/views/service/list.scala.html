@@ -2,12 +2,82 @@
 
 @main(Messages("dentalService.title")){
 
-<!--  List -->
 <header class="grid_12 head center">
-    <h1>@Messages("dental.service.list.title")</h1>
+    <h1>@Messages("dental.service.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<!-- Add Dental Service-->
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1>@Messages("service.add.title")</h1>
+            </div>
+            <div class="right">
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div class="center">
+            <div class="form-details">
+
+                <div class="field left">
+                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
+                    <ul>
+                        <li>
+                            <label class="upper">Name:</label>
+                            <input type="text" name="service_name">
+                        </li>
+                        <li>
+                            <label>Code:</label>
+                            <input type="text" name="service_code">
+                        </li>
+                        <li>
+                            <label>Service Type:</label>
+                            <select name="service_type">
+                                <option value="General Dentistry">General Dentistry</option>
+                                <option value="Orthodontics">Orthodontics</option>
+                                <option value="Prosthodontics">Prosthodontics</option>
+                            </select>
+                        </li>
+                        <input type="hidden" name="image" value="anon-160x160.jpg"/>
+                    </ul>
+                </div>
+                <div class="field right">
+                    <ul>
+                        <li>
+                            <label class="upper">Tool Type:</label>
+                            <select name="target">
+                                <option value="1">Paint</option>
+                                <option value="2">Symbol</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>Price:</label>
+                            <input type="text" name="price">
+                        </li>
+                        <li>
+                            <label>Color</label>
+                            <input type="text" name="color">
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="pane">
+            <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
+        </footer>
+
+    </div>
+</div>
+<!-- /Add Dental Service-->
+
+<!-- Service List -->
 <div class="grid_12">
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
@@ -24,10 +94,10 @@
         </div>
         <div class="dataTables_filter" id="DataTables_Table_0_filter">
             <label>
-                <span class="textnode">@Messages("misc.search"): </span>
-                @helper.form(action=routes.DentalService.searchServiceList()) {
-                <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
-                }
+                <form action="@routes.DentalService.searchServiceList()" method="GET">
+                    <span class="textnode">@Messages("misc.search"): </span>
+                    <input type="text" aria-controls="DataTables_Table_0" id="search_box" name="filter" placeholder="Enter keyword..">
+                </form>
             </label>
         </div>
         <div class="clear"></div></div>
@@ -41,7 +111,7 @@
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 10%;" aria-label="Browser: activate to sort column ascending">
                         <div class="parentsort">Code
                             <div class="sorticon"></div>
                         </div>
@@ -76,7 +146,7 @@
                     <td class=" ">@dsl.code</td>
                     <td class=" ">@dsl.sType</td>
                     <td class=" ">@dsl.target</td>
-                    <td class=" ">PHP @dsl.price.00</td>
+                    <td class=" "><span class="pesos">P</span> @dsl.price.00</td>
                     <td class=" ">@dsl.color</td>
                 </tr>
                 }
@@ -96,6 +166,6 @@
         </div>
     </div>
 </div>
-<!-- / List -->
+<!-- /Service List -->
 
 }

@@ -133,6 +133,11 @@ $(document).ready(function() {
         }
     );
 
+    //for saving treatment plan
+    $('#save_treatment_plan').click(function(e){
+        e.preventDefault();
+        alert(curTooth);
+    });
 
     $('#dentistToolsDialog').click(function() {
       $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').hide();

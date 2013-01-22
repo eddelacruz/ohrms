@@ -14,7 +14,7 @@
     <div class="box-content">
         <div class="center">
             <div class="form-details">
-
+                @helper.form(action = routes.Patient.submitAddForm){
                 <div class="field left">
                     <input type="hidden" name="id" value="">
                     <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
@@ -55,8 +55,9 @@
             </div>
         </div>
         <footer class="pane">
-            <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
+            <input id="addButtonModal" type="submit" class="bt blue right" value="@Messages("button.add")">
         </footer>
+        }
 
     </div>
 </div>

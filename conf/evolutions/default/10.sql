@@ -21,6 +21,8 @@ CREATE  TABLE `ohrms`.`appointments` (
     ON UPDATE RESTRICT)
 DEFAULT CHARACTER SET = latin1;
 
+ALTER TABLE `ohrms`.`appointments` CHANGE COLUMN `status` `status` INT(1) NULL DEFAULT NULL COMMENT '1 - pending:blue, 2 - time_rescheduled:yellow,  3 - cancelled:red,  4 - completed:green'  ;
+
 # --- !Downs
 
 DROP TABLE IF EXISTS appointments;

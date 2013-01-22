@@ -1,4 +1,6 @@
 @(title: String)(content: Html)
+@import play.cache.Cache
+
 
 <!DOCTYPE html>
 
@@ -26,7 +28,6 @@
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery.miniColors.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/elrte.min.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/elfinder.css")'>
-    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.8.18.custom.min.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.tipsy.js")'></script>
@@ -71,10 +72,14 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-resize.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.contextmenu.js")'></script>
     <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.9.2.custom.js")'></script>-->
 
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/teeth-chart.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery-ui-1.9.2.custom.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery.contextmenu.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
+
 </head>
 <body style="background-image: url(@routes.Assets.at("images/bg-pattern-5.png"); ">
 <!-- wrapper -->
@@ -113,7 +118,7 @@
                 <li class="last">
                     <a href="#" class="tooltip" original-title="edit profile">
                         <span class="glyph user"></span>
-                        <span class="text">Dr. Kureha</span>
+                        <span class="text">@(play.cache.Cache.get("user_name"))</span>
                     </a>
                 </li>
             </ul>
@@ -211,6 +216,5 @@
 
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-child.js")'></script>
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-chart.js")'></script>
-
 </body>
 </html>
