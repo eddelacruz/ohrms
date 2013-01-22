@@ -1,6 +1,6 @@
 package ws.deserializer.json
 
-import ws.services.PatientList
+import ws.services.{PatientList}
 import play.api.libs.json._
 
 /**
@@ -21,7 +21,8 @@ trait PatientListDeserializer {
       (json \ "address").as[String],
       (json \ "contactNo").as[String],
       (json \ "dateOfBirth").as[String],
-      (json \ "image").as[String]
+      (json \ "image").as[String],
+      (json \ "medicalHistory").as[String]
     )
 
     def writes(p: PatientList): JsValue = JsObject(
@@ -33,7 +34,8 @@ trait PatientListDeserializer {
         "address" -> JsString(p.address),
         "contactNo" -> JsString(p.contactNo),
         "dateOfBirth" -> JsString(p.dateOfBirth),
-        "image" -> JsString(p.image)
+        "image" -> JsString(p.image),
+        "medicalHistory" -> JsString(p.medicalHistory)
       )
     )
   }

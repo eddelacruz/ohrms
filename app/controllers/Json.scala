@@ -86,7 +86,8 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
       val image = request.body.asFormUrlEncoded.get("image").head
-      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image)
+      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").head
+      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
 
       if (PatientService.addPatient(pl) >= 1) {
         Redirect("/patients")
@@ -112,7 +113,8 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
       val image = request.body.asFormUrlEncoded.get("image").head
-      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image)
+      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").head
+      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
 
       if (PatientService.updatePatient(pl) >= 1) {
         Status(200)

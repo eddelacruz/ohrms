@@ -21,7 +21,6 @@
                 <ul>
                     <li class="active first"><a href="#tab-1">Profile</a></li>
                     <li><a href="#tab-2">Personal Dental Chart</a></li>
-                    <li><a href="#tab-3">Medical History</a></li>
                 </ul>
             </nav>
             <a href="#" class="close">close</a>
@@ -73,6 +72,10 @@
                     <li>
                         <label>Birthdate:</label>
                         <label class="form-label">@pl.dateOfBirth</label>
+                    </li>
+                    <li>
+                        <label>Medical History: </label>
+                        <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
                     </li>
                 </ul>
             </div>
@@ -423,84 +426,7 @@
     </div>
     <!-- /Dental Services -->
 </div>
-<div id="tab-3" class="tab">
-    <div class="simple-box">
-        <div class="grid_11 boxed-table">
-            <div>
-                <!-- Table - Allergies to -->
-                <table>
-                    <thead>
-                    <tr>
-                        <th class="first">Allergic or Unusual reaction to:</th>
-                        <th>Description</th>
-                        <th class="last">Status</th>
 
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Penicillins</td>
-                        <td></td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Aspirins</td>
-                        <td></td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Oral Prophylaxis</td>
-                        <td>-</td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <!-- /Table - Allergies to -->
-                <!-- Table - General -->
-                <table>
-                    <thead>
-                    <tr>
-                        <th class="first">General</th>
-                        <th>Description</th>
-                        <th class="last">Status</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Lost of appetite</td>
-                        <td></td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Always hungry</td>
-                        <td></td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Always thirsty</td>
-                        <td>-</td>
-                        <td class="checkbox">
-                            <input type="checkbox" class="ui-helper-hidden-accessible">
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <!-- /Table - General -->
-            </div>
-        </div>
-    </div>
-</div>
 <footer class="pane">
     @patientList.map { p =>
     <a class="bt blue right" href="@routes.Patient.getUpdateForm(p.id)">@Messages("button.edit")</a>

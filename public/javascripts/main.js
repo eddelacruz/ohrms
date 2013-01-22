@@ -671,10 +671,10 @@ function res() {
                         };
                         }
 
-                        $('input[type=file]').change(function() {
+                        /*$('input[type=file]').change(function() {
                         console.log("pumasok sa image upasdfasdf")
                         readURL($(this));
-                        })
+                        })*/
 
     /*$(function() {
         $( "#datepicker" ).datepicker({
