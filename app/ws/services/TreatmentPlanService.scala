@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, target: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
+case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
 
 object TreatmentPlanService {
 
@@ -77,7 +77,7 @@ object TreatmentPlanService {
             |s.`id` as 'service_id',
             |s.`name` as 'service_name',
             |s.`code` as 'service_code',
-            |s.`target`,
+            |s.`tool_type`,
             |s.`type` as 'service_type',
             |s.`price` as 'service_price',
             |s.`color`,
@@ -95,7 +95,7 @@ object TreatmentPlanService {
             get[String]("dental_services.id") ~
             get[String]("dental_services.name") ~
             get[String]("dental_services.code") ~
-            get[Int]("dental_services.target") ~    // TODO elizer tinyint
+            get[Int]("dental_services.tool_type") ~    // TODO elizer tinyint
             get[String]("dental_services.type") ~
             get[String]("dental_services.price") ~
             get[String]("dental_services.color") ~

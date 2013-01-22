@@ -40,6 +40,7 @@ var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx,
 var imageObj2;
 
 var toothWithService = new Array();
+var bannedServices = ['CVTY', 'DCY'] //static for EXT
 var curTooth = new Array();
 var curService = new Array();
 var clickX = new Array();
@@ -47,7 +48,7 @@ var clickY = new Array();
 var clickDrag = new Array();
 var clickColor = new Array();
 var clickTool = new Array();
-var curTool = "crayon";
+var curTool = 'crayon';
 var curColor;
 var paint;
 
@@ -193,14 +194,14 @@ function redraw() {
 
 function redefineFunctions() {
     $tempCanvas.mousedown(function(e){
-        if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1)){
+        if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1) && ($.inArray(toolData, bannedServices) === -1)){
             //console.log('mousedown'+toolData);
             var mouseX = e.pageX - this.offsetLeft;
             var mouseY = e.pageY - this.offsetTop;
             paint = true;
             addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop);
             redraw();
-        } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1)){
+        } else if(toolType === 'symbol' && ($.inArray(tooth, curTooth) > -1) && ($.inArray(toolData, bannedServices) === -1)){
             //console.log('whynot?'+tooth+toolType+toolData);
             setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
