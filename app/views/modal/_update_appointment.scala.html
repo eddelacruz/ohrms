@@ -1,0 +1,100 @@
+@(appointmentList: List[ws.services.AppointmentList])
+
+@main("Appointment Information") {
+
+<header class="grid_12 head">
+    <h1>Appointment Information</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                @appointmentList.map { dl =>
+
+                <h1>@dl.lastName, @dl.firstName @dl.middleName</h1>
+                }
+
+            </div>
+            <div class="right">
+                <nav style="display: none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="columns">
+                <div class="form-image left center">
+
+
+                </div>
+                <div class="form-details right mode-1">
+                    @appointmentList.map { dl =>
+                    @helper.form(action = routes.Appointments.submitUpdateForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="@dl.id">
+                        <ul>
+                            <li>
+                                <label>First Name:</label>
+                                <input type="text" name="first_name" value="@dl.firstName">
+                            </li>
+                            <li>
+                                <label>Middle Name:</label>
+                                <input type="text" name="middle_name" value="@dl.middleName">
+                            </li>
+                            <li>
+                                <label>Last Name:</label>
+                                <input type="text" name="last_name" value="@dl.lastName">
+                            </li>
+                            <li>
+                                <label>Description:</label>
+                                <input type="text" name="description" value="@dl.description">
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field right">
+                        <ul>
+                            <li>
+                                <label>Address:</label>
+                                <input type="text" name="address" value="@dl.address">
+                            </li>
+                            <li>
+                                <label>Contact Number:</label>
+                                <input type="text" name="contact_no" value="@dl.contactNo">
+                            </li>
+                            <li>
+                                <label>Dentist Name:</label>
+                                <input type="text" name="dentist_id" value="@dl.dentistId">
+                            </li>
+                            <li>
+                                <label>Status:</label>
+                                <select name="status">
+                                    <option value="1">Pending</option>
+                                    <option value="2">Time/Date Rescheduled</option>
+                                    <option value="3">Cancelled</option>
+                                    <option value="4">Completed</option>
+                                </select>
+                            </li>
+                            <input type="hidden" name="date_start" value="2013-01-22 18:20:34">
+                            <input type="hidden" name="date_end" value="2013-01-22 18:20:34">
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <footer class="pane">
+            <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
+            <input type="submit" class="bt blue right" value="@Messages("button.update")">
+        </footer> }    }
+    </div>
+
+   }
