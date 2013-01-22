@@ -421,12 +421,12 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       val firstName = request.body.asFormUrlEncoded.get("first_name").head
       val middleName = request.body.asFormUrlEncoded.get("middle_name").head
       val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact").head
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
       val address = request.body.asFormUrlEncoded.get("address").head
       val position = request.body.asFormUrlEncoded.get("position").head
       val userName = request.body.asFormUrlEncoded.get("user_name").head
       val password = request.body.asFormUrlEncoded.get("password").head
-      val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, userName, "")
+      val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, userName, password)
 
       if (StaffService.updateStaff(s) >= 1) {
         Status(200)
