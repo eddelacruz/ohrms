@@ -23,6 +23,10 @@ ALTER TABLE `ohrms`.`dental_services` CHANGE COLUMN `target` `tool_type` INT(1) 
 
 UPDATE `ohrms`.`dental_services` SET `name`='Dental Fillings' WHERE `id`='06500656-f481-4d52-a662-7cde61ed8fe8';
 
+UPDATE `ohrms`.`dental_services` SET `color`='fff799' WHERE `id`='06500656-f481-4d52-a662-7cde61ed8fe8';
+UPDATE `ohrms`.`dental_services` SET `color`='ff0000' WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39';
+UPDATE `ohrms`.`dental_services` SET `color`='00c6ff' WHERE `id`='60a8a017-7fb6-40b6-ab97-af3b24255006';
+
 # --- !Downs
 
 DROP TABLE IF EXISTS banned_dental_services;

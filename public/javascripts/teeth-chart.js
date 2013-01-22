@@ -9,9 +9,21 @@ $(function() {
         clearStyle: true
     });
     $( "button" ).button();
-    $('#selectable button').each(function() {
+
+    //populate services in dentist tool dialog box
+        //retrieval of dental services
+    $.getJSON("/json/dental_services",
+        function(data){
+            $.each(data, function(key, value){
+                $.each(value, function(ky, vl){
+                    $('#dental_services').append('<button id='+vl["code"]+' class="dental_service ui-widget-content ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-type='+vl["tool_type"]+' data-color='+'#'+vl["color"]+' role="button" aria-disabled="false" style="color: rgb(255, 255, 255); text-shadow: rgba(0, 0, 0, 0.796078) 0px 1px 4px, rgba(255, 255, 255, 0.294118) 0px 0px 10px;"><span class="ui-button-text" style="background-color: '+'#'+vl["color"]+' !important;">'+vl["name"]+'</span></button>')
+                })
+            })
+        });
+
+    $('button.dental_service').each(function() {
         $(this).css('background-image', 'url()');
-        $(this).css('background-color', $(this).attr('data-color'));
+        //$(this).css('background-color', $(this).attr('data-color'));
         $(this).css('color', '#FFF');
         $(this).css('text-shadow', 'rgba(0, 0, 0, 0.796875) 0px 1px 4px, rgba(255, 255, 255, 0.296875) 0px 0px 10px');
     });
@@ -51,7 +63,6 @@ var clickTool = new Array();
 var curTool = 'crayon';
 var curColor;
 var paint;
-
 
 function setVariables(tooth, toolType, toolData) {
     //dito may error dapat ifix to, ang nanyayare ay if wala pang canvasFA_EXT or shit like dat, sinesave nya muna ung paint area...
@@ -253,29 +264,6 @@ function redefineFunctions() {
 
 /*END OF PAINT FUNCTION*/
 
-//selecting dental service
-$('#selectable button').click(function() {
-    var $this = $(this);
-    var $id = $this.attr('id');
-    var $toolType = $this.attr('data-type')
-
-    if ($toolType === 'paint' && $id != 'ERASER') {
-        toolType = 'paint';
-        toolData = $id;
-        curColor = $this.attr('data-color'); //get the color if paint
-    } else if ($toolType === 'symbol') {
-        toolType = 'symbol';
-        toolData = $id;
-        curColor = '';
-    }
-    //if eraser is selected
-    if ($id === 'ERASER') {
-        curColor = $this.attr('data-color');
-        curTool = 'eraser';
-        console.log("curTool: "+curTool+" for "+toolData); //output this log
-    };
-});
-
 //selecting the current tooth focus by mouse
 $('.gum canvas').hover(function() {
     var $this = $(this);
@@ -351,4 +339,29 @@ $('.gum input[type=checkbox]').click(function() {
         curTooth.remove(index);
         console.log("else "+curTooth);
     }
+});
+
+//selecting dental service
+$('button.dental_service').click(function() {
+    console.log("button was clicked!");
+    var $this = $(this);
+    var $id = $this.attr('id');
+    var $toolType = $this.attr('data-type');
+
+    if ($toolType === 'paint' && $id != 'ERASER') {
+        toolType = 'paint';
+        toolData = $id;
+        curColor = $this.attr('data-color'); //get the color if paint
+    } else if ($toolType === 'symbol') {
+        toolType = 'symbol';
+        toolData = $id;
+        curColor = '';
+    }
+
+    //if eraser is selected
+    if ($id === 'ERASER') {
+        curColor = $this.attr('data-color');
+        curTool = 'eraser';
+        console.log("curTool: "+curTool+" for "+toolData); //output this log
+    };
 });

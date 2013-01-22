@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentalServiceList(var id: String, name: String, code: String, sType: String, target: Int, price: String, color: String)
+case class DentalServiceList(var id: String, name: String, code: String, sType: String, toolType: Int, price: String, color: String)
 
 object ServicesService {
 
@@ -41,7 +41,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -53,7 +53,7 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Int]("target") ~
+            get[Int]("tool_type") ~
             get[String]("price") ~
             get[String]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
@@ -74,7 +74,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -90,7 +90,7 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Int]("target") ~
+            get[Int]("tool_type") ~
             get[String]("price") ~
             get[String]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
@@ -111,7 +111,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -123,7 +123,7 @@ object ServicesService {
             get[String]("name") ~
             get[String]("code") ~
             get[String]("type") ~
-            get[Int]("target") ~
+            get[Int]("tool_type") ~
             get[String]("price") ~
             get[String]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
@@ -165,7 +165,7 @@ object ServicesService {
             |{name},
             |{code},
             |{type},
-            |{target},
+            |{tool_type},
             |{price},
             |{color},
             |{date_created},
@@ -176,7 +176,7 @@ object ServicesService {
           'name -> d.name,
           'code -> d.code,
           'type-> d.sType,
-          'target -> d.target,
+          'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
           'date_created -> DateWithTime.dateNow,
@@ -198,7 +198,7 @@ object ServicesService {
             |name = {name},
             |code = {code},
             |type = {type},
-            |target = {target},
+            |tool_type = {tool_type},
             |price = {price},
             |color = {color},
             |date_last_updated = {date_last_updated}
@@ -208,7 +208,7 @@ object ServicesService {
           'name -> d.name,
           'code -> d.code,
           'type -> d.sType,
-          'target -> d.target,
+          'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
           'date_last_updated -> DateWithTime.dateNow
