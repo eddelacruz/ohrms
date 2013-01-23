@@ -10,22 +10,39 @@ $(function() {
     });
     $( "button" ).button();
 
-    //populate services in dentist tool dialog box
-        //retrieval of dental services
-    $.getJSON("/json/dental_services",
-        function(data){
-            $.each(data, function(key, value){
-                $.each(value, function(ky, vl){
-                    $('#dental_services').append('<button id='+vl["code"]+' class="dental_service ui-widget-content ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-type='+vl["tool_type"]+' data-color='+'#'+vl["color"]+' role="button" aria-disabled="false" style="color: rgb(255, 255, 255); text-shadow: rgba(0, 0, 0, 0.796078) 0px 1px 4px, rgba(255, 255, 255, 0.294118) 0px 0px 10px;"><span class="ui-button-text" style="background-color: '+'#'+vl["color"]+' !important;">'+vl["name"]+'</span></button>')
-                })
-            })
-        });
-
     $('button.dental_service').each(function() {
         $(this).css('background-image', 'url()');
         //$(this).css('background-color', $(this).attr('data-color'));
         $(this).css('color', '#FFF');
         $(this).css('text-shadow', 'rgba(0, 0, 0, 0.796875) 0px 1px 4px, rgba(255, 255, 255, 0.296875) 0px 0px 10px');
+    });
+
+    //selecting dental service
+    $("button.dental_service").click(function() {
+        console.log("button was clicked!");
+
+        var $this = $(this);
+        var $id = $this.attr("id");
+        var $toolType = $this.attr("data-type");
+
+        console.log($toolType);
+
+        if ($toolType === "1" && $id != "ERASER") {
+            toolType = "paint";
+            toolData = $id;
+            curColor = $this.attr("data-color"); //get the color if paint
+        } else if ($toolType === "2") {
+            toolType = "symbol";
+            toolData = $id;
+            curColor = "";
+        }
+
+        //if eraser is selected
+        if ($id === "ERASER") {
+            curColor = $this.attr("data-color");
+            curTool = "eraser";
+            console.log("curTool: "+curTool+" for "+toolData); //output this log
+        };
     });
 });
 
@@ -51,6 +68,7 @@ var violet = '#cb3594'
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, listedPaint = new Array("OP", "CVTY", "DCY"), listedSymbol = new Array("EXT"), maskDataUrl;
 var imageObj2;
 
+var dentalServices = new Array();
 var toothWithService = new Array();
 var bannedServices = ['CVTY', 'DCY'] //static for EXT
 var curTooth = new Array();
@@ -341,27 +359,13 @@ $('.gum input[type=checkbox]').click(function() {
     }
 });
 
-//selecting dental service
-$('button.dental_service').click(function() {
-    console.log("button was clicked!");
-    var $this = $(this);
-    var $id = $this.attr('id');
-    var $toolType = $this.attr('data-type');
-
-    if ($toolType === 'paint' && $id != 'ERASER') {
-        toolType = 'paint';
-        toolData = $id;
-        curColor = $this.attr('data-color'); //get the color if paint
-    } else if ($toolType === 'symbol') {
-        toolType = 'symbol';
-        toolData = $id;
-        curColor = '';
-    }
-
-    //if eraser is selected
-    if ($id === 'ERASER') {
-        curColor = $this.attr('data-color');
-        curTool = 'eraser';
-        console.log("curTool: "+curTool+" for "+toolData); //output this log
-    };
+//populate services in dentist tool dialog box
+//retrieval of dental services
+$.getJSON("/json/dental_services",
+    function(data){
+        $.each(data, function(key, value){
+            $.each(value, function(ky, vl){
+            $('ul#dental_services').append('<button id='+vl["code"]+' class="dental_service ui-widget-content ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-type='+vl["tool_type"]+' data-color='+'#'+vl["color"]+' role="button" aria-disabled="false" style="color: rgb(255, 255, 255); text-shadow: rgba(0, 0, 0, 0.796078) 0px 1px 4px, rgba(255, 255, 255, 0.294118) 0px 0px 10px;"><span class="ui-button-text" style="background-color: '+'#'+vl["color"]+' !important;">'+vl["name"]+'</span></button>');
+            })
+        })
 });
