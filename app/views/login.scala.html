@@ -82,7 +82,7 @@
             <div id="content" class="compact-page">
                 <div class="min">
                     <div id="logo">
-                        <img src="@routes.Assets.at("images/Logo2.png")" alt="logo">
+                        <img src="@routes.Assets.at("images/Logo4.png")" alt="logo">
                     </div>
                     <div class="main-box">
                         @helper.form(routes.Application.authenticate) {
@@ -93,7 +93,7 @@
                                 <div class="clear"></div><span class="divider"></span>
                             </header>
                             <div class="field fullwidth iconized">
-                                <label class="glyph user" for="undefined" style="top: 7px; left: 8px;"></label><input type="text" placeholder="Login" data-icon="user" name="user_name" id="user_name" value="@form("user_name").value">
+                                <label class="glyph user" for="undefined" style="top: 7px; left: 8px;"></label><input type="text" placeholder="Username" data-icon="user" name="user_name" id="user_name" value="@form("user_name").value">
                             </div>
                             <div class="field fullwidth iconized">
                                 <label class="glyph closed-lock" for="undefined" style="top: 7px; left: 8px;"></label><input type="password" placeholder="Password" data-icon="closed-lock" name="password" id="password" value="@form("password").value">
@@ -108,10 +108,7 @@
                     </div>
 
                     <div class="extension-wrap-center">
-                        <div class="extension bottom menu">
-                            <nav>
-                            </nav>
-                        </div>
+
                     </div>
                 </div>
                 @form.globalError.map { error =>
