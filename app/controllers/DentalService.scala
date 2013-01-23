@@ -74,4 +74,11 @@ object DentalService extends Controller{
       )
   }
 
+  def deleteInformation(id: String) = Action {
+    implicit request =>
+      val params = Map("id" -> Seq(id))
+      DentalServiceDelegate.deleteInformation(params)
+      Redirect("/dental_services")
+  }
+
 }

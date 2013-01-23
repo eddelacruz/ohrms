@@ -234,5 +234,23 @@ object AppointmentService extends Secured {
     }
   }
 
+  def deleteAppointment(id: String): Long = {
+    val currentUser = getUserId
+    val task = "Delete"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE appointments SET
+            |status = {status}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0
+        ).executeUpdate()
+      //  AuditLogService.logTask(id, currentUser, task)
+    }
+  }
+
 }
 

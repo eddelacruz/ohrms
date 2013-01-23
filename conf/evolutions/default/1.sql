@@ -62,6 +62,14 @@ date_created TIMESTAMP,
 Primary key(id),
 FOREIGN KEY (user_id) REFERENCES users(id));
 
+create table announcements(
+id char(36) NOT NULL,
+user_id char(36),
+announcement varchar(200),
+date_created TIMESTAMP,
+PRIMARY KEY(id),
+foreign key (user_id) references users(id));
+
 create table payments(
 id char(36) NOT NULL,
 patient_id char(36),
@@ -81,6 +89,8 @@ insert into users values ('c7e5ef5d-07eb-4904-abbe-0aa73c13490f','cvbautista','1
 insert into users values ('b2c12f2d-0117-45ac-b791-d49557340a41','jbernardo','54321','1','1','2012-10-17 07:34:17');
 insert into users values ('d0d7e4a5-ff89-4f80-85f6-a424c10ff690','jbuning','09876','1','1','2012-09-07 07:34:17');
 insert into users values ('58d46d40-3794-4f92-a935-ca7d1ac24efd','jstamaria','abcdef','2','1','2012-09-09 07:34:17');
+
+insert into announcements values ('gh68ha2m-7301-hb0o-h836-0aa73c13490f','d0d7e4a5-ff89-4f80-85f6-a424c10ff690','walang pasok sa monday at tuesday at wednesday at friday at sunday','2012-09-09 07:34:17');
 
 insert into dentist values ('71b8ecdd-33c9-4aaf-aa30-9d77419aeb95','Johana','Mendoza','Bernardo','Apalit Pampanga','+639109672605','p08b86689898','b2c12f2d-0117-45ac-b791-d49557340a41');
 insert into specialization values ('71b8ecdd-33c9-4aaf-aa30-9d77419aeb95','Periodontics');
@@ -160,7 +170,8 @@ DROP TABLE IF EXISTS dental_services;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS dentist;
 DROP TABLE IF EXISTS specialization;
-DROP TABLE IF EXISTS medical_history;
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS clinic;
+DROP TABLE IF EXISTS announcements;

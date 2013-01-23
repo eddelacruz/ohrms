@@ -8,12 +8,13 @@ import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
+import ws.deserializer.json.{AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.PatientList
 import ws.services.DentistList
 import ws.services.StaffList
 import ws.services.ClinicList
+import ws.services.AnnouncementList
 
 
 /**
@@ -23,7 +24,7 @@ import ws.services.ClinicList
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer{
+object Json extends Controller with WsHelper with AnnouncementListDeserializer with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -91,6 +92,53 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
 
   def searchClinicList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("ClinicList" -> toJson(ClinicService.searchClinicList(start, count, filter)))))
+  }
+
+  def getAnnouncementList(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementList(start, count)))))
+  }
+
+  def searchAnnouncementList(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.searchAnnouncementList(start, count, filter)))))
+  }
+
+  def getAnnouncementListById(id: String) = Action {
+    Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementListById(id)))))
+  }
+
+
+  def submitAnnouncementAddForm = Action {
+    implicit request =>
+      val id = ""
+      val userName = ""
+      val announcement = request.body.asFormUrlEncoded.get("announcement").head
+      val dateCreated = request.body.asFormUrlEncoded.get("date_created").head
+      val pl = AnnouncementList("", "", announcement, dateCreated)
+
+      if (AnnouncementService.addAnnouncement(pl) >= 1) {
+        Redirect("/announcements")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
+  }
+
+  def submitAnnouncementUpdateForm = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+      val userName = request.body.asFormUrlEncoded.get("user_name").head
+      val announcement = request.body.asFormUrlEncoded.get("announcement").head
+      val dateCreated = request.body.asFormUrlEncoded.get("date_created").head
+      val pl = AnnouncementList(id, userName, announcement, dateCreated)
+
+      if (AnnouncementService.updateAnnouncement(pl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
   }
 
   def submitPatientAddForm = Action {
@@ -412,6 +460,18 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
         Status(500)
       }
 
+  }
+
+  def deleteServicesInformation = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+
+      if (ServicesService.deleteServices(id) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
   }
 
 

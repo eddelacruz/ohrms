@@ -174,7 +174,6 @@ object ClinicService {
         ).executeUpdate()
         AuditLogService.logTaskClinic(p, currentUser, task)
     }
-
   }
 
 

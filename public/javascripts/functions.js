@@ -35,6 +35,24 @@ $(document).ready(function() {
 		}
 	);
 
+	$('#delete_services').live("click",
+            function(e) {
+                var $this = $(this)
+    			var serviceId = $this.attr("data-services_id")
+    			e.preventDefault()
+    			console.log("The Services Id to be deleted is: "+serviceId)
+    			$.ajax({
+    			    url : "/dental_services/delete?id="+serviceId,
+    			    type : "POST",
+    			    success :
+    			        function() {
+    			            console.log("deleted");
+    			            window.location.href = "/dental_services";
+    			        }
+    			})
+    		}
+    	);
+
     //url static, only for patients
     var count = 1;
     var start = 0;

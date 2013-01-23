@@ -31,7 +31,7 @@ object ServicesService {
 
 
   def getDentalServiceList(start: Int, count: Int): List[DentalServiceList] = {
-
+    val status = 1
     DB.withConnection {
       implicit c =>
         val dentalServiceList: List[DentalServiceList] = SQL(
@@ -46,9 +46,10 @@ object ServicesService {
             |color
             |from
             |dental_services
+            |where status = {status}
             |ORDER BY name asc
             |LIMIT {start}, {count}
-          """.stripMargin).on('start -> start, 'count -> count).as {
+          """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
             get[String]("name") ~
             get[String]("code") ~
@@ -65,6 +66,7 @@ object ServicesService {
 
 
   def searchServiceList(start: Int, count: Int, filter: String): List[DentalServiceList] = {
+    val status = 1
     DB.withConnection {
       implicit c =>
         val dentalServiceList: List[DentalServiceList] = SQL(
@@ -79,13 +81,14 @@ object ServicesService {
             |color
             |from
             |dental_services
-            |where name like "%"{filter}"%"
+            |where status = {status} and
+            |name like "%"{filter}"%"
             |or type like "%"{filter}"%"
             |or color like "%"{filter}"%"
             |or price like "%"{filter}"%"
             |ORDER BY name asc
             |LIMIT {start}, {count}
-          """.stripMargin).on('filter -> filter, 'start -> start, 'count -> count).as {
+          """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
             get[String]("name") ~
             get[String]("code") ~
@@ -117,6 +120,7 @@ object ServicesService {
             |from
             |dental_services
             |WHERE id = {id}
+            |and status = 1
             |ORDER BY name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
@@ -168,6 +172,7 @@ object ServicesService {
             |{target},
             |{price},
             |{color},
+            |{status},
             |{date_created},
             |{date_last_updated}
             |);
@@ -179,6 +184,7 @@ object ServicesService {
           'target -> d.target,
           'price -> d.price,
           'color -> d.color,
+          'status -> 1,
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
@@ -218,10 +224,22 @@ object ServicesService {
 
   }
 
-
-
-
-
-
+  def deleteServices(id: String): Long = {
+    val currentUser = getUserId
+    val task = "Delete"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE dental_services SET
+            |status = {status}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0
+        ).executeUpdate()
+        AuditLogService.logTask(id, currentUser, task)
+    }
+  }
 
 }
