@@ -8,6 +8,12 @@ curl -i -H "Accept: application/json" -X POST -d "id=a5434d36-dd94-425e-87a3-3c8
 
 curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" -d "first_name=Billy Bago" -d "middle_name=Vergel" -d "last_name=Bautista" -d "medical_history_id=446e5bb1-b504-462d-8b01-79ad86d8b26c" -d "address=San Miguel, Bulacan" -d "contact_no=123" -d "date_of_birth=0000-00-00 00:00:00" -d "image=anon.jpg" http://localhost:9000/json/patients/update
 
+curl -i -H "Accept: application/json" -X POST -d "id=2bf84e44-eb3c-46b6-8a92-57e8ed127f39" http://localhost:9000/dental_services/delete?id=2bf84e44-eb3c-46b6-8a92-57e8ed127f39
+
+
+curl -i -H "Accept: application/json" -X POST -d "id=76817724-266c-4df8-9a3b-b464976366fd" http://localhost:9000/announcements/delete?id=76817724-266c-4df8-9a3b-b464976366fd
+
+
 curl -i -H "Accept: application/json" -X POST -d "id=b2be3ffc-f16f-42c8-a2da-756a2576d13f" http://localhost:9000/patients/delete
 
 curl -i -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"teeth_structure": [{"service_id": "2bf84e44-eb3c-46b6-8a92-57e8ed127f39", "type": "t", "view": "facial","name": "k","fill": 1,"root": 0,"grid": {}},{"service_id": "2bf84e44-eb3c-46b6-8a92-57e8ed127f39", "type":"c", "view": "facial","name": "b","fill": 1,"root": 0,"grid": {}}]}' http://localhost:9000/treatment_plan

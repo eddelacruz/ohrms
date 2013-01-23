@@ -1,10 +1,10 @@
-@(clinicList: List[ws.services.ClinicList])
+@(announcementList: List[ws.services.AnnouncementList])
 
-@main(Messages("clinic.title")){
+@main(Messages("announcement.title")){
 
-<!-- Clinic List -->
+<!-- announcement  List -->
 <header class="grid_12 head center">
-    <h1>@Messages("clinic.list.title")</h1>
+    <h1>@Messages("announcement.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -33,12 +33,17 @@
                 <thead>
                 <tr role="row">
                     <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Clinic name
+                        <div class="parentsort">Announcement
                             <div class="sorticon"></div>
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
-                        <div class="parentsort">Address
+                        <div class="parentsort">Created By
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
+                        <div class="parentsort">Date Created
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -46,10 +51,11 @@
                 </thead>
 
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                @clinicList.map { dl =>
+                @announcementList.map { dl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Clinic.getClinicListById(dl.id)">@dl.clinicName</a></td>
-                    <td class=" ">@dl.address</td>
+                    <td class="  sorting_1"><a href="@routes.Announcement.getAnnouncementListById(dl.id)">@dl.announcement</a></td>
+                    <td class=" ">@dl.userName</td>
+                    <td class=" ">@dl.dateCreated</td>
                 </tr>
                 }
                 </tbody>
@@ -68,6 +74,5 @@
         </div>
     </div>
 </div>
-<!-- /Clinic List -->
 
 }

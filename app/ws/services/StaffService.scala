@@ -171,7 +171,7 @@ object StaffService {
           'id -> d.id,
           'user_name -> d.userName,
           'password -> d.password,
-          'role -> 1, //Dentist
+          'role -> 2,
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
@@ -228,7 +228,7 @@ object StaffService {
           'id -> userId,
           'user_name -> d.userName,
           'password -> d.password,
-          'role -> 1, //Dentist
+          'role -> 2,
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
@@ -267,6 +267,24 @@ object StaffService {
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
        AuditLogService.logTaskStaff(d, currentUser, task) //TODO cached user_id when login
+    }
+  }
+
+  def deleteStaff(id: String): Long = {
+    val currentUser = getUserId
+    val task = "Delete"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE staffs SET
+            |status = {status}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0
+        ).executeUpdate()
+      // AuditLogService.logTask(id, currentUser, task)
     }
   }
 
