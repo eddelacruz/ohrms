@@ -36,6 +36,34 @@ object Appointments extends Controller with Secured {
       )
   }
 
+  def getAppointmentListById(id: String) = Action {
+    Ok(html.modal._appointment_info(AppointmentDelegate.getAppointmentById(id)))
+  }
+
+
+  def getUpdateForm(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(html.modal._update_appointment(AppointmentService.getAppointmentById(id)))
+  }
+
+  def submitUpdateForm = Action {
+    implicit request =>
+      AppointmentDelegate._appointmentProfileForm.bindFromRequest.fold(
+        formWithErrors => {
+          println("Form errors: "+formWithErrors.errors)
+          BadRequest
+        },
+        clinic => {
+          val params = request.body.asFormUrlEncoded.get
+          val id = request.body.asFormUrlEncoded.get("id").head
+          AppointmentDelegate.submitUpdateAppointmentForm(params)
+          Redirect("/scheduler/"+id)
+        }
+      )
+
+  }
+
 
 
 }

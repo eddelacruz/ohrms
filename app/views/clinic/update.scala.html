@@ -1,0 +1,65 @@
+@(clinicList: List[ws.services.ClinicList])
+
+@main(Messages("clinic.title")){
+
+<!-- Update Clinic -->
+
+<header class="grid_12 head center">
+    <h1>@Messages("clinic.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav>
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="">
+                <div class="form-details">
+                    @clinicList.map { dl =>
+                    @helper.form(action = routes.Clinic.submitUpdateForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="@dl.id">
+                        <ul>
+                            <li>
+                                <label>Clinic Name:</label>
+                                <input type="text" name="clinic_name" value="@dl.clinicName">
+                            </li>
+                            <li>
+                                <label>Address:</label>
+                                <input type="text" name="address" value="@dl.address">
+                            </li>
+                            <li>
+                                <label>Logo:<br></label>
+                                <div class="customfile"><input type="file" value="@dl.image" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                            </li>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="pane">
+                <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
+                <input type="submit" class="bt blue right" value="@Messages("button.update")">
+            </footer>
+            }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- /Update Clinic -->
+}
