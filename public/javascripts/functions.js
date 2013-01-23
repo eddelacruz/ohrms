@@ -53,6 +53,24 @@ $(document).ready(function() {
     		}
     	);
 
+    	$('#delete_announcement').live("click",
+                    function(e) {
+                        var $this = $(this)
+            			var announcementId = $this.attr("data-announcement_id")
+            			e.preventDefault()
+            			console.log("The announcement Id to be deleted is: "+announcementId)
+            			$.ajax({
+            			    url : "/announcements/delete?id="+announcementId,
+            			    type : "POST",
+            			    success :
+            			        function() {
+            			            console.log("deleted");
+            			            window.location.href = "/announcements";
+            			        }
+            			})
+            		}
+            	);
+
     //url static, only for patients
     var count = 1;
     var start = 0;

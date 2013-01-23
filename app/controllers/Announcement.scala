@@ -81,5 +81,12 @@ object Announcement extends Controller with Secured {
       )
   }
 
+  def deleteInformation(id: String) = Action {
+    implicit request =>
+      val params = Map("id" -> Seq(id))
+      AnnouncementDelegate.deleteInformation(params)
+      Redirect("/announcements")
+  }
+
 }
 

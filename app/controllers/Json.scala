@@ -321,6 +321,18 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }
   }
 
+  def deleteAnnouncementInformation = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+
+      if (AnnouncementService.deleteAnnouncement(id) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
   def deleteDentistInformation = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head

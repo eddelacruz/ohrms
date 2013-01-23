@@ -193,7 +193,7 @@ object AnnouncementService {
           """.stripMargin).on(
           'id -> id
         ).executeUpdate()
-       // AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTask(id, currentUser, task)
     }
   }
 }
