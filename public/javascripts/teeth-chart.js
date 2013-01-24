@@ -10,22 +10,33 @@ $(function() {
     });
     $( "button" ).button();
 
-    $('button.dental_service').each(function() {
+    $('#dental_services button').each(function() {
         $(this).css('background-image', 'url()');
-        //$(this).css('background-color', $(this).attr('data-color'));
+        $(this).css('background-color', $(this).attr('data-color'));
         $(this).css('color', '#FFF');
         $(this).css('text-shadow', 'rgba(0, 0, 0, 0.796875) 0px 1px 4px, rgba(255, 255, 255, 0.296875) 0px 0px 10px');
     });
 
     //selecting dental service
-    $("button.dental_service").click(function() {
-        console.log("button was clicked!");
-
+    $("#dental_services button").click( function() {
+        flag = 0;
         var $this = $(this);
-        var $id = $this.attr("id");
-        var $toolType = $this.attr("data-type");
+        var $id = $this.attr('id');
+        var $toolType = $this.attr('data-type');
 
-        console.log($toolType);
+        //populate services in dentist tool dialog box
+        //retrieval of dental services
+        bannedServices = new Array();
+        $.getJSON("/json/dental_services/banned/"+$id,
+            function(data){
+                $.each(data, function(key, value){
+                    $.each(value, function(ky, vl){
+                        bannedServices.push(vl);
+                    })
+                })
+        });
+
+        //console.log(bannedServices);
 
         if ($toolType === "1" && $id != "ERASER") {
             toolType = "paint";
@@ -43,6 +54,22 @@ $(function() {
             curTool = "eraser";
             console.log("curTool: "+curTool+" for "+toolData); //output this log
         };
+    });
+
+    //for pushing and removing items in array
+    $('.gum input[type=checkbox]').click(function() {
+        if($(this).attr("checked") === "checked"){
+            var tooth = $(this).parent().attr('id');
+            $('.selected-tooth').append('<button id="'+tooth+'"class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="margin-right: 5px;"><span class="ui-button-text">'+tooth+'</span></button>');
+            curTooth.push(tooth);
+            console.log("if "+curTooth);
+        } else {
+            var tooth = $(this).parent().attr('id');
+            $('.selected-tooth button#'+tooth).remove();
+            var index = $.inArray(tooth, curTooth);
+            curTooth.remove(index);
+            console.log("else "+curTooth);
+        }
     });
 });
 
@@ -65,12 +92,12 @@ var imageHeight;
 var tartar = '#CBA735';
 var violet = '#cb3594'
 
-var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, listedPaint = new Array("OP", "CVTY", "DCY"), listedSymbol = new Array("EXT"), maskDataUrl;
+var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, maskDataUrl;
 var imageObj2;
 
 var dentalServices = new Array();
 var toothWithService = new Array();
-var bannedServices = ['CVTY', 'DCY'] //static for EXT
+var bannedServices = new Array(); //['PASTA', 'OP'] //static for EXT
 var curTooth = new Array();
 var curService = new Array();
 var clickX = new Array();
@@ -81,6 +108,8 @@ var clickTool = new Array();
 var curTool = 'crayon';
 var curColor;
 var paint;
+var ex;
+var flag;
 
 function setVariables(tooth, toolType, toolData) {
     //dito may error dapat ifix to, ang nanyayare ay if wala pang canvasFA_EXT or shit like dat, sinesave nya muna ung paint area...
@@ -98,8 +127,8 @@ function setVariables(tooth, toolType, toolData) {
     ctx = canvas.getContext('2d');
     tempCtx = tempCanvas.getContext('2d');
     maskCtx = maskCanvas.getContext('2d');
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ang bagong susundin na "+canvas.id);
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ang bagong susundin na "+maskCanvas.id);
+    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ang bagong susundin na "+canvas.id);
+    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> ang bagong susundin na "+maskCanvas.id);
 };
 
 var imageDataUrl;
@@ -159,9 +188,10 @@ function loadPaint() {
         ctx.putImageData(imageData,0,0);
     }
     imageObj.src = tempImageDataUrl;
+
     if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
         toothWithService.push(tooth+"_"+toolData); //end of paint
-        console.log(toothWithService);
+        console.log(">>> toothWithService"+toothWithService);
     }
 };
 
@@ -305,11 +335,41 @@ $('.gum canvas').hover(function() {
                 break;
         }
     }
+
+    //populate dental services in a tooth
+   /* $.getJSON("/json/dental_services/all",
+        function(data){
+            $.each(data, function(key, value){
+                $.each(value, function(ky, vl){
+                    var s = "#canvas"+tooth+"_"+vl['code'];
+                    if ($(s).length > 0 && ($.inArray(vl["code"]), bannedServices) > -1) {
+                        dentalServices.push(vl["code"]);
+                        ex = true;
+                        console.log("_______"+dentalServices);
+                    } else {
+                        console.log("nag else");
+                    }
+                })
+            })
+        });*/
 });
+
+function checkIfBan(tooth){
+    console.log("\n \ncheckIfBan "+tooth);
+    for(var i=0; i < bannedServices.length; i++){
+        if($.inArray(tooth+'_'+bannedServices[i], toothWithService) > -1){
+            //console.log('checking.... canvas'+tooth+'_'+bannedServices[i]);
+            flag = 1;
+        }
+    }
+}
 
 //creating canvas to put paint on
 function setPaint(tooth, toolType, toolData) {
-    if ( $.inArray(toolData, listedPaint) >= -1) {
+    var cvs = 'canvas'+tooth+'_'+toolData;
+    console.log("===>bannedServices "+bannedServices);
+    console.log("===>toothWithService "+toothWithService);
+    if ( $.inArray(toolData, bannedServices) === -1 && flag === 0 ) {
         console.log('===========================> setPaint'+tooth);
         var gum = "#"+tooth+".gum";
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
@@ -323,7 +383,11 @@ function setPaint(tooth, toolType, toolData) {
 
 //creating canvas to put symbol on
 function setSymbol(tooth, toolType, toolData) {
-    if ( $.inArray(toolData, listedSymbol) >= -1) {
+    var cvs = 'canvas'+tooth+'_'+toolData;
+    console.log("===>bannedServices "+bannedServices);
+    console.log("===>toothWithService "+toothWithService);
+    checkIfBan(tooth);
+    if ( $.inArray(toolData, bannedServices) === -1 && flag === 0 ) {
         console.log("==========================> setSymbol: "+tooth);
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
@@ -332,40 +396,13 @@ function setSymbol(tooth, toolType, toolData) {
             $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
-                console.log(toothWithService);
+                console.log(">>> toothWithService"+toothWithService);
             }
         } else {
             $(c).parent().remove();
             var index = $.inArray(tooth, toothWithService);
             toothWithService.remove(index);
-            console.log(toothWithService); //symbol only has remove from toothWithService
+            //console.log(toothWithService); //symbol only has remove from toothWithService
         }
     };
 };
-
-//for pushing and removing items in array
-$('.gum input[type=checkbox]').click(function() {
-    if($(this).attr("checked") === "checked"){
-        var tooth = $(this).parent().attr('id');
-        $('.selected-tooth').append('<button id="'+tooth+'"class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="margin-right: 5px;"><span class="ui-button-text">'+tooth+'</span></button>');
-        curTooth.push(tooth);
-        console.log("if "+curTooth);
-    } else {
-        var tooth = $(this).parent().attr('id');
-        $('.selected-tooth button#'+tooth).remove();
-        var index = $.inArray(tooth, curTooth);
-        curTooth.remove(index);
-        console.log("else "+curTooth);
-    }
-});
-
-//populate services in dentist tool dialog box
-//retrieval of dental services
-$.getJSON("/json/dental_services",
-    function(data){
-        $.each(data, function(key, value){
-            $.each(value, function(ky, vl){
-            $('ul#dental_services').append('<button id='+vl["code"]+' class="dental_service ui-widget-content ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" data-type='+vl["tool_type"]+' data-color='+'#'+vl["color"]+' role="button" aria-disabled="false" style="color: rgb(255, 255, 255); text-shadow: rgba(0, 0, 0, 0.796078) 0px 1px 4px, rgba(255, 255, 255, 0.294118) 0px 0px 10px;"><span class="ui-button-text" style="background-color: '+'#'+vl["color"]+' !important;">'+vl["name"]+'</span></button>');
-            })
-        })
-});

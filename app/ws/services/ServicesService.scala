@@ -31,7 +31,6 @@ object ServicesService {
 
 
   def getDentalServiceList(start: Int, count: Int): List[DentalServiceList] = {
-
     DB.withConnection {
       implicit c =>
         val dentalServiceList: List[DentalServiceList] = SQL(
@@ -101,7 +100,6 @@ object ServicesService {
   }
 
   def getDentalServiceListById(id :String): List[DentalServiceList]  = {
-
     DB.withConnection {
       implicit c =>
         val dentalServiceList: List[DentalServiceList] = SQL(
@@ -215,13 +213,57 @@ object ServicesService {
         ).executeUpdate()
       AuditLogService.logTaskServices(d, currentUser, task)
     }
-
   }
 
+  def getBannedServicesByServiceCode(serviceCode: String): List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select code from dental_services
+            |where
+            |    id IN
+            |(select
+            |	bds.dental_service_id
+            |from
+            |	dental_services as ds
+            |left outer join
+            |	banned_dental_services as bds ON ds.id = bds.id
+            |where
+            |	ds.code = {service_code})
+          """.stripMargin).on('service_code -> serviceCode)().map( row => row[String]("code")).toList
+    }
+  }
 
-
-
-
-
+  def getAllDentalServices(): List[DentalServiceList] = {
+    DB.withConnection {
+      implicit c =>
+        val dentalServiceList: List[DentalServiceList] = SQL(
+          """
+            |select
+            |id,
+            |name,
+            |code,
+            |type,
+            |tool_type,
+            |price,
+            |color
+            |from
+            |dental_services
+            |ORDER BY name asc
+          """.stripMargin).as {
+          get[String]("id") ~
+            get[String]("name") ~
+            get[String]("code") ~
+            get[String]("type") ~
+            get[Int]("tool_type") ~
+            get[String]("price") ~
+            get[String]("color") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+          } *
+        }
+        dentalServiceList
+    }
+  }
 
 }

@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType], dentalServices: List[ws.services.DentalServiceList])
 
 @main(Messages("patient.title")){
 
@@ -556,7 +556,7 @@
 </div>
 </div>
 
-@modal._dentist_tools()
+@modal._dentist_tools(dentalServices)
 
 </div>
 <!-- /Update Patient -->
