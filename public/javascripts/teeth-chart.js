@@ -253,7 +253,7 @@ function redraw() {
 
 function redefineFunctions() {
     $tempCanvas.mousedown(function(e){
-        if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1) && ($.inArray(toolData, bannedServices) === -1)){
+        if(toolType === 'paint' && ($.inArray(tooth, curTooth) > -1) && ($.inArray(toolData, bannedServices) === -1) && flag === 0){
             //console.log('mousedown'+toolData);
             var mouseX = e.pageX - this.offsetLeft;
             var mouseY = e.pageY - this.offsetTop;
@@ -358,9 +358,9 @@ function checkIfBan(tooth){
     console.log("\n \ncheckIfBan "+tooth);
     for(var i=0; i < bannedServices.length; i++){
         if($.inArray(tooth+'_'+bannedServices[i], toothWithService) > -1){
-            //console.log('checking.... canvas'+tooth+'_'+bannedServices[i]);
             flag = 1;
         }
+        console.log('checking.... canvas'+tooth+'_'+bannedServices[i]);
     }
 }
 
@@ -369,6 +369,7 @@ function setPaint(tooth, toolType, toolData) {
     var cvs = 'canvas'+tooth+'_'+toolData;
     console.log("===>bannedServices "+bannedServices);
     console.log("===>toothWithService "+toothWithService);
+    checkIfBan(tooth);
     if ( $.inArray(toolData, bannedServices) === -1 && flag === 0 ) {
         console.log('===========================> setPaint'+tooth);
         var gum = "#"+tooth+".gum";

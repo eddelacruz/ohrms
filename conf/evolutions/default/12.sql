@@ -32,6 +32,17 @@ INSERT INTO `ohrms`.`banned_dental_services` (`id`, `dental_service_id`) VALUES 
 DELETE FROM `ohrms`.`banned_dental_services` WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' and`dental_service_id`='06500656-f481-4d52-a662-7cde61ed8fe8';
 DELETE FROM `ohrms`.`banned_dental_services` WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' and`dental_service_id`='60a8a017-7fb6-40b6-ab97-af3b24255006';
 
+UPDATE `ohrms`.`banned_dental_services` SET `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39', `dental_service_id`='06500656-f481-4d52-a662-7cde61ed8fe8' WHERE `id`='06500656-f481-4d52-a662-7cde61ed8fe8' and`dental_service_id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39';
+UPDATE `ohrms`.`banned_dental_services` SET `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' WHERE `id`='06500656-f481-4d52-a662-7cde61ed8fe8' and`dental_service_id`='60a8a017-7fb6-40b6-ab97-af3b24255006';
+
+DELETE FROM `ohrms`.`banned_dental_services` WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' and`dental_service_id`='60a8a017-7fb6-40b6-ab97-af3b24255006';
+INSERT INTO `ohrms`.`banned_dental_services` (`id`, `dental_service_id`) VALUES ('2bf84e44-eb3c-46b6-8a92-57e8ed127f39', '60a8a017-7fb6-40b6-ab97-af3b24255006');
+
+UPDATE `ohrms`.`banned_dental_services` SET `id`='06500656-f481-4d52-a662-7cde61ed8fe8', `dental_service_id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' and`dental_service_id`='06500656-f481-4d52-a662-7cde61ed8fe8';
+DELETE FROM `ohrms`.`banned_dental_services` WHERE `id`='2bf84e44-eb3c-46b6-8a92-57e8ed127f39' and`dental_service_id`='60a8a017-7fb6-40b6-ab97-af3b24255006';
+
+INSERT INTO `ohrms`.`banned_dental_services` (`id`, `dental_service_id`) VALUES ('60a8a017-7fb6-40b6-ab97-af3b24255006', '2bf84e44-eb3c-46b6-8a92-57e8ed127f39');
+
 # --- !Downs
 
 DROP TABLE IF EXISTS banned_dental_services;
