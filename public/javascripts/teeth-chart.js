@@ -360,7 +360,7 @@ function checkIfBan(tooth){
         if($.inArray(tooth+'_'+bannedServices[i], toothWithService) > -1){
             flag = 1;
         }
-        console.log('checking.... canvas'+tooth+'_'+bannedServices[i]);
+        //console.log('checking.... canvas'+tooth+'_'+bannedServices[i]);
     }
 }
 
