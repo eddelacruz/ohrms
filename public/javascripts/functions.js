@@ -162,8 +162,8 @@ $(document).ready(function() {
             var myObject = new Object();
 
             myObject.service_id = b[1];
-            myObject.servicePrice = "200"; //textbox //TODO dynamic
-            myObject.datePerformed = "2012-1-1 12:12:12"; //select box //TODO dynamic
+            myObject.service_price = "200"; //textbox //TODO dynamic
+            myObject.date_performed = "2012-1-1 12:12:12"; //select box //TODO dynamic
             myObject.teeth_name = b[0];
             myObject.patient_id = $('.patient_information input[name=id]').val();
             myObject.dentist_id = "71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic

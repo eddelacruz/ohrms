@@ -20,7 +20,7 @@ trait WsHelper {
 
   def doGet(endpoint: String): Promise[Response] = {
     val rest = ohrmsUrl.get + endpoint
-    println("GETTING: >>>>>>>>"+rest)
+    //println("GETTING: >>>>>>>>"+rest)
     WS.url(rest).get
   }
 
@@ -29,7 +29,7 @@ trait WsHelper {
     params.map { p =>
       rest += "&" + p._1 + "=" + p._2
     }
-    println("GETTING: >>>>>>>>"+rest)
+    //println("GETTING: >>>>>>>>"+rest)
     WS.url(rest).get
   }
 

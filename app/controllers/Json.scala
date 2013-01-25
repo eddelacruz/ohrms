@@ -245,7 +245,21 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
   }*/
   def addTreatmentPlan = Action {
     implicit request =>
-      val treatmentPlan = request.body   //request.body.asJson.get.\("Treatment_Plan")
+      val treatmentPlan = request.body.asFormUrlEncoded; //request.body.asJson.get.\("Treatment_Plan")
+
+      treatmentPlan.map{ abc =>
+        println(abc)
+      }
+    //.apply("Treatment_Plan[0][service_price]")
+      /*request.body.asJson.map { json =>
+        (json \ "name").asOpt[String].map { name =>
+          Ok("Hello " + name)
+        }.getOrElse {
+          BadRequest("Missing parameter [name]")
+        }
+      }.getOrElse {
+        BadRequest("Expecting Json data")
+      }*/
       println(treatmentPlan)
       Status(200)
  }
