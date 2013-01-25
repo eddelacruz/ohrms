@@ -113,12 +113,12 @@
                     </div>
                 </li>
                 <li>
-                    <a href="@routes.Application.logout()">
+                    <a href="#">
                         <span class="glyph settings"></span>
                     </a>
                 </li>
                 <li class="last">
-                    <a href="#" class="tooltip" original-title="edit profile">
+                    <a href="@routes.Application.logout()" class="tooltip" original-title="edit profile">
                         <span class="glyph user"></span>
                         <span class="text">@(play.cache.Cache.get("user_name"))</span>
                     </a>

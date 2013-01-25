@@ -38,6 +38,11 @@ object Application extends Controller{
       Ok(views.html.login(loginForm))
   }
 
+  def link = Action {
+    implicit request =>
+      Ok(views.html.settings.settings())
+  }
+
   def authenticate = Action {
     implicit request =>
       loginForm.bindFromRequest.fold(

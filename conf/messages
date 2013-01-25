@@ -52,6 +52,18 @@ service.add.title=Add Dental Service
 
 settings.audit.log.title=Audit Log
 
+clinic.title=Clinic
+clinic.list.title=Clinic List
+clinic.add.title=Add Clinic
+clinic.update.title=Update Clinic
+clinic.profile.title=Profile
+
+announcement.title=Announcement
+announcement.list.title=Announcement List
+announcement.add.title=Add Announcement
+announcement.update.title=Update Announcement
+announcement.profile.title=Profile
+
 login.title=Login
 
 
