@@ -210,7 +210,7 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       }
   }
 
-  /*def addTreatmentPlan = Action {
+ /* def addTreatmentPlan = Action {
     implicit request =>
       var index = 0
       val teethStructure = request.body.asJson.get.\("teeth_structure")
@@ -243,14 +243,20 @@ object Json extends Controller with WsHelper with PatientListDeserializer with A
       println(teethStructure)
       Status(200)
   }*/
+  def addTreatmentPlan = Action {
+    implicit request =>
+      val treatmentPlan = request.body   //request.body.asJson.get.\("Treatment_Plan")
+      println(treatmentPlan)
+      Status(200)
+ }
 
   def getTreatmentPlan(start: Int, count: Int) = Action {
-    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+    //Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+    Ok("get treatment plan")
   }
 
   //TODO donot delete for future use
   /*def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
-    println("hoi bruha")
     var index = 0
     try{
       while (teethStructure(index) != null) {

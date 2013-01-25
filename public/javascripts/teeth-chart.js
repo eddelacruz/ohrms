@@ -21,7 +21,7 @@ $(function() {
     $("#dental_services button").click( function() {
         flag = 0;
         var $this = $(this);
-        var $id = $this.attr('id');
+        var $id = $this.attr('data-id');
         var $toolType = $this.attr('data-type');
 
         //populate services in dentist tool dialog box
@@ -166,6 +166,17 @@ drawFQOutline();
 drawFROutline();
 drawFSOutline();
 drawFTOutline();
+
+drawMKOutline();
+drawMLOutline();
+drawMMOutline();
+drawMNOutline();
+drawMOOutline();
+drawMPOutline();
+drawMQOutline();
+drawMROutline();
+drawMSOutline();
+drawMTOutline();
 
 //function to repaint the area just by entering the position
 

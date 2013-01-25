@@ -17,26 +17,45 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String)
+case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, teethAffectedId: String, image: String)
+
 
 object TreatmentPlanService {
 
-  def addTreatment(id: String, serviceId: String): Long = {
+  def addTreatment(tp: TreatmentPlanType): Long = {
     DB.withConnection{
       implicit c =>
         SQL(
           """
             |INSERT INTO `ohrms`.`treatment_plan`
+            |(`id`,
+            |`service_id`,
+            |`date_performed`,
+            |`patient_id`,
+            |`dentist_id`,
+            |`teeth_affected_id`,
+            |`status`,
+            |`image`)
             |VALUES
             |(
             |{id},
             |{service_id},
-            |{date_performed}
+            |{date_performed},
+            |{patient_id},
+            |{dentist_id},
+            |{teeth_affected_id},
+            |{status},
+            |{image}
             |);
           """.stripMargin).on(
-        'id -> id,
-        'service_id -> serviceId,
-        'date_performed -> DateWithTime.dateNow
+        'id -> UUIDGenerator.generateUUID("treatment_plan"),
+        'service_id -> tp.serviceId,
+        'date_performed -> tp.datePerformed,
+        'patient_id -> tp.patientId,
+        'dentist_id -> tp.dentistId,
+        'teeth_affected_id -> tp.teethAffectedId,
+        'status -> 1,
+        'image -> tp.image
         ).executeUpdate()
     }
   }
@@ -67,7 +86,7 @@ object TreatmentPlanService {
     }
   }
 
-  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
+  /*def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
     DB.withConnection {
       implicit c =>
         val treatmentPlan: List[TreatmentPlanType] = SQL(
@@ -109,6 +128,6 @@ object TreatmentPlanService {
         }
         treatmentPlan
     }
-  }
+  }*/
 
 }

@@ -25,7 +25,7 @@ object TreatmentPlanDelegate extends WsHelper{
   }
 
   def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
-    val res: Promise[Response] = doGet("/json/treatment_plan?start="+start+"&count="+count)
+    /*val res: Promise[Response] = doGet("/json/treatment_plan?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val tp = ListBuffer[TreatmentPlanType]()
 
@@ -35,7 +35,8 @@ object TreatmentPlanDelegate extends WsHelper{
       t =>
         tp += convertToTreatmentPlan(t)
     })
-    tp.toList
+    tp.toList*/
+    List(TreatmentPlanType("1","2","3","4","5","6","7","8","9","10","11","12","13", "14", "15", "16", "17"))
   }
 
   def convertToTreatmentPlan(j: JsValue): TreatmentPlanType = {
@@ -52,7 +53,11 @@ object TreatmentPlanDelegate extends WsHelper{
       (j \ "teethName").as[String],
       (j \ "teethView").as[String],
       (j \ "teethPosition").as[String],
-      (j \ "teethType").as[String]
+      (j \ "teethType").as[String],
+      (j \ "patientId").as[String],
+      (j \ "dentistId").as[String],
+      (j \ "teethAffectedId").as[String],
+      (j \ "image").as[String]
     )
   }
 

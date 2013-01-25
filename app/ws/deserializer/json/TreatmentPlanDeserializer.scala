@@ -32,7 +32,11 @@ trait TreatmentPlanDeserializer {
       (json \ "teethName").as[String],
       (json \ "teethView").as[String],
       (json \ "teethPosition").as[String],
-      (json \ "teethType").as[String]
+      (json \ "teethType").as[String],
+      (json \ "patientId").as[String],
+      (json \ "dentistId").as[String],
+      (json \ "teethAffectedId").as[String],
+      (json \ "image").as[String]
     )
 
     def writes(tp: TreatmentPlanType): JsValue = JsObject(
@@ -49,7 +53,11 @@ trait TreatmentPlanDeserializer {
         "teethName" -> JsString(tp.teethName),
         "teethView"-> JsString(tp.teethView),
         "teethPosition" -> JsString(tp.teethPosition),
-        "teethType" -> JsString(tp.teethType)
+        "teethType" -> JsString(tp.teethType),
+        "patientId" -> JsString(tp.patientId),
+        "dentistId" -> JsString(tp.dentistId),
+        "teethAffectedId" -> JsString(tp.teethAffectedId),
+        "image" -> JsString(tp.image)
       )
     )
   }

@@ -43,8 +43,8 @@
     margin-bottom: 3px;
 }
 .gum {
-    width: 70px;
-    height: 110px;
+    width: auto;
+    height: auto;
     margin: auto;
 }
 .absolute {

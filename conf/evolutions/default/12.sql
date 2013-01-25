@@ -43,6 +43,22 @@ DELETE FROM `ohrms`.`banned_dental_services` WHERE `id`='2bf84e44-eb3c-46b6-8a92
 
 INSERT INTO `ohrms`.`banned_dental_services` (`id`, `dental_service_id`) VALUES ('60a8a017-7fb6-40b6-ab97-af3b24255006', '2bf84e44-eb3c-46b6-8a92-57e8ed127f39');
 
+drop table `ohrms`.`teeth_grid`;
+
+ALTER TABLE `ohrms`.`teeth_affected` DROP FOREIGN KEY `teeth_affected_ibfk_1` ;
+ALTER TABLE `ohrms`.`teeth_affected` DROP COLUMN `treatment_plan_id`
+, DROP INDEX `a_idx` ;
+
+ALTER TABLE `ohrms`.`treatment_plan` ADD COLUMN `dentist_id` CHAR(36) NULL  AFTER `patient_id` , ADD COLUMN `teeth_affected_id` CHAR(36) NULL  AFTER `dentist_id` , ADD COLUMN `status` INT(1) NULL  AFTER `teeth_affected_id` ,
+  ADD CONSTRAINT `treatment_plan_ibfk_3`
+  FOREIGN KEY (`teeth_affected_id` )
+  REFERENCES `ohrms`.`teeth_affected` (`id` )
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION
+, ADD INDEX `treatment_plan_ibfk_3_idx` (`teeth_affected_id` ASC) ;
+
+ALTER TABLE `ohrms`.`treatment_plan` ADD COLUMN `image` VARCHAR(5000) NULL  AFTER `status` ;
+
 # --- !Downs
 
 DROP TABLE IF EXISTS banned_dental_services;
