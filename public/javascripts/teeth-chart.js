@@ -49,7 +49,7 @@ $(function() {
         }
 
         //if eraser is selected
-        if ($id === "ERASER") {
+        if ($this.attr('id') === "ERASER") {
             curColor = $this.attr("data-color");
             curTool = "eraser";
             console.log("curTool: "+curTool+" for "+toolData); //output this log
