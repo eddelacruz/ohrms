@@ -2319,3 +2319,9 @@ div.mode-1{
     border-color: green;     /* border color */
     color: yellow;           /* text color */
     }
+
+
+/*Charts*/
+#printButton{
+display: none !important;
+}

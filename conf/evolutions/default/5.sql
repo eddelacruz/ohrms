@@ -3,7 +3,7 @@
 
 CREATE  TABLE `ohrms`.`treatment_plan` (
   `id` CHAR(36) NOT NULL ,
-  `service_id` CHAR(36) NULL ,
+  `service_id` CHAR(36)  ,
   `date_performed` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;

@@ -1,0 +1,100 @@
+@(appointmentList: List[ws.services.AppointmentList])
+
+@main("Appointment Information") {
+
+<header class="grid_12 head">
+    <h1>Appointment Information</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                @appointmentList.map { dl =>
+                <h1>@dl.lastName, @dl.firstName @dl.middleName</h1>
+                }
+            </div>
+            <div class="right">
+                <nav style="display: none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="columns">
+                <div class="form-image left center">
+
+
+                </div>
+                <div class="form-details right mode-1">
+                    @appointmentList.map { dl =>
+                    <div class="field left">
+                        <ul>
+                            <li>
+                                <label>Appointment ID:</label>
+                                <label class="form-label">@dl.id</label>
+                            </li>
+                            <li>
+                                <label>First Name:</label>
+                                <label class="form-label">@dl.firstName</label>
+                            </li>
+                            <li>
+                                <label>Middle Name:</label>
+                                <label class="form-label">@dl.middleName</label>
+                            </li>
+                            <li>
+                                <label>Last Name:</label>
+                                <label class="form-label">@dl.lastName</label>
+                            </li>
+                            <li>
+                                <label>Description:</label>
+                                <label class="form-label">@dl.description</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field right">
+                        <ul>
+                            <li>
+                                <label>Address:</label>
+                                <label class="form-label">@dl.address</label>
+                            </li>
+                            <li>
+                                <label>Contact Number:</label>
+                                <label class="form-label">@dl.contactNo</label>
+                            </li>
+                            <li>
+                                <label>Dentist Name:</label>
+                                <label class="form-label">@dl.dentistId</label>
+                            </li>
+                            <li>
+                                <label>Status:</label>
+                                <select name="status">
+                                    <option value="1">Pending</option>
+                                    <option value="2">Time/Date Rescheduled</option>
+                                    <option value="3">Cancelled</option>
+                                    <option value="4">Completed</option>
+                                </select>
+                            </li>
+                            <input type="hidden" name="date_start" value="2013-01-22 18:20:34">
+                            <input type="hidden" name="date_end" value="2013-01-22 18:20:34">
+                        </ul>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <footer class="pane">
+            @appointmentList.map { d =>
+            <a class="bt blue right" href="@routes.Appointments.getUpdateForm(d.id)">@Messages("button.edit")</a>
+            }
+        </footer>
+    </div>
+    }

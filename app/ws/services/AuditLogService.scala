@@ -109,11 +109,101 @@ object AuditLogService {
     }
   }
 
+  def logTaskClinic(l: ClinicList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.clinicName + "'s clinic was added"
+      case "Update" => description = l.clinicName + "'s clinic was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskAppointment(l: AppointmentList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.firstName +" "+ l.lastName + "'s appointment was added"
+      case "Update" => description = l.firstName +" "+ l.lastName  + "'s appointment was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskAnnouncement(l: AnnouncementList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.announcement  + "'s announcement was added"
+      case "Update" => description = l.announcement  + "'s announcement was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
+    }
+  }
+
   def logTaskServices(l: DentalServiceList, currentUser: String, task: String): Long = {
     var description: String = ""
     task match {
-      case "Add" => description = l.name + "'s profile was added"
-      case "Update" => description = l.name + "'s profile was updated"
+      case "Add" => description = l.name + "'s service was added"
+      case "Update" => description = l.name + "'s service was updated"
       case _ => ""
     }
     DB.withConnection {

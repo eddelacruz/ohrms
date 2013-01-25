@@ -1,0 +1,58 @@
+@main(Messages("clinic.title")){
+
+<!-- Add Clinic -->
+<header class="grid_12 head center">
+    <h1>@Messages("clinic.add.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav style="display:none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="center">
+                <div class="form-details">
+                    @helper.form(action = routes.Clinic.submitAddForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="">
+                        <ul>
+                            <li>
+                                <label class="upper">Clinic Name:</label>
+                                <input type="text" name="clinic_name">
+                            </li>
+                            <li>
+                                <label>Address:</label>
+                                <input type="text" name="address">
+                            </li>
+                            <li>
+                                <label>Logo:<br></label>
+                                <div class="customfile"><input type="file" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="@Messages("button.add")">
+            </footer>
+            }
+        </div>
+    </div>
+</div>
+<!-- /Add Clinic-->
+}

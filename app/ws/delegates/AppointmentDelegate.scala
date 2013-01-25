@@ -65,11 +65,31 @@ object AppointmentDelegate extends WsHelper {
     )
   }
 
+  def getAppointmentById(id: String) = {
+    val res: Promise[Response] = doGet("/json/scheduler/%s" format(id))
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[AppointmentList]()
+
+    (json \ "AppointmentList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToAppointmentList(d)
+    })
+    dl.toList
+  }
+
+
   def submitAddAppointmentsForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/scheduler", params)
     println()
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
+  def submitUpdateAppointmentForm(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/scheduler/update", params)
+    println()
+    println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
   def getAppointmentsToday() = {

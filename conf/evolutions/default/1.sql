@@ -36,26 +36,20 @@ dentist_id char(36) NOT NULL,
 name varchar(200),
 foreign key (dentist_id) references dentist(id));
 
-create table medical_history(
-id char(36) NOT NULL,
-name varchar(200),
-PRIMARY KEY(id));
-
 create table patients(
 id char(36) NOT NULL,
 first_name varchar(200),
 middle_name varchar(200),
 last_name varchar(200),
-medical_history_id char(36),
 address varchar(200),
 contact_no varchar(100),
 date_of_birth DATE,
 image varchar(200),
+medical_history varchar(400),
 status tinyint(1),
 date_created TIMESTAMP,
 date_last_updated TIMESTAMP,
-Primary key(id),
-FOREIGN KEY (medical_history_id) REFERENCES medical_history(id));
+Primary key(id));
 
 create table staff(
 id char(36) NOT NULL,
@@ -67,6 +61,14 @@ user_id char(36),
 date_created TIMESTAMP,
 Primary key(id),
 FOREIGN KEY (user_id) REFERENCES users(id));
+
+create table announcements(
+id char(36) NOT NULL,
+user_id char(36),
+announcement varchar(200),
+date_created TIMESTAMP,
+PRIMARY KEY(id),
+foreign key (user_id) references users(id));
 
 create table payments(
 id char(36) NOT NULL,
@@ -88,24 +90,22 @@ insert into users values ('b2c12f2d-0117-45ac-b791-d49557340a41','jbernardo','54
 insert into users values ('d0d7e4a5-ff89-4f80-85f6-a424c10ff690','jbuning','09876','1','1','2012-09-07 07:34:17');
 insert into users values ('58d46d40-3794-4f92-a935-ca7d1ac24efd','jstamaria','abcdef','2','1','2012-09-09 07:34:17');
 
+insert into announcements values ('gh68ha2m-7301-hb0o-h836-0aa73c13490f','d0d7e4a5-ff89-4f80-85f6-a424c10ff690','walang pasok sa monday at tuesday at wednesday at friday at sunday','2012-09-09 07:34:17');
+
 insert into dentist values ('71b8ecdd-33c9-4aaf-aa30-9d77419aeb95','Johana','Mendoza','Bernardo','Apalit Pampanga','+639109672605','p08b86689898','b2c12f2d-0117-45ac-b791-d49557340a41');
 insert into specialization values ('71b8ecdd-33c9-4aaf-aa30-9d77419aeb95','Periodontics');
 insert into specialization values ('71b8ecdd-33c9-4aaf-aa30-9d77419aeb95', 'Orthodontics');
-
-insert into medical_history values ('a140df5e-172e-4ee1-a907-d36285b35d2d','nagpabunot ng ngipin');
-insert into medical_history values ('446e5bb1-b504-462d-8b01-79ad86d8b26c','nagpabrace');
-insert into medical_history values ('3feff37e-577d-4805-a3a6-c0ea2d4194dd','nagpalinis');
 
 INSERT INTO patients VALUES (
 'b2be3ffc-f16f-42c8-a2da-756a2576d13f',
 'Billy',
 'Protacio',
 'Mallari',
-'a140df5e-172e-4ee1-a907-d36285b35d2d',
 'Bahay Pari, Candaba Pampanga',
 '639359285037',
 '2012-11-01',
 'abcd.png',
+'nagtae ng ginto, nagsuka ng ipot',
 '1',
 '2012-10-10 09:44:37',
 '2012-10-10 09:44:37'
@@ -116,11 +116,11 @@ INSERT INTO patients VALUES (
 'Elizer',
 'Dionisio',
 'Delacruz',
-'3feff37e-577d-4805-a3a6-c0ea2d4194dd',
 'Balagtas, Bulacan',
 '+639359280037',
 '2012-11-09',
 'dcba.png',
+'hinimatay, allergy sa masasarap na pagkain, nagsuka ng tae',
 '1',
 '2012-10-11 09:44:37',
 '2012-10-12 09:44:37'
@@ -170,7 +170,8 @@ DROP TABLE IF EXISTS dental_services;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS dentist;
 DROP TABLE IF EXISTS specialization;
-DROP TABLE IF EXISTS medical_history;
 DROP TABLE IF EXISTS staff;
 DROP TABLE IF EXISTS patients;
 DROP TABLE IF EXISTS payments;
+DROP TABLE IF EXISTS clinic;
+DROP TABLE IF EXISTS announcements;

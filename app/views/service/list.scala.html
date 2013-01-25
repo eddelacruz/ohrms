@@ -61,8 +61,11 @@
                             <input type="text" name="price">
                         </li>
                         <li>
-                            <label>Color</label>
-                            <input type="text" name="color">
+                            <label>Color:</label>
+                            <div class="field small">
+
+                               <input type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                            </div>
 
                         </li>
                     </ul>
@@ -84,9 +87,10 @@
             <label>
                 <span class="textnode">Show </span>
                 <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
-                    <option value="10" selected="selected">10</option>
-                    <option value="2">2</option>
-                    <option value="4">4</option>
+                    <option value="0" selected="selected">-</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
                     <option value="100">100</option>
                 </select>
                 <span class="textnode"> entries</span>

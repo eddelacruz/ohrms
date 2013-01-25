@@ -1,0 +1,69 @@
+@(clinicList: List[ws.services.ClinicList])
+
+@main("Clinic Information") {
+
+<header class="grid_12 head">
+    <h1>Clinic Information</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                @clinicList.map { dl =>
+                <h1>@dl.clinicName</h1>
+                }
+            </div>
+            <div class="right">
+                <nav style="display: none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="columns">
+                <div class="form-image left center">
+                    <div class="itemdata">
+                        <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
+                        <div class="categories">
+                            <a href="#" class="bt grey small"><span class="glyph image"></span>Change logo</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-details right mode-1">
+                    @clinicList.map { dl =>
+                    <div class="field left">
+                        <ul>
+                            <li>
+                                <label>Clinic ID:</label>
+                                <label class="form-label">@dl.id</label>
+                            </li>
+                            <li>
+                                <label>Clinic Name:</label>
+                                <label class="form-label">@dl.clinicName</label>
+                            </li>
+                            <li>
+                                <label>Address:</label>
+                                <label class="form-label">@dl.address</label>
+                            </li>
+                    }
+                </div>
+            </div>
+        </div>
+        <footer class="pane">
+            @clinicList.map { d =>
+            <a class="bt blue right" href="@routes.Clinic.getUpdateForm(d.id)">@Messages("button.edit")</a>
+            }
+        </footer>
+    </div>
+    <!-- /Profile, Dental Chart, Medical History -->
+    }

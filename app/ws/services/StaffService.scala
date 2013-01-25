@@ -114,7 +114,8 @@ object StaffService {
             |d.contact_no,
             |d.address,
             |d.position,
-            |u.user_name
+            |u.user_name,
+            |u.password
             |from
             |staffs d
             |INNER JOIN users u
@@ -129,8 +130,9 @@ object StaffService {
             get[String]("contact_no") ~
             get[String]("address") ~
             get[String]("position") ~
-            get[String]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, "")
+            get[String]("user_name") ~
+            get[String]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i)
           } *
         }
         staffList
@@ -157,6 +159,24 @@ object StaffService {
   def updateStaff(d: StaffList): Long = {
     val currentUser = getUserId
     val task = "Update"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE users SET
+            |user_name = {user_name},
+            |password = {password}
+            |where id = {id}
+          """.stripMargin).on(
+          'id -> d.id,
+          'user_name -> d.userName,
+          'password -> d.password,
+          'role -> 2,
+          'status -> 1,
+          'date_created -> DateWithTime.dateNow
+        ).executeUpdate()
+        AuditLogService.logTaskStaff(d, currentUser, task)
+    }
     DB.withConnection {
       implicit c =>
         SQL(
@@ -208,7 +228,7 @@ object StaffService {
           'id -> userId,
           'user_name -> d.userName,
           'password -> d.password,
-          'role -> 1, //Dentist
+          'role -> 2,
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
@@ -247,6 +267,24 @@ object StaffService {
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
        AuditLogService.logTaskStaff(d, currentUser, task) //TODO cached user_id when login
+    }
+  }
+
+  def deleteStaff(id: String): Long = {
+    val currentUser = getUserId
+    val task = "Delete"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE staffs SET
+            |status = {status}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0
+        ).executeUpdate()
+      // AuditLogService.logTask(id, currentUser, task)
     }
   }
 

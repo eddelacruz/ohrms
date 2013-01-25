@@ -27,11 +27,11 @@ object PatientDelegate extends WsHelper{
       "first_name" -> text,
       "middle_name" -> text,
       "last_name" -> text,
-      "medical_history_id" -> text,
       "address" -> text,
       "contact_no" -> text,
       "date_of_birth" -> text,
-      "image" -> text
+      "image" -> text,
+      "medical_history" -> text
     )(PatientList.apply)(PatientList.unapply)
   )
 
@@ -53,13 +53,14 @@ object PatientDelegate extends WsHelper{
       (j \ "firstName").as[String],
       (j \ "middleName").as[String],
       (j \ "lastName").as[String],
-      (j \ "medicalHistoryId").as[String],
       (j \ "address").as[String],
       (j \ "contactNo").as[String],
       (j \ "dateOfBirth").as[String],
-      (j \ "image").as[String]
+      (j \ "image").as[String],
+      (j \ "medicalHistory").as[String]
     )
   }
+
 
   def searchPatientListByLastName(start: Int, count: Int, filter: String) = {
     val res: Promise[Response] = doGet("/json/patients/search?start="+start+"&count="+count+"&filter="+filter)
@@ -98,7 +99,6 @@ object PatientDelegate extends WsHelper{
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
-
 
   def submitUpdatePatientForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/patients/update", params)

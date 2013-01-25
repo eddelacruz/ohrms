@@ -10,11 +10,24 @@ GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String)
 GET     /dentists/search       controllers.Dentist.searchDentistList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /settings/audit_log/search       controllers.Settings.searchAuditLog(start : Int ?= 0, count : Int ?= 25, filter ?= "")
-GET     /staffs         controllers.Staff.getList(start : Int ?= 0, count : Int ?= 25)
-GET     /staffs/search       controllers.Staff.searchStaffList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /patients/search       controllers.Patient.search(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /dental_services/search       controllers.DentalService.searchServiceList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /patients                   controllers.Patient.getList(start : Int ?= 0, count : Int ?= 25)
+GET     /clinic                     controllers.Clinic.getList(start : Int ?= 0, count : Int ?= 25)
+POST    /clinic                     controllers.Clinic.submitAddForm
+GET     /clinic/add                 controllers.Clinic.getAddForm
+POST    /clinic/update            controllers.Clinic.submitUpdateForm
+GET     /clinic/:id                 controllers.Clinic.getClinicListById(id: String)
+GET     /clinic/:id/update          controllers.Clinic.getUpdateForm(id: String)
+GET     /clinic/search       controllers.Clinic.searchClinicList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+GET     /announcements                     controllers.Announcement.getList(start : Int ?= 0, count : Int ?= 25)
+POST    /announcements                     controllers.Announcement.submitAddForm
+GET     /announcements/add                 controllers.Announcement.getAddForm
+POST    /announcements/update            controllers.Announcement.submitUpdateForm
+GET     /announcements/:id                 controllers.Announcement.getAnnouncementListById(id: String)
+GET     /announcements/:id/update          controllers.Announcement.getUpdateForm(id: String)
+GET     /announcements/search       controllers.Announcement.searchAnnouncementList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+POST    /announcements/delete            controllers.Announcement.deleteInformation(id: String)
 POST    /patients                   controllers.Patient.submitAddForm
 POST    /patients/update            controllers.Patient.submitUpdateForm
 POST    /patients/delete            controllers.Patient.deleteInformation(id: String)
@@ -30,6 +43,10 @@ POST    /dentists                   controllers.Dentist.submitAddForm
 GET     /dentists/add               controllers.Dentist.getAddForm
 GET     /scheduler                  controllers.Scheduler.getCalendar
 POST    /scheduler                  controllers.Appointments.submitAddForm
+POST    /scheduler/update            controllers.Appointments.submitUpdateForm
+GET     /scheduler/:id                 controllers.Appointments.getAppointmentListById(id: String)
+GET     /scheduler/:id/update          controllers.Appointments.getUpdateForm(id: String)
+
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
 GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
 GET     /dental_services/:id/information          controllers.DentalService.getDentalServiceInformationById(id: String)
@@ -37,12 +54,14 @@ POST    /dental_services                  controllers.DentalService.submitAddFor
 GET     /dental_services/add               controllers.DentalService.getAddForm
 POST    /dental_services/update            controllers.DentalService.submitUpdateForm
 GET     /dental_services/:id/information/update      controllers.DentalService.getUpdateForm(id: String)
+POST    /dental_services/delete            controllers.DentalService.deleteInformation(id: String)
 GET     /staffs                    controllers.Staff.getList(start : Int ?= 0, count : Int ?= 25)
-GET     /staffs/:id                controllers.Staff.getStaffById(id: String)
 POST    /staffs                    controllers.Staff.submitAddForm
 GET     /staffs/add                controllers.Staff.getAddForm
 POST    /staffs/update             controllers.Staff.submitUpdateForm
+GET     /staffs/:id                controllers.Staff.getStaffById(id: String)
 GET     /staffs/:id/update                controllers.Staff.getUpdateForm(id: String)
+GET     /staffs/search       controllers.Staff.searchStaffList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 #GET     /reports/patient_list       controllers.Reports._patientList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /sample/billy               controllers.Application.billySample
@@ -53,11 +72,9 @@ GET     /json/patients/search     controllers.Json.searchPatientListByLastName(s
 GET     /json/dentists/search     controllers.Json.searchDentistList(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
 GET     /json/dental_services/search     controllers.Json.searchServiceList(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
 GET     /json/settings/audit_log/search     controllers.Json.searchAuditLog(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
-
 GET     /json/dentists              controllers.Json.getDentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/staffs                controllers.Json.getStaffList(start : Int ?= 0, count : Int ?= 25)
 POST    /json/patients              controllers.Json.submitPatientAddForm
-POST    /json/scheduler              controllers.Json.submitAppointmentsAddForm
 POST    /json/patients/update       controllers.Json.submitPatientUpdateForm
 POST    /json/patients/delete       controllers.Json.deletePatientInformation
 GET     /json/patients/:id/treatment_plan      controllers.Json.getPatientTreatmentPlan(id: String)
@@ -72,12 +89,25 @@ GET     /json/dental_services            controllers.Json.getDentalServiceList(s
 GET     /json/dental_services/:id/information     controllers.Json.getDentalServiceInformationById(id: String)
 POST    /json/dental_services/update       controllers.Json.submitDentalServiceUpdateForm
 POST    /json/dental_services              controllers.Json.submitDentalServiceAddForm
+POST    /json/dental_services/delete       controllers.Json.deleteServicesInformation
 GET     /json/staffs            controllers.Json.getStaffList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/staffs/:id     controllers.Json.getStaffById(id: String)
 POST    /json/staffs/update         controllers.Json.submitStaffUpdateForm
 POST    /json/staffs                controllers.Json.submitStaffAddForm
+GET     /json/clinic                controllers.Json.getClinicList(start : Int ?= 0, count : Int ?= 25)
+GET     /json/clinic/:id     controllers.Json.getClinicListById(id: String)
+POST    /json/clinic/update         controllers.Json.submitClinicUpdateForm
+POST    /json/clinic                controllers.Json.submitClinicAddForm
 GET     /json/appointments          controllers.Json.getAllAppointments
+POST    /json/scheduler              controllers.Json.submitAppointmentsAddForm
+GET     /json/scheduler/:id          controllers.Json.getAppointmentById(id: String)
+POST    /json/scheduler/update       controllers.Json.submitAppointmentUpdateForm
 GET     /json/appointments/today    controllers.Json.getAllAppointmentsToday
+GET     /json/announcements                controllers.Json.getAnnouncementList(start : Int ?= 0, count : Int ?= 25)
+GET     /json/announcements/:id     controllers.Json.getAnnouncementListById(id: String)
+POST    /json/announcements/update         controllers.Json.submitAnnouncementUpdateForm
+POST    /json/announcements               controllers.Json.submitAnnouncementAddForm
+POST    /json/announcements/delete       controllers.Json.deleteAnnouncementInformation
 GET     /json/:tableName/row_count         controllers.Json.getRowCountOfTable(tableName: String)
 GET     /json/dental_services/all                       controllers.Json.getAllDentalServices
 GET     /json/dental_services/banned/:serviceCode       controllers.Json.getBannedServicesByServiceCode(serviceCode: String)
