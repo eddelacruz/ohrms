@@ -382,9 +382,17 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
       val treatmentPlan = request.body.asFormUrlEncoded; //request.body.asJson.get.\("Treatment_Plan")
 
-      treatmentPlan.map{ abc =>
-        println(abc)
+      treatmentPlan.zipWithIndex.map{ case(abc, i)  =>
+        println(abc.get("Treatment_Plan["+i+"][service_id]").get.head)
+        //println(abc.get("Treatment_Plan[0][service_price]").get.head)
+        //println(abc.get("Treatment_Plan[0][date_performed]").get.head)
+        //println(abc.get("Treatment_Plan[0][teeth_name]").get.head)
+        //println(abc.get("Treatment_Plan[0][patient_id]").get.head)
+        //println(abc.get("Treatment_Plan[0][dentist_id]").get.head)
+        //println(abc.get("Treatment_Plan[0][image]").get.head)
+        //println(abc+i)
       }
+
     //.apply("Treatment_Plan[0][service_price]")
       /*request.body.asJson.map { json =>
         (json \ "name").asOpt[String].map { name =>
@@ -395,7 +403,6 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }.getOrElse {
         BadRequest("Expecting Json data")
       }*/
-      println(treatmentPlan)
       Status(200)
  }
 
