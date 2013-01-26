@@ -24,7 +24,7 @@ trait TreatmentPlanDeserializer {
       (json \ "serviceId").as[String],
       (json \ "serviceName").as[String],
       (json \ "serviceCode").as[String],
-      (json \ "target").as[String],
+      (json \ "toolType").as[String],
       (json \ "serviceType").as[String],
       (json \ "servicePrice").as[String],
       (json \ "color").as[String],
@@ -32,7 +32,11 @@ trait TreatmentPlanDeserializer {
       (json \ "teethName").as[String],
       (json \ "teethView").as[String],
       (json \ "teethPosition").as[String],
-      (json \ "teethType").as[String]
+      (json \ "teethType").as[String],
+      (json \ "patientId").as[String],
+      (json \ "dentistId").as[String],
+      (json \ "teethAffectedId").as[String],
+      (json \ "image").as[String]
     )
 
     def writes(tp: TreatmentPlanType): JsValue = JsObject(
@@ -41,7 +45,7 @@ trait TreatmentPlanDeserializer {
         "serviceId" -> JsString(tp.serviceId),
         "serviceName" -> JsString(tp.serviceName),
         "serviceCode" -> JsString(tp.serviceCode),
-        "target" -> JsString(tp.target),
+        "toolType" -> JsString(tp.toolType),
         "serviceType" -> JsString(tp.serviceType),
         "servicePrice" -> JsString(tp.servicePrice),
         "color" -> JsString(tp.color),
@@ -49,7 +53,11 @@ trait TreatmentPlanDeserializer {
         "teethName" -> JsString(tp.teethName),
         "teethView"-> JsString(tp.teethView),
         "teethPosition" -> JsString(tp.teethPosition),
-        "teethType" -> JsString(tp.teethType)
+        "teethType" -> JsString(tp.teethType),
+        "patientId" -> JsString(tp.patientId),
+        "dentistId" -> JsString(tp.dentistId),
+        "teethAffectedId" -> JsString(tp.teethAffectedId),
+        "image" -> JsString(tp.image)
       )
     )
   }

@@ -1,3 +1,4 @@
+/*
 $(function () {
 var chart;
 $(document).ready(function() {
@@ -176,4 +177,4 @@ $(function () {
         });
     });
 
-});
+});*/

@@ -98,7 +98,7 @@ $(document).ready(function() {
             }
             evt.preventDefault();
             console.log(urls);
-             console.log(endpointsearch.length);
+            console.log(endpointsearch.length);
             $.ajax({
                 url : urls,
                 type: "GET",
@@ -169,12 +169,6 @@ $(document).ready(function() {
         }
     );
 
-    //for saving treatment plan
-    $('#save_treatment_plan').click(function(e){
-        e.preventDefault();
-        alert(curTooth);
-    });
-
     $('#dentistToolsDialog').click(function() {
       $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').hide();
       //alert("pumasok");
@@ -192,5 +186,52 @@ $(document).ready(function() {
             })
         }
     });*/
+
+    //for saving treatment plan
+    $('#update_treatment_plan').click(function(e){
+        e.preventDefault();
+        var myArray = new Array();
+        var motherObject = new Object();
+        for(var i = 0 ; i<toothWithService.length; i++){
+            var a = toothWithService[i];
+            var b = a.split("_");
+            var myObject = new Object();
+
+            myObject.service_id = b[1];
+            myObject.service_price = "200"; //textbox //TODO dynamic
+            myObject.date_performed = "2012-1-1 12:12:12"; //select box //TODO dynamic
+            myObject.teeth_name = b[0];
+            myObject.patient_id = $('.patient_information input[name=id]').val();
+            myObject.dentist_id = "71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
+            myObject.image =  $("#canvas"+a)[0].toDataURL();
+            myArray.push(myObject);
+
+        }
+        //motherObject.Treatment_Plan = myArray;
+        var json = JSON.stringify(motherObject);
+
+//        $.ajax({
+//            url : "",
+//            type: "POST",
+//            success: window.location
+//        })
+        $.ajax({
+          type: "POST",
+          url: "/json/treatment_plan",
+          dataType: "json",
+          data: {Treatment_Plan : myArray },
+          //data: {name: "amit", id:1 },
+          error: function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(ajaxOptions);
+          },
+            beforeSend: function(x) {
+              if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+              }
+            }
+        });
+
+    });
 
 });

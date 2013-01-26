@@ -17,8 +17,8 @@ trait DentalServiceListDeserializer {
       (json \ "id").as[String],
       (json \ "name").as[String],
       (json \ "code").as[String],
-      (json \ "sType").as[String],
-      (json \ "target").as[Int],
+      (json \ "type").as[String],
+      (json \ "tool_type").as[Int],
       (json \ "price").as[String],
       (json \ "color").as[String]
     )
@@ -28,8 +28,8 @@ trait DentalServiceListDeserializer {
         "id" -> JsString(d.id),
         "name" -> JsString(d.name),
         "code" -> JsString(d.code),
-        "sType" -> JsString(d.sType),
-        "target" -> JsNumber(d.target),
+        "type" -> JsString(d.sType),
+        "tool_type" -> JsNumber(d.toolType),
         "price" -> JsString(d.price),
         "color" -> JsString(d.color)
       )

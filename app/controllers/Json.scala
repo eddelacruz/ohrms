@@ -345,7 +345,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }
   }
 
-  /*def addTreatmentPlan = Action {
+ /* def addTreatmentPlan = Action {
     implicit request =>
       var index = 0
       val teethStructure = request.body.asJson.get.\("teeth_structure")
@@ -378,14 +378,34 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       println(teethStructure)
       Status(200)
   }*/
+  def addTreatmentPlan = Action {
+    implicit request =>
+      val treatmentPlan = request.body.asFormUrlEncoded; //request.body.asJson.get.\("Treatment_Plan")
+
+      treatmentPlan.map{ abc =>
+        println(abc)
+      }
+    //.apply("Treatment_Plan[0][service_price]")
+      /*request.body.asJson.map { json =>
+        (json \ "name").asOpt[String].map { name =>
+          Ok("Hello " + name)
+        }.getOrElse {
+          BadRequest("Missing parameter [name]")
+        }
+      }.getOrElse {
+        BadRequest("Expecting Json data")
+      }*/
+      println(treatmentPlan)
+      Status(200)
+ }
 
   def getTreatmentPlan(start: Int, count: Int) = Action {
-    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+    //Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+    Ok("get treatment plan")
   }
 
   //TODO donot delete for future use
   /*def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
-    println("hoi bruha")
     var index = 0
     try{
       while (teethStructure(index) != null) {
@@ -546,6 +566,15 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def getAllAppointmentsToday = Action {
     implicit request =>
       Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAppointmentsToday))))
+  }
+
+  def getBannedServicesByServiceCode(serviceCode: String) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AppointmentList" -> toJson(ServicesService.getBannedServicesByServiceCode(serviceCode)))))
+  }
+
+  def getAllDentalServices = Action {
+    Ok(JsObject(Seq("DentalServiceList" -> toJson(ServicesService.getAllDentalServices()))))
   }
 
 }
