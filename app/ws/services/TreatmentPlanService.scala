@@ -17,25 +17,17 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, teethAffectedId: String, image: String)
+case class TreatmentPlanType(var id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, teethAffectedId: String, image: String)
 
 
 object TreatmentPlanService {
 
-  def addTreatment(tp: TreatmentPlanType): Long = {
+  def addTreatment(tp: TreatmentPlanType) = {
     DB.withConnection{
       implicit c =>
         SQL(
           """
             |INSERT INTO `ohrms`.`treatment_plan`
-            |(`id`,
-            |`service_id`,
-            |`date_performed`,
-            |`patient_id`,
-            |`dentist_id`,
-            |`teeth_affected_id`,
-            |`status`,
-            |`image`)
             |VALUES
             |(
             |{id},
@@ -43,7 +35,7 @@ object TreatmentPlanService {
             |{date_performed},
             |{patient_id},
             |{dentist_id},
-            |{teeth_affected_id},
+            |{teeth_name},
             |{status},
             |{image}
             |);
@@ -53,11 +45,12 @@ object TreatmentPlanService {
         'date_performed -> tp.datePerformed,
         'patient_id -> tp.patientId,
         'dentist_id -> tp.dentistId,
-        'teeth_affected_id -> tp.teethAffectedId,
+        'teeth_name -> tp.teethName,
         'status -> 1,
         'image -> tp.image
         ).executeUpdate()
     }
+    println("pumasok sa addTreatmentService")
   }
 
   def addTeethAffected(tp: TreatmentPlanType): Long = {

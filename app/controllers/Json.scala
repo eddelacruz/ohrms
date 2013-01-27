@@ -345,64 +345,30 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }
   }
 
- /* def addTreatmentPlan = Action {
+  def addTreatmentPlan = Action {
     implicit request =>
+      val treatmentPlan = request.body.asFormUrlEncoded.get; //request.body.asJson.get.\("Treatment_Plan")
       var index = 0
-      val teethStructure = request.body.asJson.get.\("teeth_structure")
-
-      val treatmentPlanId = UUIDGenerator.generateUUID("treatment_plan")
-      val serviceId = teethStructure(0).\("service_id").as[String]
-      TreatmentPlanService.addTreatment(treatmentPlanId, serviceId)
 
       try{
-        while (teethStructure(index) != null) {
-          val tView = teethStructure(index).\("view").as[String]
-          val tName = teethStructure(index).\("name").as[String]
-          val tType = teethStructure(index).\("type").as[String]
-          val tPosition = tName match {
-            case "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" => "upper"
-            case "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" => "lower"
-          }
-          // 1 - Inclusive, 2 - Selective Fill, 3 - Selective Root, 4 - Selective Bridge, 5 - Selective Grid
-          val target = 2
-          val tp = new TreatmentPlanType(treatmentPlanId, "", "", "", target, "", "", "", "", tName, tView, tPosition, tType)
-          index += 1
-          TreatmentPlanService.addTeethAffected(tp)
+        while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
+          val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head
+          val servicePrice = treatmentPlan.get("Treatment_Plan["+index+"][service_price]").get.head
+          val datePerformed = treatmentPlan.get("Treatment_Plan["+index+"][date_performed]").get.head
+          val teethName = treatmentPlan.get("Treatment_Plan["+index+"][teeth_name]").get.head
+          val patientId = treatmentPlan.get("Treatment_Plan["+index+"][patient_id]").get.head
+          val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.head
+          val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.head
+
+          val tp = TreatmentPlanType("", serviceId, "", "", "", "", servicePrice, "", datePerformed, teethName, "", "", "", patientId, dentistId, "", image)
+          println(tp)
+          TreatmentPlanService.addTreatment(tp)
+          index+=1
         }
       } catch {
         case e: Exception =>
-          println("----->>>>> (END OF ITERATION OF TEETH AFFECTED) <<<<<-----")
-          println(e)
+          println("----->>>>> (END OF ITERATION OF "+index+" TREATMENT_PLAN) <<<<<-----")
       }
-      println("\n \n----->>>>> (TEETH STRUCTURE JSON) <<<<<-----")
-      println(teethStructure)
-      Status(200)
-  }*/
-  def addTreatmentPlan = Action {
-    implicit request =>
-      val treatmentPlan = request.body.asFormUrlEncoded; //request.body.asJson.get.\("Treatment_Plan")
-
-      treatmentPlan.zipWithIndex.map{ case(abc, i)  =>
-        println(abc.get("Treatment_Plan["+i+"][service_id]").get.head)
-        //println(abc.get("Treatment_Plan[0][service_price]").get.head)
-        //println(abc.get("Treatment_Plan[0][date_performed]").get.head)
-        //println(abc.get("Treatment_Plan[0][teeth_name]").get.head)
-        //println(abc.get("Treatment_Plan[0][patient_id]").get.head)
-        //println(abc.get("Treatment_Plan[0][dentist_id]").get.head)
-        //println(abc.get("Treatment_Plan[0][image]").get.head)
-        //println(abc+i)
-      }
-
-    //.apply("Treatment_Plan[0][service_price]")
-      /*request.body.asJson.map { json =>
-        (json \ "name").asOpt[String].map { name =>
-          Ok("Hello " + name)
-        }.getOrElse {
-          BadRequest("Missing parameter [name]")
-        }
-      }.getOrElse {
-        BadRequest("Expecting Json data")
-      }*/
       Status(200)
  }
 

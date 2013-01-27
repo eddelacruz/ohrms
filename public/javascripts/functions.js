@@ -207,31 +207,25 @@ $(document).ready(function() {
             myArray.push(myObject);
 
         }
-        //motherObject.Treatment_Plan = myArray;
-        var json = JSON.stringify(motherObject);
+        var json = {Treatment_Plan : myArray};
+        //console.log(JSON.stringify(json));
 
-//        $.ajax({
-//            url : "",
-//            type: "POST",
-//            success: window.location
-//        })
         $.ajax({
           type: "POST",
           url: "/json/treatment_plan",
           dataType: "json",
-          data: {Treatment_Plan : myArray },
+          data: json,
           //data: {name: "amit", id:1 },
           error: function(xhr, ajaxOptions, thrownError){
             alert(xhr.status);
             alert(ajaxOptions);
           },
-            beforeSend: function(x) {
-              if (x && x.overrideMimeType) {
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
                 x.overrideMimeType("application/j-son;charset=UTF-8");
-              }
             }
+          }
         });
-
     });
 
 });
