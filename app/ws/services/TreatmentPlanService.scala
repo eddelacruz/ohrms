@@ -28,6 +28,14 @@ object TreatmentPlanService {
         SQL(
           """
             |INSERT INTO `ohrms`.`treatment_plan`
+            |(`id`,
+            |`service_id`,
+            |`date_performed`,
+            |`patient_id`,
+            |`dentist_id`,
+            |`status`,
+            |`image`,
+            |`teeth_id`)
             |VALUES
             |(
             |{id},
@@ -35,9 +43,9 @@ object TreatmentPlanService {
             |{date_performed},
             |{patient_id},
             |{dentist_id},
-            |{teeth_name},
             |{status},
-            |{image}
+            |{image},
+            |{teeth_id}
             |);
           """.stripMargin).on(
         'id -> UUIDGenerator.generateUUID("treatment_plan"),
@@ -45,10 +53,10 @@ object TreatmentPlanService {
         'date_performed -> tp.datePerformed,
         'patient_id -> tp.patientId,
         'dentist_id -> tp.dentistId,
-        'teeth_name -> tp.teethName,
         'status -> 1,
-        'image -> tp.image
-        ).executeUpdate()
+        'image -> tp.image,
+        'teeth_id -> tp.teethName
+      ).executeUpdate()
     }
     println("pumasok sa addTreatmentService")
   }
