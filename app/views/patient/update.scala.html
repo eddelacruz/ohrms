@@ -516,7 +516,7 @@
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1>Dental Services</h1>
+                    <h1>Treatments</h1>
 
                 </div>
                 <div class="right">
@@ -531,23 +531,23 @@
                     <table>
                         <thead>
                         <tr>
-                            <th class="first">Name</th>
-                            <th>Code</th>
+                            <th class="first" style="text-align: center;"><span class="glyph center"></span></th>
+                            <th>Service Name</th>
+                            <th>Tooth</th>
                             <th>Price</th>
-                            <th>Target</th>
                             <th>Date Performed</th>
-                            <th class="last">Status</th>
+                            <th class="last">Dentist Name</th>
                         </tr>
                         </thead>
                         <tbody>
                         @treatmentPlan.map { tp =>
-                        <tr>
-                            <td>@tp.serviceName</td>
-                            <td>@tp.serviceCode</td>
+                        <tr class="center">
+                            <td><input type='checkbox'></td>
+                            <td><span class="label"  style="background: #@tp.color;">@tp.serviceName</span></td>
+                            <td>@tp.teethName</td>
                             <td><span class="pesos">P</span> @tp.servicePrice</td>
-                            <td>@tp.toolType</td>
-                            <td>--</td>
-                            <td class="center"><span class="label label-success">Success</span></td>
+                            <td>@tp.datePerformed</td>
+                            <td>Dr. @tp.dentistName</td>
                         </tr>
                         }
                         </tbody>

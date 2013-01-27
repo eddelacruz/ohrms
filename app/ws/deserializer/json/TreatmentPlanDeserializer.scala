@@ -35,7 +35,7 @@ trait TreatmentPlanDeserializer {
       (json \ "teethType").as[String],
       (json \ "patientId").as[String],
       (json \ "dentistId").as[String],
-      (json \ "teethAffectedId").as[String],
+      (json \ "dentistName").as[String],
       (json \ "image").as[String]
     )
 
@@ -56,7 +56,7 @@ trait TreatmentPlanDeserializer {
         "teethType" -> JsString(tp.teethType),
         "patientId" -> JsString(tp.patientId),
         "dentistId" -> JsString(tp.dentistId),
-        "teethAffectedId" -> JsString(tp.teethAffectedId),
+        "dentistName" -> JsString(tp.dentistName),
         "image" -> JsString(tp.image)
       )
     )

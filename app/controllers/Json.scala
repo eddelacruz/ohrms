@@ -361,7 +361,6 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.head
 
           val tp = TreatmentPlanType("", serviceId, "", "", "", "", servicePrice, "", datePerformed, teethName, "", "", "", patientId, dentistId, "", image)
-          println(tp)
           TreatmentPlanService.addTreatment(tp)
           index+=1
         }
@@ -373,35 +372,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
  }
 
   def getTreatmentPlan(start: Int, count: Int) = Action {
-    //Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
-    Ok("get treatment plan")
+    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
   }
-
-  //TODO donot delete for future use
-  /*def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
-    var index = 0
-    try{
-      while (teethStructure(index) != null) {
-        val tView = teethStructure(index).\("view").as[String]
-        val tName = teethStructure(index).\("name").as[String]
-        val tType = teethStructure(index).\("type").as[String]
-        val tPosition = tName match {
-          case "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" => "upper"
-          case "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" => "lower"
-        }
-        // 1 - Inclusive, 2 - Selective Fill, 3 - Selective Root, 4 - Selective Bridge, 5 - Selective Grid
-        val target = "2"
-        val tp = new TreatmentPlanType(treatmentPlanId, "", "", "", target, "", "", "", "", tName, tView, tPosition, tType)
-        index += 1
-        TreatmentPlanService.addTeethAffected(tp)
-      }
-    } catch {
-      case e: Exception =>
-        println("----->>>>> (END OF ITERATION OF TEETH AFFECTED) <<<<<-----")
-        println(e)
-    }
-    Status(200)
-  }*/
 
   def submitDentalServiceAddForm = Action {
     implicit request =>

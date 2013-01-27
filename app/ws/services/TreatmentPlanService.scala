@@ -17,8 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(var id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, teethAffectedId: String, image: String)
-
+case class TreatmentPlanType(var id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, dentistName: String, image: String)
 
 object TreatmentPlanService {
 
@@ -61,7 +60,7 @@ object TreatmentPlanService {
     println("pumasok sa addTreatmentService")
   }
 
-  def addTeethAffected(tp: TreatmentPlanType): Long = {
+  /*def addTeethAffected(tp: TreatmentPlanType): Long = {
     DB.withTransaction {
       implicit c =>
         SQL(
@@ -85,9 +84,9 @@ object TreatmentPlanService {
         'type -> tp.teethType
       ).executeUpdate()
     }
-  }
+  }*/
 
-  /*def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
+  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
     DB.withConnection {
       implicit c =>
         val treatmentPlan: List[TreatmentPlanType] = SQL(
@@ -105,9 +104,19 @@ object TreatmentPlanService {
             |ttha.`name` as 'teeth_name',
             |ttha.`view` as 'teeth_view',
             |ttha.`position` as 'teeth_position',
-            |ttha.`type` as 'teeth_type'
-            |FROM dental_services as s inner join (treatment_plan as tp inner join teeth_affected as ttha)
-            |on s.`id` = tp.`service_id` and tp.`id` = ttha.`treatment_plan_id`
+            |ttha.`type` as 'teeth_type',
+            |p.`id` as 'patient_id',
+            |d.`id` as 'dentist_id',
+            |d.`first_name`,
+            |d.`middle_name`,
+            |d.`last_name`,
+            |tp.`image`
+            |FROM treatment_plan as tp inner join teeth_affected as ttha inner join dental_services as s inner join patients as p
+            |inner join dentists as d
+            |on tp.`service_id` = s.`id` AND
+            |tp.`teeth_id` = ttha.`name` AND
+            |tp.`patient_id` = p.`id` AND
+            |tp.`dentist_id` = d.`id`
             |ORDER BY service_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
@@ -115,7 +124,7 @@ object TreatmentPlanService {
             get[String]("dental_services.id") ~
             get[String]("dental_services.name") ~
             get[String]("dental_services.code") ~
-            get[Int]("dental_services.tool_type") ~    // TODO elizer tinyint
+            get[Int]("dental_services.tool_type") ~
             get[String]("dental_services.type") ~
             get[String]("dental_services.price") ~
             get[String]("dental_services.color") ~
@@ -123,12 +132,18 @@ object TreatmentPlanService {
             get[String]("teeth_affected.name") ~
             get[String]("teeth_affected.view") ~
             get[String]("teeth_affected.position") ~
-            get[String]("teeth_affected.type") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m => TreatmentPlanType(a, b, c, d, e.toString, f, g, h, i.toString, j, k, l, m)
+            get[String]("teeth_affected.type") ~
+            get[String]("patients.id") ~
+            get[String]("dentists.id") ~
+            get[String]("dentists.first_name") ~
+            get[String]("dentists.middle_name") ~
+            get[String]("dentists.last_name") ~
+            get[String]("treatment_plan.image") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, e.toString, f, g, h, i.toString, j, k, l, m, n, o, (p+" "+q+" "+r), s)
           } *
         }
         treatmentPlan
     }
-  }*/
+  }
 
 }
