@@ -224,6 +224,10 @@ $(document).ready(function() {
             if (x && x.overrideMimeType) {
                 x.overrideMimeType("application/j-son;charset=UTF-8");
             }
+          },
+          success:  function() {
+            window.location.href = "/patients/"+myObject.patient_id+"/treatment_plan/update";
+            alert("Changes are saved.");
           }
         });
     });
