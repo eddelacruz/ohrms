@@ -185,6 +185,7 @@ function loadPaint() {
     var imageObj = new Image();
     imageObj.onload = function() {
         ctx.drawImage(imageObj, 0, 0);
+
         var imageData = ctx.getImageData(0,0, imageWidth, imageHeight);
         var pixel = imageData.data;
 
@@ -223,7 +224,7 @@ function clearPaint(tooth) {
 function drawMask(tooth) {
     maskCtx.fillStyle = '#fff';
     maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
-    maskCtx.globalCompositeOperation = 'destination-out';
+    maskCtx.globalCompositeOperation = 'xor';
     drawToothMask(tooth);
     //maskCtx.globalCompositeOperation = 'source-in';
     /*maskCtx.save()*/
