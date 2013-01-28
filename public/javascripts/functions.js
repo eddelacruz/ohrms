@@ -228,4 +228,30 @@ $(document).ready(function() {
         });
     });
 
+    //for loading treatment plan
+    $.getJSON("/json/treatment_plan",
+        function(data){
+            //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
+            $.each(data, function(key, value){
+                $.each(value, function(ky, vl){
+                    var tn = $('#'+vl.teethName+' > canvas');
+                    var id = "canvas"+vl.teethName+"_"+vl.serviceId;
+                    imageWidth = tn.attr("width");
+                    imageHeight = tn.attr("height");
+                    $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    //$('#'+vl.teethName+' div').filter(':last').prepend("<div class='absolute'><canvas id='canvas"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+
+                    var myCvs = document.getElementById(id);
+                    var myCtx = myCvs.getContext('2d');
+                    console.log(myCvs);
+
+                    var imageObj = new Image();
+                    imageObj.onload = function() {
+                        myCtx.drawImage(imageObj, 0, 0);
+                    }
+                    imageObj.src = vl.image;
+                })
+            })
+    });
+
 });

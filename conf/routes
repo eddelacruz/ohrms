@@ -8,7 +8,7 @@ POST    /login_attempt              controllers.Application.authenticate
 GET     /logout                     controllers.Application.logout
 GET     /link                          controllers.Application.link
 GET     /dashboard                  controllers.Application.dashboard
-GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String)
+GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String, start : Int ?= 0, count : Int ?= 25)
 GET     /dentists/search       controllers.Dentist.searchDentistList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /settings/audit_log/search       controllers.Settings.searchAuditLog(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /patients/search       controllers.Patient.search(start : Int ?= 0, count : Int ?= 25, filter ?= "")

@@ -22,10 +22,10 @@ import Application.Secured
  */
 object Patient extends Controller with Secured{
 
-  def getTreatmentPlan(id: String) = IsAuthenticated {
+  def getTreatmentPlan(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-    Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
+    Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count) ))
   }
 
   def search(start: Int, count: Int, filter: String) = Action {

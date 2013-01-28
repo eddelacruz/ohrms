@@ -117,7 +117,6 @@ object TreatmentPlanService {
             |tp.`teeth_id` = ttha.`name` AND
             |tp.`patient_id` = p.`id` AND
             |tp.`dentist_id` = d.`id`
-            |ORDER BY service_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
             get[String]("treatment_plan.id") ~

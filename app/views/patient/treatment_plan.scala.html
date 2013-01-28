@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList])
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
 
 @main("Treatment Plan") {
 <!-- # Treatment Plan -->
@@ -379,7 +379,7 @@
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1>Dental Services</h1>
+                    <h1>@Messages("treatments.title")</h1>
 
                 </div>
                 <div class="right">
@@ -394,15 +394,25 @@
                     <table>
                         <thead>
                         <tr>
-                            <th class="first">Name</th>
-                            <th>Code</th>
+                            <th class="first" style="text-align: center;"><span class="glyph center"></span></th>
+                            <th>Service Name</th>
+                            <th>Tooth</th>
                             <th>Price</th>
-                            <th>Target</th>
                             <th>Date Performed</th>
-                            <th class="last">Status</th>
+                            <th class="last">Dentist Name</th>
                         </tr>
                         </thead>
                         <tbody>
+                        @treatmentPlan.map { tp =>
+                        <tr class="center">
+                            <td><input type='checkbox'></td>
+                            <td><span class="label"  style="background: #@tp.color;">@tp.serviceName</span></td>
+                            <td>@tp.teethName</td>
+                            <td><span class="pesos">P</span> @tp.servicePrice</td>
+                            <td>@tp.datePerformed</td>
+                            <td>Dr. @tp.dentistName</td>
+                        </tr>
+                        }
                         </tbody>
                     </table>
                     <footer class="extension bottom inright pagination right">

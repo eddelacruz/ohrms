@@ -223,10 +223,10 @@ function clearPaint(tooth) {
 function drawMask(tooth) {
     maskCtx.fillStyle = '#fff';
     maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
-    maskCtx.globalCompositeOperation = 'xor';
+    maskCtx.globalCompositeOperation = 'destination-out';
     drawToothMask(tooth);
-    /*maskCtx.globalCompositeOperation = 'source-in';
-    maskCtx.save()*/
+    //maskCtx.globalCompositeOperation = 'source-in';
+    /*maskCtx.save()*/
 };
 
 /*Paint and Symbol Function*/
