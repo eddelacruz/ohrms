@@ -31,8 +31,8 @@ object Appointments extends Controller with Secured {
         scheduler => {
           val params = request.body.asFormUrlEncoded.get
           AppointmentDelegate.submitAddAppointmentsForm(params)
-          println(params)
-          Redirect("/scheduler")
+//          Redirect("/scheduler")
+          Status(200)
         }
       )
   }
