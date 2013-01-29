@@ -247,7 +247,12 @@ $(document).ready(function() {
                     var id = "canvas"+vl.teethName+"_"+vl.serviceId;
                     imageWidth = tn.attr("width");
                     imageHeight = tn.attr("height");
-                    $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+
+                    if(vl.toolType === '1'){
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    } else if(vl.toolType === '2') {
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    }
 
                     var myCvs = document.getElementById(id);
                     var myCtx = myCvs.getContext('2d');
