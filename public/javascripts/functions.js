@@ -215,7 +215,6 @@ $(document).ready(function() {
           url: "/json/treatment_plan",
           dataType: "json",
           data: json,
-          //data: {name: "amit", id:1 },
           error: function(xhr, ajaxOptions, thrownError){
             alert(xhr.status);
             alert(ajaxOptions);
@@ -224,12 +223,22 @@ $(document).ready(function() {
             if (x && x.overrideMimeType) {
                 x.overrideMimeType("application/j-son;charset=UTF-8");
             }
-          }
+          },
+          success:  $.ajax({
+            type: "GET",
+            url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
+            success: function(res) {
+                //window.location = url;
+                console.log(res);
+                $('.grid_11 table').html($(res).find('.grid_11 table').html());
+                //$('.mouth.child').html($(res).find('.mouth.child').html());
+            }
+          })
         });
     });
 
     //for loading treatment plan
-    /*$.getJSON("/json/treatment_plan",
+    $.getJSON("/json/treatment_plan",
         function(data){
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
@@ -238,12 +247,15 @@ $(document).ready(function() {
                     var id = "canvas"+vl.teethName+"_"+vl.serviceId;
                     imageWidth = tn.attr("width");
                     imageHeight = tn.attr("height");
-                    $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
-                    //$('#'+vl.teethName+' div').filter(':last').prepend("<div class='absolute'><canvas id='canvas"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+
+                    if(vl.toolType === '1'){
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    } else if(vl.toolType === '2') {
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    }
 
                     var myCvs = document.getElementById(id);
                     var myCtx = myCvs.getContext('2d');
-                    console.log(myCvs);
 
                     var imageObj = new Image();
                     imageObj.onload = function() {
@@ -253,5 +265,4 @@ $(document).ready(function() {
                 })
             })
     });
-*/
 });

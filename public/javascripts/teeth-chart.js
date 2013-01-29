@@ -226,7 +226,7 @@ function drawMask(tooth) {
     maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
     maskCtx.globalCompositeOperation = 'xor';
     drawToothMask(tooth);
-    //insert code here mamaya
+    ctx.drawImage(maskCanvas, 0, 0);
 
     //maskCtx.globalCompositeOperation = 'source-in';
     /*maskCtx.save()*/

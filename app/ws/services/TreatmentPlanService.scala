@@ -117,26 +117,27 @@ object TreatmentPlanService {
             |tp.`teeth_id` = ttha.`name` AND
             |tp.`patient_id` = p.`id` AND
             |tp.`dentist_id` = d.`id`
+            |ORDER BY date_performed ASC
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
             get[String]("treatment_plan.id") ~
             get[Option[String]]("dental_services.id") ~
             get[Option[String]]("dental_services.name") ~
             get[Option[String]]("dental_services.code") ~
-            get[Option[Int]]("dental_services.tool_type") ~
+            get[Int]("dental_services.tool_type") ~
             get[Option[String]]("dental_services.type") ~
             get[Option[String]]("dental_services.price") ~
             get[Option[String]]("dental_services.color") ~
-            get[Option[Date]]("treatment_plan.date_performed") ~
+            get[Date]("treatment_plan.date_performed") ~
             get[Option[String]]("teeth_affected.name") ~
             get[Option[String]]("teeth_affected.view") ~
             get[Option[String]]("teeth_affected.position") ~
             get[Option[String]]("teeth_affected.type") ~
             get[Option[String]]("patients.id") ~
             get[Option[String]]("dentists.id") ~
-            get[Option[String]]("dentists.first_name") ~
-            get[Option[String]]("dentists.middle_name") ~
-            get[Option[String]]("dentists.last_name") ~
+            get[String]("dentists.first_name") ~
+            get[String]("dentists.middle_name") ~
+            get[String]("dentists.last_name") ~
             get[Option[String]]("treatment_plan.image") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString), j, k, l, m, n, o, Some(p+" "+q+" "+r), s)
           } *

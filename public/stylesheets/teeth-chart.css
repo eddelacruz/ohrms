@@ -74,6 +74,9 @@ button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only{
     display: inline-block;
     text-align: center;
 }
+.mouth.child>div{
+    display: inline-block;
+}
 #dentistToolsButton{
     cursor: pointer;
 }
