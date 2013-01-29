@@ -53,8 +53,12 @@
                         <input type="text" name="user_name" value="@dl.userName">
                     </li>
                     <li>
+                        <label>Password:</label>
+                        <input type="password" name="password" value="@dl.password">
+                    </li>
+                    <li>
                         <label>Image:<br></label>
-                        <div class="customfile"><input type="file" value="@dl.image" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                        <input type="file" name="image" value="@dl.image"/>
                     </li>
                 </ul>
             </div>
@@ -75,7 +79,7 @@
                     <label>Specialization</label>
                     @for(sn <- dl.specializationName){
                     <li>
-                        <input type="text" name="specializationName[0]" data-count=0 value="@sn" style="width: 81%;">
+                        <input type="text" name="specializationName[0]"  data-count=0 value="@sn" style="width: 81%;">
                         <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
                     </li><br/>
                     }

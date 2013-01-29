@@ -148,7 +148,8 @@ object DentistService {
             |d.contact_no,
             |d.prc_no,
             |d.image,
-            |u.user_name
+            |u.user_name,
+            |u.password
             |from
             |dentists d
             |INNER JOIN users u
@@ -165,8 +166,9 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("image")~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(id)))
+            get[Option[String]]("user_name")~
+            get[Option[String]]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j => DentistList(a, b, c, d, e, f, g, h, i, j, Some(getSpecializationToList(id)))
           } *
         }
         dentistList
@@ -193,6 +195,24 @@ object DentistService {
   def updateDentist(d: DentistList): Long = {
     val currentUser = getUserId
     val task = "Update"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE users SET
+            |user_name = {user_name},
+            |password = {password}
+            |where id = {id}
+          """.stripMargin).on(
+          'id -> d.id,
+          'user_name -> d.userName,
+          'password -> d.password,
+          'role -> 1,
+          'status -> 1,
+          'date_created -> DateWithTime.dateNow
+        ).executeUpdate()
+    }
+
     DB.withConnection {
       implicit c =>
         SQL(
