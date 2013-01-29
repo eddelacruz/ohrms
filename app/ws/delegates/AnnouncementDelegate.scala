@@ -23,9 +23,9 @@ object AnnouncementDelegate extends WsHelper{
   val _announcementProfileForm = Form(
     mapping(
       "id" -> text,
-      "user_name" -> text,
-      "announcement" -> text,
-      "date_created" -> text
+      "user_name" -> optional(text),
+      "announcement" -> optional(text),
+      "date_created" -> optional(text)
     )(AnnouncementList.apply)(AnnouncementList.unapply)
   )
 
@@ -58,9 +58,9 @@ object AnnouncementDelegate extends WsHelper{
   def convertToAnnouncementList (j: JsValue): AnnouncementList = {
     new AnnouncementList(
       (j \ "id").as[String],
-      (j \ "userName").as[String],
-      (j \ "announcement").as[String],
-      (j \ "dateCreated").as[String]
+      (j \ "userName").asOpt[String],
+      (j \ "announcement").asOpt[String],
+      (j \ "dateCreated").asOpt[String]
     )
   }
 

@@ -42,22 +42,22 @@ object TreatmentPlanDelegate extends WsHelper{
   def convertToTreatmentPlan(j: JsValue): TreatmentPlanType = {
     new TreatmentPlanType(
       (j \ "id").as[String],
-      (j \ "serviceId").as[String],
-      (j \ "serviceName").as[String],
-      (j \ "serviceCode").as[String],
-      (j \ "toolType").as[String],
-      (j \ "serviceType").as[String],
-      (j \ "servicePrice").as[String],
-      (j \ "color").as[String],
-      (j \ "datePerformed").as[String],
-      (j \ "teethName").as[String],
-      (j \ "teethView").as[String],
-      (j \ "teethPosition").as[String],
-      (j \ "teethType").as[String],
-      (j \ "patientId").as[String],
-      (j \ "dentistId").as[String],
-      (j \ "dentistName").as[String],
-      (j \ "image").as[String]
+      (j \ "serviceId").asOpt[String],
+      (j \ "serviceName").asOpt[String],
+      (j \ "serviceCode").asOpt[String],
+      (j \ "toolType").asOpt[String],
+      (j \ "serviceType").asOpt[String],
+      (j \ "servicePrice").asOpt[String],
+      (j \ "color").asOpt[String],
+      (j \ "datePerformed").asOpt[String],
+      (j \ "teethName").asOpt[String],
+      (j \ "teethView").asOpt[String],
+      (j \ "teethPosition").asOpt[String],
+      (j \ "teethType").asOpt[String],
+      (j \ "patientId").asOpt[String],
+      (j \ "dentistId").asOpt[String],
+      (j \ "dentistName").asOpt[String],
+      (j \ "image").asOpt[String]
     )
   }
 

@@ -30,7 +30,6 @@
             @helper.form(action = routes.Dentist.submitAddForm){
             <div class="field left">
                 <input type="hidden" name="id" value="">
-                <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
                 <ul>
                     <li>
                         <label class="upper">First Name:</label>
@@ -46,7 +45,7 @@
                     </li>
                     <li>
                         <label>Image:<br></label>
-                        <div class="customfile"><input type="file" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>
+                        <input type="hidden" name="image"/>
                     </li>
                 </ul>
             </div>

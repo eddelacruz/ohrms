@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentalServiceList(var id: String, name: String, code: String, sType: String, toolType: Int, price: String, color: String)
+case class DentalServiceList(var id: String, name: Option[String], code: Option[String], sType: Option[String], toolType: Option[Int], price: Option[String], color: Option[String])
 
 object ServicesService {
 
@@ -51,12 +51,12 @@ object ServicesService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("tool_type") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -90,12 +90,12 @@ object ServicesService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("tool_type") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -123,12 +123,12 @@ object ServicesService {
             |ORDER BY name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("tool_type") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -260,12 +260,12 @@ object ServicesService {
             |ORDER BY name asc
           """.stripMargin).as {
             get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("tool_type") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get [Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }

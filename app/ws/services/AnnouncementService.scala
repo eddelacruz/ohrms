@@ -18,11 +18,11 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class AnnouncementList(var id: String, userName: String, announcement: String, dateCreated: String)
+case class AnnouncementList(var id: String, userName: Option[String], announcement: Option[String], dateCreated: Option[String])
 
 object AnnouncementService {
 
-  def getRowCountOfTable(tableName: String): Long = {
+  def getRowCountOfTable(tableName: Option[String]): Long = {
     DB.withConnection {
       implicit c =>
         val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
@@ -65,10 +65,10 @@ object AnnouncementService {
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
             get[String]("id") ~
-            get[String]("user_name") ~
-            get[String]("announcement") ~
-            get[Date]("date_created") map {
-            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, d.toString)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("announcement") ~
+            get[Option[Date]]("date_created") map {
+            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
         }
         announcementList
@@ -93,10 +93,10 @@ object AnnouncementService {
             |ORDER BY date_created asc
           """.stripMargin).on('id -> id).as {
             get[String]("id") ~
-            get[String]("user_name") ~
-            get[String]("announcement") ~
-            get[Date]("date_created") map {
-            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, d.toString)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("announcement") ~
+            get[Option[Date]]("date_created") map {
+            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
         }
         announcementList
@@ -122,10 +122,10 @@ object AnnouncementService {
             |LIMIT {start}, {count}
           """.stripMargin).on('filter -> filter, 'start -> start, 'count -> count).as {
             get[String]("id") ~
-            get[String]("user_name") ~
-            get[String]("announcment") ~
-            get[Date]("date_created")map {
-            case a ~ b ~ c ~ d => AnnouncementList(a, b, c, d.toString)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("announcment") ~
+            get[Option[Date]]("date_created")map {
+            case a ~ b ~ c ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
         }
         announcementList

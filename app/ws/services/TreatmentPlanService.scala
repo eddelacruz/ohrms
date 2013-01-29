@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(var id: String, serviceId: String, serviceName: String, serviceCode: String, toolType: String, serviceType: String, servicePrice: String, color: String, datePerformed: String, teethName: String, teethView: String, teethPosition: String, teethType: String, patientId: String, dentistId: String, dentistName: String, image: String)
+case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], image: Option[String])
 
 object TreatmentPlanService {
 
@@ -120,25 +120,25 @@ object TreatmentPlanService {
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
             get[String]("treatment_plan.id") ~
-            get[String]("dental_services.id") ~
-            get[String]("dental_services.name") ~
-            get[String]("dental_services.code") ~
-            get[Int]("dental_services.tool_type") ~
-            get[String]("dental_services.type") ~
-            get[String]("dental_services.price") ~
-            get[String]("dental_services.color") ~
-            get[Date]("treatment_plan.date_performed") ~
-            get[String]("teeth_affected.name") ~
-            get[String]("teeth_affected.view") ~
-            get[String]("teeth_affected.position") ~
-            get[String]("teeth_affected.type") ~
-            get[String]("patients.id") ~
-            get[String]("dentists.id") ~
-            get[String]("dentists.first_name") ~
-            get[String]("dentists.middle_name") ~
-            get[String]("dentists.last_name") ~
-            get[String]("treatment_plan.image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, e.toString, f, g, h, i.toString, j, k, l, m, n, o, (p+" "+q+" "+r), s)
+            get[Option[String]]("dental_services.id") ~
+            get[Option[String]]("dental_services.name") ~
+            get[Option[String]]("dental_services.code") ~
+            get[Option[Int]]("dental_services.tool_type") ~
+            get[Option[String]]("dental_services.type") ~
+            get[Option[String]]("dental_services.price") ~
+            get[Option[String]]("dental_services.color") ~
+            get[Option[Date]]("treatment_plan.date_performed") ~
+            get[Option[String]]("teeth_affected.name") ~
+            get[Option[String]]("teeth_affected.view") ~
+            get[Option[String]]("teeth_affected.position") ~
+            get[Option[String]]("teeth_affected.type") ~
+            get[Option[String]]("patients.id") ~
+            get[Option[String]]("dentists.id") ~
+            get[Option[String]]("dentists.first_name") ~
+            get[Option[String]]("dentists.middle_name") ~
+            get[Option[String]]("dentists.last_name") ~
+            get[Option[String]]("treatment_plan.image") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString), j, k, l, m, n, o, Some(p+" "+q+" "+r), s)
           } *
         }
         treatmentPlan

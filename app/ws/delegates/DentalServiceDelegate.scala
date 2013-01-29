@@ -22,12 +22,12 @@ object DentalServiceDelegate extends WsHelper{
   val _dentalServiceProfileForm = Form(
     mapping(
       "id" -> text,
-      "name" -> text,
-      "code" -> text,
-      "type" -> text,
-      "target" -> number,
-      "price" -> text,
-      "color" -> text
+      "name" -> optional(text),
+      "code" -> optional(text),
+      "type" -> optional(text),
+      "target" -> optional(number),
+      "price" -> optional(text),
+      "color" -> optional(text)
     )(DentalServiceList.apply)(DentalServiceList.unapply)
   )
 
@@ -70,12 +70,12 @@ object DentalServiceDelegate extends WsHelper{
   def convertToDentalServiceList (j: JsValue): DentalServiceList = {
     new DentalServiceList(
       (j \ "id").as[String],
-      (j \ "name").as[String],
-      (j \ "code").as[String],
-      (j \ "type").as[String],
-      (j \ "tool_type").as[Int],
-      (j \ "price").as[String],
-      (j \ "color").as[String]
+      (j \ "name").asOpt[String],
+      (j \ "code").asOpt[String],
+      (j \ "type").asOpt[String],
+      (j \ "tool_type").asOpt[Int],
+      (j \ "price").asOpt[String],
+      (j \ "color").asOpt[String]
     )
   }
 
