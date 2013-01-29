@@ -1,7 +1,7 @@
 function drawToothMask(tooth) {
 	switch(tooth) {
 	case 'FA':
-		drawFA();
+		drawFAMask();
 		break;
 	case 'FB':
 		drawFBMask();
