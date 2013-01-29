@@ -16,31 +16,31 @@ trait AppointmentDeserializer {
   implicit object AppointmentListFormat extends Format[AppointmentList]{
     def reads(json: JsValue): AppointmentList = AppointmentList(
       (json \ "id").as[String],
-      (json \ "description").as[String],
-      (json \ "firstName").as[String],
-      (json \ "middleName").as[String],
-      (json \ "lastName").as[String],
-      (json \ "dentistId").as[String],
-      (json \ "contactNo").as[String],
-      (json \ "address").as[String],
-      (json \ "status").as[Int],
-      (json \ "dateStart").as[String],
-      (json \ "dateEnd").as[String]
+      (json \ "description").asOpt[String],
+      (json \ "firstName").asOpt[String],
+      (json \ "middleName").asOpt[String],
+      (json \ "lastName").asOpt[String],
+      (json \ "dentistId").asOpt[String],
+      (json \ "contactNo").asOpt[String],
+      (json \ "address").asOpt[String],
+      (json \ "status").asOpt[Int],
+      (json \ "dateStart").asOpt[String],
+      (json \ "dateEnd").asOpt[String]
     )
 
     def writes(p: AppointmentList): JsValue = JsObject(
       Seq(
         "id" -> JsString(p.id),
-        "description" -> JsString(p.description),
-        "firstName" -> JsString(p.firstName),
-        "middleName" -> JsString(p.middleName),
-        "lastName" -> JsString(p.lastName),
-        "dentistId" -> JsString(p.dentistId),
-        "contactNo" -> JsString(p.contactNo),
-        "address" -> JsString(p.address),
-        "status" -> JsNumber(p.status),
-        "dateStart" -> JsString(p.dateStart),
-        "dateEnd" -> JsString(p.dateEnd)
+        "description" -> JsString(p.description.get),
+        "firstName" -> JsString(p.firstName.get),
+        "middleName" -> JsString(p.middleName.get),
+        "lastName" -> JsString(p.lastName.get),
+        "dentistId" -> JsString(p.dentistId.get),
+        "contactNo" -> JsString(p.contactNo.get),
+        "address" -> JsString(p.address.get),
+        "status" -> JsNumber(p.status.get),
+        "dateStart" -> JsString(p.dateStart.get),
+        "dateEnd" -> JsString(p.dateEnd.get)
 
       )
     )

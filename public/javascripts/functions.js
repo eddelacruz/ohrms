@@ -238,7 +238,7 @@ $(document).ready(function() {
     });
 
     //for loading treatment plan
-    $.getJSON("/json/treatment_plan",
+    /*$.getJSON("/json/treatment_plan",
         function(data){
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
@@ -260,5 +260,5 @@ $(document).ready(function() {
                 })
             })
     });
-
+*/
 });

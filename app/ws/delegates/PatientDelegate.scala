@@ -24,14 +24,14 @@ object PatientDelegate extends WsHelper{
   val _patientProfileForm = Form(
     mapping(
       "id" -> text,
-      "first_name" -> text,
-      "middle_name" -> text,
-      "last_name" -> text,
-      "address" -> text,
-      "contact_no" -> text,
-      "date_of_birth" -> text,
-      "image" -> text,
-      "medical_history" -> text
+      "first_name" -> optional(text),
+      "middle_name" -> optional(text),
+      "last_name" -> optional(text),
+      "address" -> optional(text),
+      "contact_no" -> optional(text),
+      "date_of_birth" -> optional(text),
+      "image" -> optional(text),
+      "medical_history" -> optional(text)
     )(PatientList.apply)(PatientList.unapply)
   )
 
@@ -50,14 +50,14 @@ object PatientDelegate extends WsHelper{
   def convertToPatientList (j: JsValue): PatientList = {
     new PatientList(
       (j \ "id").as[String],
-      (j \ "firstName").as[String],
-      (j \ "middleName").as[String],
-      (j \ "lastName").as[String],
-      (j \ "address").as[String],
-      (j \ "contactNo").as[String],
-      (j \ "dateOfBirth").as[String],
-      (j \ "image").as[String],
-      (j \ "medicalHistory").as[String]
+      (j \ "firstName").asOpt[String],
+      (j \ "middleName").asOpt[String],
+      (j \ "lastName").asOpt[String],
+      (j \ "address").asOpt[String],
+      (j \ "contactNo").asOpt[String],
+      (j \ "dateOfBirth").asOpt[String],
+      (j \ "image").asOpt[String],
+      (j \ "medicalHistory").asOpt[String]
     )
   }
 

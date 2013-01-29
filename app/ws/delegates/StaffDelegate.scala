@@ -22,14 +22,14 @@ object StaffDelegate extends WsHelper{
   val _staffProfileForm = Form(
     mapping(
       "id" -> text,
-      "first_name" -> text,
-      "middle_name" -> text,
-      "last_name" -> text,
-      "contactNo" -> text,
-      "address" -> text,
-      "position" -> text,
-      "user_name" -> text,
-      "password" -> text
+      "first_name" -> optional(text),
+      "middle_name" -> optional(text),
+      "last_name" -> optional(text),
+      "contactNo" -> optional(text),
+      "address" -> optional(text),
+      "position" -> optional(text),
+      "user_name" -> optional(text),
+      "password" -> optional(text)
     )(StaffList.apply)(StaffList.unapply)
   )
 
@@ -49,14 +49,14 @@ object StaffDelegate extends WsHelper{
   def convertToStaffList (j: JsValue): StaffList = {
     new StaffList(
       (j \ "id").as[String],
-      (j \ "firstName").as[String],
-      (j \ "middleName").as[String],
-      (j \ "lastName").as[String],
-      (j \ "contactNo").as[String],
-      (j \ "address").as[String],
-      (j \ "position").as[String],
-      (j \ "userName").as[String],
-      (j \ "password").as[String]
+      (j \ "firstName").asOpt[String],
+      (j \ "middleName").asOpt[String],
+      (j \ "lastName").asOpt[String],
+      (j \ "contactNo").asOpt[String],
+      (j \ "address").asOpt[String],
+      (j \ "position").asOpt[String],
+      (j \ "userName").asOpt[String],
+      (j \ "password").asOpt[String]
     )
   }
 

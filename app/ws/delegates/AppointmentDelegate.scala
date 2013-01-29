@@ -24,16 +24,16 @@ object AppointmentDelegate extends WsHelper {
   val _appointmentProfileForm = Form(
     mapping(
       "id" -> text,
-      "description" -> text,
-      "first_name" -> text,
-      "middle_name" -> text,
-      "last_name" -> text,
-      "dentist_id" -> text,
-      "contact_no" -> text,
-      "address" -> text,
-      "status" -> number,
-      "date_start" -> text,
-      "date_end" -> text
+      "description" -> optional(text),
+      "first_name" -> optional(text),
+      "middle_name" -> optional(text),
+      "last_name" -> optional(text),
+      "dentist_id" -> optional(text),
+      "contact_no" -> optional(text),
+      "address" -> optional(text),
+      "status" -> optional(number),
+      "date_start" -> optional(text),
+      "date_end" -> optional(text)
     )(AppointmentList.apply)(AppointmentList.unapply)
   )
 
@@ -52,16 +52,16 @@ object AppointmentDelegate extends WsHelper {
   def convertToAppointmentList (j: JsValue): AppointmentList = {
     new AppointmentList(
       (j \ "id").as[String],
-      (j \ "description").as[String],
-      (j \ "firstName").as[String],
-      (j \ "middleName").as[String],
-      (j \ "lastName").as[String],
-      (j \ "dentistId").as[String],
-      (j \ "contactNo").as[String],
-      (j \ "address").as[String],
-      (j \ "status").as[Int],
-      (j \ "dateStart").as[String],
-      (j \ "dateEnd").as[String]
+      (j \ "description").asOpt[String],
+      (j \ "firstName").asOpt[String],
+      (j \ "middleName").asOpt[String],
+      (j \ "lastName").asOpt[String],
+      (j \ "dentistId").asOpt[String],
+      (j \ "contactNo").asOpt[String],
+      (j \ "address").asOpt[String],
+      (j \ "status").asOpt[Int],
+      (j \ "dateStart").asOpt[String],
+      (j \ "dateEnd").asOpt[String]
     )
   }
 

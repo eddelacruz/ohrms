@@ -15,27 +15,27 @@ trait StaffListDeserializer {
   implicit object StaffListFormat extends Format[StaffList]{
     def reads(json: JsValue): StaffList = StaffList(
       (json \ "id").as[String],
-      (json \ "firstName").as[String],
-      (json \ "middleName").as[String],
-      (json \ "lastName").as[String],
-      (json \ "contactNo").as[String],
-      (json \ "address").as[String],
-      (json \ "position").as[String],
-      (json \ "userName").as[String],
-      (json \ "password").as[String]
+      (json \ "firstName").asOpt[String],
+      (json \ "middleName").asOpt[String],
+      (json \ "lastName").asOpt[String],
+      (json \ "contactNo").asOpt[String],
+      (json \ "address").asOpt[String],
+      (json \ "position").asOpt[String],
+      (json \ "userName").asOpt[String],
+      (json \ "password").asOpt[String]
     )
 
     def writes(d: StaffList): JsValue = JsObject(
       Seq(
         "id" -> JsString(d.id),
-        "firstName" -> JsString(d.firstName),
-        "middleName" -> JsString(d.middleName),
-        "lastName" -> JsString(d.lastName),
-        "contactNo" -> JsString(d.contactNo),
-        "address" -> JsString(d.address),
-        "position" -> JsString(d.position),
-        "userName" -> JsString(d.userName),
-        "password" -> JsString(d.password)
+        "firstName" -> JsString(d.firstName.get),
+        "middleName" -> JsString(d.middleName.get),
+        "lastName" -> JsString(d.lastName.get),
+        "contactNo" -> JsString(d.contactNo.get),
+        "address" -> JsString(d.address.get),
+        "position" -> JsString(d.position.get),
+        "userName" -> JsString(d.userName.get),
+        "password" -> JsString(d.password.get)
       )
     )
   }

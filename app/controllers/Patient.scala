@@ -53,7 +53,7 @@ object Patient extends Controller with Secured{
           BadRequest
         },
         patient => {
-          var params = request.body.asFormUrlEncoded.get
+          val params = request.body.asFormUrlEncoded.get
           PatientDelegate.submitAddPatientForm(params)
           Redirect("/patients")
         }
