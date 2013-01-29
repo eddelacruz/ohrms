@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $('.mouth.child').hide() //hide first the child teeth chart
+
     $('#delete_patient').live("click",
         function(e) {
             var $this = $(this)
@@ -267,5 +269,24 @@ $(document).ready(function() {
                     imageObj.src = vl.image;
                 })
             })
+    });
+
+    //adult, child button
+    $('ul.teeth-type > li').click(function(e){
+        var $this = $(this);
+        var value = $(this).attr('id');
+
+        e.preventDefault();
+        if (value === "adultButton") {
+            $this.siblings().removeClass('active');
+            $this.addClass('active');
+            $('.mouth.adult').show();
+            $('.mouth.child').hide();
+        } else if (value === "childButton") {
+            $this.siblings().removeClass('active');
+            $this.addClass('active');
+            $('.mouth.child').show();
+            $('.mouth.adult').hide();
+        };
     });
 });
