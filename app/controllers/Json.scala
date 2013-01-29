@@ -372,8 +372,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       Status(200)
  }
 
-  def getTreatmentPlan(start: Int, count: Int) = Action {
-    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+  def getTreatmentPlan(patientId: String, start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(patientId, start, count)))))
   }
 
   def submitDentalServiceAddForm = Action {

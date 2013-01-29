@@ -238,11 +238,14 @@ $(document).ready(function() {
     });
 
     //for loading treatment plan
-    $.getJSON("/json/treatment_plan",
+    var patientId = $('.patient_information').find('input[name=id]').val()
+    console.log(patientId);
+    $.getJSON("/json/treatment_plan/"+patientId,
         function(data){
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
+                    //console.log(vl.toolType);
                     var tn = $('#'+vl.teethName+' > canvas');
                     var id = "canvas"+vl.teethName+"_"+vl.serviceId;
                     imageWidth = tn.attr("width");
@@ -251,7 +254,7 @@ $(document).ready(function() {
                     if(vl.toolType === '1'){
                         $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
                     } else if(vl.toolType === '2') {
-                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                        $('#'+vl.teethName+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
                     }
 
                     var myCvs = document.getElementById(id);
