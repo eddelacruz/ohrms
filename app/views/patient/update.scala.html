@@ -1,6 +1,6 @@
 @(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType], dentalServices: List[ws.services.DentalServiceList])
 
-@main(Messages("patient.title")){
+@patient(Messages("patient.title")){
 
 <!-- Update Patient -->
 <header class="grid_12 head center">
@@ -88,8 +88,8 @@
 </div>
 <div id="tab-2" class="tab" style="display: none; ">
     <ul class="button-bar blue small teeth-type">
-        <li id="adultButton" class="first active"><a href="#">Adult</a></li>
-        <li id="childButton" class="last"><a id="teeth-status" href="#">Child</a></li>
+        <li name="adultButton" class="first active"><a href="#">Adult</a></li>
+        <li name="childButton" class="last"><a id="teeth-status" href="#">Child</a></li>
     </ul>
     <ul class="button-bar orange small">
         <li class="first last"><a id="dentistToolsButton">Dentist Tools</a></li>

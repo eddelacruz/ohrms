@@ -1906,7 +1906,7 @@ input.number {
 }
 /** colorpicker **/
 .colorpicker {
-  width: 100px !important;
+  /*width: 100px !important;*/
   text-transform: uppercase;
 }
 /** sliders **/

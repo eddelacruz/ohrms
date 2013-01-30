@@ -274,7 +274,7 @@ $(document).ready(function() {
     //adult, child button
     $('ul.teeth-type > li').click(function(e){
         var $this = $(this);
-        var value = $(this).attr('id');
+        var value = $(this).attr('name');
 
         e.preventDefault();
         if (value === "adultButton") {
