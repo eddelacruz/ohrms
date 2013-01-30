@@ -194,6 +194,15 @@ $(document).ready(function() {
         e.preventDefault();
         var myArray = new Array();
         var motherObject = new Object();
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+
         for(var i = 0 ; i<toothWithService.length; i++){
             var a = toothWithService[i];
             var b = a.split("_");
@@ -201,7 +210,8 @@ $(document).ready(function() {
 
             myObject.service_id = b[1];
             myObject.service_price = "200"; //textbox //TODO dynamic
-            myObject.date_performed = "2012-1-1 12:12:12"; //select box //TODO dynamic
+            myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s; //select box //TODO dynamic
+//            console.log(myObject.date_performed);
             myObject.teeth_name = b[0];
             myObject.patient_id = $('.patient_information input[name=id]').val();
             myObject.dentist_id = "71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
@@ -231,7 +241,7 @@ $(document).ready(function() {
             url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
             success: function(res) {
                 //window.location = url;
-                console.log(res);
+//                console.log(res);
                 $('.grid_11 table').html($(res).find('.grid_11 table').html());
                 //$('.mouth.child').html($(res).find('.mouth.child').html());
             }
