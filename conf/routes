@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
 GET     /logout                     controllers.Application.logout
-GET     /link                          controllers.Application.link
+GET     /settings                         controllers.Settings.settings
 GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String, start : Int ?= 0, count : Int ?= 25)
 GET     /dentists/search       controllers.Dentist.searchDentistList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
