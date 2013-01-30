@@ -1,4 +1,4 @@
-@main(Messages("patient.title")){
+@patient(Messages("patient.title")){
 
 <!-- Add Patient -->
 <header class="grid_12 head center">
@@ -45,14 +45,17 @@
                         <label>Last Name:</label>
                         <input type="text" name="last_name">
                     </li>
-                    <input  type="hidden" name="image" />
+                    <li>
+                        <label>Image:</label>
+                        <input type="file" name="image" />
+                    </li>
                 </ul>
             </div>
             <div class="field right">
                 <ul>
                     <li>
                         <label class="upper">Address:</label>
-                        <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                        <textarea class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                     </li>
                     <li>
                         <label>Contact Number:</label>
@@ -66,9 +69,11 @@
                     </li>
                 </ul>
             </div>
-                <label class="upper">Medical History:</label>
-                <textarea id="textarea-input-grow" class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+            <div class="field center">
+                <label>Medical History:</label>
+                <textarea class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
             </div>
+        </div>
     </div>
     <footer class="pane">
         <input type="submit" class="bt blue right" value="@Messages("button.add")">

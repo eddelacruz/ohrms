@@ -25,18 +25,18 @@ object Patient extends Controller with Secured{
   def getTreatmentPlan(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-    Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count) ))
+        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count))) //Todo make PatientService to delegate
   }
 
   def search(start: Int, count: Int, filter: String) = Action {
     println("start "+start+" count"+count);
-    Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+    Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter)))
   }
 
   def getList(start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.list(PatientDelegate.getPatientList(start,count),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+        Ok(patient.list(PatientDelegate.getPatientList(start,count)))
   }
 
   def getAddForm = IsAuthenticated {
@@ -64,7 +64,7 @@ object Patient extends Controller with Secured{
   def getUpdateForm(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count), DentalServiceDelegate.getAllDentalServiceList())) //Todo make PatientService to delegate
+        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), DentalServiceDelegate.getAllDentalServiceList())) //Todo make PatientService to delegate
   }
 
   def submitUpdateForm = Action {

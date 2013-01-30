@@ -142,24 +142,18 @@
                     @Messages("scheduler.appointment.title")
                 </a>
             </li>
-            <li class="first">
+            <li class="last">
                 <a href="#addPatientModal" class="modal">
                     <span class="glyph zoom-in"></span>
                     @Messages("patient.add.title")
                 </a>
             </li>
-            <li>
+            <!--<li class="last">
                 <a href="#dentalChartModal" class="modal">
                     <span class="glyph open-in-new-window"></span>
                     @Messages("chart.title")
                 </a>
-            </li>
-            <li class="last">
-                <a href="#">
-                    <span class="glyph zoom-in"></span>
-                    @Messages("calendar.title")
-                </a>
-            </li>
+            </li>-->
         </ul>
     </nav>
 </div>
@@ -174,28 +168,33 @@
 <!-- /AddPatientModal -->
 
 <!-- DentalChartModal -->
-<div class="box grid_8" id="dentalChartModal" hidden="">
+<!--<div class="box grid_12" id="dentalChartModal" hidden="">
     <header>
         <div class="inner">
             <div class="left title">
                 <h1>@Messages("chart.title")</h1>
             </div>
             <div class="center">
-                <div id="svgchart">
-                </div>
                 <a href="#" class="close">close</a>
             </div>
         </div>
     </header>
-
     <div class="box-content">
-
-        <footer class="pane">
-            <a href="#" class="close bt red">Close modal</a>
-            <a href="#" class="bt blue">Custom button</a>
-        </footer>
+        <ul class="button-bar blue small teeth-type">
+            <li name="adultButton" class="first active"><a href="#">Adult</a></li>
+            <li name="childButton" class="last"><a id="teeth-status" href="#">Child</a></li>
+        </ul>
+        <br>
+        &lt;!&ndash;Teeth Chart&ndash;&gt;
+        <div class="face no-highlight">
+            &lt;!&ndash;Child&ndash;&gt;
+            &lt;!&ndash;/Child&ndash;&gt;
+            &lt;!&ndash;Adult&ndash;&gt;
+            &lt;!&ndash;/Adult&ndash;&gt;
+        </div>
+        &lt;!&ndash;/Teeth Chart&ndash;&gt;
     </div>
-</div>
+</div>-->
 <!-- /DentalChartModal -->
 
 <div class="main-box">
@@ -211,11 +210,12 @@
 
 <footer>
     <div class="container_12">
-        <p>© Copyright 2012 - Sabertooth | Juan Tamad Eli - <a href="#" target="_blank">Sabertooth Technologies</a></p>
+        <p>© Copyright 2012 - Sabertooth | Juan Tamad <a href="#" target="_blank">Sabertooth Technologies</a></p>
     </div>
 </footer>
 
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-child.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-adult.js")'></script>
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-chart.js")'></script>
 <!--<script src='@routes.Assets.at("javascripts/highcharts/js/highcharts.js")'></script>
 <script src='@routes.Assets.at("javascripts/highcharts/modules/exporting.js")'></script>-->

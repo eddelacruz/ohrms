@@ -57,7 +57,7 @@ object PatientService extends Secured{
             get[Option[String]]("last_name") ~
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
-            get[Option[Date]]("date_of_birth") ~
+            get[Date]("date_of_birth") ~
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") map {
             case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)
@@ -94,7 +94,7 @@ object PatientService extends Secured{
             get[Option[String]]("last_name") ~
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
-            get[Option[Date]]("date_of_birth") ~
+            get[Date]("date_of_birth") ~
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") map {
             case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)
@@ -136,7 +136,7 @@ object PatientService extends Secured{
             get[Option[String]]("last_name") ~
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
-            get[Option[Date]]("date_of_birth") ~
+            get[Date]("date_of_birth") ~
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") map {
             case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)

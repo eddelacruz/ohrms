@@ -22,6 +22,7 @@ case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceN
 object TreatmentPlanService {
 
   def addTreatment(tp: TreatmentPlanType) = {
+    println("pumasok sa addTreatmentService "+tp)
     DB.withConnection{
       implicit c =>
         SQL(
@@ -57,7 +58,6 @@ object TreatmentPlanService {
         'teeth_id -> tp.teethName
       ).executeUpdate()
     }
-    println("pumasok sa addTreatmentService")
   }
 
   /*def addTeethAffected(tp: TreatmentPlanType): Long = {
@@ -86,7 +86,7 @@ object TreatmentPlanService {
     }
   }*/
 
-  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
+  def getTreatmentPlan(patientId: String, start: Int, count: Int): List[TreatmentPlanType] = {
     DB.withConnection {
       implicit c =>
         val treatmentPlan: List[TreatmentPlanType] = SQL(
@@ -117,9 +117,10 @@ object TreatmentPlanService {
             |tp.`teeth_id` = ttha.`name` AND
             |tp.`patient_id` = p.`id` AND
             |tp.`dentist_id` = d.`id`
+            |WHERE tp.`patient_id` = {patientId}
             |ORDER BY date_performed ASC
             |LIMIT {start}, {count}
-          """.stripMargin).on('start -> start, 'count -> count).as {
+          """.stripMargin).on('patientId -> patientId, 'start -> start, 'count -> count).as {
             get[String]("treatment_plan.id") ~
             get[Option[String]]("dental_services.id") ~
             get[Option[String]]("dental_services.name") ~

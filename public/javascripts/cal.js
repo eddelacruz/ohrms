@@ -18,7 +18,6 @@ $(document).ready(function() {
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
-                    console.log(vl);
                     var s = new Date(Date.parse(vl.dateStart));
                     var e = new Date(Date.parse(vl.dateEnd));
                     var allDay = (s.getHours() === 0) ? true : false;

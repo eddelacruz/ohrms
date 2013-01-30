@@ -24,8 +24,8 @@ object TreatmentPlanDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
-  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
-    val res: Promise[Response] = doGet("/json/treatment_plan?start="+start+"&count="+count)
+  def getTreatmentPlan(patientId: String, start: Int, count: Int): List[TreatmentPlanType] = {
+    val res: Promise[Response] = doGet("/json/treatment_plan/"+patientId+"?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val tp = ListBuffer[TreatmentPlanType]()
 

@@ -1,11 +1,12 @@
-@(patientList: List[ws.services.PatientList],treatmentPlan: List[ws.services.TreatmentPlanType])
+@(patientList: List[ws.services.PatientList])
 
-@main(Messages("patient.title")){
+@patient(Messages("patient.title")){
 
 <!-- Patient List -->
 
 <header class="grid_12 head center">
     <h1>@Messages("patient.list.title")</h1>
+    <a class="right" href="@routes.Patient.getAddForm()">add a patient</a>
     <div class="clear"></div><span class="divider"></span>
 </header>
 

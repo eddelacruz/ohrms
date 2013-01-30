@@ -1,6 +1,5 @@
 # --- !Ups
 
-
 CREATE  TABLE `ohrms`.`treatment_plan` (
   `id` CHAR(36) NOT NULL ,
   `service_id` CHAR(36)  ,
