@@ -42,6 +42,7 @@ object Patient extends Controller with Secured{
   def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
+        println(PatientService.getPatientLastVisit(0, 25))
         Ok(patient.add())
   }
 

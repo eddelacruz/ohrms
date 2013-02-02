@@ -30,6 +30,10 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
   }
 
+  def getPatientLastVisit(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientLastVisit(start, count)))))
+  }
+
   def searchPatientListByLastName(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientListByLastName(start, count, filter)))))
   }

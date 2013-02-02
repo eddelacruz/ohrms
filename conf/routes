@@ -6,7 +6,7 @@
 GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
 GET     /logout                     controllers.Application.logout
-GET     /link                          controllers.Application.link
+GET     /settings                         controllers.Settings.settings
 GET     /dashboard                  controllers.Application.dashboard
 GET     /patients/:id/treatment_plan          controllers.Patient.getTreatmentPlan(id: String, start : Int ?= 0, count : Int ?= 25)
 GET     /dentists/search       controllers.Dentist.searchDentistList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
@@ -112,6 +112,7 @@ POST    /json/announcements/delete       controllers.Json.deleteAnnouncementInfo
 GET     /json/:tableName/row_count         controllers.Json.getRowCountOfTable(tableName: String)
 GET     /json/dental_services/all                       controllers.Json.getAllDentalServices
 GET     /json/dental_services/banned/:serviceCode       controllers.Json.getBannedServicesByServiceCode(serviceCode: String)
+GET     /json/patients/last_visits          controllers.Json.getPatientLastVisit(start : Int ?= 0, count : Int ?= 25)
 
 
 # Map static resources from the /public folder to the /assets URL path
