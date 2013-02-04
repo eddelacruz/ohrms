@@ -11,7 +11,7 @@ import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
 case class PatientList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], dateOfBirth: Option[String], image: Option[String], medicalHistory: Option[String])
-case class PatientLastVisit(p: PatientList, dateLastVisit: Option[Date])
+case class PatientLastVisit(p: PatientList, dateLastVisit: Option[String])
 
 /**
  * Created with IntelliJ IDEA.
@@ -303,7 +303,7 @@ object PatientService extends Secured{
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[Option[Date]]("date_performed") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => println("++++++++++++++++++++++======"+k);PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), k)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => println("++++++++++++++++++++++======"+k);PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString))
           } *
         }
         patientList
@@ -353,7 +353,7 @@ object PatientService extends Secured{
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[Option[Date]]("date_performed") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), k)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString))
           } *
         }
         searchPatientList
