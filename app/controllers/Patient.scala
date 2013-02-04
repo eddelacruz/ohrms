@@ -30,13 +30,13 @@ object Patient extends Controller with Secured{
 
   def search(start: Int, count: Int, filter: String) = Action {
     println("start "+start+" count"+count);
-    Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter)))
+    Ok(patient.list(PatientDelegate.searchPatientLastVisit(start,count,filter)))
   }
 
   def getList(start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.list(PatientDelegate.getPatientList(start,count)))
+        Ok(patient.list(PatientDelegate.getPatientLastVisit(start, count)))
   }
 
   def getAddForm = IsAuthenticated {

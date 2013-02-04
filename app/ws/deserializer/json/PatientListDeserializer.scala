@@ -71,7 +71,7 @@ trait PatientListDeserializer {
               "image" -> JsString(plv.p.image.get),
               "medicalHistory" -> JsString(plv.p.medicalHistory.get)
             )
-          ), JsString("")
+          ), JsObject(Seq("dateLastVisit" -> JsString(plv.dateLastVisit.get)))
         )
       )
   }

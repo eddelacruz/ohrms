@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList])
+@(patientList: List[ws.services.PatientLastVisit])
 
 @patient(Messages("patient.title")){
 
@@ -65,10 +65,10 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @patientList.map { pl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.id)">@pl.lastName, @pl.firstName @pl.middleName</a></td>
-                    <td class=" ">@pl.address</td>
-                    <td class=" ">@pl.contactNo</td>
-                    <td class=" ">28/2/2013</td>
+                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a></td>
+                    <td class=" ">@pl.p.address</td>
+                    <td class=" ">@pl.p.contactNo</td>
+                    <td class=" ">@pl.dateLastVisit</td>
                 </tr>
                 }
                 </tbody>

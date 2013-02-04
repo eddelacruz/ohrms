@@ -10,11 +10,7 @@ import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
 import ws.deserializer.json.{AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
-import ws.services.PatientList
-import ws.services.DentistList
-import ws.services.StaffList
-import ws.services.ClinicList
-import ws.services.AnnouncementList
+import ws.services.{PatientList, DentistList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
 
 
 /**
@@ -30,12 +26,16 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
   }
 
+  def searchPatientListByLastName(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientListByLastName(start, count, filter)))))
+  }
+
   def getPatientLastVisit(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientLastVisit(start, count)))))
   }
 
-  def searchPatientListByLastName(start: Int, count: Int, filter: String) = Action {
-    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientListByLastName(start, count, filter)))))
+  def searchPatientLastVisit(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientLastVisit(start, count, filter)))))
   }
 
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
