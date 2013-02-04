@@ -63,6 +63,7 @@ POST    /staffs/update             controllers.Staff.submitUpdateForm
 GET     /staffs/:id                controllers.Staff.getStaffById(id: String)
 GET     /staffs/:id/update                controllers.Staff.getUpdateForm(id: String)
 GET     /staffs/search       controllers.Staff.searchStaffList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
+GET     /payments/patient/:id       controllers.Payment.getPaymentsByPatientId(id: String)
 #GET     /reports/patient_list       controllers.Reports._patientList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /sample/billy               controllers.Application.billySample
