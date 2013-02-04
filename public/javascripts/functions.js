@@ -209,12 +209,12 @@ $(document).ready(function() {
             var myObject = new Object();
 
             myObject.service_id = b[1];
-            myObject.service_price = "200"; //textbox //TODO dynamic
-            myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s; //select box //TODO dynamic
+            myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price'); //may mali //TODO dynamic
+            myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
 //            console.log(myObject.date_performed);
             myObject.teeth_name = b[0];
             myObject.patient_id = $('.patient_information input[name=id]').val();
-            myObject.dentist_id = "71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
+            myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist'); //"71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
             myObject.image =  $("#canvas"+a)[0].toDataURL();
             myArray.push(myObject);
 

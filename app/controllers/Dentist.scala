@@ -88,4 +88,10 @@ object Dentist extends Controller with Secured{
       Redirect("/dentists")
   }
 
+  def getAll() = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(dentist.list(DentistDelegate.getAllDentists()))
+  }
+
 }

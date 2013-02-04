@@ -116,6 +116,45 @@ object DentistService {
     }
   }
 
+  def getAllDentist(): List[DentistList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val dentistList: List[DentistList] = SQL(
+          """
+            |select
+            |d.id,
+            |d.first_name,
+            |d.middle_name,
+            |d.last_name,
+            |d.address,
+            |d.contact_no,
+            |d.prc_no,
+            |d.image,
+            |u.user_name
+            |from
+            |dentists d
+            |INNER JOIN users u
+            |ON d.user_id=u.id
+            |where d.status = {status}
+            |ORDER BY d.last_name asc
+          """.stripMargin).on('status -> status).as {
+          get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("prc_no") ~
+            get[Option[String]]("image")~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(a)))
+          } *
+        }
+        dentistList
+    }
+  }
+
   def getSpecializationToList(id: String): Seq[String] = {
     DB.withConnection {
       implicit c =>

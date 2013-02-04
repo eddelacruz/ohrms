@@ -44,7 +44,7 @@
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
                         <div class="parentsort">Address
                             <div class="sorticon"></div>
                         </div>
@@ -68,7 +68,10 @@
                     <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a></td>
                     <td class=" ">@pl.p.address</td>
                     <td class=" ">@pl.p.contactNo</td>
-                    <td class=" ">@pl.dateLastVisit</td>
+                    <td class=" ">@{pl.dateLastVisit match {
+                        case Some("None") => "---"
+                        case _ => pl.dateLastVisit
+                    }}</td>
                 </tr>
                 }
                 </tbody>

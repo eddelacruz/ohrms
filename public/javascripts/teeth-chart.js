@@ -23,6 +23,8 @@ $(function() {
         var $this = $(this);
         var $id = $this.attr('data-id');
         var $toolType = $this.attr('data-type');
+        var $price = $this.attr('data-price');
+        $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val($price);
 
         //populate services in dentist tool dialog box
         //retrieval of dental services
@@ -93,7 +95,7 @@ var tartar = '#CBA735';
 var violet = '#cb3594'
 
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, maskDataUrl;
-var imageObj2;
+var imageObj2, curPrice;
 
 var dentalServices = new Array();
 var toothWithService = new Array();
@@ -459,9 +461,12 @@ function setPaint(tooth, toolType, toolData) {
         var gum = "#"+tooth+".gum";
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
+        //price & dentist
+        var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
+        var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
-            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></canvas></div>");
         }
     };
 };
@@ -476,9 +481,12 @@ function setSymbol(tooth, toolType, toolData) {
         console.log("==========================> setSymbol: "+tooth);
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
+        //price
+        var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
+        var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
-            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
                 console.log(">>> toothWithService"+toothWithService);

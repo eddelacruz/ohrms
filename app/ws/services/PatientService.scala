@@ -303,7 +303,7 @@ object PatientService extends Secured{
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[Option[Date]]("date_performed") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => println("++++++++++++++++++++++======"+k);PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString))
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString.replace("Some", "").replace("(","").replace(".0)","")))
           } *
         }
         patientList
@@ -353,7 +353,7 @@ object PatientService extends Secured{
             get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[Option[Date]]("date_performed") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString))
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString.replace("Some", "").replace("(","").replace(")","")))
           } *
         }
         searchPatientList

@@ -354,7 +354,6 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
       val treatmentPlan = request.body.asFormUrlEncoded.get; //request.body.asJson.get.\("Treatment_Plan")
       var index = 0
-
       try{
         while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
           val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.headOption
@@ -525,6 +524,10 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def getAllDentalServices = Action {
     Ok(JsObject(Seq("DentalServiceList" -> toJson(ServicesService.getAllDentalServices()))))
+  }
+
+  def getAllDentists = Action {
+    Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getAllDentist()))))
   }
 
 }

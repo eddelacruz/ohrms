@@ -22,7 +22,6 @@ case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceN
 object TreatmentPlanService {
 
   def addTreatment(tp: TreatmentPlanType) = {
-    println("pumasok sa addTreatmentService "+tp)
     DB.withConnection{
       implicit c =>
         SQL(
@@ -35,7 +34,8 @@ object TreatmentPlanService {
             |`dentist_id`,
             |`status`,
             |`image`,
-            |`teeth_id`)
+            |`teeth_id`,
+            |`price`)
             |VALUES
             |(
             |{id},
@@ -45,7 +45,8 @@ object TreatmentPlanService {
             |{dentist_id},
             |{status},
             |{image},
-            |{teeth_id}
+            |{teeth_id},
+            |{price}
             |);
           """.stripMargin).on(
         'id -> UUIDGenerator.generateUUID("treatment_plan"),
@@ -55,7 +56,8 @@ object TreatmentPlanService {
         'dentist_id -> tp.dentistId,
         'status -> 1,
         'image -> tp.image,
-        'teeth_id -> tp.teethName
+        'teeth_id -> tp.teethName,
+        'price -> tp.servicePrice
       ).executeUpdate()
     }
   }
@@ -98,7 +100,7 @@ object TreatmentPlanService {
             |s.`code` as 'service_code',
             |s.`tool_type`,
             |s.`type` as 'service_type',
-            |s.`price` as 'service_price',
+            |tp.`price` as 'service_price',
             |s.`color`,
             |tp.`date_performed`,
             |ttha.`name` as 'teeth_name',
@@ -127,7 +129,7 @@ object TreatmentPlanService {
             get[Option[String]]("dental_services.code") ~
             get[Int]("dental_services.tool_type") ~
             get[Option[String]]("dental_services.type") ~
-            get[Option[String]]("dental_services.price") ~
+            get[Option[String]]("treatment_plan.price") ~
             get[Option[String]]("dental_services.color") ~
             get[Date]("treatment_plan.date_performed") ~
             get[Option[String]]("teeth_affected.name") ~
@@ -140,7 +142,7 @@ object TreatmentPlanService {
             get[String]("dentists.middle_name") ~
             get[String]("dentists.last_name") ~
             get[Option[String]]("treatment_plan.image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString), j, k, l, m, n, o, Some(p+" "+q+" "+r), s)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString.replace(".0","")), j, k, l, m, n, o, Some(p+" "+q+" "+r), s)
           } *
         }
         treatmentPlan

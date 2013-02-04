@@ -8,7 +8,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
 import ws.services.{TreatmentPlanService, PatientList, PatientService}
-import ws.delegates.{DentalServiceDelegate, PatientDelegate, TreatmentPlanDelegate}
+import ws.delegates.{DentistDelegate, DentalServiceDelegate, PatientDelegate, TreatmentPlanDelegate}
 import ws.generator.UUIDGenerator
 import ws.services
 import Application.Secured
@@ -65,7 +65,7 @@ object Patient extends Controller with Secured{
   def getUpdateForm(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), DentalServiceDelegate.getAllDentalServiceList())) //Todo make PatientService to delegate
+        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), DentalServiceDelegate.getAllDentalServiceList(), DentistDelegate.getAllDentists())) //Todo make PatientService to delegate
   }
 
   def submitUpdateForm = Action {

@@ -111,4 +111,16 @@ object DentistDelegate extends WsHelper{
     println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
     println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
   }
+
+  def getAllDentists() = {
+    val res: Promise[Response] = doGet("/json/dentists/all")
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[DentistList]()
+
+    (json \ "DentistList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToDentistList(d)
+    })
+    dl.toList
+  }
 }

@@ -1,30 +1,27 @@
-@(dentalServices: List[ws.services.DentalServiceList])
+@(dentalServices: List[ws.services.DentalServiceList], dentists: List[ws.services.DentistList])
 
 <!--Dentist Tools-->
 <div id="dentistTools" title="Dentist Tools">
     <h4>Selected Teeth: </h4>
     <div class="selected-tooth ui-box center">
     </div>
-    <h4>Dental Services:</h4>
     <div class="dental-services ui-box center">
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
-        <button>Button</button>
+        <p>Price: <span class="pesos">P</span> <input name="price" type="text" style="width: 200px;"></p>
+        <p>Dentist:
+        <select name="dentist_id" style="width: 200px;">
+            @dentists.map { d =>
+                <option value="@d.id">Dr. @d.firstName @d.middleName @d.lastName</option>
+            }
+        </select></p>
     </div>
     <div id="accordion">
         <h3>Condition</h3>
         <div>
             <ul id="dental_services">
-                <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
                 @dentalServices.map { ds =>
-                    <button id="@ds.code" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="#@ds.color">@ds.name</button>
+                    <button id="@ds.code" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="#@ds.color" data-price="@ds.price">@ds.name</button>
                 }
+                <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
             </ul>
         </div>
         <h3>Examination/Diagnosis</h3>
