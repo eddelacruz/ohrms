@@ -20,6 +20,7 @@ $(document).ready(function() {
                 $.each(value, function(ky, vl){
                     var s = new Date(Date.parse(vl.dateStart));
                     var e = new Date(Date.parse(vl.dateEnd));
+                    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+e)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
                     switch(vl.status) {
@@ -65,7 +66,8 @@ $(document).ready(function() {
                             color: color,
                             borderColor: borderColor,
                             textColor: textColor,
-                            id: vl.id
+                            id: vl.id,
+                            dateEnd: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes())
                         }]);
                 })
             })
@@ -214,10 +216,53 @@ $(document).ready(function() {
             $('#updateAppointmentModalForm').modal({top: 'center'});
         },
         eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, date) {
-            event.start;
-            event.end;
-            alert(event.id);
-            console.log(event.id);
+
+            var start = event.start
+            var end = event.dateEnd
+            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
+            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
+
+            var json = new Object();
+
+            json.id = event.id;
+            json.description = event.description;
+            json.first_name = event.firstName;
+            json.middle_name = event.middleName;
+            json.last_name = event.lastName;
+            json.dentist_id = event.dentistId;
+            json.contact_no =  event.contactNo;
+            json.address =  event.address;
+            json.status =  2; //rescheduled
+            json.date_start =  start;
+            json.date_end =  end;
+
+
+            console.log(JSON.stringify(json));
+
+            $.ajax({
+              type: "POST",
+              url: "/json/appointments/update",
+              dataType: "json",
+              data: json,
+              error: function(xhr, ajaxOptions, thrownError){
+                alert(xhr.status);
+              },
+              beforeSend: function(x) {
+                if (x && x.overrideMimeType) {
+                    x.overrideMimeType("application/j-son;charset=UTF-8");
+                }
+              },
+              success:  $.ajax({
+                type: "GET",
+                url: "/scheduler",
+                success: function(res) {
+                    alert("Record updated!");
+                    window.location = url;
+                    //$('.main-box').html($(res).find('.main-box').html())
+                }
+              })
+            });
+
             //$('#updateAppointmentModal').modal({top: 'center'});
             //$.ajax
         },

@@ -299,4 +299,6 @@ $(document).ready(function() {
             $('.mouth.adult').hide();
         };
     });
+
+    //update appointmnet time
 });

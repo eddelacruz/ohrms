@@ -220,16 +220,16 @@ object AppointmentService extends Secured {
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> d.id,
-          'description -> d.description,
-          'first_name -> d.firstName,
-          'middle_name -> d.middleName,
-          'last_name -> d.lastName,
-          'dentist_id -> d.dentistId,
-          'contact_no -> d.contactNo,
-          'address -> d.address,
-          'status -> d.status,
-          'date_start -> d.dateEnd,
-          'date_end -> d.dateEnd
+          'description -> d.description.get,
+          'first_name -> d.firstName.get,
+          'middle_name -> d.middleName.get,
+          'last_name -> d.lastName.get,
+          'dentist_id -> d.dentistId.get,
+          'contact_no -> d.contactNo.get,
+          'address -> d.address.get,
+          'status -> d.status.get,
+          'date_start -> d.dateStart.get,
+          'date_end -> d.dateEnd.get
         ).executeUpdate()
         AuditLogService.logTaskAppointment(d, currentUser, task)
     }
