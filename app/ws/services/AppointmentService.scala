@@ -105,9 +105,9 @@ object AppointmentService extends Secured {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address")~
             get[Option[Int]]("status")~
-            get[Option[Date]]("date_start")~
-            get[Option[Date]]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
+            get[Date]("date_start")~
+            get[Date]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString.replace(".0", "")), Some(k.toString.replace(".0", "")))
           } *
         }
       appointmentList
@@ -148,9 +148,9 @@ object AppointmentService extends Secured {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address")~
             get[Option[Int]]("status")~
-            get[Option[Date]]("date_start")~
-            get[Option[Date]]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
+            get[Date]("date_start")~
+            get[Date]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString.replace(".0", "")), Some(k.toString.replace(".0", "")))
           } *
         }
     }
@@ -161,6 +161,7 @@ object AppointmentService extends Secured {
     val currentUser = getUserId
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
+    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
         SQL(
@@ -190,7 +191,7 @@ object AppointmentService extends Secured {
           'contact_no -> d.contactNo,
           'address -> d.address,
           'status -> d.status,
-          'date_start -> d.dateStart,
+          'date_start -> d.dateEnd,
           'date_end -> d.dateEnd
         ).executeUpdate()
         AuditLogService.logTaskAppointment(d, currentUser, task)
@@ -227,7 +228,7 @@ object AppointmentService extends Secured {
           'contact_no -> d.contactNo,
           'address -> d.address,
           'status -> d.status,
-          'date_start -> d.dateStart,
+          'date_start -> d.dateEnd,
           'date_end -> d.dateEnd
         ).executeUpdate()
         AuditLogService.logTaskAppointment(d, currentUser, task)

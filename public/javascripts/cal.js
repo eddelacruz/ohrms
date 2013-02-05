@@ -173,6 +173,7 @@ $(document).ready(function() {
             end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
+            $('input[name=date_start]').attr("value", start);
             $('input[name=date_end]').attr("value", end);
             e.preventDefault();
         },
@@ -201,18 +202,24 @@ $(document).ready(function() {
                 type : "GET",
                 success :
                     function(res) {
-                        //alert("saksespul");
-                        //window.location.href = "/patients";
-                        //alert(appointmentId);
-                        //window.location.href = "/appointments/"+appointmentId+"/update"
-                        //$('input[name=date_start]').attr("value", start);
-                        //$('.main-box').html($(res).find('.main-box').html());
-                        //$('#updateAppointmentModal .columns').html($(res).find('.main-box #updateAppointmentModal .columns').html());
-                        $('#updateAppointmentModal .box-content').html($(res).find('#updateAppointmentModal .box-content').html());
-                        //alert($(res).find('#updateAppointmentModal').html())
+                        $('box header>.inner>.left.title').html('<h1>Update Appointment for </h1>'+$(res).find('.main-box #updateAppointmentModalForm header>.inner>.left.title').html());
+                        $('#updateAppointmentModalForm .center').html($(res).find('.main-box #updateAppointmentModal .center').html());
+                        $('#updateAppointmentModalForm select[name=dentist_id]').html($(res).find('.main-box #updateAppointmentModal select[name=dentist_id]').html());
+                        var defaultDentistId = $(res).find(".main-box #updateAppointmentModal select[name=dentist_id]").attr('data-default');
+                        var defaultStatus = $(res).find(".main-box #updateAppointmentModal select[name=status]").attr('data-default');
+                        $('#updateAppointmentModalForm select[name=dentist_id] option[value='+defaultDentistId+']').attr('selected','selected')
+                        $('#updateAppointmentModalForm select[name=status] option[value='+defaultStatus+']').attr('selected','selected')
                     }
             })
-            $('#updateAppointmentModal').modal({top: 'center'});
+            $('#updateAppointmentModalForm').modal({top: 'center'});
+        },
+        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, date) {
+            event.start;
+            event.end;
+            alert(event.id);
+            console.log(event.id);
+            //$('#updateAppointmentModal').modal({top: 'center'});
+            //$.ajax
         },
         editable: true
     });

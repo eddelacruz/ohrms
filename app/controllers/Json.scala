@@ -492,6 +492,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
+      //println("}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}"+request.body)
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val status = request.body.asFormUrlEncoded.get("status").headOption
