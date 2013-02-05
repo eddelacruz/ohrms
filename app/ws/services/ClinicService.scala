@@ -18,7 +18,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class ClinicList(var id: String, clinicName: String, address: String, image: String)
+case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String])
 
 object ClinicService {
 
@@ -63,9 +63,9 @@ object ClinicService {
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("clinic_name") ~
-            get[String]("address")~
-            get[String]("image")map {
+            get[Option[String]]("clinic_name") ~
+            get[Option[String]]("address")~
+            get[Option[String]]("image")map {
             case a ~ b ~ c  ~ d => ClinicList(a, b, c, d)
           } *
         }
@@ -89,9 +89,9 @@ object ClinicService {
             |ORDER BY clinic_name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("clinic_name") ~
-            get[String]("address") ~
-            get[String]("image")map {
+            get[Option[String]]("clinic_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("image")map {
             case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
           } *
         }
@@ -117,9 +117,9 @@ object ClinicService {
             |LIMIT {start}, {count}
           """.stripMargin).on('filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("clinic_name") ~
-            get[String]("address") ~
-            get[String]("image")map {
+            get[Option[String]]("clinic_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("image")map {
             case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
           } *
         }

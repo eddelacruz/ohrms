@@ -1,8 +1,8 @@
-@main(Messages("dentalService.title")){
+@service(Messages("service.title")){
 
 <!-- Add service -->
 <header class="grid_12 head center">
-    <h1>@Messages("dentalService.add.title")</h1>
+    <h1>@Messages("service.add.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -40,16 +40,23 @@
                         <input type="text" name="code">
                     </li>
                     <li>
-                        <label>Type:</label>
-                        <input type="text" name="type">
+                        <label>Service Type:</label>
+                        <select name="type">
+                            <option value="General Dentistry">General Dentistry</option>
+                            <option value="Orthodontics">Orthodontics</option>
+                            <option value="Prosthodontics">Prosthodontics</option>
+                        </select>
                     </li>
                 </ul>
             </div>
             <div class="field right">
                 <ul>
                     <li>
-                        <label>Target:<br></label>
-                        <input type="text" name="target">
+                        <label class="upper">Tool Type:</label>
+                        <select name="target">
+                            <option value="1">Paint</option>
+                            <option value="2">Symbol</option>
+                        </select>
                     </li>
                     <li>
                         <label>Price:</label>
@@ -57,7 +64,8 @@
                     </li>
                     <li>
                         <label>Color:</label>
-                        <input type="text" name="color">
+                        <input type="text" name="color" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
+
                     </li>
                 </ul>
             </div>

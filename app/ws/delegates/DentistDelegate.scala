@@ -22,16 +22,16 @@ object DentistDelegate extends WsHelper{
   val _dentistProfileForm = Form(
     mapping(
       "id" -> text,
-      "first_name" -> text,
-      "middle_name" -> text,
-      "last_name" -> text,
-      "address" -> text,
-      "contact_no" -> text,
-      "prc_no" -> text,
-      "image" -> text ,
-      "user_name" -> text,
-      "password" -> text,
-      "service_name" -> seq(text)
+      "first_name" -> optional(text),
+      "middle_name" -> optional(text),
+      "last_name" -> optional(text),
+      "address" -> optional(text),
+      "contact_no" -> optional(text),
+      "prc_no" -> optional(text),
+      "image" -> optional(text) ,
+      "user_name" -> optional(text),
+      "password" -> optional(text),
+      "service_name" -> optional(seq(text))
     )(DentistList.apply)(DentistList.unapply)
   )
 
@@ -63,16 +63,16 @@ object DentistDelegate extends WsHelper{
   def convertToDentistList (j: JsValue): DentistList = {
     new DentistList(
       (j \ "id").as[String],
-      (j \ "firstName").as[String],
-      (j \ "middleName").as[String],
-      (j \ "lastName").as[String],
-      (j \ "address").as[String],
-      (j \ "contactNo").as[String],
-      (j \ "prcNo").as[String],
-      (j \ "image").as[String],
-      (j \ "userName").as[String],
-      (j \ "password").as[String],
-      (j \ "specializationName").as[Seq[String]]
+      (j \ "firstName").asOpt[String],
+      (j \ "middleName").asOpt[String],
+      (j \ "lastName").asOpt[String],
+      (j \ "address").asOpt[String],
+      (j \ "contactNo").asOpt[String],
+      (j \ "prcNo").asOpt[String],
+      (j \ "image").asOpt[String],
+      (j \ "userName").asOpt[String],
+      (j \ "password").asOpt[String],
+      (j \ "specializationName").asOpt[Seq[String]]
     )
   }
 
@@ -110,5 +110,17 @@ object DentistDelegate extends WsHelper{
     println()
     println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
     println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
+
+  def getAllDentists() = {
+    val res: Promise[Response] = doGet("/json/dentists/all")
+    val json: JsValue = res.await.get.json
+    val dl = ListBuffer[DentistList]()
+
+    (json \ "DentistList").as[Seq[JsObject]].map({
+      d =>
+        dl += convertToDentistList(d)
+    })
+    dl.toList
   }
 }

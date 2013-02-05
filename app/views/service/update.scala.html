@@ -1,10 +1,10 @@
 @(dentalServiceList: List[ws.services.DentalServiceList])
 
-@main(Messages("dentalService.title")){
+@service(Messages("service.title")){
 
 <!-- Update dentalService -->
 <header class="grid_12 head center">
-    <h1>@Messages("dentalService.update.title")</h1>
+    <h1>@Messages("service.update.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -53,7 +53,7 @@
 
                     <li>
                         <label>Target:</label>
-                        <input type="text" name="target" value="@dl.target">
+                        <input type="text" name="target" value="@dl.toolType">
 
                     </li>
                     <li>
@@ -63,6 +63,9 @@
                     <li>
                         <label>Color:</label>
                         <input type="text" name="color" value="@dl.color">
+                        <div class="field small">
+                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                        </div>
                     </li>
                 </ul>
             </div>

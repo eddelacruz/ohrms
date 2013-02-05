@@ -1,9 +1,9 @@
 @(dentalServiceList: List[ws.services.DentalServiceList])
 
-@main(Messages("dentalService.title")){
+@service(Messages("service.title")){
 
 <header class="grid_12 head center">
-    <h1>@Messages("dental.service.title")</h1>
+    <h1>@Messages("service.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -38,7 +38,7 @@
                         </li>
                         <li>
                             <label>Service Type:</label>
-                            <select name="service_type">
+                            <select name="type">
                                 <option value="General Dentistry">General Dentistry</option>
                                 <option value="Orthodontics">Orthodontics</option>
                                 <option value="Prosthodontics">Prosthodontics</option>
@@ -61,8 +61,11 @@
                             <input type="text" name="price">
                         </li>
                         <li>
-                            <label>Color</label>
-                            <input type="text" name="color">
+                            <label>Color:</label>
+                            <div class="field small">
+
+                               <input type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                            </div>
 
                         </li>
                     </ul>
@@ -146,7 +149,7 @@
                     <td class="  sorting_1"><a href="@routes.DentalService.getDentalServiceInformationById(dsl.id)">@dsl.name</a></td>
                     <td class=" ">@dsl.code</td>
                     <td class=" ">@dsl.sType</td>
-                    <td class=" ">@dsl.target</td>
+                    <td class=" ">@dsl.toolType</td>
                     <td class=" "><span class="pesos">P</span> @dsl.price.00</td>
                     <td class=" ">@dsl.color</td>
                 </tr>

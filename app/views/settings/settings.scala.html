@@ -1,0 +1,141 @@
+@main(Messages("Setting.title")) {
+
+    <!-- # Dashboard -->
+    <header class="grid_12 head">
+        <h1>@Messages("Settings.title")</h1>
+        <div class="clear"></div><span class="divider"></span>
+    </header>
+
+    <!-- DentalService -->
+    <div class="simple-box grid_8">
+        <div class="inner">
+            <header>
+                <h1>Dental Service</h1>
+            </header>
+
+            <div class="box-content">
+                <p>Edit your dental service </p>
+                <a href="@routes.DentalService.getAddForm()" class="bt blue">Add Services</a>
+            </div>
+        </div>
+    </div>
+    <!-- DentalService -->
+
+    <!-- Today's Appointments -->
+    <div class="box grid_4">
+        <header>
+            <div class="inner">
+                <div class="left title">
+                    <h1>Today's Appoinments</h1>
+                    <a href="routes.Scheduler.getCalendar()">view scheduler »</a>
+                </div>
+                <div class="right">
+                    <a href="#" class="close">close</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-content no-inner-space" style="display: block; ">
+            <ul class="userlist">
+
+                <li class="first">
+                    <div class="avatar"><img src="routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
+                    <div class="info-l">
+                        <a href="#" class="title">at.lastName, at.firstName at.middleName</a>
+                        <span>at.description</span>
+                    </div>
+                    <div class="info-r">
+                        <span>(at.dateStart.get.split(" ")(1).split(":")(0).toInt % 12):at.dateStart.get.split(" ")(1).split(":")(1) pm</span>
+                        <span></span>
+                        <span>at.dateStart.get.split(" ")(1).split(":")(0):at.dateStart.get.split(" ")(1).split(":")(1) am</span>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- /Today's Appoinments -->
+
+    <!-- /Announcements -->
+    <div class="simple-box grid_8">
+        <div class="inner">
+            <header>
+                <h1>Announcements</h1>
+            </header>
+
+            <div class="box-content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et dignissim metus. Maecenas id augue ac metus tempus aliquam. Sed pharetra placerat est suscipit sagittis. Phasellus aliquam malesuada blandit. Donec adipiscing sem erat. Donec adipiscing sem erat. Nunc at dui id purus lacinia tincidunt sit amet vel erat. Maecenas id augue ac metus tempus aliquam. Sed pharetra placerat est suscipit sagittis. </p>
+                <a href=@routes.Announcement.getAddForm()" class="bt blue">Add Announcements</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Announcements -->
+
+    <!-- /Staff -->
+    <div class="simple-box grid_8">
+        <div class="inner">
+            <header>
+                <h1>Staff</h1>
+            </header>
+
+            <div class="box-content">
+                <p>Add Your Staff name</p>
+                <a href="@routes.Staff.getAddForm()" class="bt blue">Add Staff</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Staff -->
+
+    <!-- /Dentist -->
+    <div class="simple-box grid_8">
+        <div class="inner">
+            <header>
+                <h1>Dentist</h1>
+            </header>
+
+            <div class="box-content">
+                <p>Add Dentist</p>
+                <a href="@routes.Dentist.getAddForm()" class="bt blue">Add Dentist</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Dentist -->
+
+    <!-- /Clinic -->
+    <div class="simple-box grid_8">
+        <div class="inner">
+            <header>
+                <h1>Clinic</h1>
+            </header>
+
+            <div class="box-content">
+                <p>Edit the clinic</p>
+                <a href="@routes.Clinic.getAddForm()" class="bt blue">Add Clinic</a>
+            </div>
+        </div>
+    </div>
+    <!-- /Clinic -->
+}
+
+
+
+
+
+
+
+
+    <a href="@routes.Clinic.getList()">CLINIC LIST</a>  </br>
+
+    <a href="@routes.Staff.getList()">STAFF LIST</a>    </br>
+
+    <a href="@routes.Announcement.getList()">ANNOUNCEMENT LIST</a>      </br>
+
+    <a href="@routes.Dentist.getList()">DENTIST LIST</a>                  </br>
+
+    <a href="@routes.Reports._dentistList()">DENTIST REPORT</a>           </br>
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+@(title: String)(content: Html)
+
+@main(title){
+<script type="text/javascript">
+    $('.main-nav ul').children().removeClass('active');
+    $('.main-nav ul li a[name=Services]').parent().addClass('active');
+</script>
+@content
+}

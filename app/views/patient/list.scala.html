@@ -1,11 +1,12 @@
-@(patientList: List[ws.services.PatientList],treatmentPlan: List[ws.services.TreatmentPlanType])
+@(patientList: List[ws.services.PatientLastVisit])
 
-@main(Messages("patient.title")){
+@patient(Messages("patient.title")){
 
 <!-- Patient List -->
 
 <header class="grid_12 head center">
     <h1>@Messages("patient.list.title")</h1>
+    <a class="right" href="@routes.Patient.getAddForm()">add a patient</a>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -43,7 +44,7 @@
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 40%;" aria-label="Browser: activate to sort column ascending">
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
                         <div class="parentsort">Address
                             <div class="sorticon"></div>
                         </div>
@@ -64,10 +65,13 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @patientList.map { pl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.id)">@pl.lastName, @pl.firstName @pl.middleName</a></td>
-                    <td class=" ">@pl.address</td>
-                    <td class=" ">@pl.contactNo</td>
-                    <td class=" ">28/2/2013</td>
+                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a></td>
+                    <td class=" ">@pl.p.address</td>
+                    <td class=" ">@pl.p.contactNo</td>
+                    <td class=" ">@{pl.dateLastVisit match {
+                        case Some("None") => "---"
+                        case _ => pl.dateLastVisit
+                    }}</td>
                 </tr>
                 }
                 </tbody>

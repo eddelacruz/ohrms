@@ -25,4 +25,8 @@ object Settings extends Controller with Secured {
     Ok(html.settings.audit_log(AuditLogDelegate.searchAuditLog(start,count,filter)))
   }
 
+  def settings = Action {
+    implicit request =>
+      Ok(views.html.settings.settings())
+  }
 }

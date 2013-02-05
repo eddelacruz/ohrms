@@ -21,35 +21,43 @@ trait TreatmentPlanDeserializer {
 
     def reads(json: JsValue): TreatmentPlanType = TreatmentPlanType(
       (json \ "id").as[String],
-      (json \ "serviceId").as[String],
-      (json \ "serviceName").as[String],
-      (json \ "serviceCode").as[String],
-      (json \ "target").as[String],
-      (json \ "serviceType").as[String],
-      (json \ "servicePrice").as[String],
-      (json \ "color").as[String],
-      (json \ "datePerformed").as[String],
-      (json \ "teethName").as[String],
-      (json \ "teethView").as[String],
-      (json \ "teethPosition").as[String],
-      (json \ "teethType").as[String]
+      (json \ "serviceId").asOpt[String],
+      (json \ "serviceName").asOpt[String],
+      (json \ "serviceCode").asOpt[String],
+      (json \ "toolType").asOpt[String],
+      (json \ "serviceType").asOpt[String],
+      (json \ "servicePrice").asOpt[String],
+      (json \ "color").asOpt[String],
+      (json \ "datePerformed").asOpt[String],
+      (json \ "teethName").asOpt[String],
+      (json \ "teethView").asOpt[String],
+      (json \ "teethPosition").asOpt[String],
+      (json \ "teethType").asOpt[String],
+      (json \ "patientId").asOpt[String],
+      (json \ "dentistId").asOpt[String],
+      (json \ "dentistName").asOpt[String],
+      (json \ "image").asOpt[String]
     )
 
     def writes(tp: TreatmentPlanType): JsValue = JsObject(
       Seq(
         "id" -> JsString(tp.id),
-        "serviceId" -> JsString(tp.serviceId),
-        "serviceName" -> JsString(tp.serviceName),
-        "serviceCode" -> JsString(tp.serviceCode),
-        "target" -> JsString(tp.target),
-        "serviceType" -> JsString(tp.serviceType),
-        "servicePrice" -> JsString(tp.servicePrice),
-        "color" -> JsString(tp.color),
-        "datePerformed" -> JsString(tp.datePerformed),
-        "teethName" -> JsString(tp.teethName),
-        "teethView"-> JsString(tp.teethView),
-        "teethPosition" -> JsString(tp.teethPosition),
-        "teethType" -> JsString(tp.teethType)
+        "serviceId" -> JsString(tp.serviceId.get),
+        "serviceName" -> JsString(tp.serviceName.get),
+        "serviceCode" -> JsString(tp.serviceCode.get),
+        "toolType" -> JsString(tp.toolType.get),
+        "serviceType" -> JsString(tp.serviceType.get),
+        "servicePrice" -> JsString(tp.servicePrice.get),
+        "color" -> JsString(tp.color.get),
+        "datePerformed" -> JsString(tp.datePerformed.get),
+        "teethName" -> JsString(tp.teethName.get),
+        "teethView"-> JsString(tp.teethView.get),
+        "teethPosition" -> JsString(tp.teethPosition.get),
+        "teethType" -> JsString(tp.teethType.get),
+        "patientId" -> JsString(tp.patientId.get),
+        "dentistId" -> JsString(tp.dentistId.get),
+        "dentistName" -> JsString(tp.dentistName.get),
+        "image" -> JsString(tp.image.get)
       )
     )
   }

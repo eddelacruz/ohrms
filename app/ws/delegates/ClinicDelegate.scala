@@ -22,9 +22,9 @@ object ClinicDelegate extends WsHelper{
   val _clinicProfileForm = Form(
     mapping(
       "id" -> text,
-      "clinic_name" -> text,
-      "address" -> text,
-      "image" -> text
+      "clinic_name" -> optional(text),
+      "address" -> optional(text),
+      "image" -> optional(text)
     )(ClinicList.apply)(ClinicList.unapply)
   )
 
@@ -56,9 +56,9 @@ object ClinicDelegate extends WsHelper{
   def convertToClinicList (j: JsValue): ClinicList = {
     new ClinicList(
       (j \ "id").as[String],
-      (j \ "clinicName").as[String],
-      (j \ "address").as[String],
-      (j \ "image").as[String]
+      (j \ "clinicName").asOpt[String],
+      (j \ "address").asOpt[String],
+      (j \ "image").asOpt[String]
     )
   }
 

@@ -7,7 +7,7 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
-<div class="box grid_12">
+<div class="box grid_12" id="updateAppointmentModal">
     <header>
         <div class="inner">
             <div class="left title">
@@ -30,64 +30,60 @@
     </header>
 
     <div class="box-content">
-        <div id="tab-1" class="tab">
-            <div class="columns">
-                <div class="form-image left center">
-
-
+        <div class="center">
+            <div class="form-details">
+                @appointmentList.map { dl =>
+                @helper.form(action = routes.Appointments.submitUpdateForm){
+                <div class="field left">
+                    <input type="hidden" name="id" value="">
+                    <ul>
+                        <li>
+                            <label class="upper">Description:</label>
+                            <textarea name="description" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
+                        </li>
+                        <li>
+                            <label>First Name:</label>
+                            <input type="text" name="first_name" value="@dl.firstName">
+                        </li>
+                        <li>
+                            <label>Middle Name:</label>
+                            <input type="text" name="middle_name" value="@dl.middleName">
+                        </li>
+                        <li>
+                            <label>Last Name:</label>
+                            <input type="text" name="last_name" value="@dl.lastName">
+                        </li>
+                    </ul>
                 </div>
-                <div class="form-details right mode-1">
-                    @appointmentList.map { dl =>
-                    @helper.form(action = routes.Appointments.submitUpdateForm){
-                    <div class="field left">
-                        <input type="hidden" name="id" value="@dl.id">
-                        <ul>
-                            <li>
-                                <label>First Name:</label>
-                                <input type="text" name="first_name" value="@dl.firstName">
-                            </li>
-                            <li>
-                                <label>Middle Name:</label>
-                                <input type="text" name="middle_name" value="@dl.middleName">
-                            </li>
-                            <li>
-                                <label>Last Name:</label>
-                                <input type="text" name="last_name" value="@dl.lastName">
-                            </li>
-                            <li>
-                                <label>Description:</label>
-                                <input type="text" name="description" value="@dl.description">
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="field right">
-                        <ul>
-                            <li>
-                                <label>Address:</label>
-                                <input type="text" name="address" value="@dl.address">
-                            </li>
-                            <li>
-                                <label>Contact Number:</label>
-                                <input type="text" name="contact_no" value="@dl.contactNo">
-                            </li>
-                            <li>
-                                <label>Dentist Name:</label>
-                                <input type="text" name="dentist_id" value="@dl.dentistId">
-                            </li>
-                            <li>
-                                <label>Status:</label>
-                                <select name="status">
-                                    <option value="1">Pending</option>
-                                    <option value="2">Time/Date Rescheduled</option>
-                                    <option value="3">Cancelled</option>
-                                    <option value="4">Completed</option>
-                                </select>
-                            </li>
-                            <input type="hidden" name="date_start" value="2013-01-22 18:20:34">
-                            <input type="hidden" name="date_end" value="2013-01-22 18:20:34">
-                        </ul>
-                    </div>
-
+                <div class="field right">
+                    <ul>
+                        <li>
+                            <label>Status:</label>
+                            <select name="dentist_id">
+                                dentists.map d =>
+                                <option value="@dl.dentistId">d.firstName d.middleName d.lastName</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label>Contact Number:</label>
+                            <input type="text" name="contact_no" value="@dl.contactNo">
+                        </li>
+                        <li>
+                            <label>Address:</label>
+                            <textarea name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.address</textarea>
+                        </li>
+                        <li>
+                            <label>Status:</label>
+                            <select name="status">
+                                <option value="1">Pending</option>
+                                <option value="2">Time/Date Rescheduled</option>
+                                <option value="3">Cancelled</option>
+                                <option value="4">Completed</option>
+                            </select>
+                        </li>
+                        <input type="hidden" name="date_start">
+                        <input type="hidden" name="date_end">
+                    </ul>
                 </div>
             </div>
         </div>
@@ -96,5 +92,5 @@
             <input type="submit" class="bt blue right" value="@Messages("button.update")">
         </footer> }    }
     </div>
-
+</div>
    }

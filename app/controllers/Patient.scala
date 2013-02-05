@@ -8,7 +8,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
 import ws.services.{TreatmentPlanService, PatientList, PatientService}
-import ws.delegates.{PatientDelegate, TreatmentPlanDelegate}
+import ws.delegates.{DentistDelegate, DentalServiceDelegate, PatientDelegate, TreatmentPlanDelegate}
 import ws.generator.UUIDGenerator
 import ws.services
 import Application.Secured
@@ -22,26 +22,27 @@ import Application.Secured
  */
 object Patient extends Controller with Secured{
 
-  def getTreatmentPlan(id: String) = IsAuthenticated {
+  def getTreatmentPlan(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-    Ok(patient.treatment_plan(PatientDelegate.getPatientListById(id)))
+        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count))) //Todo make PatientService to delegate
   }
 
   def search(start: Int, count: Int, filter: String) = Action {
     println("start "+start+" count"+count);
-    Ok(patient.list(PatientDelegate.searchPatientListByLastName(start,count,filter),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+    Ok(patient.list(PatientDelegate.searchPatientLastVisit(start,count,filter)))
   }
 
   def getList(start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.list(PatientDelegate.getPatientList(start,count),TreatmentPlanDelegate.getTreatmentPlan(start,count)))
+        Ok(patient.list(PatientDelegate.getPatientLastVisit(start, count)))
   }
 
   def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
+        println(PatientService.getPatientLastVisit(0, 25))
         Ok(patient.add())
   }
 
@@ -53,7 +54,7 @@ object Patient extends Controller with Secured{
           BadRequest
         },
         patient => {
-          var params = request.body.asFormUrlEncoded.get
+          val params = request.body.asFormUrlEncoded.get
           PatientDelegate.submitAddPatientForm(params)
           Redirect("/patients")
         }
@@ -61,11 +62,10 @@ object Patient extends Controller with Secured{
   }
 
 
-
   def getUpdateForm(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(start, count))) //Todo make PatientService to delegate
+        Ok(patient.update(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), DentalServiceDelegate.getAllDentalServiceList(), DentistDelegate.getAllDentists())) //Todo make PatientService to delegate
   }
 
   def submitUpdateForm = Action {

@@ -10,7 +10,9 @@ import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
-case class PatientList(var id: String, firstName: String, middleName: String, lastName: String, address: String, contactNo: String, dateOfBirth: String, image: String, medicalHistory: String)
+case class PatientList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], dateOfBirth: Option[String], image: Option[String], medicalHistory: Option[String])
+case class PatientLastVisit(p: PatientList, dateLastVisit: Option[String])
+
 /**
  * Created with IntelliJ IDEA.
  * User: Robert
@@ -52,15 +54,15 @@ object PatientService extends Secured{
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
             get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("address") ~
-            get[String]("contact_no") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[String]("image") ~
-            get[String]("medical_history") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, h.toString, i, j)
+            get[Option[String]]("image") ~
+            get[Option[String]]("medical_history") map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)
           } *
         }
         patientList
@@ -89,15 +91,15 @@ object PatientService extends Secured{
             |status = 1
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("address") ~
-            get[String]("contact_no") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[String]("image") ~
-            get[String]("medical_history") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, h.toString, i, j)
+            get[Option[String]]("image") ~
+            get[Option[String]]("medical_history") map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)
           } *
         }
         patientList
@@ -131,15 +133,15 @@ object PatientService extends Secured{
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status,'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("address") ~
-            get[String]("contact_no") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[String]("image") ~
-            get[String]("medical_history") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, h.toString, i, j)
+            get[Option[String]]("image") ~
+            get[Option[String]]("medical_history") map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j => PatientList(a, b, c, d, f, g, Some(h.toString), i, j)
           } *
         }
         searchPatientList
@@ -190,14 +192,14 @@ object PatientService extends Secured{
             |);
           """.stripMargin).on(
           'id -> p.id,
-          'first_name -> p.firstName,
-          'middle_name -> p.middleName,
-          'last_name -> p.lastName,
-          'address -> p.address,
-          'contact_no -> p.contactNo,
-          'date_of_birth -> p.dateOfBirth,
-          'image -> p.image,
-          'medical_history -> p.medicalHistory,
+          'first_name -> Option(p.firstName),
+          'middle_name -> Option(p.middleName),
+          'last_name -> Option(p.lastName),
+          'address -> Option(p.address),
+          'contact_no -> Option(p.contactNo),
+          'date_of_birth -> Option(p.dateOfBirth),
+          'image -> Option(p.image),
+          'medical_history -> Option(p.medicalHistory),
           'status -> 1,
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
@@ -259,6 +261,102 @@ object PatientService extends Secured{
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
         AuditLogService.logTask(id, currentUser, task)
+    }
+  }
+
+  def getPatientLastVisit(start: Int, count: Int): List[PatientLastVisit] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val patientList: List[PatientLastVisit] = SQL(
+          """
+            |select * from
+            |(select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.image,
+            |p.medical_history,
+            |tp.date_performed
+            |from
+            |patients p
+            |left outer join
+            |treatment_plan tp
+            |on p.id = tp.patient_id
+            |where p.status = {status}
+            |ORDER BY tp.date_performed desc
+            |LIMIT {start}, {count}
+            |) as result
+            |group by id
+          """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
+            get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[Option[String]]("image") ~
+            get[Option[String]]("medical_history") ~
+            get[Option[Date]]("date_performed") map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString.replace("Some", "").replace("(","").replace(".0)","")))
+          } *
+        }
+        patientList
+    }
+  }
+
+  def searchPatientLastVisit(start: Int,count: Int, filter: String): List[PatientLastVisit] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val searchPatientList: List[PatientLastVisit] = SQL(
+          """
+            |select * from
+            |(select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.image,
+            |p.medical_history,
+            |tp.date_performed
+            |from
+            |patients p
+            |left outer join
+            |treatment_plan tp
+            |on p.id = tp.patient_id
+            |where p.status = {status}
+            |and last_name like "%"{filter}"%"
+            |or first_name like "%"{filter}"%"
+            |or middle_name like "%"{filter}"%"
+            |or address like "%"{filter}"%"
+            |ORDER BY tp.date_performed desc
+            |LIMIT {start}, {count}
+            |) as result
+            |group by id
+          """.stripMargin).on('status -> status,'filter -> filter, 'start -> start, 'count -> count).as {
+            get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[Option[String]]("image") ~
+            get[Option[String]]("medical_history") ~
+            get[Option[Date]]("date_performed") map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j), Some(k.toString.replace("Some", "").replace("(","").replace(")","")))
+          } *
+        }
+        searchPatientList
     }
   }
 

@@ -1524,7 +1524,7 @@ table.statistics .bar .progressbar {
 ================== */
 .field {
   margin-bottom: 15px;
-  position: relative;
+  /*position: relative;*/
 }
 .field input[type=text],
 .field select,
@@ -1906,7 +1906,7 @@ input.number {
 }
 /** colorpicker **/
 .colorpicker {
-  width: 100px !important;
+  /*width: 100px !important;*/
   text-transform: uppercase;
 }
 /** sliders **/
@@ -2281,6 +2281,16 @@ nav.jsubmenu .submenu li.last a {
   padding-left: 0;
   width: 50%;
 }
+.field.center textarea,
+.field.center label{
+  width: 95%;
+}
+.field.center.special textarea{
+  width: 98%;
+}
+.field.center label{
+  display: inline-block;
+}
 .patient-image {
   width: 160px;
   height: 160px;
@@ -2289,14 +2299,6 @@ nav.jsubmenu .submenu li.last a {
   border: 1px solid #DDD;
   background: white;
   margin-bottom: 5px;
-}
-#svg-chart svg {
-  width: 100%;
-  max-width: 800px;
-  display: block;
-  margin: 0 auto 0;
-  height: 400px;
-  min-height: 400px;
 }
 .tab .grid_11 {
   float: none;

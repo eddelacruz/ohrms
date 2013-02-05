@@ -15,23 +15,23 @@ trait DentalServiceListDeserializer {
   implicit object DentalServiceListFormat extends Format[DentalServiceList]{
     def reads(json: JsValue): DentalServiceList = DentalServiceList(
       (json \ "id").as[String],
-      (json \ "name").as[String],
-      (json \ "code").as[String],
-      (json \ "sType").as[String],
-      (json \ "target").as[Int],
-      (json \ "price").as[String],
-      (json \ "color").as[String]
+      (json \ "name").asOpt[String],
+      (json \ "code").asOpt[String],
+      (json \ "type").asOpt[String],
+      (json \ "tool_type").asOpt[Int],
+      (json \ "price").asOpt[String],
+      (json \ "color").asOpt[String]
     )
 
     def writes(d: DentalServiceList): JsValue = JsObject(
       Seq(
         "id" -> JsString(d.id),
-        "name" -> JsString(d.name),
-        "code" -> JsString(d.code),
-        "sType" -> JsString(d.sType),
-        "target" -> JsNumber(d.target),
-        "price" -> JsString(d.price),
-        "color" -> JsString(d.color)
+        "name" -> JsString(d.name.get),
+        "code" -> JsString(d.code.get),
+        "type" -> JsString(d.sType.get),
+        "tool_type" -> JsNumber(d.toolType.get),
+        "price" -> JsString(d.price.get),
+        "color" -> JsString(d.color.get)
       )
     )
   }

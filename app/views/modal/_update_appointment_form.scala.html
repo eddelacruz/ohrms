@@ -1,0 +1,77 @@
+<!-- UpdateAppointmentModal -->
+<div class="box grid_11" id="updateAppointmentModal" hidden="">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1>@Messages("scheduler.appointment.add.title") </h1><h1 id="appointmentDate"></h1>
+            </div>
+            <div class="right">
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div class="center">
+            <div class="form-details">
+                <div class="field left">
+                    <input type="hidden" name="id" value="">
+                    <ul>
+                        <li>
+                            <label class="upper">Description:</label>
+                            <textarea name="description" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                        </li>
+                        <li>
+                            <label>First Name:</label>
+                            <input type="text" name="first_name">
+                        </li>
+                        <li>
+                            <label>Middle Name:</label>
+                            <input type="text" name="middle_name">
+                        </li>
+                        <li>
+                            <label>Last Name:</label>
+                            <input type="text" name="last_name">
+                        </li>
+                    </ul>
+                </div>
+                <div class="field right">
+                    <li>
+                        <label>Status:</label>
+                        <select name="dentist_id">
+                            dentists.map d =>
+                            <option value="d.id">d.firstName d.middleName d.lastName</option>
+
+                        </select>
+                    </li>
+                    <li>
+                        <label>Contact Number:</label>
+                        <input type="text" name="contact_no">
+                    </li>
+                    <li>
+                        <label>Address:</label>
+                        <textarea name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                    </li>
+                    <li>
+                        <label>Status:</label>
+                        <select name="status">
+                            <option value="1">Pending</option>
+                            <option value="2">Time/Date Rescheduled</option>
+                            <option value="3">Cancelled</option>
+                            <option value="4">Completed</option>
+                        </select>
+                    </li>
+                    <input type="hidden" name="date_start">
+                    <input type="hidden" name="date_end">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <footer class="pane">
+            <input type="submit" class="bt blue right" value="@Messages("button.add")">
+        </footer>
+
+    </div>
+</div>
+<!-- UpdateAppointmentModal -->

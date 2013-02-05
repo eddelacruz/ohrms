@@ -10,11 +10,7 @@ import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
 import ws.deserializer.json.{AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
-import ws.services.PatientList
-import ws.services.DentistList
-import ws.services.StaffList
-import ws.services.ClinicList
-import ws.services.AnnouncementList
+import ws.services.{PatientList, DentistList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
 
 
 /**
@@ -32,6 +28,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def searchPatientListByLastName(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientListByLastName(start, count, filter)))))
+  }
+
+  def getPatientLastVisit(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientLastVisit(start, count)))))
+  }
+
+  def searchPatientLastVisit(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientLastVisit(start, count, filter)))))
   }
 
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
@@ -111,9 +115,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
       val id = ""
       val userName = ""
-      val announcement = request.body.asFormUrlEncoded.get("announcement").head
-      val dateCreated = request.body.asFormUrlEncoded.get("date_created").head
-      val pl = AnnouncementList("", "", announcement, dateCreated)
+      val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
+      val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
+      val pl = AnnouncementList("", Some(""), announcement, dateCreated)
 
       if (AnnouncementService.addAnnouncement(pl) >= 1) {
         Redirect("/announcements")
@@ -128,9 +132,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitAnnouncementUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val userName = request.body.asFormUrlEncoded.get("user_name").head
-      val announcement = request.body.asFormUrlEncoded.get("announcement").head
-      val dateCreated = request.body.asFormUrlEncoded.get("date_created").head
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
+      val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
       val pl = AnnouncementList(id, userName, announcement, dateCreated)
 
       if (AnnouncementService.updateAnnouncement(pl) >= 1) {
@@ -144,14 +148,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitPatientAddForm = Action {
     implicit request =>
       val id = ""
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
-      val image = request.body.asFormUrlEncoded.get("image").head
-      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
+      val image = request.body.asFormUrlEncoded.get("image").headOption
+      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
       val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
 
       if (PatientService.addPatient(pl) >= 1) {
@@ -167,13 +171,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitClinicAddForm = Action {
     implicit request =>
       val id = ""
-      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val image = request.body.asFormUrlEncoded.get("image").head
+      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val image = request.body.asFormUrlEncoded.get("imaging").headOption
+
       val pl = ClinicList("", clinicName, address, image)
 
       if (ClinicService.addClinic(pl) >= 1) {
-        Redirect("/clinic")
+        //Redirect("/clinic")
         Status(200)
       } else {
         BadRequest
@@ -185,9 +190,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitClinicUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val image = request.body.asFormUrlEncoded.get("image").head
+      val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val image = request.body.asFormUrlEncoded.get("imaging").headOption
       val pl = ClinicList(id, clinicName, address, image)
 
       if (ClinicService.updateClinic(pl) >= 1) {
@@ -205,17 +210,17 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitAppointmentUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val description = request.body.asFormUrlEncoded.get("description").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val dateStart = request.body.asFormUrlEncoded.get("date_start").head
-      val dateEnd = request.body.asFormUrlEncoded.get("date_end").head
-      val dentistId = request.body.asFormUrlEncoded.get("dentist_id").head
-      val status = request.body.asFormUrlEncoded.get("status").head.toInt
-      val pl = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  status, dateStart, dateEnd)
+      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
+      val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
+      val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
+      val status = request.body.asFormUrlEncoded.get("status").headOption
+      val pl = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  Some(status.get.toInt), dateStart, dateEnd)
 
 
       if (AppointmentService.updateAppointment(pl) >= 1) {
@@ -229,14 +234,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitPatientUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").head
-      val image = request.body.asFormUrlEncoded.get("image").head
-      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
+      val image = request.body.asFormUrlEncoded.get("image").headOption
+      val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
       val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
 
       if (PatientService.updatePatient(pl) >= 1) {
@@ -250,18 +255,18 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitDentistUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val prcNo = request.body.asFormUrlEncoded.get("prc_no").head
-      val image = request.body.asFormUrlEncoded.get("image").head
-      val sn = request.body.asFormUrlEncoded.get("service_name").head
-      val userName = request.body.asFormUrlEncoded.get("user_name").head
-      val password = request.body.asFormUrlEncoded.get("password").head
-      var specializationName: Seq[String] = Seq(sn)
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, specializationName)
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val prcNo = request.body.asFormUrlEncoded.get("prc_no").headOption
+      val image = request.body.asFormUrlEncoded.get("image").headOption
+      val sn = request.body.asFormUrlEncoded.get("service_name").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val password = request.body.asFormUrlEncoded.get("password").headOption
+      var specializationName: Option[Seq[String]] = Option(Seq(sn.get))
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationName.get.toSeq))
 
       if (DentistService.updateDentist(dl) >= 1) {
         Status(200)
@@ -275,24 +280,24 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
       val specializationList = Seq[String]()
       val id = UUIDGenerator.generateUUID("dentists")
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val prcNo = request.body.asFormUrlEncoded.get("prc_no").head
-      val image = request.body.asFormUrlEncoded.get("image").head
-      val userName = request.body.asFormUrlEncoded.get("user_name").head
-      val password = request.body.asFormUrlEncoded.get("password").head
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, specializationList)
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val prcNo = request.body.asFormUrlEncoded.get("prc_no").headOption
+      val image = request.body.asFormUrlEncoded.get("image").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val password = request.body.asFormUrlEncoded.get("password").headOption
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationList))
 
       var index = 0
       if (DentistService.addDentist(dl) >= 1) {
         try{
           while (request.body.asFormUrlEncoded.get("specializationName["+index+"]") != null) {
-            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").head
+            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption
             val dentistId = dl.id
-            val sl = new Specialization(dentistId, specializationName)
+            val sl = new Specialization(dentistId, Some(specializationName.get))
             index += 1
             DentistService.addSpecialization(sl)
           }
@@ -345,81 +350,45 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }
   }
 
-  /*def addTreatmentPlan = Action {
+  def addTreatmentPlan = Action {
     implicit request =>
+      val treatmentPlan = request.body.asFormUrlEncoded.get; //request.body.asJson.get.\("Treatment_Plan")
       var index = 0
-      val teethStructure = request.body.asJson.get.\("teeth_structure")
-
-      val treatmentPlanId = UUIDGenerator.generateUUID("treatment_plan")
-      val serviceId = teethStructure(0).\("service_id").as[String]
-      TreatmentPlanService.addTreatment(treatmentPlanId, serviceId)
-
       try{
-        while (teethStructure(index) != null) {
-          val tView = teethStructure(index).\("view").as[String]
-          val tName = teethStructure(index).\("name").as[String]
-          val tType = teethStructure(index).\("type").as[String]
-          val tPosition = tName match {
-            case "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" => "upper"
-            case "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" => "lower"
-          }
-          // 1 - Inclusive, 2 - Selective Fill, 3 - Selective Root, 4 - Selective Bridge, 5 - Selective Grid
-          val target = 2
-          val tp = new TreatmentPlanType(treatmentPlanId, "", "", "", target, "", "", "", "", tName, tView, tPosition, tType)
-          index += 1
-          TreatmentPlanService.addTeethAffected(tp)
+        while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
+          val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.headOption
+          val servicePrice = treatmentPlan.get("Treatment_Plan["+index+"][service_price]").get.headOption
+          val datePerformed = treatmentPlan.get("Treatment_Plan["+index+"][date_performed]").get.headOption
+          val teethName = treatmentPlan.get("Treatment_Plan["+index+"][teeth_name]").get.headOption
+          val patientId = treatmentPlan.get("Treatment_Plan["+index+"][patient_id]").get.headOption
+          val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
+          val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
+
+          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image)
+          TreatmentPlanService.addTreatment(tp)
+          index+=1
         }
       } catch {
         case e: Exception =>
-          println("----->>>>> (END OF ITERATION OF TEETH AFFECTED) <<<<<-----")
-          println(e)
+          println("----->>>>> (END OF ITERATION OF "+index+" TREATMENT_PLAN) <<<<<-----")
       }
-      println("\n \n----->>>>> (TEETH STRUCTURE JSON) <<<<<-----")
-      println(teethStructure)
       Status(200)
-  }*/
+ }
 
-  def getTreatmentPlan(start: Int, count: Int) = Action {
-    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(start, count)))))
+  def getTreatmentPlan(patientId: String, start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("TreatmentPlan" -> toJson(TreatmentPlanService.getTreatmentPlan(patientId, start, count)))))
   }
-
-  //TODO donot delete for future use
-  /*def addTeethAffected(treatmentPlanId: String, teethStructure: JsValue) = Action{
-    println("hoi bruha")
-    var index = 0
-    try{
-      while (teethStructure(index) != null) {
-        val tView = teethStructure(index).\("view").as[String]
-        val tName = teethStructure(index).\("name").as[String]
-        val tType = teethStructure(index).\("type").as[String]
-        val tPosition = tName match {
-          case "a" | "b" | "c" | "d" | "e" | "f" | "g" | "h" | "i" | "j" => "upper"
-          case "k" | "l" | "m" | "n" | "o" | "p" | "q" | "r" | "s" | "t" => "lower"
-        }
-        // 1 - Inclusive, 2 - Selective Fill, 3 - Selective Root, 4 - Selective Bridge, 5 - Selective Grid
-        val target = "2"
-        val tp = new TreatmentPlanType(treatmentPlanId, "", "", "", target, "", "", "", "", tName, tView, tPosition, tType)
-        index += 1
-        TreatmentPlanService.addTeethAffected(tp)
-      }
-    } catch {
-      case e: Exception =>
-        println("----->>>>> (END OF ITERATION OF TEETH AFFECTED) <<<<<-----")
-        println(e)
-    }
-    Status(200)
-  }*/
 
   def submitDentalServiceAddForm = Action {
     implicit request =>
       val id = ""
-      val name = request.body.asFormUrlEncoded.get("name").head
-      val code = request.body.asFormUrlEncoded.get("code").head
-      val sType = request.body.asFormUrlEncoded.get("type").head
-      val target = request.body.asFormUrlEncoded.get("target").head.toInt
-      val price = request.body.asFormUrlEncoded.get("price").head
-      val color = request.body.asFormUrlEncoded.get("color").head
-      val dl = DentalServiceList("", name, code, sType, target, price, color)
+      val name = request.body.asFormUrlEncoded.get("name").headOption
+      val code = request.body.asFormUrlEncoded.get("code").headOption
+      val sType = request.body.asFormUrlEncoded.get("type").headOption
+      val target = request.body.asFormUrlEncoded.get("target").headOption
+      val price = request.body.asFormUrlEncoded.get("price").headOption
+      val color = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList("", name, code, sType, Some(target.get.toInt), price, color)
 
       if (ServicesService.addDentalService(dl) >= 1) {
         Redirect("/dental_services")
@@ -434,13 +403,13 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitDentalServiceUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val name = request.body.asFormUrlEncoded.get("name").head
-      val code = request.body.asFormUrlEncoded.get("code").head
-      val sType = request.body.asFormUrlEncoded.get("type").head
-      val target = request.body.asFormUrlEncoded.get("target").head.toInt
-      val price = request.body.asFormUrlEncoded.get("price").head
-      val color = request.body.asFormUrlEncoded.get("color").head
-      val dl = DentalServiceList(id, name, code, sType, target, price, color)
+      val name = request.body.asFormUrlEncoded.get("name").headOption
+      val code = request.body.asFormUrlEncoded.get("code").headOption
+      val sType = request.body.asFormUrlEncoded.get("type").headOption
+      val target = request.body.asFormUrlEncoded.get("target").headOption
+      val price = request.body.asFormUrlEncoded.get("price").headOption
+      val color = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
 
       if (ServicesService.updateDentalService(dl) >= 1) {
         Status(200)
@@ -454,14 +423,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitStaffAddForm = Action {
     implicit request =>
       val id = ""
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val position = request.body.asFormUrlEncoded.get("position").head
-      val userName = request.body.asFormUrlEncoded.get("user_name").head
-      val password = request.body.asFormUrlEncoded.get("password").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val position = request.body.asFormUrlEncoded.get("position").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val password = request.body.asFormUrlEncoded.get("password").headOption
       val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, password)
 
       if (StaffService.addStaff(s) >= 1) {
@@ -490,14 +459,14 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitStaffUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val position = request.body.asFormUrlEncoded.get("position").head
-      val userName = request.body.asFormUrlEncoded.get("user_name").head
-      val password = request.body.asFormUrlEncoded.get("password").head
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val position = request.body.asFormUrlEncoded.get("position").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val password = request.body.asFormUrlEncoded.get("password").headOption
       val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, userName, password)
 
       if (StaffService.updateStaff(s) >= 1) {
@@ -516,17 +485,17 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitAppointmentsAddForm = Action {
     implicit request =>
       val id = ""
-      val description = request.body.asFormUrlEncoded.get("description").head
-      val firstName = request.body.asFormUrlEncoded.get("first_name").head
-      val middleName = request.body.asFormUrlEncoded.get("middle_name").head
-      val lastName = request.body.asFormUrlEncoded.get("last_name").head
-      val contactNo = request.body.asFormUrlEncoded.get("contact_no").head
-      val address = request.body.asFormUrlEncoded.get("address").head
-      val dateStart = request.body.asFormUrlEncoded.get("date_start").head
-      val dateEnd = request.body.asFormUrlEncoded.get("date_end").head
-      val dentistId = request.body.asFormUrlEncoded.get("dentist_id").head
-      val status = request.body.asFormUrlEncoded.get("status").head.toInt
-      val pl = AppointmentList("", description,firstName, middleName, lastName, dentistId, contactNo, address,  status, dateStart, dateEnd)
+      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
+      val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
+      val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
+      val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
+      val address = request.body.asFormUrlEncoded.get("address").headOption
+      val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
+      val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
+      val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
+      val status = request.body.asFormUrlEncoded.get("status").headOption
+      val pl = AppointmentList("", description,firstName, middleName, lastName, dentistId, contactNo, address, Some(status.get.toInt), dateStart, dateEnd)
 
       if (AppointmentService.addAppointment(pl) >= 1) {
         Redirect("/scheduler")
@@ -546,6 +515,19 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def getAllAppointmentsToday = Action {
     implicit request =>
       Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAppointmentsToday))))
+  }
+
+  def getBannedServicesByServiceCode(serviceCode: String) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AppointmentList" -> toJson(ServicesService.getBannedServicesByServiceCode(serviceCode)))))
+  }
+
+  def getAllDentalServices = Action {
+    Ok(JsObject(Seq("DentalServiceList" -> toJson(ServicesService.getAllDentalServices()))))
+  }
+
+  def getAllDentists = Action {
+    Ok(JsObject(Seq("DentistList" -> toJson(DentistService.getAllDentist()))))
   }
 
 }

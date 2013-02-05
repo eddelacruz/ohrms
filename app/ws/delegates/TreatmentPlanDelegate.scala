@@ -24,8 +24,8 @@ object TreatmentPlanDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
-  def getTreatmentPlan(start: Int, count: Int): List[TreatmentPlanType] = {
-    val res: Promise[Response] = doGet("/json/treatment_plan?start="+start+"&count="+count)
+  def getTreatmentPlan(patientId: String, start: Int, count: Int): List[TreatmentPlanType] = {
+    val res: Promise[Response] = doGet("/json/treatment_plan/"+patientId+"?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val tp = ListBuffer[TreatmentPlanType]()
 
@@ -36,23 +36,28 @@ object TreatmentPlanDelegate extends WsHelper{
         tp += convertToTreatmentPlan(t)
     })
     tp.toList
+    //List(TreatmentPlanType("1","2","3","4","5","6","7","8","9","10","11","12","13", "14", "15", "16"))
   }
 
   def convertToTreatmentPlan(j: JsValue): TreatmentPlanType = {
     new TreatmentPlanType(
       (j \ "id").as[String],
-      (j \ "serviceId").as[String],
-      (j \ "serviceName").as[String],
-      (j \ "serviceCode").as[String],
-      (j \ "target").as[String],
-      (j \ "serviceType").as[String],
-      (j \ "servicePrice").as[String],
-      (j \ "color").as[String],
-      (j \ "datePerformed").as[String],
-      (j \ "teethName").as[String],
-      (j \ "teethView").as[String],
-      (j \ "teethPosition").as[String],
-      (j \ "teethType").as[String]
+      (j \ "serviceId").asOpt[String],
+      (j \ "serviceName").asOpt[String],
+      (j \ "serviceCode").asOpt[String],
+      (j \ "toolType").asOpt[String],
+      (j \ "serviceType").asOpt[String],
+      (j \ "servicePrice").asOpt[String],
+      (j \ "color").asOpt[String],
+      (j \ "datePerformed").asOpt[String],
+      (j \ "teethName").asOpt[String],
+      (j \ "teethView").asOpt[String],
+      (j \ "teethPosition").asOpt[String],
+      (j \ "teethType").asOpt[String],
+      (j \ "patientId").asOpt[String],
+      (j \ "dentistId").asOpt[String],
+      (j \ "dentistName").asOpt[String],
+      (j \ "image").asOpt[String]
     )
   }
 

@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentalServiceList(var id: String, name: String, code: String, sType: String, target: Int, price: String, color: String)
+case class DentalServiceList(var id: String, name: Option[String], code: Option[String], sType: Option[String], toolType: Option[Int], price: Option[String], color: Option[String])
 
 object ServicesService {
 
@@ -41,7 +41,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -51,12 +51,12 @@ object ServicesService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("target") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -76,7 +76,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -90,12 +90,12 @@ object ServicesService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("target") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -104,7 +104,6 @@ object ServicesService {
   }
 
   def getDentalServiceListById(id :String): List[DentalServiceList]  = {
-
     DB.withConnection {
       implicit c =>
         val dentalServiceList: List[DentalServiceList] = SQL(
@@ -114,7 +113,7 @@ object ServicesService {
             |name,
             |code,
             |type,
-            |target,
+            |tool_type,
             |price,
             |color
             |from
@@ -124,12 +123,12 @@ object ServicesService {
             |ORDER BY name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("name") ~
-            get[String]("code") ~
-            get[String]("type") ~
-            get[Int]("target") ~
-            get[String]("price") ~
-            get[String]("color") map {
+            get[Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
           } *
         }
@@ -169,7 +168,7 @@ object ServicesService {
             |{name},
             |{code},
             |{type},
-            |{target},
+            |{tool_type},
             |{price},
             |{color},
             |{status},
@@ -181,7 +180,7 @@ object ServicesService {
           'name -> d.name,
           'code -> d.code,
           'type-> d.sType,
-          'target -> d.target,
+          'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
           'status -> 1,
@@ -204,7 +203,7 @@ object ServicesService {
             |name = {name},
             |code = {code},
             |type = {type},
-            |target = {target},
+            |tool_type = {tool_type},
             |price = {price},
             |color = {color},
             |date_last_updated = {date_last_updated}
@@ -214,14 +213,64 @@ object ServicesService {
           'name -> d.name,
           'code -> d.code,
           'type -> d.sType,
-          'target -> d.target,
+          'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
       AuditLogService.logTaskServices(d, currentUser, task)
     }
+  }
 
+  def getBannedServicesByServiceCode(serviceCode: String): List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select code from dental_services
+            |where
+            |    id IN
+            |(select
+            |	bds.dental_service_id
+            |from
+            |	dental_services as ds
+            |left outer join
+            |	banned_dental_services as bds ON ds.id = bds.id
+            |where
+            |	ds.code = {service_code})
+          """.stripMargin).on('service_code -> serviceCode)().map( row => row[String]("code")).toList
+    }
+  }
+
+  def getAllDentalServices(): List[DentalServiceList] = {
+    DB.withConnection {
+      implicit c =>
+        val dentalServiceList: List[DentalServiceList] = SQL(
+          """
+            |select
+            |id,
+            |name,
+            |code,
+            |type,
+            |tool_type,
+            |price,
+            |color
+            |from
+            |dental_services
+            |ORDER BY name asc
+          """.stripMargin).as {
+            get[String]("id") ~
+            get [Option[String]]("name") ~
+            get[Option[String]]("code") ~
+            get[Option[String]]("type") ~
+            get[Option[Int]]("tool_type") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("color") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+          } *
+        }
+        dentalServiceList
+    }
   }
 
   def deleteServices(id: String): Long = {
@@ -231,15 +280,15 @@ object ServicesService {
       implicit c =>
         SQL(
           """
-            |UPDATE dental_services SET
-            |status = {status}
-            |WHERE id = {id};
+          |UPDATE dental_services SET
+          |status = {status}
+          |WHERE id = {id};
           """.stripMargin).on(
-          'id -> id,
-          'status -> 0
+        'id -> id,
+        'status -> 0
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
     }
+    AuditLogService.logTask(id, currentUser, task)
   }
-
 }
+

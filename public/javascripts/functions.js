@@ -1,4 +1,6 @@
 $(document).ready(function() {
+    $('.mouth.child').hide() //hide first the child teeth chart
+
     $('#delete_patient').live("click",
         function(e) {
             var $this = $(this)
@@ -98,7 +100,7 @@ $(document).ready(function() {
             }
             evt.preventDefault();
             console.log(urls);
-             console.log(endpointsearch.length);
+            console.log(endpointsearch.length);
             $.ajax({
                 url : urls,
                 type: "GET",
@@ -169,12 +171,6 @@ $(document).ready(function() {
         }
     );
 
-    //for saving treatment plan
-    $('#save_treatment_plan').click(function(e){
-        e.preventDefault();
-        alert(curTooth);
-    });
-
     $('#dentistToolsDialog').click(function() {
       $('.ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable').hide();
       //alert("pumasok");
@@ -193,4 +189,114 @@ $(document).ready(function() {
         }
     });*/
 
+    //for saving treatment plan
+    $('#update_treatment_plan').click(function(e){
+        e.preventDefault();
+        var myArray = new Array();
+        var motherObject = new Object();
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        var h = date.getHours();
+        var min = date.getMinutes();
+        var s = date.getSeconds();
+
+        for(var i = 0 ; i<toothWithService.length; i++){
+            var a = toothWithService[i];
+            var b = a.split("_");
+            var myObject = new Object();
+
+            myObject.service_id = b[1];
+            myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price'); //may mali //TODO dynamic
+            myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
+//            console.log(myObject.date_performed);
+            myObject.teeth_name = b[0];
+            myObject.patient_id = $('.patient_information input[name=id]').val();
+            myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist'); //"71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
+            myObject.image =  $("#canvas"+a)[0].toDataURL();
+            myArray.push(myObject);
+
+        }
+        var json = {Treatment_Plan : myArray};
+        //console.log(JSON.stringify(json));
+
+        $.ajax({
+          type: "POST",
+          url: "/json/treatment_plan",
+          dataType: "json",
+          data: json,
+          error: function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(ajaxOptions);
+          },
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success:  $.ajax({
+            type: "GET",
+            url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
+            success: function(res) {
+                //window.location = url;
+//                console.log(res);
+                $('.grid_11 table').html($(res).find('.grid_11 table').html());
+                //$('.mouth.child').html($(res).find('.mouth.child').html());
+            }
+          })
+        });
+    });
+
+    //for loading treatment plan
+    var patientId = $('.patient_information').find('input[name=id]').val()
+    console.log(patientId);
+    $.getJSON("/json/treatment_plan/"+patientId,
+        function(data){
+            //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
+            $.each(data, function(key, value){
+                $.each(value, function(ky, vl){
+                    //console.log(vl.toolType);
+                    var tn = $('#'+vl.teethName+' > canvas');
+                    var id = "canvas"+vl.teethName+"_"+vl.serviceId;
+                    imageWidth = tn.attr("width");
+                    imageHeight = tn.attr("height");
+
+                    if(vl.toolType === '1'){
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    } else if(vl.toolType === '2') {
+                        $('#'+vl.teethName+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                    }
+
+                    var myCvs = document.getElementById(id);
+                    var myCtx = myCvs.getContext('2d');
+
+                    var imageObj = new Image();
+                    imageObj.onload = function() {
+                        myCtx.drawImage(imageObj, 0, 0);
+                    }
+                    imageObj.src = vl.image;
+                })
+            })
+    });
+
+    //adult, child button
+    $('ul.teeth-type > li').click(function(e){
+        var $this = $(this);
+        var value = $(this).attr('name');
+
+        e.preventDefault();
+        if (value === "adultButton") {
+            $this.siblings().removeClass('active');
+            $this.addClass('active');
+            $('.mouth.adult').show();
+            $('.mouth.child').hide();
+        } else if (value === "childButton") {
+            $this.siblings().removeClass('active');
+            $this.addClass('active');
+            $('.mouth.child').show();
+            $('.mouth.adult').hide();
+        };
+    });
 });

@@ -10,7 +10,7 @@ import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
-case class AppointmentList(var id: String, description: String, firstName: String, middleName: String, lastName: String,dentistId: String,contactNo: String, address: String, status: Int, dateStart: String, dateEnd: String)
+case class AppointmentList(var id: String, description: Option[String], firstName: Option[String], middleName: Option[String], lastName: Option[String],dentistId: Option[String],contactNo: Option[String], address: Option[String], status: Option[Int], dateStart: Option[String], dateEnd: Option[String])
 /**
  * Created with IntelliJ IDEA.
  * User: joh
@@ -59,17 +59,17 @@ object AppointmentService extends Secured {
           """.stripMargin
         ).as {
           get[String]("id") ~
-          get[String]("description") ~
-          get[String]("first_name") ~
-          get[String]("middle_name") ~
-          get[String]("last_name") ~
-          get[String]("dentist_id") ~
-          get[String]("contact_no") ~
-          get[String]("address")~
-          get[Int]("status")~
+          get[Option[String]]("description") ~
+          get[Option[String]]("first_name") ~
+          get[Option[String]]("middle_name") ~
+          get[Option[String]]("last_name") ~
+          get[Option[String]]("dentist_id") ~
+          get[Option[String]]("contact_no") ~
+          get[Option[String]]("address")~
+          get[Option[Int]]("status")~
           get[Date]("date_start")~
           get[Date]("date_end") map {
-          case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, j.toString, k.toString)
+          case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
         } *
       }
     }
@@ -97,17 +97,17 @@ object AppointmentService extends Secured {
         """.stripMargin
         ).on('id -> id).as {
           get[String]("id") ~
-            get[String]("description") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("dentist_id") ~
-            get[String]("contact_no") ~
-            get[String]("address")~
-            get[Int]("status")~
-            get[Date]("date_start")~
-            get[Date]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, j.toString, k.toString)
+            get[Option[String]]("description") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("dentist_id") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("address")~
+            get[Option[Int]]("status")~
+            get[Option[Date]]("date_start")~
+            get[Option[Date]]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
           } *
         }
       appointmentList
@@ -133,24 +133,24 @@ object AppointmentService extends Secured {
             |date_end
             |from appointments
             |where
-            | ({date_now_all_day} BETWEEN date_start AND date_end)
+            |  DATE(date_start) = DATE({date_only})
             |or
-            | ({date_now} BETWEEN date_start AND date_end)
+            |DATE(date_end) = DATE({date_only})
             |order by date_start asc;
           """.stripMargin
-        ).on('date_now_all_day -> DateWithTime.dateNowAllDay, 'date_now -> DateWithTime.dateNow).as {
+        ).on('date_only -> DateWithTime.dateOnly).as {
           get[String]("id") ~
-            get[String]("description") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("dentist_id") ~
-            get[String]("contact_no") ~
-            get[String]("address")~
-            get[Int]("status")~
-            get[Date]("date_start")~
-            get[Date]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, j.toString, k.toString)
+            get[Option[String]]("description") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("dentist_id") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("address")~
+            get[Option[Int]]("status")~
+            get[Option[Date]]("date_start")~
+            get[Option[Date]]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
           } *
         }
     }

@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  */
 
 
-case class StaffList(var id: String, firstName: String, middleName: String, lastName: String, contactNo: String, address: String, position: String, userName: String, password: String)
+case class StaffList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
 
 object StaffService {
 
@@ -46,14 +46,14 @@ object StaffService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("contact_no") ~
-            get[String]("address") ~
-            get[String]("position") ~
-            get[String]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, "")
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("position") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
           } *
         }
         staffList
@@ -87,14 +87,14 @@ object StaffService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("contact_no") ~
-            get[String]("address") ~
-            get[String]("position") ~
-            get[String]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, "")
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("position") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
           } *
         }
         staffList
@@ -124,14 +124,14 @@ object StaffService {
             |ORDER BY d.last_name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("first_name") ~
-            get[String]("middle_name") ~
-            get[String]("last_name") ~
-            get[String]("contact_no") ~
-            get[String]("address") ~
-            get[String]("position") ~
-            get[String]("user_name") ~
-            get[String]("password") map {
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("contact_no") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("position") ~
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("password") map {
             case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i)
           } *
         }
