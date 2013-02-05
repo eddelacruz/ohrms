@@ -1,4 +1,3 @@
-/*
 $(function () {
 var chart;
 $(document).ready(function() {
@@ -84,10 +83,12 @@ $(document).ready(function() {
 
 //Pie Chart
 
+
+/*
 $(function () {
   var chart = new Highcharts.Chart({
       chart: {
-          renderTo: 'container1',
+          renderTo: 'container2',
           type: 'pie'
       },
 
@@ -130,15 +131,15 @@ $(function () {
       }]
   });
 });
+*/
 
 //Line Graph
-
 $(function () {
     var chart;
     $(document).ready(function() {
         chart = new Highcharts.Chart({
             chart: {
-                renderTo: 'container2',
+                renderTo: 'container1',
                 type: 'line'
             },
             title: {
@@ -178,4 +179,9 @@ $(function () {
     });
 
 });
-*/
+
+
+
+
+
+
