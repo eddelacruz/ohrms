@@ -16,6 +16,11 @@ object DateWithTime {
   }
 
   def dateNowAllDay: String = {
-    DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" 00:00:00"}
+    DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" 00:00:00"
+  }
+
+  def dateOnly: String = {
+    DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth
+  }
 
 }

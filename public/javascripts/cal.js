@@ -64,7 +64,8 @@ $(document).ready(function() {
                             status: vl.status,
                             color: color,
                             borderColor: borderColor,
-                            textColor: textColor
+                            textColor: textColor,
+                            id: vl.id
                         }]);
                 })
             })
@@ -172,7 +173,6 @@ $(document).ready(function() {
             end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
-            $('input[name=date_start]').attr("value", start);
             $('input[name=date_end]').attr("value", end);
             e.preventDefault();
         },
@@ -194,6 +194,26 @@ $(document).ready(function() {
         eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
             alert("hi");
         },*/
+        eventClick: function(calEvent, jsEvent, view) {
+            var appointmentId = calEvent.id;
+            $.ajax({
+                url : "/appointments/"+appointmentId+"/update",
+                type : "GET",
+                success :
+                    function(res) {
+                        //alert("saksespul");
+                        //window.location.href = "/patients";
+                        //alert(appointmentId);
+                        //window.location.href = "/appointments/"+appointmentId+"/update"
+                        //$('input[name=date_start]').attr("value", start);
+                        //$('.main-box').html($(res).find('.main-box').html());
+                        //$('#updateAppointmentModal .columns').html($(res).find('.main-box #updateAppointmentModal .columns').html());
+                        $('#updateAppointmentModal .box-content').html($(res).find('#updateAppointmentModal .box-content').html());
+                        //alert($(res).find('#updateAppointmentModal').html())
+                    }
+            })
+            $('#updateAppointmentModal').modal({top: 'center'});
+        },
         editable: true
     });
 
