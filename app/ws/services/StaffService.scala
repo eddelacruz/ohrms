@@ -284,7 +284,7 @@ object StaffService {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-      // AuditLogService.logTask(id, currentUser, task)
+       AuditLogService.logTask(id, currentUser, task)
     }
   }
 

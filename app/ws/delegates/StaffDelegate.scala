@@ -100,6 +100,11 @@ object StaffDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
-
+  def deleteInformation(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/staffs/delete", params)
+    println()
+    println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
+    println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
 
 }

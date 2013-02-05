@@ -4,9 +4,11 @@ import play.api.mvc._
 import views.html._
 import ws.delegates.{DentistDelegate}
 import ws.services.{DentistService}
-import play.api.data
+import play.api.{cache, data}
 import data.Forms._
 import Application.Secured
+import cache.Cache
+import play.api.Play.current
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +21,6 @@ import Application.Secured
 object Dentist extends Controller with Secured{
 
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
-    println("start "+start+" count"+count);
     Ok(dentist.list(DentistDelegate.searchDentistList(start,count,filter)))
   }
 
@@ -39,7 +40,10 @@ object Dentist extends Controller with Secured{
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(dentist.update(DentistService.getDentistListById(id)))
+        Cache.get("role") match {
+          case Some(1) => Ok(dentist.update(DentistService.getDentistListById(id)))
+          case _ => Redirect("/dentists/"+id+"/information")
+        }
   }
 
   def submitUpdateForm = Action {
@@ -63,7 +67,11 @@ object Dentist extends Controller with Secured{
   def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(dentist.add())
+        Cache.get("role") match {
+          case Some(1) => Ok(dentist.add())
+          case _ => Redirect("/dentists")
+        }
+
   }
 
   def submitAddForm = Action {
@@ -83,9 +91,13 @@ object Dentist extends Controller with Secured{
 
   def deleteInformation(id: String) = Action {
     implicit request =>
-      val params = Map("id" -> Seq(id))
-      DentistDelegate.deleteInformation(params)
-      Redirect("/dentists")
+      Cache.get("role") match {
+        case Some(1) =>
+          val params = Map("id" -> Seq(id))
+          DentistDelegate.deleteInformation(params)
+          Redirect("/dentists")
+        case _ => Redirect("/dentists")
+      }
   }
 
   def getAll() = IsAuthenticated {

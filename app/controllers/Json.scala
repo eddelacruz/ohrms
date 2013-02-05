@@ -507,6 +507,18 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   }
 
+  def deleteStaffInformation = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+
+      if (StaffService.deleteStaff(id) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
   def getAllAppointments = Action {
     implicit request =>
       Ok(JsObject(Seq("AppointmentList" -> toJson(AppointmentService.getAllAppointments))))

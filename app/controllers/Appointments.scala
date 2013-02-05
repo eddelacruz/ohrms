@@ -36,7 +36,9 @@ object Appointments extends Controller with Secured {
       )
   }
 
-  def getAppointmentListById(id: String) = Action {
+  def getAppointmentListById(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(html.modal._appointment_info(AppointmentDelegate.getAppointmentById(id)))
   }
 

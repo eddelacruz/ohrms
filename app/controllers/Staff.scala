@@ -1,6 +1,8 @@
 package controllers
 
 import play.api._
+import cache.Cache
+import play.api.Play.current
 import data.Form
 import data.Forms._
 import play.api.mvc._
@@ -41,7 +43,10 @@ object Staff extends Controller with Secured{
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(staff.update(StaffService.getStaffListById(id)))
+        Cache.get("role") match {
+          case Some(1) => Ok(staff.update(StaffService.getStaffListById(id)))
+          case _ => Redirect("/staffs/"+id)
+        }
   }
 
   def submitUpdateForm = Action {
@@ -65,7 +70,10 @@ object Staff extends Controller with Secured{
   def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(staff.add())
+        Cache.get("role") match {
+          case Some(1) => Ok(staff.add())
+          case _ => Redirect("/staffs")
+        }
   }
 
   def submitAddForm = Action {
@@ -81,6 +89,17 @@ object Staff extends Controller with Secured{
           Redirect("/staffs")
         }
       )
+  }
+
+  def deleteInformation(id: String) = Action {
+    implicit request =>
+      Cache.get("role") match {
+        case Some(1) =>
+          val params = Map("id" -> Seq(id))
+          StaffDelegate.deleteInformation(params)
+          Redirect("/staffs")
+        case _ => Redirect("/staffs")
+      }
   }
 
 

@@ -73,7 +73,12 @@
             </div>
         </div>
         <footer class="pane">
+            @if((play.cache.Cache.get("role")) == 1) {
             <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
+            } else {
+            <a href="#"></a>
+            }
+
         </footer>
 
     </div>
