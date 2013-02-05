@@ -1,6 +1,6 @@
 @(title: String)(content: Html)
 @import play.cache.Cache
-
+@import ws.delegates.{DentistDelegate}
 
 <!DOCTYPE html>
 
@@ -160,7 +160,7 @@
 
 <div id="content">
 <!-- AddAppointmentModal -->
-@modal._add_appointment()
+@modal._add_appointment(DentistDelegate.getAllDentists)
 <!-- /AddAppointmentModal -->
 
 <!-- AddPatientModal -->
