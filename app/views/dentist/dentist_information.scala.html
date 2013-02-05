@@ -86,19 +86,18 @@
                     </li>
                 </ul>
             </div>
-            }
         </div>
     </div>
 </div>
 <footer class="pane">
     @dentistList.map { d =>
-        @if((play.cache.Cache.get("role")) == 1) {
+        @if((play.cache.Cache.get("role")) == 1 & (play.cache.Cache.get("id")) == dl.userId) {
     <a class="bt blue right" href="@routes.Dentist.getUpdateForm(d.id)">@Messages("button.edit")</a>
     }else{
     <a class="hidden" href="#" ></a>
     }
     }
 </footer>
-</div>
-<!-- /Profile, Dental Chart, Medical History -->
+</div>   }
+<!-- /Dentist Info -->
 }

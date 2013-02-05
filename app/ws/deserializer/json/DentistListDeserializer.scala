@@ -15,6 +15,7 @@ trait DentistListDeserializer {
   implicit object DentistListFormat extends Format[DentistList]{
     def reads(json: JsValue): DentistList = DentistList(
       (json \ "id").as[String],
+      (json \ "userId").as[String],
       (json \ "firstName").asOpt[String],
       (json \ "middleName").asOpt[String],
       (json \ "lastName").asOpt[String],
@@ -30,6 +31,7 @@ trait DentistListDeserializer {
     def writes(d: DentistList): JsValue = JsObject(
       Seq(
         "id" -> JsString(d.id),
+        "userId" -> JsString(d.userId),
         "firstName" -> JsString(d.firstName.get),
         "middleName" -> JsString(d.middleName.get),
         "lastName" -> JsString(d.lastName.get),

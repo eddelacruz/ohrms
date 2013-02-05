@@ -255,6 +255,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitDentistUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
+      val userId =  request.body.asFormUrlEncoded.get("user_id").head
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
       val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
@@ -266,7 +267,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
       var specializationName: Option[Seq[String]] = Option(Seq(sn.get))
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationName.get.toSeq))
+      val dl = DentistList(id, userId, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationName.get.toSeq))
 
       if (DentistService.updateDentist(dl) >= 1) {
         Status(200)
@@ -289,7 +290,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val image = request.body.asFormUrlEncoded.get("image").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationList))
+      val dl = DentistList(id, "", firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationList))
 
       var index = 0
       if (DentistService.addDentist(dl) >= 1) {
@@ -431,7 +432,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val position = request.body.asFormUrlEncoded.get("position").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, password)
+      val s = StaffList("", "", firstName, middleName, lastName, contactNo, address, position, userName, password)
 
       if (StaffService.addStaff(s) >= 1) {
         Redirect("/staffs")
@@ -459,6 +460,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitStaffUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
+      val userId =  request.body.asFormUrlEncoded.get("user_id").head
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
       val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
@@ -467,7 +469,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val position = request.body.asFormUrlEncoded.get("position").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, userName, password)
+      val s = StaffList(id, userId, firstName, middleName, lastName, contactNo, address, position, userName, password)
 
       if (StaffService.updateStaff(s) >= 1) {
         Status(200)

@@ -22,6 +22,7 @@ object DentistDelegate extends WsHelper{
   val _dentistProfileForm = Form(
     mapping(
       "id" -> text,
+      "user_id" -> text,
       "first_name" -> optional(text),
       "middle_name" -> optional(text),
       "last_name" -> optional(text),
@@ -63,6 +64,7 @@ object DentistDelegate extends WsHelper{
   def convertToDentistList (j: JsValue): DentistList = {
     new DentistList(
       (j \ "id").as[String],
+      (j \ "userId").as[String],
       (j \ "firstName").asOpt[String],
       (j \ "middleName").asOpt[String],
       (j \ "lastName").asOpt[String],

@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentistList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], prcNo: Option[String], image: Option[String], userName: Option[String], password: Option[String], specializationName: Option[Seq[String]])
+case class DentistList(var id: String, userId: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], prcNo: Option[String], image: Option[String], userName: Option[String], password: Option[String], specializationName: Option[Seq[String]])
 case class Specialization(dentistId: String, name: Option[String])
 
 object DentistService {
@@ -46,7 +46,9 @@ object DentistService {
             |d.contact_no,
             |d.prc_no,
             |d.image,
-            |u.user_name
+            |u.user_name,
+            |u.password,
+            |d.user_id
             |from
             |dentists d
             |INNER JOIN users u
@@ -60,7 +62,8 @@ object DentistService {
             |ORDER BY d.last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
-          get[String]("id") ~
+            get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -68,8 +71,9 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("image")~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(a)))
+            get[Option[String]]("user_name")~
+            get[Option[String]]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, j, k,  Some(getSpecializationToList(a)))
           } *
         }
         dentistList
@@ -84,6 +88,7 @@ object DentistService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -91,7 +96,8 @@ object DentistService {
             |d.contact_no,
             |d.prc_no,
             |d.image,
-            |u.user_name
+            |u.user_name,
+            |u.password
             |from
             |dentists d
             |INNER JOIN users u
@@ -101,6 +107,7 @@ object DentistService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -108,8 +115,9 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("image")~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(a)))
+            get[Option[String]]("user_name")~
+            get[Option[String]]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, j, k, Some(getSpecializationToList(a)))
           } *
         }
         dentistList
@@ -124,6 +132,7 @@ object DentistService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -131,7 +140,8 @@ object DentistService {
             |d.contact_no,
             |d.prc_no,
             |d.image,
-            |u.user_name
+            |u.user_name,
+            |u.password
             |from
             |dentists d
             |INNER JOIN users u
@@ -140,6 +150,7 @@ object DentistService {
             |ORDER BY d.last_name asc
           """.stripMargin).on('status -> status).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -147,8 +158,9 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("image")~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(a)))
+            get[Option[String]]("user_name")~
+            get[Option[String]]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~k => DentistList(a, b, c, d, e, f, g, h, i, j, k, Some(getSpecializationToList(a)))
           } *
         }
         dentistList
@@ -180,6 +192,7 @@ object DentistService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -187,7 +200,8 @@ object DentistService {
             |d.contact_no,
             |d.prc_no,
             |d.image,
-            |u.user_name
+            |u.user_name,
+            |u.password
             |from
             |dentists d
             |INNER JOIN users u
@@ -197,6 +211,7 @@ object DentistService {
             |d.status = 1
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -204,8 +219,9 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("image")~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(""), Some(getSpecializationToList(id)))
+            get[Option[String]]("user_name")~
+            get[Option[String]]("password") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, j, k, Some(getSpecializationToList(id)))
           } *
         }
         dentistList

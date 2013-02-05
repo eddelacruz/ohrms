@@ -37,6 +37,24 @@ $(document).ready(function() {
 		}
 	);
 
+	$('#delete_staff').live("click",
+                function(e) {
+                    var $this = $(this)
+        			var staffId = $this.attr("data-staff_id")
+        			e.preventDefault()
+        			console.log("The Staff Id to be deleted is: "+staffId)
+        			$.ajax({
+        			    url : "/staffs/delete?id="+staffId,
+        			    type : "POST",
+        			    success :
+        			        function() {
+        			            console.log("deleted");
+        			            window.location.href = "/staffs";
+        			        }
+        			})
+        		}
+        	);
+
 	$('#delete_services').live("click",
             function(e) {
                 var $this = $(this)
