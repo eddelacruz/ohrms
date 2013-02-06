@@ -220,15 +220,17 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val status = request.body.asFormUrlEncoded.get("status").headOption
-      val pl = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  Some(status.get.toInt), dateStart, dateEnd)
+      val al = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  Some(status.get.toInt), dateStart, dateEnd)
 
+      println(">>>>>>>>>>>>"+al)
 
-      if (AppointmentService.updateAppointment(pl) >= 1) {
+      if (AppointmentService.updateAppointment(al) >= 1) {
         Status(200)
       } else {
         BadRequest
         Status(500)
       }
+      Status(200)
   }
 
   def submitPatientUpdateForm = Action {
@@ -486,6 +488,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def submitAppointmentsAddForm = Action {
     implicit request =>
+
       val id = ""
       val description = request.body.asFormUrlEncoded.get("description").headOption
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
@@ -494,8 +497,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
-      val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
+      val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val status = request.body.asFormUrlEncoded.get("status").headOption
       val pl = AppointmentList("", description,firstName, middleName, lastName, dentistId, contactNo, address, Some(status.get.toInt), dateStart, dateEnd)
 

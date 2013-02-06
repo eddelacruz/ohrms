@@ -23,6 +23,7 @@ curl -i -H "Accept: application/json" -X POST -d "id=abcdefgh-f16f-42c8-a2da-756
 
 curl -i -H "Accept: text/plain" -X POST -d "keyword=abcdefgh" http://localhost:9000/patients
 
+curl -i -H "Accept: text/plain" -X POST -d "id=1e58a160-bc5a-4882-a751-5fd18a9f52b0" -d "first_name=Erza" -d "middle_name=Erza" -d "last_name=Erza" -d "contact_no=Erza" -d "address=Erza" -d "date_start=2013-02-05 12:00:00" -d "date_end=2013-02-05 12:00:00" -d "dentist_id=71b8ecdd-33c9-4aaf-aa30-9d77419aeb95" -d "description=Erza" -d "status=1" http://localhost:9000/appointments/update
 
 /* joining statement for treatment plan
 SELECT

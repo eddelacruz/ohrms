@@ -103,9 +103,9 @@ GET     /json/clinic/:id     controllers.Json.getClinicListById(id: String)
 POST    /json/clinic/update         controllers.Json.submitClinicUpdateForm
 POST    /json/clinic                controllers.Json.submitClinicAddForm
 GET     /json/appointments          controllers.Json.getAllAppointments
-POST    /json/scheduler              controllers.Json.submitAppointmentsAddForm
-GET     /json/scheduler/:id          controllers.Json.getAppointmentById(id: String)
-POST    /json/scheduler/update       controllers.Json.submitAppointmentUpdateForm
+POST    /json/appointments              controllers.Json.submitAppointmentsAddForm
+GET     /json/appointments/:id          controllers.Json.getAppointmentById(id: String)
+POST    /json/appointments/update       controllers.Json.submitAppointmentUpdateForm
 GET     /json/appointments/today    controllers.Json.getAllAppointmentsToday
 GET     /json/announcements                controllers.Json.getAnnouncementList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/announcements/:id     controllers.Json.getAnnouncementListById(id: String)

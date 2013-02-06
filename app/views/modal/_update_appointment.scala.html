@@ -1,4 +1,4 @@
-@(appointmentList: List[ws.services.AppointmentList])
+@(appointmentList: List[ws.services.AppointmentList], dentists: List[ws.services.DentistList])
 
 @main("Appointment Information") {
 
@@ -12,10 +12,8 @@
         <div class="inner">
             <div class="left title">
                 @appointmentList.map { dl =>
-
                 <h1>@dl.lastName, @dl.firstName @dl.middleName</h1>
                 }
-
             </div>
             <div class="right">
                 <nav style="display: none;">
@@ -33,9 +31,9 @@
         <div class="center">
             <div class="form-details">
                 @appointmentList.map { dl =>
-                @helper.form(action = routes.Appointments.submitUpdateForm){
+                <form action="" class="appointment_update_form">
                 <div class="field left">
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="@dl.id">
                     <ul>
                         <li>
                             <label class="upper">Description:</label>
@@ -58,11 +56,15 @@
                 <div class="field right">
                     <ul>
                         <li>
-                            <label>Status:</label>
-                            <select name="dentist_id">
-                                dentists.map d =>
-                                <option value="@dl.dentistId">d.firstName d.middleName d.lastName</option>
+                            <label>Dentist:</label>
+                            <select name="dentist_id" data-default="@dl.dentistId">
+                                @dentists.map { d =>
+                                   <option value="@d.id">@d.firstName @d.middleName @d.lastName</option>
+                                }
                             </select>
+                            <script type="text/javascript">
+                                $('select[name=dentist_id]').attr('data-default');
+                            </script>
                         </li>
                         <li>
                             <label>Contact Number:</label>
@@ -74,23 +76,25 @@
                         </li>
                         <li>
                             <label>Status:</label>
-                            <select name="status">
+                            <select name="status" data-default="@dl.status">
                                 <option value="1">Pending</option>
                                 <option value="2">Time/Date Rescheduled</option>
                                 <option value="3">Cancelled</option>
                                 <option value="4">Completed</option>
                             </select>
                         </li>
-                        <input type="hidden" name="date_start">
-                        <input type="hidden" name="date_end">
+                        <input type="hidden" name="date_start" value="@dl.dateStart.get">
+                        <input type="hidden" name="date_end" value="@dl.dateEnd.get">
                     </ul>
                 </div>
+                </form>
             </div>
         </div>
         <footer class="pane">
             <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
             <input type="submit" class="bt blue right" value="@Messages("button.update")">
-        </footer> }    }
+        </footer>
+        }
     </div>
 </div>
    }
