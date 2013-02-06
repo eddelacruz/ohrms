@@ -31,9 +31,9 @@
         <div class="center">
             <div class="form-details">
                 @appointmentList.map { dl =>
-                @helper.form(action = routes.Appointments.submitUpdateForm){
+                <form action="" class="appointment_update_form">
                 <div class="field left">
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="@dl.id">
                     <ul>
                         <li>
                             <label class="upper">Description:</label>
@@ -83,16 +83,18 @@
                                 <option value="4">Completed</option>
                             </select>
                         </li>
-                        <input type="text" name="date_start" value="@dl.dateStart.get">
-                        <input type="text" name="date_end" value="@dl.dateEnd.get">
+                        <input type="hidden" name="date_start" value="@dl.dateStart.get">
+                        <input type="hidden" name="date_end" value="@dl.dateEnd.get">
                     </ul>
                 </div>
+                </form>
             </div>
         </div>
         <footer class="pane">
             <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
             <input type="submit" class="bt blue right" value="@Messages("button.update")">
-        </footer> }    }
+        </footer>
+        }
     </div>
 </div>
    }

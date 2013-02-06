@@ -204,13 +204,13 @@ $(document).ready(function() {
                 type : "GET",
                 success :
                     function(res) {
-                        $('box header>.inner>.left.title').html('<h1>Update Appointment for </h1>'+$(res).find('.main-box #updateAppointmentModalForm header>.inner>.left.title').html());
                         $('#updateAppointmentModalForm .center').html($(res).find('.main-box #updateAppointmentModal .center').html());
                         $('#updateAppointmentModalForm select[name=dentist_id]').html($(res).find('.main-box #updateAppointmentModal select[name=dentist_id]').html());
                         var defaultDentistId = $(res).find(".main-box #updateAppointmentModal select[name=dentist_id]").attr('data-default');
                         var defaultStatus = $(res).find(".main-box #updateAppointmentModal select[name=status]").attr('data-default');
                         $('#updateAppointmentModalForm select[name=dentist_id] option[value='+defaultDentistId+']').attr('selected','selected')
                         $('#updateAppointmentModalForm select[name=status] option[value='+defaultStatus+']').attr('selected','selected')
+                        $('#updateAppointmentModalForm header>.inner>.left.title').html('<h1>Update Appointment for </h1>'+$(res).find('.main-box #updateAppointmentModal header>.inner>.left.title').html());
                     }
             })
             $('#updateAppointmentModalForm').modal({top: 'center'});

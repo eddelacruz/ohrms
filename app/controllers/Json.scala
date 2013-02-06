@@ -230,6 +230,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
         BadRequest
         Status(500)
       }
+      Status(200)
   }
 
   def submitPatientUpdateForm = Action {

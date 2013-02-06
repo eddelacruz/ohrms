@@ -54,7 +54,7 @@ object Appointments extends Controller with Secured {
           println("Form errors: "+formWithErrors.errors)
           BadRequest
         },
-        clinic => {
+        appointment => {
           val params = request.body.asFormUrlEncoded.get
           val id = request.body.asFormUrlEncoded.get("id").head
           AppointmentDelegate.submitUpdateAppointmentForm(params)

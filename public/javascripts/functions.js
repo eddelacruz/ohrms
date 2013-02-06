@@ -300,5 +300,48 @@ $(document).ready(function() {
         };
     });
 
-    //update appointmnet time
+    //update appointment data
+    $('#update_appointment').click(function (e){
+        e.preventDefault();
+        //var json = new Object();
+
+        //stackoverflow.com/questions/1184624/convert-form-data-to-js-object-with-jquery
+        var json = "";
+        var a = $('.appointment_update_form').serializeArray();
+        $.each(a, function(){
+            $.each(this, function(i, val){
+                if (i=="name") {
+                    json += '"' + val + '":';
+                } else if (i=="value") {
+                    json += '"' + val.replace(/"/g, '\\"') + '",';
+                }
+            });
+        });
+        json = jQuery.parseJSON("{" + json.substring(0, json.length - 1) + "}");
+
+        $.ajax({
+          type: "POST",
+          url: "/json/appointments/update",
+          dataType: "json",
+          data: json,
+          error: function(xhr, ajaxOptions, thrownError){
+            alert(xhr.status);
+            alert(thrownError);
+          },
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success:  $.ajax({
+            type: "GET",
+            url: "/scheduler",
+            success: function(res) {
+                window.location = url;
+            }
+          })
+        });
+    });
+
+
 });
