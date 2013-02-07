@@ -23,18 +23,17 @@
     <div class="box-content">
         <div class="center">
             <div class="form-details">
-
+                @helper.form(action = routes.DentalService.submitAddForm){
                 <div class="field left">
                     <input type="hidden" name="id" value="">
-                    <input type="hidden" name="medical_history_id" value="3feff37e-577d-4805-a3a6-c0ea2d4194dd">
                     <ul>
                         <li>
                             <label class="upper">Name:</label>
-                            <input type="text" name="service_name">
+                            <input type="text" name="name">
                         </li>
                         <li>
                             <label>Code:</label>
-                            <input type="text" name="service_code">
+                            <input type="text" name="code">
                         </li>
                         <li>
                             <label>Service Type:</label>
@@ -63,8 +62,7 @@
                         <li>
                             <label>Color:</label>
                             <div class="field small">
-
-                               <input type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                               <input name="color" type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
                             </div>
 
                         </li>
@@ -78,9 +76,8 @@
             } else {
             <a href="#"></a>
             }
-
         </footer>
-
+        }
     </div>
 </div>
 <!-- /Add Dental Service-->

@@ -174,7 +174,7 @@ object StaffService {
             |password = {password}
             |where id = {id}
           """.stripMargin).on(
-          'id -> d.id,
+          'id -> d.userId,
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,

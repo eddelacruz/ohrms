@@ -1,0 +1,193 @@
+def upload = Action(parse.multipartFormData) { request =>
+ request.body.file("files").map { picture =>
+   import java.io.File
+   val filename = picture.filename 
+   val contentType = picture.contentType
+   picture.ref.moveTo(new File("/tmp/picture"))
+   Ok("File uploaded")
+ }.getOrElse {
+   Redirect(routes.Application.index).flashing(
+     "error" -> "Missing file"
+   )
+ }
+}
+
+copy C:\asdf.text C:\users\ako\folder\ko\
+
+save mo sa notepad as .BAT
+
+pag onload... java..pag onclick.. html form or link.. tas may trigger... exec() ata yung function
+basta may function yan na trigger para magrun ng files..  sure yon..
+tas check mo login events mo... session and cookies pre ha
+
+session -  user restriction to per page'
+cache - type of memory once halted.. burado na
+
+
+
+	
+John Alfred Abalos
+ 
+ 
+ 
+ 	
+  More ?
+ me:  bos, lipat lng kami ng pwesto... nasend ko na po ung db structure
+ John:  sige sir.. check ko
+ me:  tnx po ng marami sensya na po sa abala 
+ John:  haha.. try ko muna... ano dbgamit niyo?
+DB
+ Sent at 2:52 PM on Wednesday
+ John:  ano name ng table dito
+ndb_binlog_index??
+ano ulit pl niyo??? ano gamit niyong web server?
+ Sent at 3:23 PM on Wednesday
+ me:  pl = scala
+play framework for scala
+ano po ung ndb_binlog_index?
+ John:  ano name ng table sa DB?? ano DB engine.
+akala ko yung binlog yung lalagyan ng file na uploaded
+ Sent at 3:25 PM on Wednesday
+ me:  mysql po, wala pa po ako ginawang table sa binlog ba un..column lang po na prepare namin for image..example ung table dentist dyan.. may column image for their respective image
+ John:  sige check ko muna
+ Sent at 3:27 PM on Wednesday
+ John:  dump yung structure na sinend mo sakin??? mysql_dump.exe???
+ me:  yes po... dump file po
+if may mysql kayo...
+log in nyo lang po ung mysql nyo then
+ John:  ok..
+alam ko na ilagay to
+ me:  "source C:/directory/here/dumpfile.sql"
+ahh ok
+ John:  kaso... yung field mo...nakalagay as text???
+dapat Varchar yon
+ me:  var char naman po ung image eh
+id lang po ung char(36)
+ John:  ok.. mali yung dump file na nasakin...
+pero ok lang..
+ganito...
+SCALA pang upload mo??? di ba gagamit ka ng HTML forms dun???
+ me:  yes
+ John:  ano web server nito??? tryko
+ me:  gumamit po kasi kami ng framework... pampalit ng WAMP.. eh play framework po ung pangalan...
+ John:  ok so wamp.. meaning apache server ang WEB controller mo.
+teka... ha.. gawa ka ng form ng ganito.
+<input type="file" name="files" multiple id="files" size="30">
+yan yung html controller mo sa webpage.. tas i-plug mo sya sa scala mo...
+ me:  di po kami gumamit ng WAMP... sagot na po ng framework na ginamit namin
+ahh
+ John:  ah ok.. apache pa din yan..
+sure..
+ me:  ahh ok
+para san po kaya ung size=30 dun sa may input?
+ John:  delimiter..
+tapos may max_file_upload sa loob ng framework.
+pwede mong tanggalin ung size=30  pero sa max_file_upload mo lalagyan ng limiter.
+then, sa SCALA may trigger ng save
+ me:  bali sa pagka input ng file.. icoconvert ung image as text, then save direkta sa db? ganun po ba ung flow?
+ John:  parang  ganito controller mo...
+not so sure sa code pero try:
+def upload = Action(parse.multipartFormData) { request =>
+ request.body.file("files").map { picture =>
+   import java.io.File
+   val filename = picture.filename 
+   val contentType = picture.contentType
+   picture.ref.moveTo(new File("/tmp/picture"))
+   Ok("File uploaded")
+ }.getOrElse {
+   Redirect(routes.Application.index).flashing(
+     "error" -> "Missing file"
+   )
+ }
+}
+pagka input ng file.. ung file will be converted as varchar then send to mysql server
+ me:  bos ung /tmp/picture para san ung directory na to? if ung mismong image(na converted as text) eh naka save na sa db?
+ John:  bali lalagyan yan ng file... sample location un..
+pero pwede na rekta sa db
+ me:  sa kaso namin.. mas maganda ba na ang image eh as text or as file? di ba babagal ung retrieval kung lagi sa db sinesave?
+eto po ung dimension ng image ....
+ John:  babagal pag sa DB.
+ me:  160x160
+ John:  kasi abuso yung service ni mysql
+pero kung offline naman yan.. pwedeng may tapunan na folder..
+kaya yung sample ko is tapon sa file..
+di ko inupload talaga.
+ me:  ahh gets
+ John:  
+ me:  so ano nalang masesave sa db? filename?
+ John:  online ba to o offline??
+ me:  offline
+mas akma yata ung as file hehe
+ John:  so mas mainam na lipat file nalang..
+as file pwede... depende sa server mo yan pre..
+pwede i-regular file mo... para walang attribute mas maliit
+ me:  ano po ung regular file?
+ John:  mga files na walang extension.. kaso baka maguluhan ka kasi di yun ma-open sa os if di ikaw ung admin
+ Sent at 3:45 PM on Wednesday
+ me:  ay oo, pwede kaya if jpg/png nlng?
+ano nalang masesave sa db? filename?
+ John:  pwede
+bali directory nalang kuhanin mo..
+ me:  ahhh
+ John:  tapos.. i-copy mo sa isang folder.. yung tinapunan mong folder dun mo kunin yung directory
+
+ me:  /tmp/picture
+ John:  madayang uupload haha'
+ me:  auto generated ba to? haha
+ John:  pwede..
+specified yan 
+haha
+ me:  picture.ref.moveTo(new File("/tmp/picture"))
+etong line na to ung crecreate ng directory tama ba?
+ John:  ang alam ko may function na copyTo.. pwede din yun
+ me:  ahhh ok ok
+ John:  oo.. if not existing.. gawan mo ng batch file ng checking...  para sure
+ me:  check ko nlng.. java po un db? ung copyTo na function. galing java.io na library?.
+ John:  oo jan yun
+ me:  batch file? hehe 
+ John:  pag pre dimo alam yunglibrary *
+para wildcard
+ me:  ahh ok java.io.*
+ John:  oo parang bash script.. kaso DOS based :L)\
+or java.*
+ me:  di ko po lam un e
+ John:  haha.. kaso babagal kase.. hahanapin niya lahat ng library
+ me:  yup.. pag wildcard
+ John:  yung mga cmd commands yon.. copy File/location to/file/location
+oo wild
+wildcard haha
+ me:  panu un sir, di ko alam ung batch file na un.. madali lang po ba gawin un?
+ John:  pero wag kang magwild card kasi mababaliw pag may function or class dun tas nagamit mo as variable
+madali lang notepad.. save mo as .BAT
+ me:  ahh den?
+ John:  panggawa ng virus hacks. mga ganon
+eto sample./
+copy C:\asdf.text C:\users\ako\folder\ko\
+dun
+ganon lng
+ me:  ung .BAT na un... for checker lang kung may available na na directoring "/tmp/picture" tama ba?
+ John:  oo location checker..
+tas filesize mounts.. mga ganon pwede mong gawing function
+tas backup system for system admin 
+gets mo ba? hehe magulo ko kausap e haha
+ me:  pano namin gagamitin ung batch file na un? kelan at saan? pag load ba ng system o kami mismo ung mag cliclick nun.?
+ok lng un
+ Sent at 3:56 PM on Wednesday
+ John:  pag onload... java..pag onclick.. html form or link.. tas may trigger... exec() ata yung function
+basta may function yan na trigger para magrun ng files..  sure yon..
+tas check mo login events mo... session and cookies pre ha
+ me:  session at Cache? reho lng ba un?
+ John:  session -  user restriction to per page'
+cache - type of memory once halted.. burado na
+ me:  ibig sabihin.. sa may controller ko ilalagay kasi....may java code na gagamiti tama ba?
+ John:  tama. 
+always.. may controller.. kasi play framework yan... di ko ure if apache nga gamit... Oracle based na kasi ang java.. alam ko may server ng web yan
+ Sent at 4:00 PM on Wednesday
+ me:  tnx ng madami! hehe try na namin to.. boss salamat ng madami talaga!
+ John:  sige.  sana gumana.. pero yuung simulation ganon
+ Sent at 4:02 PM on Wednesday
+ me:  oo nga bos sana gumana.. try na namin.. tanong nlng ulit kami..
+ John:  sige.. mga 5-5:30 out ako.. meryenda.. malate lang ng reply
+ 
+
+Pop-in

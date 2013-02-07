@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $.each(value, function(ky, vl){
                     var s = new Date(Date.parse(vl.dateStart));
                     var e = new Date(Date.parse(vl.dateEnd));
-                    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+e)
+                    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+s)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
                     switch(vl.status) {
@@ -171,8 +171,8 @@ $(document).ready(function() {
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
             //TODO lagyan ng get hour at minutes
-            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
-            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
+            start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd hh:mm:ss');
+            end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd hh:mm:ss');
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
@@ -215,12 +215,20 @@ $(document).ready(function() {
             })
             $('#updateAppointmentModalForm').modal({top: 'center'});
         },
-        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, date) {
+        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+            //may babaguhin pa dito
 
-            var start = event.start
-            var end = event.dateEnd
-            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
-            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
+            event.start = new Date(Date.parse(event.end));
+
+            alert(event.end.getDate()+dayDelta);
+
+            start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
+            end = $.fullCalendar.formatDate(event.dateEnd, 'yyyy-MM-dd hh:mm:ss');
+
+            alert("allday?"+allDay);
+
+            alert("start"+start);
+            alert("end"+end);
 
             var json = new Object();
 
@@ -245,7 +253,7 @@ $(document).ready(function() {
               dataType: "json",
               data: json,
               error: function(xhr, ajaxOptions, thrownError){
-                alert(xhr.status);
+                //alert(xhr.status);
               },
               beforeSend: function(x) {
                 if (x && x.overrideMimeType) {
@@ -256,15 +264,11 @@ $(document).ready(function() {
                 type: "GET",
                 url: "/scheduler",
                 success: function(res) {
-                    alert("Record updated!");
+                    //alert("Record updated!");
                     window.location = url;
-                    //$('.main-box').html($(res).find('.main-box').html())
                 }
               })
             });
-
-            //$('#updateAppointmentModal').modal({top: 'center'});
-            //$.ajax
         },
         editable: true
     });

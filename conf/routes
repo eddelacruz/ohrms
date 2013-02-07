@@ -88,10 +88,10 @@ POST    /json/dentists              controllers.Json.submitDentistAddForm
 GET     /json/settings/audit_log    controllers.Json.auditLog(start : Int ?= 0, count : Int ?= 25)
 POST    /json/treatment_plan        controllers.Json.addTreatmentPlan
 GET     /json/treatment_plan/:patientId        controllers.Json.getTreatmentPlan(patientId: String, start : Int ?= 0, count : Int ?= 25)
+POST    /json/dental_services              controllers.Json.submitDentalServiceAddForm
 GET     /json/dental_services            controllers.Json.getDentalServiceList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/dental_services/:id/information     controllers.Json.getDentalServiceInformationById(id: String)
 POST    /json/dental_services/update       controllers.Json.submitDentalServiceUpdateForm
-POST    /json/dental_services              controllers.Json.submitDentalServiceAddForm
 POST    /json/dental_services/delete       controllers.Json.deleteServicesInformation
 GET     /json/staffs            controllers.Json.getStaffList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/staffs/:id     controllers.Json.getStaffById(id: String)
@@ -104,9 +104,9 @@ POST    /json/clinic/update         controllers.Json.submitClinicUpdateForm
 POST    /json/clinic                controllers.Json.submitClinicAddForm
 GET     /json/appointments          controllers.Json.getAllAppointments
 POST    /json/appointments              controllers.Json.submitAppointmentsAddForm
+GET     /json/appointments/today    controllers.Json.getAllAppointmentsToday
 GET     /json/appointments/:id          controllers.Json.getAppointmentById(id: String)
 POST    /json/appointments/update       controllers.Json.submitAppointmentUpdateForm
-GET     /json/appointments/today    controllers.Json.getAllAppointmentsToday
 GET     /json/announcements                controllers.Json.getAnnouncementList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/announcements/:id     controllers.Json.getAnnouncementListById(id: String)
 POST    /json/announcements/update         controllers.Json.submitAnnouncementUpdateForm
