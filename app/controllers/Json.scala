@@ -222,7 +222,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val status = request.body.asFormUrlEncoded.get("status").headOption
       val al = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  Some(status.get.toInt), dateStart, dateEnd)
 
-      println(">>>>>>>>>>>>"+al)
+      //println(">>>>>>>>>>>>"+al)
 
       if (AppointmentService.updateAppointment(al) >= 1) {
         Status(200)

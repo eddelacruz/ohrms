@@ -15,34 +15,24 @@
             }
         </div>
         <div class="right">
-            <nav>
-                <ul>
-                    <li class="active first"><a href="#tab-1">Information</a></li>
-                </ul>
-            </nav>
             <a href="#" class="close">close</a>
         </div>
     </div>
 </header>
 
 <div class="box-content">
-<div id="tab-1" class="tab">
-    <div class="columns">
-
-        <div class="form-details right mode-1">
+    <div class="center">
+        <div class="form-details">
             @dentalServiceList.map { dl =>
             <div class="field left">
+                <input type="hidden" name="id" value="@dl.id">
                 <ul>
                     <li>
-                        <label>Dental Service ID:</label>
-                        <label class="form-label">@dl.id</label>
-                    </li>
-                    <li>
-                        <label>Service Name:</label>
+                        <label>Name:</label>
                         <label class="form-label">@dl.name</label>
                     </li>
                     <li>
-                        <label>Service Code:</label>
+                        <label>Code:</label>
                         <label class="form-label">@dl.code</label>
                     </li>
                     <li>
@@ -54,36 +44,32 @@
             <div class="field right">
                 <ul>
                     <li>
-                        <label>Target:</label>
+                        <label>Tool Type:</label>
                         <label class="form-label">@dl.toolType</label>
                     </li>
                     <li>
                         <label>Price</label>
-                        <label class="form-label"><span class="pesos">P</span> @dl.price.00</label>
+                        <label class="form-label">@dl.price.00</label>
                     </li>
                     <li>
                         <label>Color:</label>
                         <label class="form-label">@dl.color</label>
-
-                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" style="padding-right: 35px;">
-
+                        <!--<input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" style="padding-right: 35px;">-->
                     </li>
                 </ul>
             </div>
-            }
         </div>
-    </div>
-</div>
-
-<footer class="pane">
-    @dentalServiceList.map { ds =>
+    </div> }
+    <footer class="pane">
+        @dentalServiceList.map { ds =>
         @if((play.cache.Cache.get("role")) == 1) {
         <a class="bt blue right" href="@routes.DentalService.getUpdateForm(ds.id)">@Messages("button.edit")</a>
         } else {
         <a href="#"></a>
         }
 
-    }
-</footer>
+        }
+    </footer>
+</div>
 </div>
 }

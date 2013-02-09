@@ -277,7 +277,7 @@ $(document).ready(function() {
                 $.each(value, function(ky, vl){
                     //console.log(vl.toolType);
                     var tn = $('#'+vl.teethName+' > canvas');
-                    var id = "canvas"+vl.teethName+"_"+vl.serviceId;
+                    var id = "canvas"+vl.teethName+"_"+vl.serviceId+"_"+vl.id;
                     imageWidth = tn.attr("width");
                     imageHeight = tn.attr("height");
 

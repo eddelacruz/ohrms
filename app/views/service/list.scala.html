@@ -64,19 +64,36 @@
                             <div class="field small">
                                <input name="color" type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" style="padding-right: 35px;">
                             </div>
-
                         </li>
                     </ul>
                 </div>
+                <div class="field center">
+                    <label>Allowed Services:</label>
+                    <div>
+                        <select class="special services-list" multiple>
+                            @dentalServiceList.map { dsl =>
+                            <option value="@dsl.id">@dsl.name</option>
+                            }
+                        </select>
+
+                        <div class="button-set">
+                            <a href="#" class="bt blue close center forward"><span class="glyph forward-2"></span><span class="glyph forward-2"></span></a><br>
+                            <a href="#" class="bt blue close center back"><span class="glyph back-2"></span><span class="glyph back-2"></span></a>
+                        </div>
+
+                        <select class="special services-allowed" multiple>
+                        </select>
+                    </div>
+                    <!--<textarea class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>-->
+                    <!--<blockquote>Banned Services column, sets the services that only alowed to be mix with.</blockquote>-->
+                </div>
             </div>
         </div>
+        @if((play.cache.Cache.get("role")) == 1) {
         <footer class="pane">
-            @if((play.cache.Cache.get("role")) == 1) {
             <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
-            } else {
-            <a href="#"></a>
-            }
         </footer>
+        }
         }
     </div>
 </div>
@@ -148,12 +165,12 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @dentalServiceList.map { dsl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.DentalService.getDentalServiceInformationById(dsl.id)">@dsl.name</a></td>
-                    <td class=" ">@dsl.code</td>
-                    <td class=" ">@dsl.sType</td>
-                    <td class=" ">@dsl.toolType</td>
-                    <td class=" "><span class="pesos">P</span> @dsl.price.00</td>
-                    <td class=" ">@dsl.color</td>
+                    <td class="sorting_1"><a href="@routes.DentalService.getDentalServiceInformationById(dsl.id)">@dsl.name</a></td>
+                    <td>@dsl.code</td>
+                    <td>@dsl.sType</td>
+                    <td>@dsl.toolType</td>
+                    <td><span class="pesos">P</span> @dsl.price.00</td>
+                    <td class="center"><span class="label" style="background: @dsl.color;">@dsl.color</span></td>
                 </tr>
                 }
                 </tbody>

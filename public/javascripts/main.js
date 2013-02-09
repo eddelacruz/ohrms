@@ -710,4 +710,24 @@ function res() {
             }
             ]
     });
+
+    //banned dental service
+    $('.field.center .button-set a.forward').click(function(e){
+        e.preventDefault();
+        var selected = $('select.special.services-list option:selected').attr('selected','selected');
+        $.each(selected, function(i, l){
+            $('.field.center select.services-allowed').append(l)
+        });
+        $('.field.center select option').removeAttr('selected');
+    });
+
+    $('.field.center .button-set a.back').click(function(e){
+        e.preventDefault();
+        var selected = $('select.special.services-allowed option:selected').attr('selected','selected');
+        $.each(selected, function(i, l){
+            $('.field.center select.services-list').append(l)
+        });
+        $('.field.center select option').removeAttr('selected');
+    });
+
 });

@@ -50,11 +50,11 @@ GET     /appointments/:id/update          controllers.Appointments.getUpdateForm
 
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
 GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
-GET     /dental_services/:id/information          controllers.DentalService.getDentalServiceInformationById(id: String)
+GET     /dental_services/:id        controllers.DentalService.getDentalServiceInformationById(id: String)
 POST    /dental_services                  controllers.DentalService.submitAddForm
 GET     /dental_services/add               controllers.DentalService.getAddForm
 POST    /dental_services/update            controllers.DentalService.submitUpdateForm
-GET     /dental_services/:id/information/update      controllers.DentalService.getUpdateForm(id: String)
+GET     /dental_services/:id/update      controllers.DentalService.getUpdateForm(id: String)
 POST    /dental_services/delete            controllers.DentalService.deleteInformation(id: String)
 GET     /staffs                    controllers.Staff.getList(start : Int ?= 0, count : Int ?= 25)
 POST    /staffs                    controllers.Staff.submitAddForm
@@ -118,6 +118,9 @@ GET     /json/dental_services/banned/:serviceCode       controllers.Json.getBann
 GET     /json/patients/last_visit          controllers.Json.getPatientLastVisit(start : Int ?= 0, count : Int ?= 25)
 GET     /json/patients/last_visit/search   controllers.Json.searchPatientLastVisit(start : Int ?= 0, count : Int ?= 25 , filter ?= "")
 GET     /json/dentists/all                       controllers.Json.getAllDentists
+
+GET     /image                      controllers.Application.imageForm
+POST    /image                      controllers.Application.upload
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
