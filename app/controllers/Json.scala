@@ -173,7 +173,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val id = ""
       val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
-      val image = request.body.asFormUrlEncoded.get("imaging").headOption
+      val image = request.body.asFormUrlEncoded.get("image").headOption
 
       val pl = ClinicList("", clinicName, address, image)
 
