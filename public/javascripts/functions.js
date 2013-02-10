@@ -91,6 +91,24 @@ $(document).ready(function() {
             		}
             	);
 
+            	$('#delete_specialization').live("click",
+                        function(e) {
+                            var $this = $(this)
+                			var specializationId = $this.attr("data-specialization_id")
+                			e.preventDefault()
+                			console.log("The Specialization Id to be deleted is: "+specializationId)
+                			$.ajax({
+                			    url : "/specializations/delete?id="+specializationId,
+                			    type : "POST",
+                			    success :
+                			        function() {
+                			            console.log("deleted");
+                			            window.location.href = "/specializations";
+                			        }
+                			})
+                		}
+                	);
+
     //url static, only for patients
     var count = 1;
     var start = 0;

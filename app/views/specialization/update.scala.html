@@ -1,0 +1,62 @@
+@(specializationList: List[ws.services.SpecializationList])
+
+@main(Messages("specialization.title")){
+
+<!-- Update Specialization -->
+
+<header class="grid_12 head center">
+    <h1>@Messages("clinic.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav>
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="">
+                <div class="form-details">
+                    @specializationList.map { dl =>
+                    @helper.form(action = routes.Specialization.submitUpdateForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="@dl.id">
+                        <ul>
+                            <li>
+                                <label>Specialization:</label>
+                                <input type="text" name="name" value="@dl.name">
+                            </li>
+                            <li>
+                                <label>Dentist:</label>
+                                <input type="hidden" name="dentist_id" value="abc8ecdd-33c9-4aaf-aa30-9d77419aeb11">
+                                <!-- TO DO DENTIST LIST-->
+                            </li>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="pane">
+                <a id="delete_specialization" class="bt red left" href="#" data-specialization_id="@dl.id">@Messages("button.delete")</a>
+                <input type="submit" class="bt blue right" value="@Messages("button.update")">
+            </footer>
+            }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- /Update specialization -->
+}

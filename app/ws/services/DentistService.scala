@@ -18,7 +18,7 @@ import ws.generator.UUIDGenerator
  */
 
 case class DentistList(var id: String, userId: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], prcNo: Option[String], image: Option[String], userName: Option[String], password: Option[String], specializationName: Option[Seq[String]])
-case class Specialization(dentistId: String, name: Option[String])
+case class SpecializationList(var id: String, dentistId: String, name: String)
 
 object DentistService {
 
@@ -345,28 +345,6 @@ object DentistService {
     }
   }
 
-  def addSpecialization(s: Specialization): Long = {
-    val currentUser = getUserId
-    val task = "Add"
-    DB.withConnection {
-      implicit c =>
-        SQL(
-          """
-            |INSERT INTO specializations
-            |VALUES
-            |(
-            |{dentist_id},
-            |{name}
-            |);
-          """.stripMargin).on(
-          'dentist_id -> s.dentistId,
-          'name -> s.name
-        ).executeUpdate()
-      //  AuditLogService.logTaskDentist(d, currentUser, task)
-    }
-  }
-
-
   def deleteDentist(id: String): Long = {
     val currentUser = getUserId
     val task = "Delete"
@@ -383,6 +361,166 @@ object DentistService {
           'id -> id,
           'status -> 0,
           'date_last_updated -> DateWithTime.dateNow
+        ).executeUpdate()
+        AuditLogService.logTask(id, currentUser, task)
+    }
+  }
+
+  def searchSpecializationList(start: Int, count: Int, filter: String): List[SpecializationList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val specializationList: List[SpecializationList] = SQL(
+          """
+            |select
+            |s.id,
+            |d.first_name,
+            |d.last_name,
+            |d.middle_name,
+            |s.name
+            |from
+            |specializations s
+            |LEFT OUTER JOIN
+            |dentists d ON s.dentist_id=d.id
+            |where s.status = {status}
+            |and s.name like "%"{filter}"%"
+            |or d.first_name like "%"{filter}"%"
+            |or d.last_name like "%"{filter}"%"
+            |ORDER BY name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("dentist_id") ~
+            get[String]("name")  map {
+            case a ~ b ~ c => SpecializationList(a,b,c)
+          } *
+        }
+        specializationList
+    }
+  }
+
+  def getSpecializationList(start: Int, count: Int): List[SpecializationList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val specializationList: List[SpecializationList] = SQL(
+          """
+            |select
+            |s.id,
+            |s.dentist_id,
+            |d.first_name,
+            |d.last_name,
+            |d.middle_name,
+            |s.name
+            |from
+            |specializations s
+            |LEFT OUTER JOIN
+            |dentists d ON s.dentist_id=d.id
+            |where s.status = {status}
+            |ORDER BY name asc
+            |LIMIT {start}, {count}
+          """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[String]("dentist_id") ~
+            get[String]("name")  map {
+            case a ~ b ~ c => SpecializationList(a,b,c)
+          } *
+        }
+        specializationList
+    }
+  }
+
+  def getSpecializationById(id :String): List[SpecializationList] = {
+    DB.withConnection {
+      implicit c =>
+        val specializationList: List[SpecializationList] = SQL(
+          """
+            select
+            |s.id,
+            |s.dentist_id,
+            |d.first_name,
+            |d.last_name,
+            |d.middle_name,
+            |s.name
+            |from
+            |specializations s
+            |LEFT OUTER JOIN
+            |dentists d ON s.dentist_id=d.id
+            |where
+            |s.id = {id}
+          """.stripMargin).on('id -> id).as {
+          get[String]("id") ~
+            get[String]("dentist_id") ~
+            get[String]("name")  map {
+            case a ~ b ~ c => SpecializationList(a,b,c)
+          } *
+        }
+        specializationList
+    }
+  }
+
+
+  def addSpecialization(s: SpecializationList): Long = {
+    val currentUser = getUserId
+    val task = "Add"
+    s.id = UUIDGenerator.generateUUID("specializations")
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO specializations
+            |VALUES
+            |(
+            |{id},
+            |{name},
+            |{status},
+            |{dentist_id}
+            |);
+          """.stripMargin).on(
+          'id -> s.id,
+          'name -> s.name,
+          'status -> 1,
+          'dentist_id -> s.dentistId
+        ).executeUpdate()
+       AuditLogService.logTaskSpecialization(s, currentUser, task)
+    }
+  }
+
+  def updateSpecialization(d: SpecializationList): Long = {
+    val currentUser = getUserId
+    val task = "Update"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE specializations SET
+            |name = {name},
+            |dentist_id = {dentistId}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> d.id,
+          'dentistId ->d.dentistId,
+          'name -> d.name
+        ).executeUpdate()
+        AuditLogService.logTaskSpecialization(d, currentUser, task)
+    }
+
+  }
+
+  def deleteSpecialization(id: String): Long = {
+    val currentUser = getUserId
+    val task = "Delete"
+    println("pumasok dito")
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE specializations SET
+            |status = {status}
+            |WHERE id = {id};
+          """.stripMargin).on(
+          'id -> id,
+          'status -> 0
         ).executeUpdate()
         AuditLogService.logTask(id, currentUser, task)
     }
