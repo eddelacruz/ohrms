@@ -374,7 +374,7 @@ object DentistService {
             |where
             |`id` = {id};
           """.stripMargin).on('id -> id).apply().head
-        userId = a[String]("id")
+        userId = a[String]("user_id")
     }
     println(">>>>>>>>>>>>>>>>>>>."+userId);
     DB.withConnection {

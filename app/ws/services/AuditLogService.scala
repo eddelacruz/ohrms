@@ -51,7 +51,7 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
             |{module}
             |);
           """.stripMargin).on(
