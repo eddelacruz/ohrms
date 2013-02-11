@@ -35,6 +35,7 @@ object Application extends Controller{
       Ok(html.reports.billy())
   }
 
+
   def login = Action {
     implicit request =>
       Ok(views.html.login(loginForm))
