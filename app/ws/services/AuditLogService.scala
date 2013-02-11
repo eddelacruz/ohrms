@@ -20,7 +20,322 @@ case class AuditLog(var id: String, task: String, description: String, dateCreat
  */
 object AuditLogService {
 
-  def logTask(l: PatientList, currentUser: String, task: String): Long = {
+  def logTaskDeleteDentist(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |first_name
+              |from dentists
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("first_name")
+      }
+    }
+    task match {
+      case "Delete" => description = "Dr. " + getName + "'s profile was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "d"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeleteStaff(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |first_name
+              |from staffs
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("first_name")
+      }
+    }
+    task match {
+      case "Delete" => description = "Staff " + getName + "'s profile was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "s"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeletePatient(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |first_name
+              |from patients
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("first_name")
+      }
+    }
+    task match {
+      case "Delete" => description = "Patient " +getName + "'s profile was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "s"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeleteService(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |name
+              |from dental_services
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("name")
+      }
+    }
+    task match {
+      case "Delete" => description = getName + "'s dental_services was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "ds"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeleteSpecialization(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |name
+              |from specializations
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("name")
+      }
+    }
+    task match {
+      case "Delete" => description = getName + "was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "sp"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeleteAnnouncement(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |announcement
+              |from announcements
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("announcement")
+      }
+    }
+    task match {
+      case "Delete" => description = getName + "was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "an"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskDeleteAppointment(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    def getName = {
+      DB.withConnection {
+        implicit c =>
+          val getName = SQL(
+            """
+              |select
+              |first_name
+              |from appointments
+              |where id = {id}
+            """.stripMargin
+          ).on('id -> id).apply().head
+          getName[String]("first_name")
+      }
+    }
+    task match {
+      case "Delete" => description = getName + "'s appointment was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "ap"
+        ).executeUpdate()
+    }
+  }
+
+  def logTaskPatient(l: PatientList, currentUser: String, task: String): Long = {
       var description: String = ""
     task match {
       case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
@@ -38,78 +353,22 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow
-        ).executeUpdate()
-    }
-  }
-
-  def logTask(id: String, currentUser: String, task: String): Long = {
-    var description: String = ""
-    task match {
-      case "Delete" => description = id + " profile was deleted"
-      case _ => ""
-    }
-    DB.withConnection {
-      implicit c =>
-        SQL(
-          """
-            |INSERT INTO audit_log
-            |VALUES
-            |(
-            |{id},
-            |{task},
-            |{user_id},
-            |{description},
-            |{date_created}
-            |);
-          """.stripMargin).on(
-          'id -> UUIDGenerator.generateUUID("audit_log"),
-          'task -> task,
-          'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow
-        ).executeUpdate()
-    }
-  }
-
-  def logTaskOther(id: String, currentUser: String, task: String): Long = {
-    var description: String = ""
-    task match {
-      case "Delete" => description = id + " information was deleted"
-      case _ => ""
-    }
-    DB.withConnection {
-      implicit c =>
-        SQL(
-          """
-            |INSERT INTO audit_log
-            |VALUES
-            |(
-            |{id},
-            |{task},
-            |{user_id},
-            |{description},
-            |{date_created}
-            |);
-          """.stripMargin).on(
-          'id -> UUIDGenerator.generateUUID("audit_log"),
-          'task -> task,
-          'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,
+          'module -> "ap"
         ).executeUpdate()
     }
   }
 
   def logTaskDentist(l: DentistList, currentUser: String, task: String): Long = {
-    var description: String = ""
+   var description: String = ""
     task match {
       case "Add" => description = l.firstName +" "+ l.lastName + "'s profile was added"
       case "Update" => description = l.firstName +" "+ l.lastName + "'s profile was updated"
@@ -126,14 +385,16 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "d"
         ).executeUpdate()
     }
   }
@@ -156,14 +417,16 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "c"
         ).executeUpdate()
     }
   }
@@ -186,14 +449,16 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "ap"
         ).executeUpdate()
     }
   }
@@ -216,14 +481,16 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "an"
         ).executeUpdate()
     }
   }
@@ -246,14 +513,16 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "ds"
         ).executeUpdate()
     }
   }
@@ -276,19 +545,51 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
+            |{module}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "s"
         ).executeUpdate()
     }
   }
 
-
+  def logTaskSpecialization(l:SpecializationList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.name + "'s information was added"
+      case "Update" => description = l.name + "'s information was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "sp"
+        ).executeUpdate()
+    }
+  }
 
   def getAllLogs(start: Int, count: Int): List[AuditLog] = {
     DB.withConnection {
@@ -355,36 +656,6 @@ object AuditLogService {
           } *
         }
         auditLog
-    }
-  }
-
-  def logTaskSpecialization(l:SpecializationList, currentUser: String, task: String): Long = {
-    var description: String = ""
-    task match {
-      case "Add" => description = l.name + "'s information was added"
-      case "Update" => description = l.name + "'s information was updated"
-      case _ => ""
-    }
-    DB.withConnection {
-      implicit c =>
-        SQL(
-          """
-            |INSERT INTO audit_log
-            |VALUES
-            |(
-            |{id},
-            |{task},
-            |{user_id},
-            |{description},
-            |{date_created}
-            |);
-          """.stripMargin).on(
-          'id -> UUIDGenerator.generateUUID("audit_log"),
-          'task -> task,
-          'user_id -> currentUser, //cached user_id when login
-          'description -> description,
-          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
-        ).executeUpdate()
     }
   }
 

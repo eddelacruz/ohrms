@@ -204,7 +204,7 @@ object PatientService extends Secured{
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task)
+        AuditLogService.logTaskPatient(p, currentUser, task)
     }
 
   }
@@ -239,7 +239,7 @@ object PatientService extends Secured{
           'medical_history -> p.medicalHistory,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(p, currentUser, task) //TODO cached user_id when login
+        AuditLogService.logTaskPatient(p, currentUser, task) //TODO cached user_id when login
    }
 
   }
@@ -260,7 +260,7 @@ object PatientService extends Secured{
           'status -> 0,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTaskDeletePatient(id, currentUser, task)
     }
   }
 

@@ -323,7 +323,6 @@ object DentistService {
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-     // AuditLogService.logTaskDentist(d, currentUser, task)
     }
     DB.withTransaction {
       implicit c =>
@@ -380,7 +379,7 @@ object DentistService {
           'status -> 0,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTaskDeleteDentist(id, currentUser, task)
     }
   }
 
@@ -540,7 +539,7 @@ object DentistService {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTaskDeleteSpecialization(id, currentUser, task)
     }
   }
 

@@ -30,6 +30,7 @@
             @helper.form(action = routes.Dentist.submitAddForm){
             <div class="field left">
                 <input type="hidden" name="id" value="">
+                <input type="hidden" name="user_id" value="">
                 <ul>
                     <li>
                         <label class="upper">First Name:</label>
@@ -77,21 +78,6 @@
                         <input type="text" name="specializationName[0]" data-count=0 value="" style="width: 81%;">
                         <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
                     </li>-->
-                    <li>
-                        <label>Specialization</label>
-                        <input type="text" name="specializationName[0]" data-count=0 value="" style="width: 81%;">
-                        <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
-                    </li>
-                    <li>
-                        <select class="chosen chzn-done" id="post-categories" data-placeholder="Select categories" multiple="" style="display: none;">
-                            <option selected="">Metallica</option>
-                            <option>System of a Down</option>
-                            <option>The White Stripes</option>
-                            <option>Queen</option>
-                            <option selected="">Dream Theater</option>
-                        </select>
-                    </li>
->>>>>>> ddcc2b4be9d30eefb0f620ec667574433663fbfe
                     <br/>
                 </ul>
             </div>

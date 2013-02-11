@@ -307,7 +307,7 @@ object ServicesService {
         'status -> 0
         ).executeUpdate()
     }
-    AuditLogService.logTaskOther(id, currentUser, task)
+    AuditLogService.logTaskDeleteService(id, currentUser, task)
   }
 }
 

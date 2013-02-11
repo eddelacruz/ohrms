@@ -289,7 +289,7 @@ object StaffService {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-       AuditLogService.logTask(id, currentUser, task)
+       AuditLogService.logTaskDeleteStaff(id, currentUser, task)
     }
   }
 
