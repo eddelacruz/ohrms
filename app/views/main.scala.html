@@ -1,6 +1,6 @@
 @(title: String)(content: Html)
 @import play.cache.Cache
-
+@import ws.delegates.{DentistDelegate}
 
 <!DOCTYPE html>
 
@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sabertooth - @title</title>
-    <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
+    <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/tooth.png")'>
     <!-- JAVASCRIPTs -->
     <!--[if lt IE 9]>
     <script language="javascript" type="text/javascript" src="@routes.Assets.at("javascripts/jqPlot/excanvas.min.js")"></script>
@@ -57,7 +57,7 @@
     <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js")'></script>
     <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.pointLabels.min.js")'></script>
     <!-- /# -->
-    <script src='@routes.Assets.at("javascripts/fullcalendar.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/fullcalendar.js")'></script>
     <script src='@routes.Assets.at("javascripts/jquery.miniColors.min.js")'></script>
     <script src='@routes.Assets.at("javascripts/jquery.maskedinput-1.3.min.js")'></script>
     <script src='@routes.Assets.at("javascripts/jquery-ui-timepicker-addon.js")'></script>
@@ -92,11 +92,13 @@
             <!-- navigation menu -->
             <nav class="main-nav">
                 <ul>
+
                     <li class="active first"><a href="@routes.Application.dashboard()" name="Dashboard"><span class="glyph cloud"></span> @Messages("dashboard.title")</a></li>
                     <li><a href="@routes.Patient.getList()" name="Patients"><span class="glyph user"></span> @Messages("patient.title")</a></li>
                     <li><a href="@routes.Scheduler.getCalendar()" name="Scheduler"><span class="glyph clock"></span> @Messages("scheduler.title")</a></li>
                     <li><a href="@routes.DentalService.getList()" name="Services"><span class="glyph list"></span> @Messages("service.title")</a></li>
                     <li><a href="#" name="Reports"><span class="glyph rating"></span> @Messages("report.title")</a></li>
+
                 </ul>
             </nav>
             <!-- /navigation menu -->
@@ -113,7 +115,7 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="@routes.Settings.settings()" class="tooltip" original-title="settings">
                         <span class="glyph settings"></span>
                     </a>
                 </li>
@@ -142,60 +144,63 @@
                     @Messages("scheduler.appointment.title")
                 </a>
             </li>
-            <li class="first">
+            <li class="last">
                 <a href="#addPatientModal" class="modal">
                     <span class="glyph zoom-in"></span>
                     @Messages("patient.add.title")
                 </a>
             </li>
-            <li>
+            <!--<li class="last">
                 <a href="#dentalChartModal" class="modal">
                     <span class="glyph open-in-new-window"></span>
                     @Messages("chart.title")
                 </a>
-            </li>
-            <li class="last">
-                <a href="#">
-                    <span class="glyph zoom-in"></span>
-                    @Messages("calendar.title")
-                </a>
-            </li>
+            </li>-->
         </ul>
     </nav>
 </div>
 
 <div id="content">
 <!-- AddAppointmentModal -->
-@modal._add_appointment()
+@modal._add_appointment(DentistDelegate.getAllDentists)
 <!-- /AddAppointmentModal -->
+
+<!-- UpdateAppointmentModal -->
+@modal._update_appointment_form()
+<!-- /UpdateAppointmentModal -->
 
 <!-- AddPatientModal -->
 @modal._add_patient()
 <!-- /AddPatientModal -->
 
 <!-- DentalChartModal -->
-<div class="box grid_8" id="dentalChartModal" hidden="">
+<!--<div class="box grid_12" id="dentalChartModal" hidden="">
     <header>
         <div class="inner">
             <div class="left title">
                 <h1>@Messages("chart.title")</h1>
             </div>
             <div class="center">
-                <div id="svgchart">
-                </div>
                 <a href="#" class="close">close</a>
             </div>
         </div>
     </header>
-
     <div class="box-content">
-
-        <footer class="pane">
-            <a href="#" class="close bt red">Close modal</a>
-            <a href="#" class="bt blue">Custom button</a>
-        </footer>
+        <ul class="button-bar blue small teeth-type">
+            <li name="adultButton" class="first active"><a href="#">Adult</a></li>
+            <li name="childButton" class="last"><a id="teeth-status" href="#">Child</a></li>
+        </ul>
+        <br>
+        &lt;!&ndash;Teeth Chart&ndash;&gt;
+        <div class="face no-highlight">
+            &lt;!&ndash;Child&ndash;&gt;
+            &lt;!&ndash;/Child&ndash;&gt;
+            &lt;!&ndash;Adult&ndash;&gt;
+            &lt;!&ndash;/Adult&ndash;&gt;
+        </div>
+        &lt;!&ndash;/Teeth Chart&ndash;&gt;
     </div>
-</div>
+</div>-->
 <!-- /DentalChartModal -->
 
 <div class="main-box">
@@ -211,13 +216,14 @@
 
 <footer>
     <div class="container_12">
-        <p>© Copyright 2012 - Sabertooth | Juan Tamad Eli - <a href="#" target="_blank">Sabertooth Technologies</a></p>
+        <p>© Copyright 2012 - Sabertooth | Juan Tamad <a href="#" target="_blank">Sabertooth Technologies</a></p>
     </div>
 </footer>
 
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-child.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-adult.js")'></script>
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-chart.js")'></script>
-<!--<script src='@routes.Assets.at("javascripts/highcharts/js/highcharts.js")'></script>
-<script src='@routes.Assets.at("javascripts/highcharts/modules/exporting.js")'></script>-->
+<script type="text/javascript" src='@routes.Assets.at("javascripts/highcharts/js/highcharts.js")'></script>
+<script type="text/javascript" src='@routes.Assets.at("javascripts/highcharts/modules/exporting.js")'></script>
 </body>
 </html>

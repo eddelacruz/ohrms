@@ -2,14 +2,12 @@ package ws.delegates
 
 import play.api.libs.concurrent.Promise
 import play.api.libs.ws._
-import play.api.libs.json.{JsValue, JsObject}
+import play.api.libs.json.{JsArray, JsString, JsValue, JsObject}
 import collection.mutable.ListBuffer
-import ws.services.PatientList
+import ws.services.{PatientLastVisit, PatientList}
 import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.libs.json.JsObject
-import ws.services.PatientList
 import play.api.libs.ws.Response
 
 /**
@@ -34,6 +32,49 @@ object PatientDelegate extends WsHelper{
       "medical_history" -> optional(text)
     )(PatientList.apply)(PatientList.unapply)
   )
+
+  def getPatientLastVisit(start: Int, count: Int) = {
+    val res: Promise[Response] = doGet("/json/patients/last_visit?start="+start+"&count="+count)
+    val json: JsValue = res.await.get.json
+    val pl = ListBuffer[PatientLastVisit]()
+
+    (json \ "PatientList").as[Seq[Seq[JsObject]]].map({
+      p =>
+        pl += convertToPatientLastVisit(p)
+    })
+    //println(">>ETO UNG DAHILAn"+(json \ "PatientList").map(kuma => convertToPatientLastVisit(kuma)))
+    pl.toList
+  }
+
+  def searchPatientLastVisit(start: Int, count: Int, filter: String) = {
+    val res: Promise[Response] = doGet("/json/patients/last_visit/search?start="+start+"&count="+count+"&filter="+filter)
+    val json: JsValue = res.await.get.json
+    val spl = ListBuffer[PatientLastVisit]()
+
+    (json \ "PatientList").as[Seq[Seq[JsObject]]].map({
+      sp =>
+        spl += convertToPatientLastVisit(sp)
+    })
+    spl.toList
+  }
+
+  def convertToPatientLastVisit(json: Seq[JsValue]): PatientLastVisit = {
+    //println(json.tail.headOption.get \ "dateLastVisit")
+    //println(json \ "dateLastVisit")
+    new PatientLastVisit(
+      new PatientList(
+        (json.head \ "id").as[String],//(json \ "id").as[String],
+        (json.headOption.get \ "firstName").asOpt[String],
+        (json.headOption.get \ "middleName").asOpt[String],
+        (json.headOption.get \ "lastName").asOpt[String],
+        (json.headOption.get \ "address").asOpt[String],
+        (json.headOption.get \ "contactNo").asOpt[String],
+        (json.headOption.get \ "dateOfBirth").asOpt[String],
+        (json.headOption.get \ "image").asOpt[String],
+        (json.headOption.get \ "medicalHistory").asOpt[String]
+      ), (json.tail.headOption.get \ "dateLastVisit").asOpt[String]
+    )
+  }
 
   def getPatientList(start: Int, count: Int) = {
     val res: Promise[Response] = doGet("/json/patients?start="+start+"&count="+count)

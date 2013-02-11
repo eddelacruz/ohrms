@@ -1,3 +1,5 @@
+@(dentists: List[ws.services.DentistList])
+
 <!-- AddAppointmentModal -->
 <div class="box grid_11" id="addAppointmentModal" hidden="">
     <header>
@@ -39,8 +41,12 @@
                 <div class="field right">
                     <ul>
                         <li>
-                            <label>Dentist Name:</label>
-                            <input type="text" name="dentist_id">
+                            <label>Status:</label>
+                            <select name="dentist_id">
+                                @dentists.map { d =>
+                                <option value="@d.id">@d.firstName @d.middleName @d.lastName</option>
+                                }
+                            </select>
                         </li>
                         <li>
                             <label>Contact Number:</label>
@@ -59,8 +65,8 @@
                                 <option value="4">Completed</option>
                             </select>
                         </li>
-                        <input type="hidden" name="date_start">
-                        <input type="hidden" name="date_end">
+                        <input type="text" name="date_start">
+                        <input type="text" name="date_end">
 
                     </ul>
                 </div>

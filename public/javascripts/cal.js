@@ -18,9 +18,9 @@ $(document).ready(function() {
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
-                    console.log(vl);
                     var s = new Date(Date.parse(vl.dateStart));
                     var e = new Date(Date.parse(vl.dateEnd));
+                    //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+s)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
                     switch(vl.status) {
@@ -65,7 +65,9 @@ $(document).ready(function() {
                             status: vl.status,
                             color: color,
                             borderColor: borderColor,
-                            textColor: textColor
+                            textColor: textColor,
+                            id: vl.id,
+                            dateEnd: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes())
                         }]);
                 })
             })
@@ -169,8 +171,8 @@ $(document).ready(function() {
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
             //TODO lagyan ng get hour at minutes
-            start = start.getFullYear()+"-"+(start.getMonth()+1)+"-"+start.getDate()+" "+start.getHours()+":"+start.getMinutes()+":"+start.getSeconds();
-            end = end.getFullYear()+"-"+(end.getMonth()+1)+"-"+end.getDate()+" "+end.getHours()+":"+end.getMinutes()+":"+end.getSeconds();
+            start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd hh:mm:ss');
+            end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd hh:mm:ss');
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
@@ -195,6 +197,79 @@ $(document).ready(function() {
         eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
             alert("hi");
         },*/
+        eventClick: function(calEvent, jsEvent, view) {
+            var appointmentId = calEvent.id;
+            $.ajax({
+                url : "/appointments/"+appointmentId+"/update",
+                type : "GET",
+                success :
+                    function(res) {
+                        $('#updateAppointmentModalForm .center').html($(res).find('.main-box #updateAppointmentModal .center').html());
+                        $('#updateAppointmentModalForm select[name=dentist_id]').html($(res).find('.main-box #updateAppointmentModal select[name=dentist_id]').html());
+                        var defaultDentistId = $(res).find(".main-box #updateAppointmentModal select[name=dentist_id]").attr('data-default');
+                        var defaultStatus = $(res).find(".main-box #updateAppointmentModal select[name=status]").attr('data-default');
+                        $('#updateAppointmentModalForm select[name=dentist_id] option[value='+defaultDentistId+']').attr('selected','selected')
+                        $('#updateAppointmentModalForm select[name=status] option[value='+defaultStatus+']').attr('selected','selected')
+                        $('#updateAppointmentModalForm header>.inner>.left.title').html('<h1>Update Appointment for </h1>'+$(res).find('.main-box #updateAppointmentModal header>.inner>.left.title').html());
+                    }
+            })
+            $('#updateAppointmentModalForm').modal({top: 'center'});
+        },
+        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+            //may babaguhin pa dito
+
+            event.start = new Date(Date.parse(event.end));
+
+            alert(event.end.getDate()+dayDelta);
+
+            start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
+            end = $.fullCalendar.formatDate(event.dateEnd, 'yyyy-MM-dd hh:mm:ss');
+
+            alert("allday?"+allDay);
+
+            alert("start"+start);
+            alert("end"+end);
+
+            var json = new Object();
+
+            json.id = event.id;
+            json.description = event.description;
+            json.first_name = event.firstName;
+            json.middle_name = event.middleName;
+            json.last_name = event.lastName;
+            json.dentist_id = event.dentistId;
+            json.contact_no =  event.contactNo;
+            json.address =  event.address;
+            json.status =  2; //rescheduled
+            json.date_start =  start;
+            json.date_end =  end;
+
+
+            console.log(JSON.stringify(json));
+
+            $.ajax({
+              type: "POST",
+              url: "/json/appointments/update",
+              dataType: "json",
+              data: json,
+              error: function(xhr, ajaxOptions, thrownError){
+                //alert(xhr.status);
+              },
+              beforeSend: function(x) {
+                if (x && x.overrideMimeType) {
+                    x.overrideMimeType("application/j-son;charset=UTF-8");
+                }
+              },
+              success:  $.ajax({
+                type: "GET",
+                url: "/scheduler",
+                success: function(res) {
+                    //alert("Record updated!");
+                    window.location = url;
+                }
+              })
+            });
+        },
         editable: true
     });
 

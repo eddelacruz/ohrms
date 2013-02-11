@@ -33,6 +33,7 @@
                     @helper.form(action = routes.Staff.submitUpdateForm){
                     <div class="field left">
                         <input type="hidden" name="id" value="@sl.id">
+                        <input type="hidden" name="user_id" value="@sl.userId">
                         <ul>
                             <li>
                                 <label class="upper">First Name:</label>
@@ -77,8 +78,13 @@
                 </div>
             </div>
             <footer class="pane">
-                <a id="delete_patient" class="bt red left" href="#" data-patient_id="@sl.id">@Messages("button.delete")</a>
+                @if((play.cache.Cache.get("id")) == sl.userId){
                 <input type="submit" class="bt blue right" value="@Messages("button.update")">
+                } else {
+                <a href="#"></a>
+                }
+                <a id="delete_staff" class="bt red left" href="#" data-staff_id="@sl.id">@Messages("button.delete")</a>
+
             </footer>
             }
             }

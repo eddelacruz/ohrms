@@ -79,6 +79,35 @@ object AuditLogService {
     }
   }
 
+  def logTaskOther(id: String, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Delete" => description = id + " information was deleted"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow
+        ).executeUpdate()
+    }
+  }
+
   def logTaskDentist(l: DentistList, currentUser: String, task: String): Long = {
     var description: String = ""
     task match {
@@ -326,6 +355,36 @@ object AuditLogService {
           } *
         }
         auditLog
+    }
+  }
+
+  def logTaskSpecialization(l:SpecializationList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.name + "'s information was added"
+      case "Update" => description = l.name + "'s information was updated"
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_id},
+            |{description},
+            |{date_created}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_id -> currentUser, //cached user_id when login
+          'description -> description,
+          'date_created -> DateWithTime.dateNow//must be date.now "0000-00-00 00:00:00"
+        ).executeUpdate()
     }
   }
 

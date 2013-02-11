@@ -22,6 +22,7 @@ object StaffDelegate extends WsHelper{
   val _staffProfileForm = Form(
     mapping(
       "id" -> text,
+      "user_id" -> text,
       "first_name" -> optional(text),
       "middle_name" -> optional(text),
       "last_name" -> optional(text),
@@ -49,6 +50,7 @@ object StaffDelegate extends WsHelper{
   def convertToStaffList (j: JsValue): StaffList = {
     new StaffList(
       (j \ "id").as[String],
+      (j \ "userId").as[String],
       (j \ "firstName").asOpt[String],
       (j \ "middleName").asOpt[String],
       (j \ "lastName").asOpt[String],
@@ -87,7 +89,7 @@ object StaffDelegate extends WsHelper{
 
   def submitUpdateStaffForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/staffs/update", params)
-    println()
+    println(params)
     println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }
@@ -100,6 +102,11 @@ object StaffDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
-
+  def deleteInformation(params: Map[String, Seq[String]]) = {
+    val res = doPost("/json/staffs/delete", params)
+    println()
+    println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
+    println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
 
 }

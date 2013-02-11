@@ -105,9 +105,9 @@ object AppointmentService extends Secured {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address")~
             get[Option[Int]]("status")~
-            get[Option[Date]]("date_start")~
-            get[Option[Date]]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
+            get[Date]("date_start")~
+            get[Date]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString.replace(".0", "")), Some(k.toString.replace(".0", "")))
           } *
         }
       appointmentList
@@ -133,13 +133,13 @@ object AppointmentService extends Secured {
             |date_end
             |from appointments
             |where
-            | ({date_now_all_day} BETWEEN date_start AND date_end)
+            |  DATE(date_start) = DATE({date_only})
             |or
-            | ({date_now} BETWEEN date_start AND date_end)
+            |DATE(date_end) = DATE({date_only})
             |order by date_start asc;
           """.stripMargin
-        ).on('date_now_all_day -> DateWithTime.dateNowAllDay, 'date_now -> DateWithTime.dateNow).as {
-          get[String]("id") ~
+        ).on('date_only -> DateWithTime.dateOnly).as {
+            get[String]("id") ~
             get[Option[String]]("description") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
@@ -148,9 +148,9 @@ object AppointmentService extends Secured {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address")~
             get[Option[Int]]("status")~
-            get[Option[Date]]("date_start")~
-            get[Option[Date]]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString), Some(k.toString))
+            get[Date]("date_start")~
+            get[Date]("date_end") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, f, g, h, i, Some(j.toString.replace(".0", "")), Some(k.toString.replace(".0", "")))
           } *
         }
     }
@@ -161,6 +161,7 @@ object AppointmentService extends Secured {
     val currentUser = getUserId
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
+    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
         SQL(
@@ -219,16 +220,16 @@ object AppointmentService extends Secured {
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> d.id,
-          'description -> d.description,
-          'first_name -> d.firstName,
-          'middle_name -> d.middleName,
-          'last_name -> d.lastName,
-          'dentist_id -> d.dentistId,
-          'contact_no -> d.contactNo,
-          'address -> d.address,
-          'status -> d.status,
-          'date_start -> d.dateStart,
-          'date_end -> d.dateEnd
+          'description -> d.description.get,
+          'first_name -> d.firstName.get,
+          'middle_name -> d.middleName.get,
+          'last_name -> d.lastName.get,
+          'dentist_id -> d.dentistId.get,
+          'contact_no -> d.contactNo.get,
+          'address -> d.address.get,
+          'status -> d.status.get,
+          'date_start -> d.dateStart.get,
+          'date_end -> d.dateEnd.get
         ).executeUpdate()
         AuditLogService.logTaskAppointment(d, currentUser, task)
     }
@@ -248,7 +249,7 @@ object AppointmentService extends Secured {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-      //  AuditLogService.logTask(id, currentUser, task)
+       AuditLogService.logTaskOther(id, currentUser, task)
     }
   }
 

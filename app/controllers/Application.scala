@@ -38,9 +38,9 @@ object Application extends Controller{
       Ok(views.html.login(loginForm))
   }
 
-  def link = Action {
+  def countdown = Action {
     implicit request =>
-      Ok(views.html.settings.settings())
+      Ok(views.html.count_down(loginForm))
   }
 
   def authenticate = Action {
@@ -51,6 +51,7 @@ object Application extends Controller{
           val usrList = LoginService.authenticate(userList._1, userList._2).get
           Cache.set("user_name", usrList.username)
           Cache.set("role", usrList.role)
+          Cache.set("id", usrList.id)
           println(">>> Successfully logged in: " + usrList.username)
           Redirect(routes.Application.dashboard()).withSession(Security.username -> usrList.username)
         }
@@ -69,6 +70,7 @@ object Application extends Controller{
   def logout = Action {
     Cache.set("user_name", null)
     Cache.set("role", null)
+    Cache.set("id", null)
     Redirect(routes.Application.login).withNewSession
   }
 
@@ -112,5 +114,4 @@ object Application extends Controller{
   /*  def samplePdf(id: String): Result = {
     return PDF.ok(html.samplePdf.render)
   }*/
-
 }

@@ -34,6 +34,7 @@
             @helper.form(action = routes.Dentist.submitUpdateForm){
             <div class="field left">
                 <input type="hidden" name="id" value="@dl.id">
+                <input type="hidden" name="user_id" value="@dl.userId">
                 <ul>
                     <li>
                         <label>First Name:</label>
@@ -49,8 +50,8 @@
                         <input type="text" name="last_name" value="@dl.lastName">
                     </li>
                     <li>
-                        <label>Username:</label>
-                        <input type="text" name="user_name" value="@dl.userName">
+                        <label>Contact Number:</label>
+                        <input type="text" name="contact_no" value="@dl.contactNo">
                     </li>
                     <li>
                         <label>Password:</label>
@@ -69,12 +70,16 @@
                         <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.address</textarea>
                     </li>
                     <li>
-                        <label>Contact Number:</label>
-                        <input type="text" name="contact_no" value="@dl.contactNo">
-                    </li>
-                    <li>
                         <label>PRC No:</label>
                         <input type="text" name="prc_no" value="@dl.prcNo">
+                    </li>
+                    <li>
+                        <label>Username:</label>
+                        <input type="text" name="user_name" value="@dl.userName">
+                    </li>
+                    <li>
+                        <label>Password:</label>
+                        <input type="password" name="password" value="@dl.password">
                     </li>
                     <label>Specialization</label>
                     @for(sn <- dl.specializationName){
@@ -88,8 +93,12 @@
         </div>
     </div>
     <footer class="pane">
-        <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
+        @if((play.cache.Cache.get("id")) == dl.userId){
         <input type="submit" class="bt blue right" value="@Messages("button.update")">
+        } else {
+        <a href="#"></a>
+        }
+        <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
     </footer>
     }
     }

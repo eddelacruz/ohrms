@@ -1,6 +1,6 @@
 @(dentalServiceList: List[ws.services.DentalServiceList])
 
-@main("Dental Service") {
+@service("Dental Service") {
 <header class="grid_12 head">
     <h1>Dental Service</h1>
     <div class="clear"></div><span class="divider"></span>
@@ -77,7 +77,12 @@
 
 <footer class="pane">
     @dentalServiceList.map { ds =>
-    <a class="bt blue right" href="@routes.DentalService.getUpdateForm(ds.id)">@Messages("button.edit")</a>
+        @if((play.cache.Cache.get("role")) == 1) {
+        <a class="bt blue right" href="@routes.DentalService.getUpdateForm(ds.id)">@Messages("button.edit")</a>
+        } else {
+        <a href="#"></a>
+        }
+
     }
 </footer>
 </div>

@@ -27,11 +27,15 @@ object Announcement extends Controller with Secured {
     Ok(announcement.list(AnnouncementDelegate.searchAnnouncementList(start,count,filter)))
   }
 
-  def getList(start: Int, count: Int) = Action {
+  def getList(start: Int, count: Int) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(announcement.list(AnnouncementDelegate.getAnnouncementList(start,count)))
   }
 
-  def getAnnouncementListById(id: String) = Action {
+  def getAnnouncementListById(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(announcement.announcement_info(AnnouncementDelegate.getAnnouncementById(id)))
   }
 

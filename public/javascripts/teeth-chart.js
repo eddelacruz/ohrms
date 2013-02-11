@@ -23,6 +23,8 @@ $(function() {
         var $this = $(this);
         var $id = $this.attr('data-id');
         var $toolType = $this.attr('data-type');
+        var $price = $this.attr('data-price');
+        $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val($price);
 
         //populate services in dentist tool dialog box
         //retrieval of dental services
@@ -93,7 +95,7 @@ var tartar = '#CBA735';
 var violet = '#cb3594'
 
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, maskDataUrl;
-var imageObj2;
+var imageObj2, curPrice;
 
 var dentalServices = new Array();
 var toothWithService = new Array();
@@ -177,6 +179,76 @@ drawMQOutline();
 drawMROutline();
 drawMSOutline();
 drawMTOutline();
+
+drawF1Outline();
+drawF2Outline();
+drawF3Outline();
+drawF4Outline();
+drawF5Outline();
+drawF6Outline();
+drawF7Outline();
+drawF8Outline();
+drawF9Outline();
+drawF10Outline();
+drawF11Outline();
+drawF12Outline();
+drawF13Outline();
+drawF14Outline();
+drawF15Outline();
+drawF16Outline();
+
+drawM1Outline();
+drawM2Outline();
+drawM3Outline();
+drawM4Outline();
+drawM5Outline();
+drawM6Outline();
+drawM7Outline();
+drawM8Outline();
+drawM9Outline();
+drawM10Outline();
+drawM11Outline();
+drawM12Outline();
+drawM13Outline();
+drawM14Outline();
+drawM15Outline();
+drawM16Outline();
+
+drawM17Outline();
+drawM18Outline();
+drawM19Outline();
+drawM20Outline();
+drawM21Outline();
+drawM22Outline();
+drawM23Outline();
+drawM24Outline();
+drawM25Outline();
+drawM26Outline();
+drawM27Outline();
+drawM28Outline();
+drawM29Outline();
+drawM30Outline();
+drawM31Outline();
+drawM32Outline();
+
+drawF17Outline();
+drawF18Outline();
+drawF19Outline();
+drawF20Outline();
+drawF21Outline();
+drawF22Outline();
+drawF23Outline();
+drawF24Outline();
+drawF25Outline();
+drawF26Outline();
+drawF27Outline();
+drawF28Outline();
+drawF29Outline();
+drawF30Outline();
+drawF31Outline();
+drawF32Outline();
+
+
 
 //function to repaint the area just by entering the position
 
@@ -389,9 +461,12 @@ function setPaint(tooth, toolType, toolData) {
         var gum = "#"+tooth+".gum";
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
+        //price & dentist
+        var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
+        var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
-            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></canvas></div>");
         }
     };
 };
@@ -406,9 +481,12 @@ function setSymbol(tooth, toolType, toolData) {
         console.log("==========================> setSymbol: "+tooth);
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
+        //price
+        var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
+        var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
-            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"'></div>");
+            $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
                 console.log(">>> toothWithService"+toothWithService);

@@ -1524,7 +1524,7 @@ table.statistics .bar .progressbar {
 ================== */
 .field {
   margin-bottom: 15px;
-  position: relative;
+  /*position: relative;*/
 }
 .field input[type=text],
 .field select,
@@ -1906,7 +1906,7 @@ input.number {
 }
 /** colorpicker **/
 .colorpicker {
-  width: 100px !important;
+  /*width: 100px !important;*/
   text-transform: uppercase;
 }
 /** sliders **/
@@ -2280,6 +2280,16 @@ nav.jsubmenu .submenu li.last a {
 .form-details .field.left, .form-details .field.right {
   padding-left: 0;
   width: 50%;
+}
+.field.center textarea,
+.field.center label{
+  width: 95%;
+}
+.field.center.special textarea{
+  width: 98%;
+}
+.field.center label{
+  display: inline-block;
 }
 .patient-image {
   width: 160px;

@@ -1,0 +1,174 @@
+@(form: Form[(String,String)])
+
+<html class=" -webkit-">
+<head>
+    <meta charset="UTF-8">
+    <title>Sabertooth - @Messages("login.title")</title>
+    <link rel="shortcut icon" type="image/png" href='@routes.Assets.at("images/favicon.png")'>
+    <!-- JAVASCRIPTs -->
+    <!--[if lt IE 9]>
+    <script language="javascript" type="text/javascript" src="@routes.Assets.at("javascripts/jqPlot/excanvas.min.js")"></script>
+    <script language="javascript" type="text/javascript" src="@routes.Assets.at("javascripts/html5shiv.js")"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/reset.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/960.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/icons.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/tipsy.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/formalize.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/prettyPhoto.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery-ui-1.8.18.custom.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/chosen.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/ui.spinner.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery.jqplot.min.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/fullcalendar.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery.miniColors.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/elrte.min.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/elfinder.css")'>
+    <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.8.18.custom.min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.tipsy.js")'></script>
+    <!--<script src="@routes.Assets.at("javascripts/jquery.formalize.min.js")'></script>-->
+    <script src='@routes.Assets.at("javascripts/jquery.modal.js")'></script>
+    <script src='@routes.Assets.at("javascripts/prefixfree.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/datables/js/jquery.dataTables.min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.prettyPhoto.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.autogrowtextarea.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.easing.1.3.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.fileinput.js")'></script>
+    <script src='@routes.Assets.at("javascripts/chosen.jquery.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/ui.checkBox.js")'></script>
+    <script src='@routes.Assets.at("javascripts/ui.spinner.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.loading.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.path.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/jquery.jqplot.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.pieRenderer.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.cursor.min.js")'></script>
+    <!-- # -->
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.highlighter.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.dragable.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.dateAxisRenderer.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.ohlcRenderer.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.trendline.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.barRenderer.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jqPlot/plugins/jqplot.pointLabels.min.js")'></script>
+    <!-- /# -->
+    <script src='@routes.Assets.at("javascripts/fullcalendar.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.miniColors.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery.maskedinput-1.3.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/jquery-ui-timepicker-addon.js")'></script>
+    <script src='@routes.Assets.at("javascripts/elrte.min.js")'></script>
+    <script src='@routes.Assets.at("javascripts/elfinder.min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.validate.min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.metadata.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/main.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/demo.js")'></script>
+    <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/raphael-min.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>-->
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
+    <script type="text/javascript">
+        // set minutes
+        var mins = 1;
+
+        // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+        var secs = mins * 60;
+        function countdown() {
+        setTimeout('Decrement()',1000);
+        }
+        function Decrement() {
+        if (document.getElementById) {
+        minutes = document.getElementById("minutes");
+        seconds = document.getElementById("seconds");
+        // if less than a minute remaining
+        if (seconds < 59) {
+        seconds.value = secs;
+        //if (mins == 0 & secs == 0){
+        //	stop;
+        //}
+        } else {
+        minutes.value = getminutes();
+        seconds.value = getseconds();
+        }
+        secs--;
+        setTimeout('Decrement()',1000);
+        }
+        }
+        function getminutes() {
+        // minutes is seconds divided by 60, rounded down
+        mins = Math.floor(secs / 60);
+        return mins;
+        }
+        function getseconds() {
+        // take mins remaining (as seconds) away from total seconds remaining
+        return secs-Math.round(mins *60);
+        }
+    </script>
+<body>
+<!-- show loading until the all page scripts are fully loaded and cached (use this only on login page) -->
+
+<script>document.getElementById('loading').style.display = 'block';</script>
+
+<!-- wrapper -->
+<div id="wrapper">
+
+    <section id="main">
+        <div class="container_12">
+            <div id="content" class="compact-page">
+                <div class="min">
+                    <div id="logo">
+                        <img src="@routes.Assets.at("images/Logo4.png")" alt="logo">
+                    </div>
+                    <div class="main-box">
+                        @helper.form(routes.Application.authenticate) {
+
+                        <form action="dashboard.php" class="jmenu">
+                            <header class="head">
+                                <h1>Login</h1>
+                                <div class="clear"></div><span class="divider"></span>
+                            </header>
+                            <div class="field fullwidth iconized">
+                                <label class="glyph user" for="user_name" style="left: 23px;padding-top: 8px;"></label>
+                                <input type="text" disabled="disable" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
+                            </div>
+                            <div class="field fullwidth iconized">
+                                <label class="glyph closed-lock" for="password" style="left: 23px;padding-top: 8px;"></label>
+                                <input type="password" disabled="disable"  placeholder="Password" name="password" id="password" value="@form("password").value">
+                            </div>
+
+                            <span class="divider"></span>
+
+                            <div class="field fullwidth last">
+                                <input type="submit" disabled="disable" class="bt blue large" value="Login">
+                            </div>
+                            <div id="timer">
+                                Just wait  <input id="minutes" type="text" style="width: 14px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> minutes and <input id="seconds" type="text" style="width: 26px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> seconds.
+                            </div>
+                            <script>
+                                countdown();
+                            </script>
+                        </form>
+                    </div>
+
+                    <div class="extension-wrap-center">
+
+                    </div>
+                </div>
+                @form.globalError.map { error =>
+                <div class="alert grey air" style="opacity: 0.85;">
+                    <p><strong>Sorry!</strong> Invalid username or password.</p>
+                    <a class="close" href="#">close</a>
+                </div>
+                </font>
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+}
+<!-- /wrapper -->
+
+</body>
+</html>

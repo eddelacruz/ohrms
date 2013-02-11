@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  */
 
 
-case class StaffList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
+case class StaffList(var id: String, userId: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
 
 object StaffService {
 
@@ -30,6 +30,7 @@ object StaffService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -46,6 +47,7 @@ object StaffService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -53,7 +55,7 @@ object StaffService {
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ j => StaffList(a, b, c, d, e, f, g, h, j, Some(""))
           } *
         }
         staffList
@@ -68,6 +70,7 @@ object StaffService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -87,6 +90,7 @@ object StaffService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -94,7 +98,7 @@ object StaffService {
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ j => StaffList(a, b, c, d, e, f, g, h, j, Some(""))
           } *
         }
         staffList
@@ -108,6 +112,7 @@ object StaffService {
           """
             |select
             |d.id,
+            |d.user_id,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -124,6 +129,7 @@ object StaffService {
             |ORDER BY d.last_name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
+            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -132,7 +138,7 @@ object StaffService {
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") ~
             get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j=> StaffList(a, b, c, d, e, f, g, h, i, j)
           } *
         }
         staffList
@@ -168,7 +174,7 @@ object StaffService {
             |password = {password}
             |where id = {id}
           """.stripMargin).on(
-          'id -> d.id,
+          'id -> d.userId,
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,
@@ -283,7 +289,7 @@ object StaffService {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-      // AuditLogService.logTask(id, currentUser, task)
+       AuditLogService.logTask(id, currentUser, task)
     }
   }
 

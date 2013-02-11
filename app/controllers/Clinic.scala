@@ -1,6 +1,8 @@
 package controllers
 
 import play.api._
+import cache.Cache
+import play.api.Play.current
 import data.Form
 import data.Forms._
 import play.api.mvc._
@@ -27,11 +29,15 @@ object Clinic extends Controller with Secured {
     Ok(clinic.list(ClinicDelegate.searchClinicList(start,count,filter)))
   }
 
-  def getList(start: Int, count: Int) = Action {
+  def getList(start: Int, count: Int) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(clinic.list(ClinicDelegate.getClinicList(start,count)))
   }
 
-  def getClinicListById(id: String) = Action {
+  def getClinicListById(id: String) = IsAuthenticated {
+    username =>
+      implicit request =>
     Ok(clinic.clinic_info(ClinicDelegate.getClinicById(id)))
   }
 
@@ -39,7 +45,10 @@ object Clinic extends Controller with Secured {
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(clinic.update(ClinicService.getClinicListById(id)))
+        Cache.get("role") match {
+          case Some(1) => Ok(clinic.update(ClinicService.getClinicListById(id)))
+          case _ => Redirect("/clinic/"+id)
+        }
   }
 
   def submitUpdateForm = Action {
@@ -63,7 +72,11 @@ object Clinic extends Controller with Secured {
   def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(clinic.add())
+        Cache.get("role") match {
+          case Some(1) => Ok(clinic.add())
+          case _ => Redirect("/clinic")
+        }
+
   }
 
   def submitAddForm = Action {

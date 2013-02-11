@@ -1,0 +1,52 @@
+@main(Messages("specialization.title")){
+
+<!-- Add specialization -->
+<header class="grid_12 head center">
+    <h1>@Messages("specialization.add.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav style="display:none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="center">
+                <div class="form-details">
+                    @helper.form(action = routes.Specialization.submitAddForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="">
+                      <!--TO DO DENTIST LIST-->
+                        <input type="hidden" name="dentist_id" value="abc8ecdd-33c9-4aaf-aa30-9d77419aeb11">
+                        <ul>
+                            <li>
+                                <label class="upper">Specialization:</label>
+                                <input type="text" name="name">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="@Messages("button.add")">
+            </footer>
+            }
+        </div>
+    </div>
+</div>
+<!-- /Add specialization-->
+}

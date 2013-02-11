@@ -58,7 +58,6 @@
     text-align: center;
     margin-right: auto;
     margin-left: auto;
-    height: 600px;
 }
 .ui-dialog.ui-widget.ui-widget-content.ui-corner-all.ui-draggable.ui-resizable{
     font-size: 110%;
@@ -69,12 +68,14 @@
 button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only{
     margin-bottom: 5px;
 }
-.mouth.child{
-    width: 700px;
+.mouth.child,
+.mouth.adult{
+    width: 750px;
     display: inline-block;
     text-align: center;
 }
-.mouth.child>div{
+.mouth.child>div,
+.mouth.adult>div{
     display: inline-block;
 }
 #dentistToolsButton{
