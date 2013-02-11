@@ -5,6 +5,7 @@
 
 GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
+GET     /timer                         controllers.Application.countdown
 GET     /logout                     controllers.Application.logout
 GET     /settings                         controllers.Settings.settings
 GET     /dashboard                  controllers.Application.dashboard
