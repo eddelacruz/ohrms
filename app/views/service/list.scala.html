@@ -43,7 +43,6 @@
                                 <option value="Prosthodontics">Prosthodontics</option>
                             </select>
                         </li>
-                        <input type="hidden" name="image" value="anon-160x160.jpg"/>
                     </ul>
                 </div>
                 <div class="field right">
@@ -81,8 +80,12 @@
                             <a href="#" class="bt blue close center back"><span class="glyph back-2"></span><span class="glyph back-2"></span></a>
                         </div>
 
-                        <select class="special services-allowed" multiple>
+                        <select class="special services-banned" multiple>
                         </select>
+
+                        <div class="services-banned">
+
+                        </div>
                     </div>
                     <!--<textarea class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>-->
                     <!--<blockquote>Banned Services column, sets the services that only alowed to be mix with.</blockquote>-->
@@ -91,9 +94,10 @@
         </div>
         @if((play.cache.Cache.get("role")) == 1) {
         <footer class="pane">
-            <input id="addButtonModal" type="submit" class="bt blue right close" value="@Messages("button.add")">
+            <input id="addServiceButton" type="submit" class="bt blue right close" value="@Messages("button.add")">
         </footer>
         }
+        </form>
         }
     </div>
 </div>

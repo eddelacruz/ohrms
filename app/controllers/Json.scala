@@ -384,14 +384,26 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def submitDentalServiceAddForm = Action {
     implicit request =>
-      val id = ""
+      var index = 0
+      val id = UUIDGenerator.generateUUID("dental_services")
       val name = request.body.asFormUrlEncoded.get("name").headOption
       val code = request.body.asFormUrlEncoded.get("code").headOption
       val sType = request.body.asFormUrlEncoded.get("type").headOption
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val dl = DentalServiceList("", name, code, sType, Some(target.get.toInt), price, color)
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
+
+      try {
+        while (request.body.asFormUrlEncoded.get("banned_service["+index+"]").head != null) {
+          val b = request.body.asFormUrlEncoded.get("banned_service["+index+"]").head
+          ServicesService.addBannedService(id, b)
+          index+=1
+        }
+      } catch {
+        case e: Exception =>
+          println("----->>>>> (END OF ITERATION OF "+index+" BANNED_SERVICE) <<<<<-----")
+      }
 
       if (ServicesService.addDentalService(dl) >= 1) {
         Redirect("/dental_services")
@@ -536,7 +548,13 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def getBannedServicesByServiceCode(serviceCode: String) = Action {
     implicit request =>
-      Ok(JsObject(Seq("AppointmentList" -> toJson(ServicesService.getBannedServicesByServiceCode(serviceCode)))))
+      Ok(JsObject(Seq("DentalServiceList" -> toJson(ServicesService.getBannedServicesByServiceCode(serviceCode)))))
+  }
+
+  def submitBannedServicesAddForm = Action {
+    implicit request =>
+      val a:Seq[String] = request.body.asFormUrlEncoded.get.get("Banned_Services[]").head
+      Status(200)
   }
 
   def getAllDentalServices = Action {
