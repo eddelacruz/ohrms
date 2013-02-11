@@ -39,7 +39,6 @@ object Announcement extends Controller with Secured {
     Ok(announcement.announcement_info(AnnouncementDelegate.getAnnouncementById(id)))
   }
 
-
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>

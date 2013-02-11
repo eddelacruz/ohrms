@@ -18,7 +18,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class AnnouncementList(var id: String, userName: Option[String], announcement: Option[String], dateCreated: Option[String])
+case class AnnouncementList(var id: String, username: Option[String], description: Option[String], dateCreated: Option[String])
 
 object AnnouncementService {
 
@@ -55,7 +55,7 @@ object AnnouncementService {
             |select
             |a.id,
             |u.user_name,
-            |a.announcement,
+            |a.description,
             |a.date_created
             |from
             |announcements a
@@ -66,12 +66,45 @@ object AnnouncementService {
           """.stripMargin).on('start -> start, 'count -> count).as {
             get[String]("id") ~
             get[Option[String]]("user_name") ~
-            get[Option[String]]("announcement") ~
+            get[Option[String]]("description") ~
             get[Option[Date]]("date_created") map {
             case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
         }
         announcementList
+    }
+  }
+
+
+  def getAnnouncementsToday = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |a.id,
+            |u.user_name,
+            |a.description,
+            |a.date_created
+            |from
+            |announcements a
+            |INNER JOIN users u
+            |where
+            |  DATE(date_created) = DATE({date_created})
+            |or
+            |DATE(date_end) = DATE({date_only})
+            |ON a.user_id = u.id
+            |ORDER BY date_created asc
+            |LIMIT {start}, {count}
+          """.stripMargin
+        ).on('date_only -> DateWithTime.dateOnly).as {
+            get[String]("id") ~
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("description") ~
+            get[Option[Date]]("date_created") map {
+            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
+            } *
+        }
     }
   }
 
@@ -83,7 +116,7 @@ object AnnouncementService {
             |select
             |a.id,
             |u.user_name,
-            |a.announcement,
+            |a.description,
             |a.date_created
             |from
             |announcements a
@@ -94,7 +127,7 @@ object AnnouncementService {
           """.stripMargin).on('id -> id).as {
             get[String]("id") ~
             get[Option[String]]("user_name") ~
-            get[Option[String]]("announcement") ~
+            get[Option[String]]("description") ~
             get[Option[Date]]("date_created") map {
             case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
@@ -111,7 +144,7 @@ object AnnouncementService {
             |select
             |a.id,
             |u.user_name,
-            |a.announcement,
+            |a.description,
             |a.date_created
             |from
             |announcements a
@@ -146,12 +179,12 @@ object AnnouncementService {
             |(
             |{id},
             |{user_id},
-            |{announcement},
+            |{description},
             |{date_created})
           """.stripMargin).on(
           'id -> d.id,
           'user_id -> currentUser,
-          'announcement -> d.announcement,
+          'description -> d.description,
           'date_created -> d.dateCreated
         ).executeUpdate()
       AuditLogService.logTaskAnnouncement(d, currentUser, task)
@@ -168,13 +201,13 @@ object AnnouncementService {
           """
             |UPDATE appointments SET
             |user_id = {user_name},
-            |announcement = {announcement},
+            |description = {description},
             |date_created = {date_created}
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
           'user_name -> currentUser,
-          'announcement -> p.announcement,
+          'description -> p.description,
           'date_created -> p.dateCreated
         ).executeUpdate()
        AuditLogService.logTaskAnnouncement(p, currentUser, task)
