@@ -64,6 +64,12 @@ announcement.add.title=Add Announcement
 announcement.update.title=Update Announcement
 announcement.profile.title=Profile
 
+specialization.title=Specialization
+specialization.list.title=Specialization List
+specialization.add.title=Add Specialization
+specialization.update.title=Update Specialization
+specialization.profile.title=Profile
+
 treatments.title=Treatments
 
 login.title=Login

@@ -32,7 +32,7 @@ object DentistDelegate extends WsHelper{
       "image" -> optional(text) ,
       "user_name" -> optional(text),
       "password" -> optional(text),
-      "service_name" -> optional(seq(text))
+      "specialization_name" -> optional(seq(text))
     )(DentistList.apply)(DentistList.unapply)
   )
 

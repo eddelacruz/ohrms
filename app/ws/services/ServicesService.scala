@@ -171,9 +171,9 @@ object ServicesService {
             |{tool_type},
             |{price},
             |{color},
-            |{status},
             |{date_created},
-            |{date_last_updated}
+            |{date_last_updated},
+            |{status}
             |);
           """.stripMargin).on(
           'id -> d.id,
@@ -183,10 +183,10 @@ object ServicesService {
           'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
-          'status -> 1,
           'date_created -> DateWithTime.dateNow,
-          'date_last_updated -> DateWithTime.dateNow
-        ).executeUpdate()
+          'date_last_updated -> DateWithTime.dateNow,
+          'status -> 1
+      ).executeUpdate()
        AuditLogService.logTaskServices(d, currentUser, task)
     }
 

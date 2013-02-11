@@ -174,14 +174,13 @@ object StaffService {
             |password = {password}
             |where id = {id}
           """.stripMargin).on(
-          'id -> d.id,
+          'id -> d.userId,
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTaskStaff(d, currentUser, task)
     }
     DB.withConnection {
       implicit c =>

@@ -78,6 +78,7 @@ object DentalService extends Controller with Secured{
 
   def submitAddForm = Action {
     implicit request =>
+      println(request.body)
       DentalServiceDelegate._dentalServiceProfileForm.bindFromRequest.fold(
         formWithErrors => {
           println("Form errors: "+formWithErrors.errors)

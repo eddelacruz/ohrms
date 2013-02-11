@@ -89,7 +89,7 @@ object StaffDelegate extends WsHelper{
 
   def submitUpdateStaffForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/staffs/update", params)
-    println()
+    println(params)
     println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
   }

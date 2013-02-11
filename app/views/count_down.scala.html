@@ -68,7 +68,43 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>-->
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
-</head>
+    <script type="text/javascript">
+        // set minutes
+        var mins = 1;
+
+        // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
+        var secs = mins * 60;
+        function countdown() {
+        setTimeout('Decrement()',1000);
+        }
+        function Decrement() {
+        if (document.getElementById) {
+        minutes = document.getElementById("minutes");
+        seconds = document.getElementById("seconds");
+        // if less than a minute remaining
+        if (seconds < 59) {
+        seconds.value = secs;
+        //if (mins == 0 & secs == 0){
+        //	stop;
+        //}
+        } else {
+        minutes.value = getminutes();
+        seconds.value = getseconds();
+        }
+        secs--;
+        setTimeout('Decrement()',1000);
+        }
+        }
+        function getminutes() {
+        // minutes is seconds divided by 60, rounded down
+        mins = Math.floor(secs / 60);
+        return mins;
+        }
+        function getseconds() {
+        // take mins remaining (as seconds) away from total seconds remaining
+        return secs-Math.round(mins *60);
+        }
+    </script>
 <body>
 <!-- show loading until the all page scripts are fully loaded and cached (use this only on login page) -->
 
@@ -94,18 +130,24 @@
                             </header>
                             <div class="field fullwidth iconized">
                                 <label class="glyph user" for="user_name" style="left: 23px;padding-top: 8px;"></label>
-                                <input type="text" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
+                                <input type="text" disabled="disable" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
                             </div>
                             <div class="field fullwidth iconized">
                                 <label class="glyph closed-lock" for="password" style="left: 23px;padding-top: 8px;"></label>
-                                <input type="password" placeholder="Password" name="password" id="password" value="@form("password").value">
+                                <input type="password" disabled="disable"  placeholder="Password" name="password" id="password" value="@form("password").value">
                             </div>
 
                             <span class="divider"></span>
 
                             <div class="field fullwidth last">
-                                <input type="submit" class="bt blue large" value="Login">
+                                <input type="submit" disabled="disable" class="bt blue large" value="Login">
                             </div>
+                            <div id="timer">
+                                Just wait  <input id="minutes" type="text" style="width: 14px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> minutes and <input id="seconds" type="text" style="width: 26px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> seconds.
+                            </div>
+                            <script>
+                                countdown();
+                            </script>
                         </form>
                     </div>
 
@@ -114,11 +156,11 @@
                     </div>
                 </div>
                 @form.globalError.map { error =>
-                    <div class="alert grey air" style="opacity: 0.85;">
-                        <p><strong>Sorry!</strong> Invalid username or password.</p>
-                        <a class="close" href="#">close</a>
-                    </div>
-            </font>
+                <div class="alert grey air" style="opacity: 0.85;">
+                    <p><strong>Sorry!</strong> Invalid username or password.</p>
+                    <a class="close" href="#">close</a>
+                </div>
+                </font>
                 }
             </div>
         </div>

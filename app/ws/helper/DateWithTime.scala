@@ -12,7 +12,8 @@ import org.joda.time._
 object DateWithTime {
 
   def dateNow: String = {
-    DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" "+DateTime.now.getHourOfDay+":"+DateTime.now.getMinuteOfHour+":"+DateTime.now.getSecondOfMinute
+    //var a = new DateTime.parse(DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" "+DateTime.now.getHourOfDay+":"+DateTime.now.getMinuteOfHour+":"+DateTime.now.getSecondOfMinute
+    DateTime.now.toDateTimeISO.toLocalDate.toString+" "+DateTime.now.toDateTimeISO.toLocalTime.toString
   }
 
   def dateNowAllDay: String = {

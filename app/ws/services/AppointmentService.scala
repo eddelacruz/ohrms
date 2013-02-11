@@ -139,7 +139,7 @@ object AppointmentService extends Secured {
             |order by date_start asc;
           """.stripMargin
         ).on('date_only -> DateWithTime.dateOnly).as {
-          get[String]("id") ~
+            get[String]("id") ~
             get[Option[String]]("description") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
@@ -191,7 +191,7 @@ object AppointmentService extends Secured {
           'contact_no -> d.contactNo,
           'address -> d.address,
           'status -> d.status,
-          'date_start -> d.dateEnd,
+          'date_start -> d.dateStart,
           'date_end -> d.dateEnd
         ).executeUpdate()
         AuditLogService.logTaskAppointment(d, currentUser, task)
