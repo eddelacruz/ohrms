@@ -156,7 +156,7 @@ object ServicesService {
   def addDentalService(d: DentalServiceList): Long = {
     val currentUser = getUserId
     val task = "Add"
-    d.id = UUIDGenerator.generateUUID("dental_services")
+    //d.id = UUIDGenerator.generateUUID("dental_services")
     DB.withConnection {
       implicit c =>
         SQL(
@@ -189,7 +189,24 @@ object ServicesService {
       ).executeUpdate()
        AuditLogService.logTaskServices(d, currentUser, task)
     }
+  }
 
+  def addBannedService(id: String, service: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO banned_dental_services
+            |VALUES
+            |(
+            |{id},
+            |{dental_service_id}
+            |);
+          """.stripMargin).on(
+          'id -> id,
+          'dental_service_id -> service
+      ).executeUpdate()
+    }
   }
 
   def updateDentalService(d: DentalServiceList): Long = {
@@ -222,12 +239,12 @@ object ServicesService {
     }
   }
 
-  def getBannedServicesByServiceCode(serviceCode: String): List[String] = {
+  def getBannedServicesByServiceCode(serviceId: String): List[String] = {
     DB.withConnection {
       implicit c =>
         SQL(
           """
-            |select code from dental_services
+            |select id from dental_services
             |where
             |    id IN
             |(select
@@ -237,10 +254,12 @@ object ServicesService {
             |left outer join
             |	banned_dental_services as bds ON ds.id = bds.id
             |where
-            |	ds.code = {service_code})
-          """.stripMargin).on('service_code -> serviceCode)().map( row => row[String]("code")).toList
+            |	ds.id = {service_id})
+          """.stripMargin).on('service_id -> serviceId)().map( row => row[String]("id")).toList
     }
   }
+
+
 
   def getAllDentalServices(): List[DentalServiceList] = {
     DB.withConnection {

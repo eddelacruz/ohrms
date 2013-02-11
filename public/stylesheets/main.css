@@ -2258,6 +2258,12 @@ nav.jsubmenu .submenu li.last a {
 .form-details select{
   width: 90%;
 }
+.form-details select.special{
+  width: 44%;
+}
+.form-details .button-set{
+  display: inline-block;
+}
 .form-details .form-label {
   background: #fff;
   background: -webkit-linear-gradient(top, #ffffff, #f0f0f0);
@@ -2335,3 +2341,4 @@ div.mode-1{
 #printButton{
 display: none !important;
 }
+
