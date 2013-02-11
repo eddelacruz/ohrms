@@ -503,7 +503,7 @@ object DentistService {
     }
   }
 
-  def updateSpecialization(d: SpecializationList): Long = {
+  def updateSpecialization(s: SpecializationList): Long = {
     val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
@@ -515,11 +515,11 @@ object DentistService {
             |dentist_id = {dentistId}
             |WHERE id = {id};
           """.stripMargin).on(
-          'id -> d.id,
-          'dentistId ->d.dentistId,
-          'name -> d.name
+          'id -> s.id,
+          'dentistId -> s.dentistId,
+          'name -> s.name
         ).executeUpdate()
-        AuditLogService.logTaskSpecialization(d, currentUser, task)
+        AuditLogService.logTaskSpecialization(s, currentUser, task)
     }
 
   }
