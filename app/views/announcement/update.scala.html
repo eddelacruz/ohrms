@@ -34,14 +34,14 @@
                     @helper.form(action = routes.Announcement.submitUpdateForm){
 
                         <input type="hidden" name="id" value="@dl.id">
-                        <input type="hidden" name="user_name" value="@dl.userName">
+                        <input type="hidden" name="username" value="@dl.username">
                         <label>Announcement:</label>
-                          <textarea id="textarea-input-grow" class="autogrow" name="announcement" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.announcement</textarea>
+                          <textarea id="textarea-input-grow" class="autogrow" name="announcement" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
 
                     <div class="field left">
                             <li>
                                 <label>Date:</label>
-                                <input type="text" name="date_created" value="@dl.dateCreated">
+                                <input type="text" name="date_created" required = "required" value="@dl.dateCreated">
                             </li>
                     </div>
 

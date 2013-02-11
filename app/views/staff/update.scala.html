@@ -37,19 +37,19 @@
                         <ul>
                             <li>
                                 <label class="upper">First Name:</label>
-                                <input type="text" name="first_name" value="@sl.firstName">
-                            </li>
-                            <li>
-                                <label class="upper">Last Name:</label>
-                                <input type="text" name="last_name" value="@sl.lastName">
+                                <input type="text" required = "required" name="first_name" value="@sl.firstName">
                             </li>
                             <li>
                                 <label class="upper">Middle Name:</label>
                                 <input type="text" name="middle_name" value="@sl.middleName">
                             </li>
                             <li>
+                                <label class="upper">Last Name:</label>
+                                <input type="text" required = "required" name="last_name" value="@sl.lastName">
+                            </li>
+                            <li>
                                 <label class="upper">Position:</label>
-                                <input type="text" name="position" value="@sl.position">
+                                <input type="text" required = "required" name="position" value="@sl.position">
                             </li>
                         </ul>
                     </div>
@@ -58,20 +58,20 @@
 
                             <li>
                                 <label>Contact No:</label>
-                                <input type="text" name="contact_no" value="@sl.contactNo">
+                                <input type="text" name="contact_no" required="required" value="@sl.contactNo">
 
                             </li>
                             <li>
                                 <label>Address:</label>
-                                <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
+                                <textarea id="textarea-input-grow" class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
                             </li>
                             <li>
                                 <label>Username:</label>
-                                <input type="text" name="user_name" value="@sl.userName">
+                                <input type="text" name="user_name" required="required" value="@sl.userName">
                             </li>
                             <li>
                                 <label>Password:</label>
-                                <input type="password" name="password" value="@sl.password">
+                                <input type="password" name="password" required="required" value="@sl.password">
                             </li>
                         </ul>
                     </div>

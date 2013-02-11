@@ -102,6 +102,11 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementList(start, count)))))
   }
 
+  def getAllAnnouncementsToday = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementsToday))))
+  }
+
   def searchAnnouncementList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.searchAnnouncementList(start, count, filter)))))
   }
@@ -294,20 +299,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val password = request.body.asFormUrlEncoded.get("password").headOption
       val dl = DentistList(id, "", firstName, middleName, lastName, address, contactNo, prcNo, image, userName, password, Some(specializationList))
 
-      /*var index = 0
-      if (DentistService.addDentist(dl) >= 1) {
-        try{
-          while (request.body.asFormUrlEncoded.get("specializationName["+index+"]") != null) {
-            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption
-            val dentistId = dl.id
-            val sl = new SpecializationList("",dentistId, Some(specializationName.get))
-            index += 1
-            DentistService.addSpecialization(sl)
-          }
-        } catch {
-          case e: Exception =>
-            println("----->>>>> (END OF ITERATION OF SPECIALIZATION) <<<<<-----")
-        }
+      var index = 0
+      /*if (DentistService.addDentist(dl) >= 1) {*/
+        /*
         Redirect("/dentists")
         Status(200)
       } else {
@@ -315,6 +309,17 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
         Status(500)
       }*/
       if (DentistService.addDentist(dl) >= 1) {
+        try{
+          while (request.body.asFormUrlEncoded.get("specializationName["+index+"]") != null) {
+            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption
+            val sl = SpecializationList("", dl.id, specializationName.get)
+            DentistService.addSpecialization(sl)
+            index += 1
+          }
+        } catch {
+          case e: Exception =>
+            println("----->>>>> (END OF ITERATION OF "+index+" SPECIALIZATION) <<<<<-----")
+        }
         Redirect("/dentists")
         Status(200)
       } else {

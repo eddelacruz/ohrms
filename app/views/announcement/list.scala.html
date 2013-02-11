@@ -53,8 +53,8 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @announcementList.map { dl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Announcement.getAnnouncementListById(dl.id)">@dl.announcement</a></td>
-                    <td class=" ">@dl.userName</td>
+                    <td class="  sorting_1"><a href="@routes.Announcement.getAnnouncementListById(dl.id)">@dl.description</a></td>
+                    <td class=" ">@dl.username</td>
                     <td class=" ">@dl.dateCreated</td>
                 </tr>
                 }

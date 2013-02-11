@@ -323,7 +323,6 @@ object DentistService {
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-     // AuditLogService.logTaskDentist(d, currentUser, task)
     }
     DB.withTransaction {
       implicit c =>
@@ -366,7 +365,30 @@ object DentistService {
   def deleteDentist(id: String): Long = {
     val currentUser = getUserId
     val task = "Delete"
-    println("pumasok dito")
+    var userId = ""
+    DB.withConnection {
+      implicit c =>
+        userId = SQL(
+          """
+            |SELECT `user_id` from `ohrms`.`dentists`
+            |where
+            |`id` = {id};
+          """.stripMargin).on('id -> id).as(get[String]("id")).apply().head
+    }
+    println(">>>>>>>>>>>>>>>>>>>."+userId);
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE `ohrms`.`users`
+            |SET
+            |`status` = {status}
+            |WHERE id = {user_id};
+          """.stripMargin).on(
+          'user_id -> userId,
+          'status -> 0
+        ).executeUpdate()
+    }
     DB.withConnection {
       implicit c =>
         SQL(
@@ -380,7 +402,7 @@ object DentistService {
           'status -> 0,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTaskDeleteDentist(id, currentUser, task)
     }
   }
 
@@ -504,7 +526,7 @@ object DentistService {
     }
   }
 
-  def updateSpecialization(d: SpecializationList): Long = {
+  def updateSpecialization(s: SpecializationList): Long = {
     val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
@@ -516,11 +538,11 @@ object DentistService {
             |dentist_id = {dentistId}
             |WHERE id = {id};
           """.stripMargin).on(
-          'id -> d.id,
-          'dentistId ->d.dentistId,
-          'name -> d.name
+          'id -> s.id,
+          'dentistId -> s.dentistId,
+          'name -> s.name
         ).executeUpdate()
-        AuditLogService.logTaskSpecialization(d, currentUser, task)
+        AuditLogService.logTaskSpecialization(s, currentUser, task)
     }
 
   }
@@ -540,7 +562,7 @@ object DentistService {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-        AuditLogService.logTask(id, currentUser, task)
+        AuditLogService.logTaskDeleteSpecialization(id, currentUser, task)
     }
   }
 

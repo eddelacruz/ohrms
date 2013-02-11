@@ -30,38 +30,15 @@
                 <ul>
                     <li>
                         <label class="upper">Service Name:</label>
-                        <input type="text" name="name" value="@dl.name">
+                        <input type="text" name="name" required = "required" value="@dl.name">
                     </li>
                     <li>
                         <label>Code:</label>
-                        <input type="text" name="code" value="@dl.code">
+                        <input type="text" name="code" required = "required" value="@dl.code">
                     </li>
                     <li>
                         <label>Type:</label>
-                        <select name="type">
-                            @{dl.sType match {
-                                case Some("General Dentistry") => {
-                                    <option value="General Dentistry" selected="selected">General Dentistry</option>
-                                    <option value="Orthodontics">Orthodontics</option>
-                                    <option value="Prosthodontics">Prosthodontics</option>
-                                }
-                                case Some("Orthodontics") => {
-                                    <option value="General Dentistry">General Dentistry</option>
-                                    <option value="Orthodontics" selected="selected">Orthodontics</option>
-                                    <option value="Prosthodontics">Prosthodontics</option>
-                                }
-                                case Some("Prosthodontics") => {
-                                    <option value="General Dentistry">General Dentistry</option>
-                                    <option value="Orthodontics">Orthodontics</option>
-                                    <option value="Prosthodontics" selected="selected">Prosthodontics</option>
-                                }
-                                case _ => {
-                                    <option value="General Dentistry">General Dentistry</option>
-                                    <option value="Orthodontics">Orthodontics</option>
-                                    <option value="Prosthodontics">Prosthodontics</option>
-                                }
-                            }}
-                        </select>
+                        <input type="text" name="type" required = "required" value="@dl.sType">
                     </li>
                 </ul>
             </div>
@@ -70,12 +47,12 @@
 
                     <li>
                         <label>Target:</label>
-                        <input type="text" name="target" value="@dl.toolType">
+                        <input type="text" name="target" required = "required" value="@dl.toolType">
 
                     </li>
                     <li>
                         <label>Price:</label>
-                        <input type="text" name="price" value="@dl.price">
+                        <input type="text" name="price" required = "required" value="@dl.price">
                     </li>
                     <li>
                         <label>Color:</label>

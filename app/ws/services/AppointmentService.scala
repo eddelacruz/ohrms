@@ -249,7 +249,7 @@ object AppointmentService extends Secured {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-       AuditLogService.logTaskOther(id, currentUser, task)
+       AuditLogService.logTaskDeleteAppointment(id, currentUser, task)
     }
   }
 

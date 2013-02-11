@@ -39,6 +39,7 @@ object Application extends Controller{
       Ok(html.reports.billy())
   }
 
+
   def login = Action {
     implicit request =>
       val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
