@@ -21,33 +21,33 @@
                     <ul>
                         <li>
                             <label class="upper">First Name:</label>
-                            <input type="text" name="first_name">
+                            <input type="text" name="first_name" required = "required">
                         </li>
                         <li>
                             <label>Middle Name:</label>
-                            <input type="text" name="middle_name">
+                            <input type="text" name="middle_name" >
                         </li>
                         <li>
                             <label>Last Name:</label>
-                            <input type="text" name="last_name">
+                            <input type="text" name="last_name" required = "required">
                         </li>
-                        <input type="hidden" name="image" value="anon-160x160.jpg"/>
+                        <input type="file" name="image" value="anon-160x160.jpg"/>
                     </ul>
                 </div>
                 <div class="field right">
                     <ul>
                         <li>
                             <label class="upper">Address:</label>
-                            <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                            <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
                         <li>
                             <label>Contact Number:</label>
-                            <input type="text" name="contact_no">
+                            <input type="text" name="contact_no" required = "required">
 
                         </li>
                         <li>
                             <label>Birthdate:</label>
-                            <input class="datepicker" type="text" name="date_of_birth" value="">
+                            <input class="datepicker" type="text" name="date_of_birth" value="" required = "required">
                             <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
                         </li>
                     </ul>
