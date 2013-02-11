@@ -119,8 +119,13 @@
                         <span class="glyph settings"></span>
                     </a>
                 </li>
+                <li>
+                    <a href="@routes.Application.logout()" class="tooltip" original-title="log out">
+                        <span class="glyph logout"></span>
+                    </a>
+                </li>
                 <li class="last">
-                    <a href="@routes.Application.logout()" class="tooltip" original-title="edit profile">
+                    <a href="#" class="tooltip" original-title="edit profile">
                         <span class="glyph user"></span>
                         <span class="text">@(play.cache.Cache.get("user_name"))</span>
                     </a>
@@ -136,7 +141,7 @@
     <div id="logo">
         <img src="@routes.Assets.at("images/logo.png")" alt="logo">
     </div>
-    <nav>
+    <!--<nav>
         <ul>
             <li class="first">
                 <a href="#addAppointmentModal" class="modal">
@@ -150,14 +155,14 @@
                     @Messages("patient.add.title")
                 </a>
             </li>
-            <!--<li class="last">
+            <li class="last">
                 <a href="#dentalChartModal" class="modal">
                     <span class="glyph open-in-new-window"></span>
                     @Messages("chart.title")
                 </a>
-            </li>-->
+            </li>
         </ul>
-    </nav>
+    </nav>-->
 </div>
 
 <div id="content">
@@ -169,9 +174,9 @@
 @modal._update_appointment_form()
 <!-- /UpdateAppointmentModal -->
 
-<!-- AddPatientModal -->
-@modal._add_patient()
-<!-- /AddPatientModal -->
+<!-- AddPatientModal
+modal._add_patient()
+/AddPatientModal -->
 
 <!-- DentalChartModal -->
 <!--<div class="box grid_12" id="dentalChartModal" hidden="">
@@ -216,7 +221,7 @@
 
 <footer>
     <div class="container_12">
-        <p>© Copyright 2012 - Sabertooth | Juan Tamad <a href="#" target="_blank">Sabertooth Technologies</a></p>
+        <p>© Copyright 2012 - Sabertooth Dental Clinic <a href="#" target="_blank">Sabertooth Technologies</a></p>
     </div>
 </footer>
 
