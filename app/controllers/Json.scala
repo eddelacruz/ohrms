@@ -265,7 +265,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
       val prcNo = request.body.asFormUrlEncoded.get("prc_no").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
-      val sn = request.body.asFormUrlEncoded.get("service_name").headOption
+      val sn = request.body.asFormUrlEncoded.get("specialization_name").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
       var specializationName: Option[Seq[String]] = Option(Seq(sn.get))

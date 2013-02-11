@@ -252,6 +252,24 @@ object DentistService {
       implicit c =>
         SQL(
           """
+            |UPDATE users SET
+            |user_name = {user_name},
+            |password = {password}
+            |where id = {id}
+          """.stripMargin).on(
+          'id -> d.id,
+          'user_name -> d.userName,
+          'password -> d.password,
+          'role -> 1,
+          'status -> 1,
+          'date_created -> DateWithTime.dateNow
+        ).executeUpdate()
+    }
+
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
             |UPDATE dentists SET
             |first_name = {first_name},
             |middle_name = {middle_name},

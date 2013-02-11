@@ -181,7 +181,6 @@ object StaffService {
           'status -> 1,
           'date_created -> DateWithTime.dateNow
         ).executeUpdate()
-        AuditLogService.logTaskStaff(d, currentUser, task)
     }
     DB.withConnection {
       implicit c =>
