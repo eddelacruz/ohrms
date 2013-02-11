@@ -37,7 +37,11 @@
                         </li>
                         <li>
                             <label>Service Type:</label>
-                            <input type="text" name="type">
+                            <select name="type">
+                                <option value="General Dentistry">General Dentistry</option>
+                                <option value="Orthodontics">Orthodontics</option>
+                                <option value="Prosthodontics">Prosthodontics</option>
+                            </select>
                         </li>
                     </ul>
                 </div>
@@ -63,7 +67,7 @@
                     </ul>
                 </div>
                 <div class="field center">
-                    <label>Allowed Services:</label>
+                    <label>Banned Services:</label>
                     <div>
                         <select class="special services-list" multiple>
                             @dentalServiceList.map { dsl =>

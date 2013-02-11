@@ -21,7 +21,6 @@
 </header>
 
 <div class="box-content">
-<div id="tab-1" class="tab">
     <div class="center">
         <div class="form-details">
             @dentalServiceList.map { dl =>
@@ -39,7 +38,30 @@
                     </li>
                     <li>
                         <label>Type:</label>
-                        <input type="text" name="type" value="@dl.sType">
+                        <select name="type">
+                            @{dl.sType match {
+                                case Some("General Dentistry") => {
+                                    <option value="General Dentistry" selected="selected">General Dentistry</option>
+                                    <option value="Orthodontics">Orthodontics</option>
+                                    <option value="Prosthodontics">Prosthodontics</option>
+                                }
+                                case Some("Orthodontics") => {
+                                    <option value="General Dentistry">General Dentistry</option>
+                                    <option value="Orthodontics" selected="selected">Orthodontics</option>
+                                    <option value="Prosthodontics">Prosthodontics</option>
+                                }
+                                case Some("Prosthodontics") => {
+                                    <option value="General Dentistry">General Dentistry</option>
+                                    <option value="Orthodontics">Orthodontics</option>
+                                    <option value="Prosthodontics" selected="selected">Prosthodontics</option>
+                                }
+                                case _ => {
+                                    <option value="General Dentistry">General Dentistry</option>
+                                    <option value="Orthodontics">Orthodontics</option>
+                                    <option value="Prosthodontics">Prosthodontics</option>
+                                }
+                            }}
+                        </select>
                     </li>
                 </ul>
             </div>
@@ -57,9 +79,8 @@
                     </li>
                     <li>
                         <label>Color:</label>
-                        <input type="text" name="color" value="@dl.color">
                         <div class="field small">
-                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" value="@dl.color" style="padding-right: 35px;">
                         </div>
                     </li>
                 </ul>
@@ -72,7 +93,6 @@
     </footer>
     }
     }
-</div>
 </div>
 </div>
 }
