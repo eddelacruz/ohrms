@@ -154,7 +154,7 @@ object AnnouncementService {
           'announcement -> d.announcement,
           'date_created -> d.dateCreated
         ).executeUpdate()
-       // AuditLogService.logTaskAnnouncement(d, currentUser, task)
+      AuditLogService.logTaskAnnouncement(d, currentUser, task)
     }
   }
 
@@ -177,7 +177,7 @@ object AnnouncementService {
           'announcement -> p.announcement,
           'date_created -> p.dateCreated
         ).executeUpdate()
-       // AuditLogService.logTaskAnnouncement(p, currentUser, task)
+       AuditLogService.logTaskAnnouncement(p, currentUser, task)
     }
   }
 
@@ -193,7 +193,7 @@ object AnnouncementService {
           """.stripMargin).on(
           'id -> id
         ).executeUpdate()
-        AuditLogService.logTaskOther(id, currentUser, task)
+        AuditLogService.logTaskDeleteAnnouncement(id, currentUser, task)
     }
   }
 }

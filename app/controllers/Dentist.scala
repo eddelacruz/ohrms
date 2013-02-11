@@ -82,7 +82,7 @@ object Dentist extends Controller with Secured{
           BadRequest
         },
         dentist => {
-          var params = request.body.asFormUrlEncoded.get
+          val params = request.body.asFormUrlEncoded.get
           DentistDelegate.submitAddDentistForm(params)
           Redirect("/dentists")
         }

@@ -157,11 +157,11 @@ object AppointmentService extends Secured {
   }
 
   def addAppointment(d: AppointmentList): Long = {
-    println(getUserId)
+    //println(getUserId)
     val currentUser = getUserId
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
-    println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
+    //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
         SQL(
@@ -199,7 +199,7 @@ object AppointmentService extends Secured {
   }
 
   def updateAppointment(d: AppointmentList): Long = {
-    println(getUserId)
+    //println(getUserId)
     val currentUser = getUserId
     val task = "Update"
     DB.withConnection {
@@ -249,7 +249,7 @@ object AppointmentService extends Secured {
           'id -> id,
           'status -> 0
         ).executeUpdate()
-       AuditLogService.logTaskOther(id, currentUser, task)
+       AuditLogService.logTaskDeleteAppointment(id, currentUser, task)
     }
   }
 

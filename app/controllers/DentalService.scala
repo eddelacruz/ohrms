@@ -45,7 +45,7 @@ object DentalService extends Controller with Secured{
       implicit request =>
         Cache.get("role") match {
           case Some(1) => Ok(service.update(DentalServiceDelegate.getDentalServiceInformationById(id)))
-          case _ => Redirect("/dental_services/"+id+"/information")
+          case _ => Redirect("/dental_services")
         }
   }
 
@@ -78,14 +78,13 @@ object DentalService extends Controller with Secured{
 
   def submitAddForm = Action {
     implicit request =>
-      println(request.body)
       DentalServiceDelegate._dentalServiceProfileForm.bindFromRequest.fold(
         formWithErrors => {
           println("Form errors: "+formWithErrors.errors)
           BadRequest
         },
         dentalService => {
-          var params = request.body.asFormUrlEncoded.get
+          val params = request.body.asFormUrlEncoded.get
           DentalServiceDelegate.submitAddDentalServiceForm(params)
           Redirect("/dental_services")
         }

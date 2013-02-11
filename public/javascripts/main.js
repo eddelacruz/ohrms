@@ -710,4 +710,75 @@ function res() {
             }
             ]
     });
+
+    //banned dental service
+    $('.field.center .button-set a.forward').click(function(e){
+        e.preventDefault();
+        var selected = $('select.special.services-list option:selected').attr('selected','selected');
+        $.each(selected, function(i, l){
+            $('.field.center select.services-banned').append(l);
+            //var v = $(l).val();
+            //var i = $('.field.center div.services-banned input').length;
+            //var n = 'banned_service['+i+']';
+            //$('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
+        });
+        $('.field.center select option').removeAttr('selected');
+    });
+
+    //back button
+    $('.field.center .button-set a.back').click(function(e){
+        e.preventDefault();
+        var selected = $('select.special.services-banned option:selected').attr('selected','selected');
+        $.each(selected, function(i, l){
+            $('.field.center select.services-list').append(l);
+            var v = $(l).val();
+            $('.field.center div.services-banned').remove('input[value="'+v+'"]');
+        });
+        $('.field.center select option').removeAttr('selected');
+    });
+
+    $('#addServiceButton').click(function(){
+
+        //alert("wo shixiao");
+        var selected = $('select.special.services-banned option').attr('selected','');
+        $.each(selected, function(i, l){
+            var v = $(l).val();
+            var i = $('.field.center div.services-banned input').length;
+            var n = 'banned_service['+i+']';
+            $('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
+        });
+        /*var bs = $('.field.center select.special.services-banned option');
+        var bannedServices = new Array();
+
+        $.each(bs, function(i, l){
+            bannedServices.push($(l).val());
+        });
+
+        */
+
+        /*$.ajax({
+            type: "POST",
+            //url: "/json/dental_services/banned_services",
+            url: "/json/dental_services",
+            dataType: "json",
+            data: {"Banned_Services" : bannedServices},
+            error: function(xhr, ajaxOptions, thrownError){
+                //alert(xhr.status);
+                //alert(thrownError);
+            },
+            beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+            },
+            success:  $.ajax({
+            type: "GET",
+            url: "/scheduler",
+            success: function(res) {
+                window.location = url;
+            }
+            })
+        })*/
+    });
+
 });

@@ -171,8 +171,10 @@ $(document).ready(function() {
                 appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
             }
             //TODO lagyan ng get hour at minutes
-            start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd hh:mm:ss');
-            end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd hh:mm:ss');
+            start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm:ss');
+            end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd HH:mm:ss');
+            /*alert("start"+start)
+            alert("end"+end)*/
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
@@ -218,17 +220,12 @@ $(document).ready(function() {
         eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
             //may babaguhin pa dito
 
-            event.start = new Date(Date.parse(event.end));
-
-            alert(event.end.getDate()+dayDelta);
-
             start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
             end = $.fullCalendar.formatDate(event.dateEnd, 'yyyy-MM-dd hh:mm:ss');
 
-            alert("allday?"+allDay);
-
-            alert("start"+start);
-            alert("end"+end);
+            //alert("allday?"+allDay);
+            //alert("start"+start);
+            //alert("end"+end);
 
             var json = new Object();
 

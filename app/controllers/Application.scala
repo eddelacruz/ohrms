@@ -2,6 +2,7 @@ package controllers
 
 import play.api._
 import cache.Cache
+import mvc.MultipartFormData.FilePart
 import play.api.Play.current
 import play.api.data._
 import play.api.data.Forms._
@@ -14,6 +15,7 @@ import views._
 import ws.services.LoginService
 import views.html.patient
 import ws.delegates.{PatientDelegate, AppointmentDelegate}
+import org.reflections.vfs.Vfs.File
 
 object Application extends Controller{
 
@@ -75,6 +77,26 @@ object Application extends Controller{
     Redirect(routes.Application.login).withNewSession
   }
 
+  def imageForm = Action {
+    implicit request =>
+      Ok(html.image_upload())
+  }
+
+  def upload = Action {
+    implicit request =>
+      println(request.body.asRaw.get.asFile)
+      /*map { picture =>
+      import java.io.File
+      val filename = picture.filename
+      val contentType = picture.contentType
+      picture.ref.moveTo(new File("/tmp/picture"))
+      Ok("File uploaded")
+      }.getOrElse {
+        println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+r)
+        Redirect("/")
+      }*/
+      Ok("file uploaded")
+  }
 
   private def username(request: RequestHeader) = {
     //Cache.getAs[String]("user_name")

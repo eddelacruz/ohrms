@@ -12,21 +12,15 @@
 <header>
     <div class="inner">
         <div class="left title">
-            <h1></h1>
+            <h1>@dentalServiceList.map { dl => @dl.name }</h1>
         </div>
         <div class="right">
-            <nav>
-                <ul>
-                    <li class="active first"><a href="#tab-1">Information</a></li>
-                </ul>
-            </nav>
             <a href="#" class="close">close</a>
         </div>
     </div>
 </header>
 
 <div class="box-content">
-<div id="tab-1" class="tab">
     <div class="center">
         <div class="form-details">
             @dentalServiceList.map { dl =>
@@ -36,15 +30,15 @@
                 <ul>
                     <li>
                         <label class="upper">Service Name:</label>
-                        <input type="text" name="name" value="@dl.name">
+                        <input type="text" name="name" required = "required" value="@dl.name">
                     </li>
                     <li>
                         <label>Code:</label>
-                        <input type="text" name="code" value="@dl.code">
+                        <input type="text" name="code" required = "required" value="@dl.code">
                     </li>
                     <li>
                         <label>Type:</label>
-                        <input type="text" name="type" value="@dl.sType">
+                        <input type="text" name="type" required = "required" value="@dl.sType">
                     </li>
                 </ul>
             </div>
@@ -53,18 +47,17 @@
 
                     <li>
                         <label>Target:</label>
-                        <input type="text" name="target" value="@dl.toolType">
+                        <input type="text" name="target" required = "required" value="@dl.toolType">
 
                     </li>
                     <li>
                         <label>Price:</label>
-                        <input type="text" name="price" value="@dl.price">
+                        <input type="text" name="price" required = "required" value="@dl.price">
                     </li>
                     <li>
                         <label>Color:</label>
-                        <input type="text" name="color" value="@dl.color">
                         <div class="field small">
-                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" style="padding-right: 35px;">
+                            <input type="text" class="colorpicker miniColors" maxlength="7" autocomplete="off" value="@dl.color" style="padding-right: 35px;">
                         </div>
                     </li>
                 </ul>
@@ -77,7 +70,6 @@
     </footer>
     }
     }
-</div>
 </div>
 </div>
 }

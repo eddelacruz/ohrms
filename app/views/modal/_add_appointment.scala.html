@@ -22,11 +22,11 @@
                     <ul>
                         <li>
                             <label class="upper">Description:</label>
-                            <textarea name="description" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                            <textarea name="description" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
                         <li>
                             <label>First Name:</label>
-                            <input type="text" name="first_name">
+                            <input type="text" name="first_name" required = "required">
                         </li>
                         <li>
                             <label>Middle Name:</label>
@@ -34,14 +34,14 @@
                         </li>
                         <li>
                             <label>Last Name:</label>
-                            <input type="text" name="last_name">
+                            <input type="text" name="last_name" required = "required">
                         </li>
                     </ul>
                 </div>
                 <div class="field right">
                     <ul>
                         <li>
-                            <label>Status:</label>
+                            <label>Dentist Name:</label>
                             <select name="dentist_id">
                                 @dentists.map { d =>
                                 <option value="@d.id">@d.firstName @d.middleName @d.lastName</option>
@@ -50,11 +50,11 @@
                         </li>
                         <li>
                             <label>Contact Number:</label>
-                            <input type="text" name="contact_no">
+                            <input type="text" name="contact_no" required = "required">
                         </li>
                         <li>
                             <label>Address:</label>
-                            <textarea name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                            <textarea name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </li>
                         <li>
                             <label>Status:</label>
@@ -65,9 +65,8 @@
                                 <option value="4">Completed</option>
                             </select>
                         </li>
-                        <input type="text" name="date_start">
-                        <input type="text" name="date_end">
-
+                        <input type="hidden" name="date_start">
+                        <input type="hidden" name="date_end">
                     </ul>
                 </div>
             </div>

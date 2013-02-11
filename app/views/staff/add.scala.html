@@ -30,10 +30,11 @@
                     @helper.form(action = routes.Staff.submitAddForm){
                     <div class="field left">
                         <input type="hidden" name="id" value="">
+                        <input type="hidden" name="user_id" value="">
                         <ul>
                             <li>
                                 <label class="upper">First Name:</label>
-                                <input type="text" name="first_name">
+                                <input type="text" required = "required" name="first_name">
                             </li>
                             <li>
                                 <label>Middle Name:</label>
@@ -41,7 +42,7 @@
                             </li>
                             <li>
                                 <label>Last Name:</label>
-                                <input type="text" name="last_name">
+                                <input type="text" required = "required" name="last_name">
                             </li>
 
                         </ul>
@@ -50,24 +51,24 @@
                         <ul id="specialization_list">
                             <li>
                                 <label class="upper">Address:</label>
-                                <textarea id="textarea-input-grow" class="autogrow" name="address" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                                <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                             </li>
                             <li>
                                 <label>Contact Number:</label>
-                                <input type="text" name="contact_no">
+                                <input type="text" required = "required" name="contact_no">
 
                             </li>
                             <li>
                                 <label>Position:</label>
-                                <input type="text" name="position">
+                                <input type="text" required = "required" name="position">
                             </li>
                             <li>
                                 <label>Username:</label>
-                                <input type="text" name="user_name">
+                                <input type="text" required = "required" name="user_name">
                             </li>
                             <li>
                                 <label>Password:</label>
-                                <input type="password" name="password">
+                                <input type="password" required = "required" name="password" id="password">
                             </li>
                             <!--                    <li>
                                 <label>Specialization</label>
