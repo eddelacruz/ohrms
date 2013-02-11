@@ -49,6 +49,7 @@ POST    /appointments/update            controllers.Appointments.submitUpdateFor
 GET     /appointments/:id                 controllers.Appointments.getAppointmentListById(id: String)
 GET     /appointments/:id/update          controllers.Appointments.getUpdateForm(id: String)
 
+
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
 GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
 GET     /dental_services/:id/information          controllers.DentalService.getDentalServiceInformationById(id: String)
