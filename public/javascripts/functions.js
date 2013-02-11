@@ -7,15 +7,17 @@ $(document).ready(function() {
 			var patientId = $this.attr("data-patient_id")
 			e.preventDefault()
 			console.log("The Patient Id to be deleted is: "+patientId)
-			$.ajax({
-			    url : "/patients/delete?id="+patientId,
-			    type : "POST",
-			    success :
-			        function() {
-			            console.log("deleted");
-			            window.location.href = "/patients";
-			        }
-			})
+			if(window.confirm("Are you sure you want to delete this record?")) {
+                $.ajax({
+                    url : "/patients/delete?id="+patientId,
+                    type : "POST",
+                    success :
+                        function() {
+                            console.log("deleted");
+                            window.location.href = "/patients";
+                        }
+                })
+            }
 		}
 	);
 
@@ -25,15 +27,17 @@ $(document).ready(function() {
 			var dentistId = $this.attr("data-dentist_id")
 			e.preventDefault()
 			console.log("The Dentist Id to be deleted is: "+dentistId)
-			$.ajax({
-			    url : "/dentists/delete?id="+dentistId,
-			    type : "POST",
-			    success :
-			        function() {
-			            console.log("deleted");
-			            window.location.href = "/dentists";
-			        }
-			})
+			if(window.confirm("Are you sure you want to delete this record?")) {
+                $.ajax({
+                    url : "/dentists/delete?id="+dentistId,
+                    type : "POST",
+                    success :
+                        function() {
+                            console.log("deleted");
+                            window.location.href = "/dentists";
+                        }
+                })
+            }
 		}
 	);
 
@@ -43,15 +47,17 @@ $(document).ready(function() {
         			var staffId = $this.attr("data-staff_id")
         			e.preventDefault()
         			console.log("The Staff Id to be deleted is: "+staffId)
-        			$.ajax({
-        			    url : "/staffs/delete?id="+staffId,
-        			    type : "POST",
-        			    success :
-        			        function() {
-        			            console.log("deleted");
-        			            window.location.href = "/staffs";
-        			        }
-        			})
+        			if(window.confirm("Are you sure you want to delete this record?")) {
+                        $.ajax({
+                            url : "/staffs/delete?id="+staffId,
+                            type : "POST",
+                            success :
+                                function() {
+                                    console.log("deleted");
+                                    window.location.href = "/staffs";
+                                }
+                        })
+                    }
         		}
         	);
 
@@ -61,15 +67,17 @@ $(document).ready(function() {
     			var serviceId = $this.attr("data-services_id")
     			e.preventDefault()
     			console.log("The Services Id to be deleted is: "+serviceId)
-    			$.ajax({
-    			    url : "/dental_services/delete?id="+serviceId,
-    			    type : "POST",
-    			    success :
-    			        function() {
-    			            console.log("deleted");
-    			            window.location.href = "/dental_services";
-    			        }
-    			})
+    			if(window.confirm("Are you sure you want to delete this record?")) {
+                    $.ajax({
+                        url : "/dental_services/delete?id="+serviceId,
+                        type : "POST",
+                        success :
+                            function() {
+                                console.log("deleted");
+                                window.location.href = "/dental_services";
+                            }
+                    })
+                }
     		}
     	);
 
@@ -79,17 +87,39 @@ $(document).ready(function() {
             			var announcementId = $this.attr("data-announcement_id")
             			e.preventDefault()
             			console.log("The announcement Id to be deleted is: "+announcementId)
-            			$.ajax({
-            			    url : "/announcements/delete?id="+announcementId,
-            			    type : "POST",
-            			    success :
-            			        function() {
-            			            console.log("deleted");
-            			            window.location.href = "/announcements";
-            			        }
-            			})
+            			if(window.confirm("Are you sure you want to delete this record?")) {
+                            $.ajax({
+                                url : "/announcements/delete?id="+announcementId,
+                                type : "POST",
+                                success :
+                                    function() {
+                                        console.log("deleted");
+                                        window.location.href = "/announcements";
+                                    }
+                            })
+                        }
             		}
             	);
+
+            	$('#delete_specialization').live("click",
+                        function(e) {
+                            var $this = $(this)
+                			var specializationId = $this.attr("data-specialization_id")
+                			e.preventDefault()
+                			console.log("The Specialization Id to be deleted is: "+specializationId)
+                		if(window.confirm("Are you sure you want to delete this record?")) {
+                			$.ajax({
+                			    url : "/specializations/delete?id="+specializationId,
+                			    type : "POST",
+                			    success :
+                			        function() {
+                			            console.log("deleted");
+                			            window.location.href = "/specializations";
+                			        }
+                			})
+                		}
+                	    }
+                	 );
 
     //url static, only for patients
     var count = 1;
@@ -194,6 +224,11 @@ $(document).ready(function() {
       //alert("pumasok");
     });
 
+    /*$('.bt.blue.right.clinic').click(function(){
+        window.location.href = "/clinic";
+        alert("Succesfully Added");
+    });
+*/
     /*$('#search_box').keypress(function(e){
         $(this).val()
         console.log(e);
@@ -360,6 +395,29 @@ $(document).ready(function() {
           })
         });
     });
+
+
+    /*var Timer;
+    var TotalSeconds;
+
+
+    function CreateTimer(TimerID, Time) {
+        Timer = document.getElementById(TimerID);
+        TotalSeconds = Time;
+
+         UpdateTimer()
+         window.setTimeout("Tick()", 1000);
+    }
+
+    function Tick() {
+          TotalSeconds -= 1;
+          UpdateTimer()
+          window.setTimeout("Tick()", 1000);
+    }
+
+    function UpdateTimer() {
+         Timer.innerHTML = TotalSeconds;
+    }*/
 
 
 });

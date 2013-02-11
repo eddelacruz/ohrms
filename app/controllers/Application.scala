@@ -40,6 +40,11 @@ object Application extends Controller{
       Ok(views.html.login(loginForm))
   }
 
+  def countdown = Action {
+    implicit request =>
+      Ok(views.html.count_down(loginForm))
+  }
+
   def authenticate = Action {
     implicit request =>
       loginForm.bindFromRequest.fold(

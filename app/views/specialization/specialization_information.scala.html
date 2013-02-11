@@ -1,0 +1,63 @@
+@(specializationList: List[ws.services.SpecializationList])
+
+@main("Specialization Information") {
+
+<header class="grid_12 head">
+    <h1>Specialization Information</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                @specializationList.map { dl =>
+                <h1>@dl.name</h1>
+                }
+            </div>
+            <div class="right">
+                <nav style="display: none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="columns">
+                <div class="form-details right mode-1">
+                    @specializationList.map { dl =>
+                    <div class="field left">
+                        <ul>
+                            <li>
+                                <label>Specialization ID:</label>
+                                <label class="form-label">@dl.id</label>
+                            </li>
+                            <li>
+                                <label>Specialization:</label>
+                                <label class="form-label">@dl.name</label>
+                            </li>
+                            <li>
+                                <!-- TO DO DENTIST LIST-->
+                            </li>
+                            }
+                    </div>
+                </div>
+            </div>
+            <footer class="pane">
+                @specializationList.map { d =>
+
+                @if((play.cache.Cache.get("role")) == 1) {
+                <a class="bt blue right" href="@routes.Specialization.getUpdateForm(d.id)">@Messages("button.edit")</a>
+                } else {
+                <a href="#"></a>
+                }
+                }
+            </footer>
+        </div>
+}

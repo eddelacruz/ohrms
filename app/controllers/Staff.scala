@@ -24,7 +24,6 @@ import controllers.Application.Secured
 object Staff extends Controller with Secured{
 
   def searchStaffList(start: Int, count: Int, filter: String) = Action {
-    println("start "+start+" count"+count);
     Ok(staff.list(StaffDelegate.searchStaffList(start,count,filter)))
   }
 
