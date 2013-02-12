@@ -66,7 +66,7 @@ object LoginService {
   }
 
 
-  def authenticate(user_name: String,password: String): Option[UserList] = {
+  def authenticate(user_name: String, password: String): Option[UserList] = {
     DB.withConnection { implicit connection =>
       SQL(
         """

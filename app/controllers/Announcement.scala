@@ -63,10 +63,10 @@ object Announcement extends Controller with Secured {
   }
 
 
-  def getAddForm = IsAuthenticated {
+  def getAddForm(start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(announcement.add())
+        Ok(announcement.add(AnnouncementDelegate.getAnnouncementList(start,count)))
   }
 
   def submitAddForm = Action {

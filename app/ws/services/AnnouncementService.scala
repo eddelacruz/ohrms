@@ -67,7 +67,7 @@ object AnnouncementService {
             get[String]("id") ~
             get[Option[String]]("user_name") ~
             get[Option[String]]("description") ~
-            get[Option[Date]]("date_created") map {
+            get[Date]("date_created") map {
             case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
           } *
         }
@@ -167,7 +167,6 @@ object AnnouncementService {
 
   def addAnnouncement(d: AnnouncementList): Long = {
     println(getUserId)
-    val currentUser = getUserId
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("announcements")
     DB.withConnection {
@@ -183,11 +182,11 @@ object AnnouncementService {
             |{date_created})
           """.stripMargin).on(
           'id -> d.id,
-          'user_id -> currentUser,
+          'user_id -> getUserId,
           'description -> d.description,
           'date_created -> d.dateCreated
         ).executeUpdate()
-      AuditLogService.logTaskAnnouncement(d, currentUser, task)
+      AuditLogService.logTaskAnnouncement(d, getUserId, task)
     }
   }
 

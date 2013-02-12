@@ -118,8 +118,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def submitAnnouncementAddForm = Action {
     implicit request =>
-      val id = ""
-      val userName = ""
+      println(request.body)
       val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
       val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
       val pl = AnnouncementList("", Some(""), announcement, dateCreated)
