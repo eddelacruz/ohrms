@@ -30,7 +30,7 @@ object AnnouncementDelegate extends WsHelper{
   )
 
   def getAnnouncementList(start: Int, count: Int) = {
-    val res: Promise[Response] = doGet("/json/announcements?start="+start+"&count="+count)
+    val res: Promise[Response] = doGet("/json/reminders?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val dl = ListBuffer[AnnouncementList]()
 
@@ -43,7 +43,7 @@ object AnnouncementDelegate extends WsHelper{
   }
 
   def searchAnnouncementList(start: Int, count: Int, filter: String) = {
-    val res: Promise[Response] = doGet("/json/announcements/search?start="+start+"&count="+count+"&filter="+filter)
+    val res: Promise[Response] = doGet("/json/reminders/search?start="+start+"&count="+count+"&filter="+filter)
     val json: JsValue = res.await.get.json
     val sdl = ListBuffer[AnnouncementList]()
 
@@ -66,7 +66,7 @@ object AnnouncementDelegate extends WsHelper{
 
 
   def getAnnouncementById(id: String) = {
-    val res: Promise[Response] = doGet("/json/announcements/%s" format(id))
+    val res: Promise[Response] = doGet("/json/reminders/%s" format(id))
     val json: JsValue = res.await.get.json
     val dl = ListBuffer[AnnouncementList]()
 
@@ -78,7 +78,7 @@ object AnnouncementDelegate extends WsHelper{
   }
 
   def submitUpdateAnnouncementForm(params: Map[String, Seq[String]]) = {
-    val res = doPost("/json/announcements/update", params)
+    val res = doPost("/json/reminders/update", params)
     println()
     println("PUT STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("PUT BODY: >>>>>>>>>>>>>>> " + res.body)
@@ -86,17 +86,29 @@ object AnnouncementDelegate extends WsHelper{
 
 
   def submitAddAnnouncementForm(params: Map[String, Seq[String]]) = {
-    val res = doPost("/json/announcements", params)
+    val res = doPost("/json/reminders", params)
     println()
     println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
   def deleteInformation(params: Map[String, Seq[String]]) = {
-    val res = doPost("/json/announcements/delete", params)
+    val res = doPost("/json/reminders/delete", params)
     println()
     println("DELETE Body: >>>>>>>>>>>>>>> " + res.body)
     println("DELETE STATUS: >>>>>>>>>>>>>>> " + res.status)
+  }
+
+  def getAnnouncementsToday() = {
+    val res: Promise[Response] = doGet("/json/reminders/today")
+    val json: JsValue = res.await.get.json
+    val al = ListBuffer[AnnouncementList]()
+
+    (json \ "AnnouncementList").as[Seq[JsObject]].map({
+      a =>
+        al += convertToAnnouncementList(a)
+    })
+    al.toList
   }
 
 }

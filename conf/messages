@@ -56,19 +56,16 @@ clinic.title=Clinic
 clinic.list.title=Clinic List
 clinic.add.title=Add Clinic
 clinic.update.title=Update Clinic
-clinic.profile.title=Profile
 
-announcement.title=Announcement
-announcement.list.title=Announcement List
-announcement.add.title=Add Announcement
-announcement.update.title=Update Announcement
-announcement.profile.title=Profile
+reminders.title=Reminders
+reminders.list.title=Reminders List
+reminders.add.title=Add Reminder
+reminders.update.title=Update Reminder
 
 specialization.title=Specialization
 specialization.list.title=Specialization List
 specialization.add.title=Add Specialization
 specialization.update.title=Update Specialization
-specialization.profile.title=Profile
 
 treatments.title=Treatments
 

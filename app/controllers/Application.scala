@@ -14,7 +14,7 @@ import util.pdf.PDF
 import views._
 import ws.services.LoginService
 import views.html.patient
-import ws.delegates.{PatientDelegate, AppointmentDelegate}
+import ws.delegates.{AnnouncementDelegate, PatientDelegate, AppointmentDelegate}
 import org.reflections.vfs.Vfs.File
 import javax.crypto.SecretKey
 import javax.crypto.SecretKeyFactory
@@ -76,7 +76,7 @@ object Application extends Controller{
       implicit request =>
         val start = 0
         val count = 5
-        Ok(html.dboard(PatientDelegate.getPatientList(start,count), AppointmentDelegate.getAppointmentsToday))
+        Ok(html.dboard(PatientDelegate.getPatientList(start,count), AppointmentDelegate.getAppointmentsToday, AnnouncementDelegate.getAnnouncementsToday()))
   }
 
   def logout = Action {

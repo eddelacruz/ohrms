@@ -89,13 +89,10 @@ object AnnouncementService {
             |from
             |announcements a
             |INNER JOIN users u
-            |where
-            |  DATE(date_created) = DATE({date_created})
-            |or
-            |DATE(date_end) = DATE({date_only})
             |ON a.user_id = u.id
+            |where
+            |  DATE(a.date_created) = DATE({date_only})
             |ORDER BY date_created asc
-            |LIMIT {start}, {count}
           """.stripMargin
         ).on('date_only -> DateWithTime.dateOnly).as {
             get[String]("id") ~

@@ -1,10 +1,10 @@
 @(announcementList: List[ws.services.AnnouncementList])
 
-@main(Messages("announcement.title")){
+@main(Messages("reminders.title")){
 
 <!-- announcement  List -->
 <header class="grid_12 head center">
-    <h1>@Messages("announcement.list.title")</h1>
+    <h1>@Messages("reminders.list.title")</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -18,7 +18,7 @@
                     <a href="">Your Profile</a>
                 </p>
                 <p>
-                    <a href="">Announcements</a>
+                    <a href="">Reminders</a>
                 </p>
                 <p>
                     <a href="">Clinic</a>
@@ -37,13 +37,13 @@
     </div>
 </div>
 <!-- DentalService -->
-<!-- /Announcements -->
+<!-- /Reminders -->
 <div class="grid_9">
     <div class="box">
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1>Announcements</h1>
+                    <h1>Reminders</h1>
                 </div>
                 <div class="right">
                     <a href="#" class="close">close</a>
@@ -61,7 +61,7 @@
                         <ul>
 
                             <li>
-                                <label>Announcement:</label>
+                                <label>Description:</label>
                                 <input type="text" name="announcement" required = "required">
                             </li>
                             <li>
@@ -104,7 +104,7 @@
                 <thead>
                 <tr role="row">
                     <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Announcement
+                        <div class="parentsort">Description
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -146,5 +146,5 @@
     </div>
 
 </div>
-<!-- /Announcements -->
+<!-- /Reminders -->
 }

@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList], appointmentsToday: List[ws.services.AppointmentList])
+@(patientList: List[ws.services.PatientList], appointmentsToday: List[ws.services.AppointmentList], remindersToday: List[ws.services.AnnouncementList])
 
 @main(Messages("dashboard.title")) {
     <!-- # Dashboard -->
@@ -7,19 +7,24 @@
         <div class="clear"></div><span class="divider"></span>
     </header>
 
-    <!-- Announcements -->
+    <!-- Reminders -->
     <div class="simple-box grid_8">
         <div class="inner">
             <header>
-                <h1>Announcements</h1>
+                <h1>Reminders</h1>
+                @remindersToday.map { rt =>
+                    <h1>@rt.dateCreated</h1>
+                }
             </header>
 
             <div class="box-content">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse et dignissim metus. Maecenas id augue ac metus tempus aliquam. Sed pharetra placerat est suscipit sagittis. Phasellus aliquam malesuada blandit. Donec adipiscing sem erat. Donec adipiscing sem erat. Nunc at dui id purus lacinia tincidunt sit amet vel erat. Maecenas id augue ac metus tempus aliquam. Sed pharetra placerat est suscipit sagittis. </p>
+                @remindersToday.map { rt =>
+                    <p>@rt.description - by @rt.username</p>
+                }
             </div>
         </div>
     </div>
-    <!-- /Announcements -->
+    <!-- /Reminders -->
 
     <!-- Today's Appointments -->
     <div class="box grid_4">

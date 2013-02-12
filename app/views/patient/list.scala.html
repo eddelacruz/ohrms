@@ -66,9 +66,9 @@
                 @patientList.map { pl =>
                 <tr>
                     <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a></td>
-                    <td class=" ">@pl.p.address</td>
-                    <td class=" ">@pl.p.contactNo</td>
-                    <td class=" ">@{pl.dateLastVisit match {
+                    <td>@pl.p.address</td>
+                    <td>@pl.p.contactNo</td>
+                    <td>@{pl.dateLastVisit match {
                         case Some("None") => "---"
                         case _ => pl.dateLastVisit
                     }}</td>

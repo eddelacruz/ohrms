@@ -56,7 +56,7 @@ object Announcement extends Controller with Secured {
           val params = request.body.asFormUrlEncoded.get
           val id = request.body.asFormUrlEncoded.get("id").head
           AnnouncementDelegate.submitUpdateAnnouncementForm(params)
-          Redirect("/announcements/"+id)
+          Redirect("/reminders/"+id)
         }
       )
 
@@ -79,7 +79,7 @@ object Announcement extends Controller with Secured {
         announcement => {
           var params = request.body.asFormUrlEncoded.get
           AnnouncementDelegate.submitAddAnnouncementForm(params)
-          Redirect("/announcements")
+          Redirect("/reminders")
         }
       )
   }
