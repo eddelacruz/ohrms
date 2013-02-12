@@ -1,4 +1,6 @@
 @(staffList: List[ws.services.StaffList])
+@import play.cache.Cache
+@import ws.helper.DateWithTime
 
 <!DOCTYPE html>
 
@@ -54,10 +56,18 @@
 </head>
 <body>
 <div class="title">
+    Sabertooth Dental Clinic
+</div>
+<div class="sub-title">
+    Malolos City, Bulacan
+</div>
+<br/>
+
+<div class="title">
     Staff List
 </div>
 <div class="sub-title">
-    List of Staffs as of February 11, 2013
+    List of Staffs as of @(DateWithTime.dateWithTimeString)
 </div>
 <div class="br-1"></div>
 <table class="table" border="1">
@@ -78,6 +88,10 @@
 
     </tr>       }
 </table>
+<br/>
+<div class="footer">
+    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
+</div>
 </body>
 
 </html>
