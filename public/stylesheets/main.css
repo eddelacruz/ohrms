@@ -2339,6 +2339,10 @@ div.mode-1{
 
 /*Charts*/
 #printButton{
-display: none !important;
+    display: none !important;
 }
 
+/*Button*/
+.function-button{
+    margin-right: 10px;
+}

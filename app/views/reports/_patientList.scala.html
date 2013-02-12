@@ -1,4 +1,6 @@
 @(patientList: List[ws.services.PatientList])
+@import play.cache.Cache
+@import ws.helper.DateWithTime
 
 <!DOCTYPE html>
 
@@ -50,14 +52,28 @@
         .br-1 {
         margin-bottom: 15px;
         }
+        .footer {
+        text-align: right;
+        font-size: 11px;
+        font-weight: normal;
+        color: #8E8F92;
+        font-family: sans-serif;
+        }
     </style>
 </head>
 <body>
 <div class="title">
+    Sabertooth Dental Clinic
+</div>
+<div class="sub-title">
+    Malolos City, Bulacan
+</div>
+<br/>
+<div class="title">
     Patient List
 </div>
 <div class="sub-title">
-    List of Patient as of December 12, 2012
+    List of Patient as of @(DateWithTime.dateWithTimeString)
 </div>
 <div class="br-1"></div>
 <table class="table" border="1">
@@ -65,18 +81,20 @@
         <th>Complete Name</th>
         <th>Address</th>
         <th>Contact Number</th>
-        <th>Last Service</th>
 
     </tr>
     @patientList.map { pl =>
     <tr>
-        <td>@pl.firstName @pl.middleName @pl.lastName</td>
+        <td>@pl.lastName, @pl.firstName @pl.middleName </td>
         <td>@pl.address</td>
         <td>@pl.contactNo</td>
-        <td>12-90-2012</td>
 
     </tr>       }
 </table>
+<br/>
+<div class="footer">
+    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
+</div>
 </body>
 
 </html>
