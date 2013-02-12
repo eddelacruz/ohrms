@@ -6,7 +6,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views._
-import ws.delegates.{DentistDelegate, PatientDelegate, DentalServiceDelegate}
+import ws.delegates.{StaffDelegate, DentistDelegate, PatientDelegate, DentalServiceDelegate}
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,13 +17,16 @@ import ws.delegates.{DentistDelegate, PatientDelegate, DentalServiceDelegate}
  */
 object Reports {
    def _patientList(start: Int, count: Int): Result = {
-    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start,count)))
+    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start, count)))
   }
   def _dentistList(start: Int, count: Int): Result = {
-    return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start,count)))
+    return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start, count)))
   }
   def _serviceList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._serviceList.render(DentalServiceDelegate.getDentalServiceList(start, count)))
+  }
+  def _staffList(start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._staffList.render(StaffDelegate.getStaffList(start, count)))
   }
 }
 
