@@ -49,7 +49,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -57,7 +57,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "d"
@@ -94,7 +94,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -102,7 +102,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "s"
@@ -139,7 +139,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -147,7 +147,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "s"
@@ -184,7 +184,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -192,7 +192,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "ds"
@@ -229,7 +229,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -237,7 +237,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "sp"
@@ -274,7 +274,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -282,7 +282,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "an"
@@ -319,7 +319,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -327,7 +327,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "ap"
@@ -351,7 +351,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -359,7 +359,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
           'module -> "ap"
@@ -383,7 +383,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -391,7 +391,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "d"
@@ -415,7 +415,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -423,7 +423,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "c"
@@ -447,7 +447,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -455,7 +455,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "ap"
@@ -479,7 +479,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -487,7 +487,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "an"
@@ -511,7 +511,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -519,7 +519,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "ds"
@@ -543,7 +543,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -551,7 +551,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "s"
@@ -575,7 +575,7 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created},
             |{module}
@@ -583,7 +583,7 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_id -> currentUser, //cached user_id when login
+          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
           'module -> "sp"
@@ -607,7 +607,7 @@ object AuditLogService {
             |INNER JOIN
             |    users as u
             |ON
-            |	a.user_id = u.id
+            |	a.user_name = u.user_name
             |ORDER BY
             | a.date_created desc
             |LIMIT {start}, {count}
@@ -640,7 +640,7 @@ object AuditLogService {
             |INNER JOIN
             |    users as u
             |ON
-            |	a.user_id = u.id
+            |	a.user_name = u.user_name
             |WHERE a.task like "%"{filter}"%"
             |or a.description like "%"{filter}"%"
             |ORDER BY

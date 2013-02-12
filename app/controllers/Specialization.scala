@@ -41,7 +41,7 @@ object Specialization extends Controller with Secured{
     username =>
       implicit request =>
         Cache.get("role") match {
-          case Some(1) => Ok(specialization.update(DentistService.getSpecializationById(id)))
+          case Some(0) => Ok(specialization.update(DentistService.getSpecializationById(id)))
           case _ => Redirect("/specializations/"+id)
         }
   }
@@ -68,7 +68,7 @@ object Specialization extends Controller with Secured{
     username =>
       implicit request =>
         Cache.get("role") match {
-          case Some(1) => Ok(specialization.add())
+          case Some(0) => Ok(specialization.add())
           case _ => Redirect("/specializations")
         }
 
@@ -92,7 +92,7 @@ object Specialization extends Controller with Secured{
   def deleteInformation(id: String) = Action {
     implicit request =>
       Cache.get("role") match {
-        case Some(1) =>
+        case Some(0) =>
           val params = Map("id" -> Seq(id))
          SpecializationDelegate.deleteInformation(params)
           Redirect("/specializations")

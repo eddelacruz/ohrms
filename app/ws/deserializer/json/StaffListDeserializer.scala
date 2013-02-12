@@ -15,7 +15,6 @@ trait StaffListDeserializer {
   implicit object StaffListFormat extends Format[StaffList]{
     def reads(json: JsValue): StaffList = StaffList(
       (json \ "id").as[String],
-      (json \ "userId").as[String],
       (json \ "firstName").asOpt[String],
       (json \ "middleName").asOpt[String],
       (json \ "lastName").asOpt[String],
@@ -29,7 +28,6 @@ trait StaffListDeserializer {
     def writes(d: StaffList): JsValue = JsObject(
       Seq(
         "id" -> JsString(d.id),
-        "userId" -> JsString(d.userId),
         "firstName" -> JsString(d.firstName.get),
         "middleName" -> JsString(d.middleName.get),
         "lastName" -> JsString(d.lastName.get),

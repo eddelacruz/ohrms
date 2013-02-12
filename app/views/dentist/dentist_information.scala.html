@@ -94,13 +94,12 @@
     </div>
 </div>
 <footer class="pane">
-    @dentistList.map { d =>
-        @if((play.cache.Cache.get("role")) == 1 & (play.cache.Cache.get("id")) == dl.userId) {
-    <a class="bt blue right" href="@routes.Dentist.getUpdateForm(d.id)">@Messages("button.edit")</a>
-    }else{
-    <a class="hidden" href="#" ></a>
-    }
-    }
+    <!--||(play.cache.Cache.get("user_name")) == dl.userName -->
+         @if((play.cache.Cache.get("role")) == 0) {
+            <a class="bt blue right" href="@routes.Dentist.getUpdateForm(dl.id)">@Messages("button.edit")</a>
+        }else{
+            <a class="hidden" href="#" ></a>
+        }
 </footer>
 </div>   }
 <!-- /Dentist Info -->
