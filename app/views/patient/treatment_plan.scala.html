@@ -76,7 +76,20 @@
                     </li>
                     <li>
                         <label>Gender:</label>
-                        <label class="form-label">@pl.gender</label>
+                        @{pl.gender match {
+                        case "F" => {
+                        <select name="gender" disabled="disabled">
+                            <option value="F">Female</option>
+                            <option value="M">Male</option>
+                        </select>
+                        }
+                        case "M" => {
+                        <select name="gender" disabled="disabled">
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+                        }
+                        }}
                     </li>
                 </ul>
             </div>
