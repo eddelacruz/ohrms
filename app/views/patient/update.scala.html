@@ -70,6 +70,23 @@
                         <input class="datepicker" type="text" name="date_of_birth" required = "required" value="@pl.dateOfBirth">
                         <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
                     </li>
+                    <li>
+                        <label>Gender:</label>
+                        @{pl.gender match {
+                        case "F" => {
+                                <select name="gender">
+                                    <option value="F">Female</option>
+                                    <option value="M">Male</option>
+                                </select>
+                            }
+                            case "M" => {
+                                <select name="gender">
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                </select>
+                            }
+                        }}
+                    </li>
 
                 </ul>
             </div>
