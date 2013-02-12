@@ -23,7 +23,8 @@ trait PatientListDeserializer {
       (json \ "contactNo").asOpt[String],
       (json \ "dateOfBirth").asOpt[String],
       (json \ "image").asOpt[String],
-      (json \ "medicalHistory").asOpt[String]
+      (json \ "medicalHistory").asOpt[String],
+      (json \ "gender").as[String]
     )
 
     def writes(p: PatientList): JsValue = JsObject(
@@ -36,7 +37,8 @@ trait PatientListDeserializer {
         "contactNo" -> JsString(p.contactNo.get),
         "dateOfBirth" -> JsString(p.dateOfBirth.get),
         "image" -> JsString(p.image.get),
-        "medicalHistory" -> JsString(p.medicalHistory.get)
+        "medicalHistory" -> JsString(p.medicalHistory.get),
+        "gender" -> JsString(p.gender)
       )
     )
   }
@@ -52,7 +54,8 @@ trait PatientListDeserializer {
         (json \ "contactNo").asOpt[String],
         (json \ "dateOfBirth").asOpt[String],
         (json \ "image").asOpt[String],
-        (json \ "medicalHistory").asOpt[String]
+        (json \ "medicalHistory").asOpt[String],
+        (json \ "gender").as[String]
       ), (json \ "dateLastVisit").asOpt[String]
     )
 
@@ -69,7 +72,8 @@ trait PatientListDeserializer {
               "contactNo" -> JsString(plv.p.contactNo.get),
               "dateOfBirth" -> JsString(plv.p.dateOfBirth.get),
               "image" -> JsString(plv.p.image.get),
-              "medicalHistory" -> JsString(plv.p.medicalHistory.get)
+              "medicalHistory" -> JsString(plv.p.medicalHistory.get),
+              "gender" -> JsString(plv.p.gender)
             )
           ), JsObject(Seq("dateLastVisit" -> JsString(plv.dateLastVisit.get)))
         )
