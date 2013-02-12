@@ -51,7 +51,7 @@ object AuditLogService {
             |{task},
             |{user_id},
             |{description},
-            |{date_created}
+            |{date_created},
             |{module}
             |);
           """.stripMargin).on(
@@ -466,8 +466,8 @@ object AuditLogService {
   def logTaskAnnouncement(l: AnnouncementList, currentUser: String, task: String): Long = {
     var description: String = ""
     task match {
-      case "Add" => description = l.announcement  + "'s announcement was added"
-      case "Update" => description = l.announcement  + "'s announcement was updated"
+      case "Add" => description = l.description  + "'s announcement was added"
+      case "Update" => description = l.description  + "'s announcement was updated"
       case _ => ""
     }
     DB.withConnection {

@@ -8,7 +8,78 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
-<div class="grid_12">
+<!-- DentalService -->
+<div class="grid_3">
+    <div class="simple-box">
+        <div class="inner">
+
+            <div class="box-content">
+                <p>
+                    <a href="">Your Profile</a>
+                </p>
+                <p>
+                    <a href="">Announcements</a>
+                </p>
+                <p>
+                    <a href="">Clinic</a>
+                </p>
+                <p>
+                    <a href="">Dental Services</a>
+                </p>
+                <p>
+                    <a href="">Dentists</a>
+                </p>
+                <p>
+                    <a href="">Staffs</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- DentalService -->
+<!-- /Announcements -->
+<div class="grid_9">
+    <div class="box">
+        <header>
+            <div class="inner">
+                <div class="left title">
+                    <h1>Announcements</h1>
+                </div>
+                <div class="right">
+                    <a href="#" class="close">close</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-content">
+            <div class="center">
+                <div class="form-details">
+                    @helper.form(action = routes.Announcement.submitAddForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="">
+                        <input type="hidden" name="user_name" value="">
+                        <ul>
+
+                            <li>
+                                <label>Announcement:</label>
+                                <input type="text" name="announcement" required = "required">
+                            </li>
+                            <li>
+                                <label>Date:</label>
+                                <input type="text" name="date_created" required = "required">
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="@Messages("button.add")">
+            </footer>
+            }
+        </div>
+    </div>
+
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
@@ -51,11 +122,11 @@
                 </thead>
 
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
-                @announcementList.map { dl =>
+                @announcementList.map { al =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Announcement.getAnnouncementListById(dl.id)">@dl.announcement</a></td>
-                    <td class=" ">@dl.userName</td>
-                    <td class=" ">@dl.dateCreated</td>
+                    <td class="sorting_1"><a href="routes.Announcement.getAnnouncementListById(al.id)">@al.description</a></td>
+                    <td>@al.username</td>
+                    <td>@al.dateCreated</td>
                 </tr>
                 }
                 </tbody>
@@ -73,6 +144,7 @@
             </div>
         </div>
     </div>
-</div>
 
+</div>
+<!-- /Announcements -->
 }

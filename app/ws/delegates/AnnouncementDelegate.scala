@@ -34,6 +34,7 @@ object AnnouncementDelegate extends WsHelper{
     val json: JsValue = res.await.get.json
     val dl = ListBuffer[AnnouncementList]()
 
+
     (json \ "AnnouncementList").as[Seq[JsObject]].map({
       d =>
         dl += convertToAnnouncementList(d)
@@ -48,7 +49,6 @@ object AnnouncementDelegate extends WsHelper{
 
     (json \ "AnnouncementList").as[Seq[JsObject]].map({
       sd =>
-        println(sd)
         sdl += convertToAnnouncementList(sd)
     })
     sdl.toList
@@ -58,8 +58,8 @@ object AnnouncementDelegate extends WsHelper{
   def convertToAnnouncementList (j: JsValue): AnnouncementList = {
     new AnnouncementList(
       (j \ "id").as[String],
-      (j \ "userName").asOpt[String],
-      (j \ "announcement").asOpt[String],
+      (j \ "username").asOpt[String],
+      (j \ "description").asOpt[String],
       (j \ "dateCreated").asOpt[String]
     )
   }

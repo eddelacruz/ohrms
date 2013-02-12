@@ -365,7 +365,31 @@ object DentistService {
   def deleteDentist(id: String): Long = {
     val currentUser = getUserId
     val task = "Delete"
-    println("pumasok dito")
+    var userId = ""
+    DB.withConnection {
+      implicit c =>
+        val a = SQL(
+          """
+            |SELECT `user_id` from `ohrms`.`dentists`
+            |where
+            |`id` = {id};
+          """.stripMargin).on('id -> id).apply().head
+        userId = a[String]("user_id")
+    }
+    println(">>>>>>>>>>>>>>>>>>>."+userId);
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE `ohrms`.`users`
+            |SET
+            |`status` = {status}
+            |WHERE id = {user_id};
+          """.stripMargin).on(
+          'user_id -> userId,
+          'status -> 0
+        ).executeUpdate()
+    }
     DB.withConnection {
       implicit c =>
         SQL(

@@ -102,6 +102,11 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementList(start, count)))))
   }
 
+  def getAllAnnouncementsToday = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementsToday))))
+  }
+
   def searchAnnouncementList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.searchAnnouncementList(start, count, filter)))))
   }
@@ -113,8 +118,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
 
   def submitAnnouncementAddForm = Action {
     implicit request =>
-      val id = ""
-      val userName = ""
+      println(request.body)
       val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
       val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
       val pl = AnnouncementList("", Some(""), announcement, dateCreated)
@@ -156,7 +160,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
       val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
-      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
+      val gender = request.body.asFormUrlEncoded.get("gender").head
+      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory, gender)
 
       if (PatientService.addPatient(pl) >= 1) {
         Redirect("/patients")
@@ -244,7 +249,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
       val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
-      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory)
+      val gender = request.body.asFormUrlEncoded.get("gender").head
+      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory, gender)
 
       if (PatientService.updatePatient(pl) >= 1) {
         Status(200)

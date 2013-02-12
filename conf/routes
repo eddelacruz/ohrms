@@ -24,7 +24,7 @@ GET     /clinic/:id/update          controllers.Clinic.getUpdateForm(id: String)
 GET     /clinic/search       controllers.Clinic.searchClinicList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
 GET     /announcements                     controllers.Announcement.getList(start : Int ?= 0, count : Int ?= 25)
 POST    /announcements                     controllers.Announcement.submitAddForm
-GET     /announcements/add                 controllers.Announcement.getAddForm
+GET     /announcements/add                 controllers.Announcement.getAddForm(start : Int ?= 0, count : Int ?= 25)
 POST    /announcements/update            controllers.Announcement.submitUpdateForm
 GET     /announcements/:id                 controllers.Announcement.getAnnouncementListById(id: String)
 GET     /announcements/:id/update          controllers.Announcement.getUpdateForm(id: String)

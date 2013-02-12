@@ -21,17 +21,16 @@ trait AnnouncementListDeserializer {
   implicit object AnnouncementListFormat extends Format[AnnouncementList]{
     def reads(json: JsValue): AnnouncementList = AnnouncementList(
       (json \ "id").as[String],
-      (json \ "userName").asOpt[String],
-      (json \ "announcement").asOpt[String],
+      (json \ "username").asOpt[String],
+      (json \ "description").asOpt[String],
       (json \ "date_created").asOpt[String]
     )
 
     def writes(d: AnnouncementList): JsValue = JsObject(
-
       Seq(
         "id" -> JsString(d.id),
-        "userName" -> JsString(d.userName.get),
-        "announcement" -> JsString(d.announcement.get),
+        "username" -> JsString(d.username.get),
+        "description" -> JsString(d.description.get),
         "dateCreated" -> JsString(d.dateCreated.get)
       )
     )
