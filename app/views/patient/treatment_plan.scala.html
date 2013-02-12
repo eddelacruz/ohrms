@@ -58,6 +58,17 @@
                         <label>Last Name:</label>
                         <label class="form-label">@pl.lastName</label>
                     </li>
+                    <li>
+                        <label>Gender:</label>
+                        @{pl.gender match {
+                        case "m" => {
+                        <label class="form-label">Male</label>
+                        }
+                        case "f" => {
+                        <label class="form-label">Female</label>
+                        }
+                        }}
+                    </li>
                 </ul>
             </div>
             <div class="field right">
@@ -73,23 +84,6 @@
                     <li>
                         <label>Birth Date:</label>
                         <label class="form-label">@pl.dateOfBirth</label>
-                    </li>
-                    <li>
-                        <label>Gender:</label>
-                        @{pl.gender match {
-                        case "F" => {
-                        <select name="gender" disabled="disabled">
-                            <option value="F">Female</option>
-                            <option value="M">Male</option>
-                        </select>
-                        }
-                        case "M" => {
-                        <select name="gender" disabled="disabled">
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                        </select>
-                        }
-                        }}
                     </li>
                 </ul>
             </div>

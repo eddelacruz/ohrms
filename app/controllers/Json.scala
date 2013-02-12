@@ -158,10 +158,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
-      val image = request.body.asFormUrlEncoded.get("image").headOption
       val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
       val gender = request.body.asFormUrlEncoded.get("gender").head
-      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory, gender)
+      val pl = PatientList("", firstName, middleName, lastName, address, contactNo, dateOfBirth, medicalHistory, gender)
 
       if (PatientService.addPatient(pl) >= 1) {
         Redirect("/patients")
@@ -247,10 +246,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val contactNo = request.body.asFormUrlEncoded.get("contact_no").headOption
       val dateOfBirth = request.body.asFormUrlEncoded.get("date_of_birth").headOption
-      val image = request.body.asFormUrlEncoded.get("image").headOption
       val medicalHistory = request.body.asFormUrlEncoded.get("medical_history").headOption
       val gender = request.body.asFormUrlEncoded.get("gender").head
-      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, image, medicalHistory, gender)
+      val pl = PatientList(id, firstName, middleName, lastName, address, contactNo, dateOfBirth, medicalHistory, gender)
 
       if (PatientService.updatePatient(pl) >= 1) {
         Status(200)

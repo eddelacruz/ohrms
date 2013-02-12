@@ -13,20 +13,13 @@
             <h1></h1>
         </div>
         <div class="right">
-            <nav>
-                <ul>
-                    <li class="active first"><a href="#tab-1">Profile</a></li>
-                    <li><a href="#tab-2">Personal Dental Chart</a></li>
-
-                </ul>
-            </nav>
             <a href="#" class="close">close</a>
         </div>
     </div>
 </header>
 
 <div class="box-content">
-<div id="tab-1" class="tab">
+<div>
     <div class="center">
         <div class="form-details">
             @helper.form(action = routes.Patient.submitAddForm){
@@ -38,7 +31,7 @@
                         <input type="text" required = "required" name="first_name">
                     </li>
                     <li>
-                        <label>Middle Name:</label>
+                        <label>Middle Name: <span>(optional)</span></label>
                         <input type="text" name="middle_name">
                     </li>
                     <li>
@@ -46,8 +39,11 @@
                         <input type="text" required = "required" name="last_name">
                     </li>
                     <li>
-                        <label>Image:</label>
-                        <input type="file" name="image" />
+                        <label>Gender:</label>
+                        <select name="gender">
+                            <option value="m">Male</option>
+                            <option value="f">Female</option>
+                        </select>
                     </li>
                 </ul>
             </div>
@@ -66,17 +62,10 @@
                         <label>Birthdate:</label>
                         <input class="datepicker" required = "required" type="text" name="date_of_birth">
                     </li>
-                    <li>
-                        <label>Gender:</label>
-                        <select name="gender">
-                            <option value="F">Female</option>
-                            <option value="M">Male</option>
-                        </select>
-                    </li>
                 </ul>
             </div>
             <div class="field center">
-                <label>Medical History:</label>
+                <label>Medical History: <span>(optional)</span></label>
                 <textarea class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
             </div>
         </div>
@@ -85,89 +74,6 @@
         <input type="submit" class="bt blue right" value="@Messages("button.add")">
     </footer>
             }
-</div>
-<div id="tab-2" class="tab" style="display: none; ">
-    <ul class="button-bar blue small">
-        <li class="first active"><a href="#">Adult</a></li>
-        <li class="last"><a href="#">Child</a></li>
-    </ul>
-
-    <!-- Dental Services -->
-    <div class="box grid_11">
-        <header>
-            <div class="inner">
-                <div class="left title">
-                    <h1>Dental Services</h1>
-
-                </div>
-                <div class="right">
-                    <a href="#" class="close">close</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="box-content">
-            <div class="grid_11 table">
-                <div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th class="first">Name</th>
-                            <th>Code</th>
-                            <th>Price</th>
-                            <th>Target</th>
-                            <th>Date Performed</th>
-                            <th class="last">Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>Oral Prophylaxis</td>
-                            <td>OP</td>
-                            <td><span class="pesos">P</span> 500.00</td>
-                            <td>Inclusive</td>
-                            <td>11/30/2012 5:00 PM</td>
-                            <td class="center"><span class="label label-success">Success</span></td>
-                        </tr>
-                        <tr class="even">
-                            <td>Periodic Oral Evaluation</td>
-                            <td>POE</td>
-                            <td><span class="pesos">P</span> 500.00</td>
-                            <td>Inclusive</td>
-                            <td>11/30/2012 5:00 PM</td>
-                            <td><center><span class="label label-success">Success</span></center></td>
-                        </tr>
-                        <tr>
-                            <td>Extraction</td>
-                            <td>EX</td>
-                            <td><span class="pesos">P</span> 300.00</td>
-                            <td>Selective</td>
-                            <td>11/30/2012 5:00 PM</td>
-                            <td class="center"><span class="label label-warning">Pending</span></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <footer class="extension bottom inright pagination right">
-                        <nav>
-                            <ul>
-                                <li class="first"><a href="#">« previous</a></li>
-                                <li><a href="#">01</a></li>
-                                <li><a href="#">02</a></li>
-                                <li class="active"><a href="#">03</a></li>
-                                <li><a href="#">04</a></li>
-                                <li><a href="#">05</a></li>
-                                <li class="disabled last"><span>disabled »</span></li>
-                            </ul>
-                        </nav>
-                    </footer>
-                </div>
-            </div>
-        </div>
-        <footer class="pane">
-            <input type="submit" class="bt blue right" value="Save Changes">
-        </footer>
-    </div>
-    <!-- /Dental Services -->
 </div>
 
 </div>

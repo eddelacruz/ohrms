@@ -40,7 +40,7 @@
                         <input type="text" required = "required" name="first_name" value="@pl.firstName">
                     </li>
                     <li>
-                        <label>Middle Name:</label>
+                        <label>Middle Name: <span>(optional)</span></label>
                         <input type="text" name="middle_name" value="@pl.middleName">
                     </li>
                     <li>
@@ -48,10 +48,26 @@
                         <input type="text" name="last_name" required = "required" value="@pl.lastName">
                     </li>
                     <li>
+                        <label>Gender:</label>
+                        @{pl.gender match {
+                        case "f" => {
+                        <select name="gender">
+                            <option value="m">Male</option>
+                            <option value="f" selected="selected">Female</option>
+                        </select>
+                        }
+                        case "m" => {
+                        <select name="gender">
+                            <option value="m" selected="selected">Male</option>
+                            <option value="f">Female</option>
+                        </select>
+                        }
+                        }}
+                    </li>
+                    <!--<li>
                         <label>Image:<br></label>
                         <input type="file" name="image"/>
-                        <!--<div class="customfile"><input type="file" value="@pl.image" name="image" class="custom-file-input customfile-input" style="left: -181px; top: -1px;"></div>-->
-                    </li>
+                    </li>-->
                 </ul>
             </div>
             <div class="field right">
@@ -70,27 +86,10 @@
                         <input class="datepicker" type="text" name="date_of_birth" required = "required" value="@pl.dateOfBirth">
                         <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
                     </li>
-                    <li>
-                        <label>Gender:</label>
-                        @{pl.gender match {
-                        case "F" => {
-                                <select name="gender">
-                                    <option value="F">Female</option>
-                                    <option value="M">Male</option>
-                                </select>
-                            }
-                            case "M" => {
-                                <select name="gender">
-                                    <option value="M">Male</option>
-                                    <option value="F">Female</option>
-                                </select>
-                            }
-                        }}
-                    </li>
                 </ul>
             </div>
             <div class="field center">
-                <label>Medical History:</label>
+                <label>Medical History: <span>(optional)</span></label>
                 <textarea id="" class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
             </div>
         </div>

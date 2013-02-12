@@ -4,6 +4,7 @@
 
 <header class="grid_12 head center">
     <h1>@Messages("service.title")</h1>
+    <a class="function-button right" href="@routes.Reports._serviceList()"><span class="glyph portrait-view"></span> print</a>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -63,7 +64,7 @@
                     </ul>
                 </div>
                 <div class="field center">
-                    <label>Banned Services:</label>
+                    <label>Banned Services: <span>(optional)</span></label>
                     <div>
                         <select class="special services-list" multiple>
                             @dentalServiceList.map { dsl =>
@@ -177,13 +178,11 @@
             </table>
             <div class="extension bottom inright pagination">
                 <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
-                    <a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a>
-                    <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                    <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
                                                 <span>
                                                     <a tabindex="0" class="paginate_active">1</a>
                                                 </span>
-                    <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
-                    <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>
+                    <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ import ws.helper.DateWithTime
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
-case class PatientList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], dateOfBirth: Option[String], image: Option[String], medicalHistory: Option[String], gender: String)
+case class PatientList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], dateOfBirth: Option[String], medicalHistory: Option[String], gender: String)
 case class PatientLastVisit(p: PatientList, dateLastVisit: Option[String])
 
 /**
@@ -45,7 +45,6 @@ object PatientService extends Secured{
             |p.address,
             |p.contact_no,
             |p.date_of_birth,
-            |p.image,
             |p.medical_history,
             |p.gender
             |from
@@ -61,10 +60,9 @@ object PatientService extends Secured{
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[Option[String]]("image") ~
             get[Option[String]]("medical_history")~
             get[String]("gender")map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k=> PatientList(a, b, c, d, f, g, Some(h.toString), i, j, k)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k=> PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
           } *
         }
         patientList
@@ -84,7 +82,6 @@ object PatientService extends Secured{
             |address,
             |contact_no,
             |date_of_birth,
-            |image,
             |medical_history,
             |gender
             |from
@@ -100,10 +97,9 @@ object PatientService extends Secured{
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[String]("gender") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientList(a, b, c, d, f, g, Some(h.toString), i, j, k)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k => PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
           } *
         }
         patientList
@@ -124,7 +120,6 @@ object PatientService extends Secured{
             |address,
             |contact_no,
             |date_of_birth,
-            |image,
             |medical_history,
             |gender
             |from
@@ -144,10 +139,9 @@ object PatientService extends Secured{
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[String]("gender")map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k => PatientList(a, b, c, d, f, g, Some(h.toString), i, j, k)
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k => PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
           } *
         }
         searchPatientList
@@ -190,7 +184,6 @@ object PatientService extends Secured{
             |{address},
             |{contact_no},
             |{date_of_birth},
-            |{image},
             |{medical_history},
             |{status},
             |{date_created},
@@ -205,7 +198,6 @@ object PatientService extends Secured{
           'address -> Option(p.address),
           'contact_no -> Option(p.contactNo),
           'date_of_birth -> Option(p.dateOfBirth),
-          'image -> Option(p.image),
           'medical_history -> Option(p.medicalHistory),
           'gender -> p.gender,
           'status -> 1,
@@ -231,7 +223,6 @@ object PatientService extends Secured{
             |address = {address},
             |contact_no = {contact_no},
             |date_of_birth = {date_of_birth},
-            |image = {image},
             |medical_history = {medical_history},
             |date_last_updated = {date_last_updated},
             |gender = {gender}
@@ -244,7 +235,6 @@ object PatientService extends Secured{
           'address -> p.address,
           'contact_no -> p.contactNo,
           'date_of_birth -> p.dateOfBirth,
-          'image -> p.image,
           'medical_history -> p.medicalHistory,
           'date_last_updated -> DateWithTime.dateNow,
           'gender -> p.gender
@@ -289,7 +279,6 @@ object PatientService extends Secured{
             |p.address,
             |p.contact_no,
             |p.date_of_birth,
-            |p.image,
             |p.medical_history,
             |p.gender,
             |tp.date_performed
@@ -311,11 +300,10 @@ object PatientService extends Secured{
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[String]("gender") ~
             get[Option[Date]]("date_performed") map {
-            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k ~ l => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j, k), Some(l.toString.replace("Some", "").replace("(","").replace(".0)","")))
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k ~ l => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), j, k), Some(l.toString.replace("Some", "").replace("(","").replace(".0)","")))
           } *
         }
         patientList
@@ -337,7 +325,6 @@ object PatientService extends Secured{
             |p.address,
             |p.contact_no,
             |p.date_of_birth,
-            |p.image,
             |p.medical_history,
             |p.gender,
             |tp.date_performed
@@ -363,11 +350,10 @@ object PatientService extends Secured{
             get[Option[String]]("address") ~
             get[Option[String]]("contact_no") ~
             get[Date]("date_of_birth") ~
-            get[Option[String]]("image") ~
             get[Option[String]]("medical_history") ~
             get[String]("gender") ~
             get[Option[Date]]("date_performed")  map {
-              case a ~ b ~ c ~ d ~ f ~ g ~ h ~ i ~ j ~ k ~ l => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), i, j, k), Some(l.toString.replace("Some", "").replace("(","").replace(".0)","")))
+              case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k ~ l => PatientLastVisit(PatientList(a, b, c, d, f, g, Some(h.toString), j, k), Some(l.toString.replace("Some", "").replace("(","").replace(".0)","")))
            } *
         }
         searchPatientList

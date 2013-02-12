@@ -28,7 +28,6 @@ object PatientDelegate extends WsHelper{
       "address" -> optional(text),
       "contact_no" -> optional(text),
       "date_of_birth" -> optional(text),
-      "image" -> optional(text),
       "medical_history" -> optional(text),
       "gender" -> text
     )(PatientList.apply)(PatientList.unapply)
@@ -71,7 +70,6 @@ object PatientDelegate extends WsHelper{
         (json.headOption.get \ "address").asOpt[String],
         (json.headOption.get \ "contactNo").asOpt[String],
         (json.headOption.get \ "dateOfBirth").asOpt[String],
-        (json.headOption.get \ "image").asOpt[String],
         (json.headOption.get \ "medicalHistory").asOpt[String],
         (json.head\ "gender").as[String]
       ), (json.tail.headOption.get \ "dateLastVisit").asOpt[String]
@@ -99,7 +97,6 @@ object PatientDelegate extends WsHelper{
       (j \ "address").asOpt[String],
       (j \ "contactNo").asOpt[String],
       (j \ "dateOfBirth").asOpt[String],
-      (j \ "image").asOpt[String],
       (j \ "medicalHistory").asOpt[String],
       (j \ "gender").as[String]
     )

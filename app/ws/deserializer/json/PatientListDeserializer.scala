@@ -22,7 +22,6 @@ trait PatientListDeserializer {
       (json \ "address").asOpt[String],
       (json \ "contactNo").asOpt[String],
       (json \ "dateOfBirth").asOpt[String],
-      (json \ "image").asOpt[String],
       (json \ "medicalHistory").asOpt[String],
       (json \ "gender").as[String]
     )
@@ -36,7 +35,6 @@ trait PatientListDeserializer {
         "address" -> JsString(p.address.get),
         "contactNo" -> JsString(p.contactNo.get),
         "dateOfBirth" -> JsString(p.dateOfBirth.get),
-        "image" -> JsString(p.image.get),
         "medicalHistory" -> JsString(p.medicalHistory.get),
         "gender" -> JsString(p.gender)
       )
@@ -53,7 +51,6 @@ trait PatientListDeserializer {
         (json \ "address").asOpt[String],
         (json \ "contactNo").asOpt[String],
         (json \ "dateOfBirth").asOpt[String],
-        (json \ "image").asOpt[String],
         (json \ "medicalHistory").asOpt[String],
         (json \ "gender").as[String]
       ), (json \ "dateLastVisit").asOpt[String]
@@ -71,7 +68,6 @@ trait PatientListDeserializer {
               "address" -> JsString(plv.p.address.get),
               "contactNo" -> JsString(plv.p.contactNo.get),
               "dateOfBirth" -> JsString(plv.p.dateOfBirth.get),
-              "image" -> JsString(plv.p.image.get),
               "medicalHistory" -> JsString(plv.p.medicalHistory.get),
               "gender" -> JsString(plv.p.gender)
             )

@@ -83,8 +83,8 @@ object ServicesService {
             |dental_services
             |where status = {status} and
             |name like "%"{filter}"%"
+            |or code like "%"{filter}"%"
             |or type like "%"{filter}"%"
-            |or color like "%"{filter}"%"
             |or price like "%"{filter}"%"
             |ORDER BY name asc
             |LIMIT {start}, {count}
