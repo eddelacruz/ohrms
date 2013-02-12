@@ -152,8 +152,12 @@ $(document).ready(function() {
             $.ajax({
                 url : urls,
                 type: "GET",
+                beforeSend: function(){
+                   $("#loader").show();
+                },
                 success:
                     function(res) {
+                        $("#loader").hide();
                         $('.table #DataTables_Table_0').html($(res).find('.table #DataTables_Table_0').html());
                         $('#DataTables_Table_0_previous').addClass('paginate_button_disabled');
                         $('#DataTables_Table_0_next').removeClass('paginate_button_disabled');
@@ -175,8 +179,12 @@ $(document).ready(function() {
             $.ajax({
                 url : endpoint+"?start="+start+"&count="+count,
                 type: "GET",
+                beforeSend: function(){
+                   $("#loader").show();
+                },
                 success:
                     function(res) {
+                        $("#loader").hide();
                         var data = $(res).find('#DataTables_Table_0 tbody tr').length;
                         if(data > 0){
                             $('#DataTables_Table_0_previous').removeClass('paginate_button_disabled');

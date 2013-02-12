@@ -2346,3 +2346,26 @@ div.mode-1{
 .function-button{
     margin-right: 10px;
 }
+
+/*Timer*/
+#timer {
+    text-align: center;
+    line-height: 40px;
+}
+#seconds{
+    font-family: Tahoma, Arial;
+    font-size: 54px;
+    padding-top: 0;
+    color: #0574b5;
+    text-shadow: 0 -1px 1px #b2b5b8;
+}
+
+#timer .waitingText{
+    font-size: 15px;
+    font-family: "Lucida Grande", Arial;
+}
+#timer waitingTextBig{
+    font-size: 23px;
+    color: #0574b5;
+    height: 22px;
+}
