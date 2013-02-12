@@ -16,6 +16,10 @@ import ws.services.LoginService
 import views.html.patient
 import ws.delegates.{PatientDelegate, AppointmentDelegate}
 import org.reflections.vfs.Vfs.File
+import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
+import scala.util.Random
+import org.apache.commons.codec.binary.Base64
 
 object Application extends Controller{
 
@@ -38,6 +42,11 @@ object Application extends Controller{
 
   def login = Action {
     implicit request =>
+      val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+      var salt = Random.nextString(8)
+      //val salt = hash("elizer")
+      //val key = f.generateSecret(PB)
+      println(">>>>>>>>>>>>Secret Key Factory "+salt)
       Ok(views.html.login(loginForm))
   }
 

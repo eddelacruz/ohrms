@@ -368,12 +368,13 @@ object DentistService {
     var userId = ""
     DB.withConnection {
       implicit c =>
-        userId = SQL(
+        val a = SQL(
           """
             |SELECT `user_id` from `ohrms`.`dentists`
             |where
             |`id` = {id};
-          """.stripMargin).on('id -> id).as(get[String]("id")).apply().head
+          """.stripMargin).on('id -> id).apply().head
+        userId = a[String]("user_id")
     }
     println(">>>>>>>>>>>>>>>>>>>."+userId);
     DB.withConnection {

@@ -78,10 +78,12 @@ object LoginService {
           |from
           |users
           |where user_name = {user_name} and password = {password}
+          |and status = {status}
         """.stripMargin)
       .on(
         'user_name -> user_name,
-        'password -> password
+        'password -> password,
+        'status -> 1
       ).as(LoginService.userList.singleOpt)
     }
   }
