@@ -68,43 +68,7 @@
     <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>-->
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
-    <script type="text/javascript">
-        // set minutes
-        var mins = 1;
-
-        // calculate the seconds (don't change this! unless time progresses at a different speed for you...)
-        var secs = mins * 60;
-        function countdown() {
-        setTimeout('Decrement()',1000);
-        }
-        function Decrement() {
-        if (document.getElementById) {
-        minutes = document.getElementById("minutes");
-        seconds = document.getElementById("seconds");
-        // if less than a minute remaining
-        if (seconds < 59) {
-        seconds.value = secs;
-        //if (mins == 0 & secs == 0){
-        //	stop;
-        //}
-        } else {
-        minutes.value = getminutes();
-        seconds.value = getseconds();
-        }
-        secs--;
-        setTimeout('Decrement()',1000);
-        }
-        }
-        function getminutes() {
-        // minutes is seconds divided by 60, rounded down
-        mins = Math.floor(secs / 60);
-        return mins;
-        }
-        function getseconds() {
-        // take mins remaining (as seconds) away from total seconds remaining
-        return secs-Math.round(mins *60);
-        }
-    </script>
+</head>
 <body>
 <!-- show loading until the all page scripts are fully loaded and cached (use this only on login page) -->
 
@@ -118,7 +82,7 @@
             <div id="content" class="compact-page">
                 <div class="min">
                     <div id="logo">
-                        <img src="@routes.Assets.at("images/Logo4.png")" alt="logo">
+                        <img src="@routes.Assets.at("images/logo.png")" alt="logo">
                     </div>
                     <div class="main-box">
                         @helper.form(routes.Application.authenticate) {
@@ -130,30 +94,43 @@
                             </header>
                             <div class="field fullwidth iconized">
                                 <label class="glyph user" for="user_name" style="left: 23px;padding-top: 8px;"></label>
-                                <input type="text" disabled="disable" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
+                                <input type="text" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
                             </div>
                             <div class="field fullwidth iconized">
                                 <label class="glyph closed-lock" for="password" style="left: 23px;padding-top: 8px;"></label>
-                                <input type="password" disabled="disable"  placeholder="Password" name="password" id="password" value="@form("password").value">
+                                <input type="password" placeholder="Password" name="password" id="password" value="@form("password").value">
                             </div>
 
                             <span class="divider"></span>
 
                             <div class="field fullwidth last">
-                                <input type="submit" disabled="disable" class="bt blue large" value="Login">
+                                <input type="submit" class="bt blue large" value="Login">
                             </div>
-                            <div id="timer">
-                                Just wait  <input id="minutes" type="text" style="width: 14px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> minutes and <input id="seconds" type="text" style="width: 26px; border: none; background-color:none; font-size: 16px; font-weight: bold;"> seconds.
-                            </div>
-                            <script>
-                                countdown();
-                            </script>
                         </form>
-                    </div>
 
-                    <div class="extension-wrap-center">
-
+                        <div id="timer" style='border: 1px solid #d1d5d8;'>
+                            <p class="waitingText">Waiting time for the next log in:</p>
+                            <p id="seconds"></p>
+                            <p class="waitingText">seconds</p>
+                        </div>
                     </div>
+                    <script type="text/javascript">
+                        $('.main-box form header, .main-box form div, .main-box form span').hide();
+                    </script>
+                    <script type="text/javascript">
+                        var s = 31
+                        var myVar=setInterval(function(){ timer() }, 1000);
+
+                        function timer(){
+                        s--;
+                        $('#seconds').html(s);
+                        if(s === 0){
+                        clearInterval(myVar);
+                        $('#timer').hide();
+                        $('.main-box form header, .main-box form div, .main-box form span').show();
+                        }
+                        }
+                    </script>
                 </div>
                 @form.globalError.map { error =>
                 <div class="alert grey air" style="opacity: 0.85;">

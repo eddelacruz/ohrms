@@ -42,24 +42,43 @@ object Application extends Controller{
 
   def login = Action {
     implicit request =>
-      val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-      var salt = Random.nextString(8)
+      //val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+      //val salt = Random.nextString(8)
       //val salt = hash("elizer")
       //val key = f.generateSecret(PB)
-      println(">>>>>>>>>>>>Secret Key Factory "+salt)
-      Ok(views.html.login(loginForm))
+      //println(">>>>>>>>>>>>Secret Key Factory "+salt)
+      println(Cache.getAs[String]("wait"))
+      if(Cache.getAs[String]("wait") == Some("yes")){
+        println(">>>>>>>>>>>>>> tae")
+        tries = 0
+        Ok(views.html.login_wait(loginForm))
+      } else {
+        Ok(views.html.login(loginForm))
+      }
   }
 
   def countdown = Action {
     implicit request =>
-      Ok(views.html.count_down(loginForm))
+      Ok(views.html.login_wait(loginForm))
   }
+
+  var tries = 0
 
   def authenticate = Action {
     implicit request =>
       loginForm.bindFromRequest.fold(
-        formWithErrors => BadRequest(views.html.login(formWithErrors)),
-        userList => {
+        formWithErrors => {
+          tries += 1
+          println(">>>>>>>>>>>>>>>>>"+tries)
+          tries match {
+            case 3 => {
+              Cache.set("wait", "yes")
+              Redirect(routes.Application.login())
+            }
+            case _ => BadRequest(views.html.login(formWithErrors))
+          }
+        }, userList => {
+          Cache.set("wait", "")
           val usrList = LoginService.authenticate(userList._1, userList._2).get
           Cache.set("user_name", usrList.username)
           Cache.set("role", usrList.role)
@@ -68,7 +87,6 @@ object Application extends Controller{
         }
       )
   }
-
 
   def dashboard = IsAuthenticated {
     username =>
