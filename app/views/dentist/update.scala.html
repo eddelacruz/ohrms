@@ -34,11 +34,11 @@
             @helper.form(action = routes.Dentist.submitUpdateForm){
             <div class="field left">
                 <input type="hidden" name="id" value="@dl.id">
-                <input type="hidden" name="user_id" value="@dl.userId">
                 <ul>
                     <li>
                         <label>First Name:</label>
-                        <input type="text" name="first_name" required = "required" value="@dl.firstName">
+                        <input type="text" name="first_name" value="@dl.firstName">
+                        <input type="hidden" name="user_name"  value="@dl.userName">
                     </li>
                     <li>
                         <label>Middle Name:</label>
@@ -53,10 +53,6 @@
                         <label>Contact Number:</label>
                         <input type="text" name="contact_no" required = "required" value="@dl.contactNo">
                     </li>
-                    <li>
-                        <label>Image:<br></label>
-                        <input type="file" name="image" value="@dl.image"/>
-                    </li>
                 </ul>
             </div>
             <div class="field right">
@@ -69,32 +65,37 @@
                         <label>PRC No:</label>
                         <input type="text" name="prc_no" required = "required" value="@dl.prcNo">
                     </li>
-                    <li>
-                        <label>Username:</label>
-                        <input type="text" name="user_name" required = "required" value="@dl.userName">
-                    </li>
+                    @if((play.cache.Cache.get("user_name")) == dl.userName){
                     <li>
                         <label>Password:</label>
                         <input type="password" name="password" required = "required" value="@dl.password">
                     </li>
-                    <!--<label>Specialization</label>
+                    } else {
+                    <a href ="#"/>
+                    }
+                   <label>Specialization</label>
                     @for(sn <- dl.specializationName){
                     <li>
                         <input type="text" name="specializationName[0]"  data-count=0 value="@sn" style="width: 81%;">
                         <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
                     </li><br/>
-                    }-->
+                    }
                 </ul>
             </div>
         </div>
     </div>
     <footer class="pane">
-        @if((play.cache.Cache.get("id")) == dl.userId){
-        <input type="submit" class="bt blue right" value="@Messages("button.update")">
+        @if((play.cache.Cache.get("user_name")) == dl.userName || (play.cache.Cache.get("role")) == 0){
+            <input type="submit" class="bt blue right" value="@Messages("button.update")">
         } else {
-        <a href="#"></a>
+            <a href="#"></a>
         }
-        <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
+
+        @if((play.cache.Cache.get("role")) == 0){
+            <a id="delete_dentist" class="bt red left" href="#" data-dentist_id="@dl.id">@Messages("button.delete")</a>
+        } else {
+            <a href="#"></a>
+        }
     </footer>
     }
     }

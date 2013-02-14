@@ -42,8 +42,11 @@ object Staff extends Controller with Secured{
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(staff.update(StaffService.getStaffListById(id)))
-
+        Cache.get("role") match {
+          case Some(0) => Ok(staff.update(StaffService.getStaffListById(id)))
+          case Some(2) => Ok(staff.update(StaffService.getStaffListById(id)))
+          case _ => Redirect("/staffs/"+id)
+        }
   }
 
   def submitUpdateForm = Action {
@@ -68,7 +71,7 @@ object Staff extends Controller with Secured{
     username =>
       implicit request =>
         Cache.get("role") match {
-          case Some(1) => Ok(staff.add())
+          case Some(0) => Ok(staff.add())
           case _ => Redirect("/staffs")
         }
   }
@@ -90,9 +93,13 @@ object Staff extends Controller with Secured{
 
   def deleteInformation(id: String) = Action {
     implicit request =>
+      Cache.get("role") match {
+        case Some(0) =>
           val params = Map("id" -> Seq(id))
           StaffDelegate.deleteInformation(params)
           Redirect("/staffs")
+        case _ => Redirect("/staffs/"+id)
+      }
   }
 
 

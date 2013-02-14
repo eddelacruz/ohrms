@@ -1,9 +1,9 @@
 @(announcementList: List[ws.services.AnnouncementList])
 
-@main("Announcement Information") {
+@main("Reminder Information") {
 
 <header class="grid_12 head">
-    <h1>Announcement Information</h1>
+    <h1>Reminder Information</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -31,7 +31,7 @@
                     <div class="field left">
                         <ul>
                             <li>
-                                <label>Announcement ID:</label>
+                                <label>Reminder ID:</label>
                                 <label class="form-label">@dl.id</label>
                             </li>
                             <li>
@@ -45,7 +45,7 @@
 
                     </div>
                     <li>
-                        <label>Announcement:</label>
+                        <label>Reminder:</label>
                         <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" name="announcement" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
 
                     </li>

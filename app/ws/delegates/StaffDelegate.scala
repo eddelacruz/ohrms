@@ -22,11 +22,10 @@ object StaffDelegate extends WsHelper{
   val _staffProfileForm = Form(
     mapping(
       "id" -> text,
-      "user_id" -> text,
       "first_name" -> optional(text),
       "middle_name" -> optional(text),
       "last_name" -> optional(text),
-      "contactNo" -> optional(text),
+      "contact_no" -> optional(text),
       "address" -> optional(text),
       "position" -> optional(text),
       "user_name" -> optional(text),
@@ -50,7 +49,6 @@ object StaffDelegate extends WsHelper{
   def convertToStaffList (j: JsValue): StaffList = {
     new StaffList(
       (j \ "id").as[String],
-      (j \ "userId").as[String],
       (j \ "firstName").asOpt[String],
       (j \ "middleName").asOpt[String],
       (j \ "lastName").asOpt[String],

@@ -76,16 +76,12 @@
                     </li>
                 </ul>
             </div>
-            }
         </div>
     </div>
 </div>
 <footer class="pane">
-    @staffList.map { s =>
-        @if((play.cache.Cache.get("id")) == s.userId) {
+        @if((play.cache.Cache.get("user_name")) == s.userName || (play.cache.Cache.get("role")) == 0) {
         <a class="bt blue right" href="@routes.Staff.getUpdateForm(s.id)">@Messages("button.edit")</a>
-        } else {
-        <a href="#"></a>
         }
 
     }

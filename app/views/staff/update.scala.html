@@ -2,7 +2,7 @@
 
 @main(Messages("staff.title")){
 
-<!-- Update dentalService -->
+<!-- Update Staff -->
 <header class="grid_12 head center">
     <h1>@Messages("staff.update.title")</h1>
     <div class="clear"></div><span class="divider"></span>
@@ -33,7 +33,7 @@
                     @helper.form(action = routes.Staff.submitUpdateForm){
                     <div class="field left">
                         <input type="hidden" name="id" value="@sl.id">
-                        <input type="hidden" name="user_id" value="@sl.userId">
+                        <input type="hidden" name="user_name"  value="@sl.userName">
                         <ul>
                             <li>
                                 <label class="upper">First Name:</label>
@@ -65,26 +65,25 @@
                                 <label>Address:</label>
                                 <textarea id="textarea-input-grow" class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
                             </li>
-                            <li>
-                                <label>Username:</label>
-                                <input type="text" name="user_name" required="required" value="@sl.userName">
-                            </li>
+                            @if((play.cache.Cache.get("user_name")) == sl.userName){
                             <li>
                                 <label>Password:</label>
-                                <input type="password" name="password" required="required" value="@sl.password">
+                                <input type="password" name="password" required = "required" value="@sl.password">
                             </li>
+                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <footer class="pane">
-                @if((play.cache.Cache.get("id")) == sl.userId){
-                <input type="submit" class="bt blue right" value="@Messages("button.update")">
-                } else {
-                <a href="#"></a>
+                @if((play.cache.Cache.get("user_name")) == sl.userName || (play.cache.Cache.get("role")) == 0){
+                    <input type="submit" class="bt blue right" value="@Messages("button.update")">
                 }
-                <a id="delete_staff" class="bt red left" href="#" data-staff_id="@sl.id">@Messages("button.delete")</a>
 
+
+                @if((play.cache.Cache.get("role")) == 0){
+                    <a id="delete_staff" class="bt red left" href="#" data-staff_id="@sl.id">@Messages("button.delete")</a>
+                }
             </footer>
             }
             }

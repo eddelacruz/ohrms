@@ -17,10 +17,12 @@ import ws.generator.UUIDGenerator
  */
 
 
-case class StaffList(var id: String, userId: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
+case class StaffList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
 
 object StaffService {
 
+  val user = Cache.getAs[String]("user_name").toString
+  val username =  user.replace("Some", "").replace("(","").replace(")","")
 
   def getStaffList(start: Int, count: Int): List[StaffList] = {
     val status = 1
@@ -30,7 +32,7 @@ object StaffService {
           """
             |select
             |d.id,
-            |d.user_id,
+            |d.user_name,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -41,13 +43,12 @@ object StaffService {
             |from
             |staffs d
             |INNER JOIN users u
-            |ON d.user_id=u.id
+            |ON d.user_name=u.user_name
             |where d.status = {status}
             |ORDER BY d.last_name asc
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -55,7 +56,7 @@ object StaffService {
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ j => StaffList(a, b, c, d, e, f, g, h, j, Some(""))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h  => StaffList(a, b, c, d, e, f, g, h,  Some(""))
           } *
         }
         staffList
@@ -68,9 +69,9 @@ object StaffService {
       implicit c =>
         val staffList: List[StaffList] = SQL(
           """
-            |select
+            select
             |d.id,
-            |d.user_id,
+            |d.user_name,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -81,7 +82,7 @@ object StaffService {
             |from
             |staffs d
             |INNER JOIN users u
-            |ON d.user_id=u.id
+            |ON d.user_name=u.user_name
             |where d.status = {status}
             |and d.last_name like "%"{filter}"%"
             |or d.first_name like "%"{filter}"%"
@@ -90,7 +91,6 @@ object StaffService {
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'filter -> filter, 'start -> start, 'count -> count).as {
           get[String]("id") ~
-            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -98,7 +98,7 @@ object StaffService {
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ j => StaffList(a, b, c, d, e, f, g, h, j, Some(""))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
           } *
         }
         staffList
@@ -110,9 +110,9 @@ object StaffService {
       implicit c =>
         val staffList: List[StaffList] = SQL(
           """
-            |select
+            select
             |d.id,
-            |d.user_id,
+            |d.user_name,
             |d.first_name,
             |d.middle_name,
             |d.last_name,
@@ -124,12 +124,11 @@ object StaffService {
             |from
             |staffs d
             |INNER JOIN users u
-            |ON d.user_id=u.id
+            |ON d.user_name=u.user_name
             |where d.id = {id}
             |ORDER BY d.last_name asc
           """.stripMargin).on('id -> id).as {
           get[String]("id") ~
-            get[String]("user_id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -138,43 +137,25 @@ object StaffService {
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") ~
             get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j=> StaffList(a, b, c, d, e, f, g, h, i, j)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i)
           } *
         }
         staffList
     }
   }
 
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-        val getCurrentUserId = SQL(
-          """
-            |select
-            |id
-            |from users
-            |where user_name = {username}
-          """.stripMargin
-        ).on('username -> username).apply().head
-        getCurrentUserId[String]("id")
-    }
-  }
 
   def updateStaff(d: StaffList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
         SQL(
           """
             |UPDATE users SET
-            |user_name = {user_name},
             |password = {password}
             |where id = {id}
           """.stripMargin).on(
-          'id -> d.userId,
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,
@@ -211,9 +192,8 @@ object StaffService {
   }
 
   def addStaff(d: StaffList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
-    val userId = UUIDGenerator.generateUUID("users")
     d.id = UUIDGenerator.generateUUID("staffs")
     DB.withConnection {
       implicit c =>
@@ -222,7 +202,6 @@ object StaffService {
             |INSERT INTO users
             |VALUES
             |(
-            |{id},
             |{user_name},
             |{password},
             |{role},
@@ -230,7 +209,6 @@ object StaffService {
             |{date_created}
             |);
           """.stripMargin).on(
-          'id -> userId,
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,
@@ -253,7 +231,7 @@ object StaffService {
             |{address},
             |{contact_no},
             |{position},
-            |{user_id},
+            |{user_name},
             |{status},
             |{date_created},
             |{date_last_updated}
@@ -266,7 +244,7 @@ object StaffService {
           'address -> d.address,
           'contact_no -> d.contactNo,
           'position -> d.position,
-          'user_id -> userId,
+          'user_name -> d.userName,
           'status -> 1,
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow
@@ -276,8 +254,32 @@ object StaffService {
   }
 
   def deleteStaff(id: String): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Delete"
+    var userName = ""
+    DB.withConnection {
+      implicit c =>
+        val a = SQL(
+          """
+            |SELECT `user_name` from `ohrms`.`staffs`
+            |where
+            |`id` = {id};
+          """.stripMargin).on('id -> id).apply().head
+        userName = a[String]("user_name")
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE `ohrms`.`users`
+            |SET
+            |`status` = {status}
+            |WHERE user_name = {user_name};
+          """.stripMargin).on(
+          'user_name -> userName,
+          'status -> 0
+        ).executeUpdate()
+    }
     DB.withConnection {
       implicit c =>
         SQL(

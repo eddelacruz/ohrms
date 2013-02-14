@@ -57,10 +57,10 @@ clinic.list.title=Clinic List
 clinic.add.title=Add Clinic
 clinic.update.title=Update Clinic
 
-reminders.title=Reminders
-reminders.list.title=Reminders List
-reminders.add.title=Add Reminder
-reminders.update.title=Update Reminder
+announcement.title=Reminders
+announcement.list.title=Reminders List
+announcement.add.title=Add Reminder
+announcement.update.title=Update Reminder
 
 specialization.title=Specialization
 specialization.list.title=Specialization List

@@ -22,28 +22,14 @@ case class AnnouncementList(var id: String, username: Option[String], descriptio
 
 object AnnouncementService {
 
+  val user = Cache.getAs[String]("user_name").toString
+  val username =  user.replace("Some", "").replace("(","").replace(")","")
+
   def getRowCountOfTable(tableName: Option[String]): Long = {
     DB.withConnection {
       implicit c =>
         val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
         rowCount[Long]("c")
-    }
-  }
-
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-        val getCurrentUserId = SQL(
-          """
-            |select
-            |id
-            |from users
-            |where user_name = {username}
-          """.stripMargin
-        ).on('username -> username).apply().head
-        getCurrentUserId[String]("id")
     }
   }
 
@@ -53,14 +39,14 @@ object AnnouncementService {
         val announcementList: List[AnnouncementList] = SQL(
           """
             |select
-            |a.id,
+            |r.id,
             |u.user_name,
-            |a.description,
-            |a.date_created
+            |r.description,
+            |r.date_created
             |from
-            |announcements a
+            |reminders r
             |INNER JOIN users u
-            |ON a.user_id = u.id
+            |ON r.user_name = u.user_name
             |ORDER BY date_created asc
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count).as {
@@ -81,15 +67,15 @@ object AnnouncementService {
       implicit c =>
         SQL(
           """
-            |select
-            |a.id,
+            select
+            |r.id,
             |u.user_name,
-            |a.description,
-            |a.date_created
+            |r.description,
+            |r.date_created
             |from
-            |announcements a
+            |reminders r
             |INNER JOIN users u
-            |ON a.user_id = u.id
+            |ON r.user_name = u.user_name
             |where
             |  DATE(a.date_created) = DATE({date_only})
             |ORDER BY date_created asc
@@ -110,16 +96,16 @@ object AnnouncementService {
       implicit c =>
         val announcementList: List[AnnouncementList] = SQL(
           """
-            |select
-            |a.id,
+            select
+            |r.id,
             |u.user_name,
-            |a.description,
-            |a.date_created
+            |r.description,
+            |r.date_created
             |from
-            |announcements a
+            |reminders r
             |INNER JOIN users u
-            |ON a.user_id = u.id
-            |where a.id = {id}
+            |ON r.user_name = u.user_name
+            |where r.id = {id}
             |ORDER BY date_created asc
           """.stripMargin).on('id -> id).as {
             get[String]("id") ~
@@ -138,15 +124,15 @@ object AnnouncementService {
       implicit c =>
         val announcementList: List[AnnouncementList] = SQL(
           """
-            |select
-            |a.id,
+            select
+            |r.id,
             |u.user_name,
-            |a.description,
-            |a.date_created
+            |r.description,
+            |r.date_created
             |from
-            |announcements a
+            |reminders r
             |INNER JOIN users u
-            |ON a.user_id = u.id
+            |ON r.user_name = u.user_name
             |where a.announcment like "%"{filter}"%"
             |ORDER BY date_created asc
             |LIMIT {start}, {count}
@@ -163,46 +149,46 @@ object AnnouncementService {
   }
 
   def addAnnouncement(d: AnnouncementList): Long = {
-    println(getUserId)
+    val currentUser = username
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("announcements")
     DB.withConnection {
       implicit c =>
         SQL(
           """
-            |INSERT INTO announcements
+            |INSERT INTO reminders
             |VALUES
             |(
             |{id},
-            |{user_id},
+            |{user_name},
             |{description},
             |{date_created})
           """.stripMargin).on(
           'id -> d.id,
-          'user_id -> getUserId,
+          'user_name -> username,
           'description -> d.description,
           'date_created -> d.dateCreated
         ).executeUpdate()
-      AuditLogService.logTaskAnnouncement(d, getUserId, task)
+      AuditLogService.logTaskAnnouncement(d, username, task)
     }
   }
 
 
   def updateAnnouncement(p: AnnouncementList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
         SQL(
           """
-            |UPDATE appointments SET
-            |user_id = {user_name},
+            |UPDATE reminders SET
+            |user_name = {user_name},
             |description = {description},
             |date_created = {date_created}
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
-          'user_name -> currentUser,
+          'user_name -> username,
           'description -> p.description,
           'date_created -> p.dateCreated
         ).executeUpdate()
@@ -211,13 +197,13 @@ object AnnouncementService {
   }
 
   def deleteAnnouncement(id: String): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Delete"
     DB.withConnection {
       implicit c =>
         SQL(
           """
-            |DELETE FROM announcements
+            |DELETE FROM reminders
             |WHERE id = {id};
           """.stripMargin).on(
           'id -> id
