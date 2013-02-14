@@ -214,7 +214,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitAppointmentUpdateForm = Action {
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
-      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val dentalServiceId = request.body.asFormUrlEncoded.get("dental_service_id").headOption
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
       val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
@@ -223,8 +223,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
-      val status = request.body.asFormUrlEncoded.get("status").headOption
-      val al = AppointmentList(id, description,firstName, middleName, lastName, dentistId, contactNo, address,  Some(status.get.toInt), dateStart, dateEnd)
+      val al = AppointmentList(id, dentalServiceId,firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
       //println(">>>>>>>>>>>>"+al)
 
@@ -507,7 +506,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
 
       val id = ""
-      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val dentalServiceId = request.body.asFormUrlEncoded.get("dental_service_id").headOption
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
       val lastName = request.body.asFormUrlEncoded.get("last_name").headOption
@@ -516,8 +515,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateStart = request.body.asFormUrlEncoded.get("date_start").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
-      val status = request.body.asFormUrlEncoded.get("status").headOption
-      val pl = AppointmentList("", description,firstName, middleName, lastName, dentistId, contactNo, address, Some(status.get.toInt), dateStart, dateEnd)
+      val pl = AppointmentList("", dentalServiceId, firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
       if (AppointmentService.addAppointment(pl) >= 1) {
         Redirect("/scheduler")

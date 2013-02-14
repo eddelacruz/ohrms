@@ -16,14 +16,13 @@ trait AppointmentDeserializer {
   implicit object AppointmentListFormat extends Format[AppointmentList]{
     def reads(json: JsValue): AppointmentList = AppointmentList(
       (json \ "id").as[String],
-      (json \ "description").asOpt[String],
+      (json \ "dentalServiceId").asOpt[String],
       (json \ "firstName").asOpt[String],
       (json \ "middleName").asOpt[String],
       (json \ "lastName").asOpt[String],
       (json \ "dentistId").asOpt[String],
       (json \ "contactNo").asOpt[String],
       (json \ "address").asOpt[String],
-      (json \ "status").asOpt[Int],
       (json \ "dateStart").asOpt[String],
       (json \ "dateEnd").asOpt[String]
     )
@@ -31,14 +30,13 @@ trait AppointmentDeserializer {
     def writes(p: AppointmentList): JsValue = JsObject(
       Seq(
         "id" -> JsString(p.id),
-        "description" -> JsString(p.description.get),
+        "dentalServiceId" -> JsString(p.dentalServiceId.get),
         "firstName" -> JsString(p.firstName.get),
         "middleName" -> JsString(p.middleName.get),
         "lastName" -> JsString(p.lastName.get),
         "dentistId" -> JsString(p.dentistId.get),
         "contactNo" -> JsString(p.contactNo.get),
         "address" -> JsString(p.address.get),
-        "status" -> JsNumber(p.status.get),
         "dateStart" -> JsString(p.dateStart.get),
         "dateEnd" -> JsString(p.dateEnd.get)
 

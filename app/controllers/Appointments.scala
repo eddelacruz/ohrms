@@ -8,7 +8,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views._
 import ws.services.{AppointmentList, AppointmentService}
-import ws.delegates.{DentistDelegate, AppointmentDelegate}
+import ws.delegates.{DentistDelegate, AppointmentDelegate, DentalServiceDelegate}
 import ws.generator.UUIDGenerator
 import ws.services
 import Application.Secured
@@ -46,7 +46,7 @@ object Appointments extends Controller with Secured {
   def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(html.modal._update_appointment(AppointmentService.getAppointmentById(id),DentistDelegate.getAllDentists()))
+        Ok(html.modal._update_appointment(AppointmentService.getAppointmentById(id),DentistDelegate.getAllDentists(), DentalServiceDelegate.getAllDentalServiceList()))
   }
 
   def submitUpdateForm = Action {

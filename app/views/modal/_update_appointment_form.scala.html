@@ -18,9 +18,11 @@
                     <input type="hidden" name="id" value="">
                     <ul>
                         <li>
-                            <label class="upper">Description:</label>
-                            <textarea name="description" required = "required style=" height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
-                        </li>
+                            <select name="dentist_id">
+                                services.map s =>
+                                <option value="s.id">s.name</option>
+                            </select>
+                         </li>
                         <li>
                             <label>First Name:</label>
                             <input type="text" required = "required" name="first_name">
@@ -37,11 +39,10 @@
                 </div>
                 <div class="field right">
                     <li>
-                        <label>Status:</label>
+                        <label>Dentist Name:</label>
                         <select name="dentist_id">
                             dentists.map d =>
                             <option value="d.id">d.firstName d.middleName d.lastName</option>
-
                         </select>
                     </li>
                     <li>
@@ -52,18 +53,8 @@
                         <label>Address:</label>
                         <textarea name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                     </li>
-                    <li>
-                        <label>Status:</label>
-                        <select name="status">
-                            <option value="1">Pending</option>
-                            <option value="2">Time/Date Rescheduled</option>
-                            <option value="3">Cancelled</option>
-                            <option value="4">Completed</option>
-                        </select>
-                    </li>
                     <input type="hidden" name="date_start">
                     <input type="hidden" name="date_end">
-
                     </ul>
                 </div>
             </div>

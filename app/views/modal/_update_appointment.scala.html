@@ -1,4 +1,4 @@
-@(appointmentList: List[ws.services.AppointmentList], dentists: List[ws.services.DentistList])
+@(appointmentList: List[ws.services.AppointmentList], dentists: List[ws.services.DentistList], services: List[ws.services.DentalServiceList])
 
 @main("Appointment Information") {
 
@@ -36,8 +36,15 @@
                     <input type="hidden" name="id" value="@dl.id">
                     <ul>
                         <li>
-                            <label class="upper">Description:</label>
-                            <textarea name="description" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
+                            <label>Service:</label>
+                            <select name="dental_service_id" data-default="@dl.dentalServiceId">
+                                @services.map { s =>
+                                <option value="@s.id">@s.name</option>
+                                }
+                            </select>
+                            <script type="text/javascript">
+                                $('select[name=dental_service_id]').attr('data-default');
+                            </script>
                         </li>
                         <li>
                             <label>First Name:</label>
@@ -73,15 +80,6 @@
                         <li>
                             <label>Address:</label>
                             <textarea name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.address</textarea>
-                        </li>
-                        <li>
-                            <label>Status:</label>
-                            <select name="status" data-default="@dl.status">
-                                <option value="1">Pending</option>
-                                <option value="2">Time/Date Rescheduled</option>
-                                <option value="3">Cancelled</option>
-                                <option value="4">Completed</option>
-                            </select>
                         </li>
                         <input type="hidden" name="date_start" value="@dl.dateStart.get">
                         <input type="hidden" name="date_end" value="@dl.dateEnd.get">
