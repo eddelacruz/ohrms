@@ -781,7 +781,111 @@ function res() {
         })*/
     });
 
-    /*Timer*/
+    /*Birthdays*/
+    var d, m, y;
+    var $dateOfBirth = $('input[name=date_of_birth]')
+    var curDate = new Date();
+    var curDay = curDate.getDate(), curMonth = curDate.getMonth()+1, curYear = curDate.getFullYear();
+    var yearRange = 100;
+    var startYear = curYear - 6; //youngest age possible to the system
+    var earlyYear = startYear - yearRange;
+    var $day = $('select[id=day]');
+    var $month = $('select[id=month]');
+    var $year = $('select[id=year]');
+    var monthArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
+    function daysInMonth(month, year) {
+        return new Date(year, month, 0).getDate();
+    }
+
+    //populate day - initial
+    for(var i=1;i<=daysInMonth(curMonth, curYear);i++){
+        $day.append('<option value='+i+'>'+i+'</option>');
+    }
+
+    //populate month
+    for(var i=1;i<=12;i++){
+        $month.append('<option value='+i+'>'+monthArr[i-1]+'</option>');
+    }
+
+    //populate year
+    for(var i=startYear;i>=earlyYear;i--){
+        $year.append('<option value='+i+'>'+i+'</option>');
+    }
+
+    //set number of days per month
+    $day.change(function(){
+        d = $(this).val();
+        m = $month.val();
+        y = $year.val();
+        $dateOfBirth.val(y+"-"+m+"-"+d);
+
+        $month.html('')
+        for(var i=1;i<=12;i++){
+            if(parseInt(m) === i){
+                $month.append('<option value='+i+' selected>'+monthArr[i-1]+'</option>');
+            } else {
+                $month.append('<option value='+i+'>'+monthArr[i-1]+'</option>');
+            }
+        }
+        $year.html('')
+        for(var i=startYear;i>=earlyYear;i--){
+            if(parseInt(y) === i){
+                $year.append('<option value='+i+' selected>'+i+'</option>');
+            } else {
+                $year.append('<option value='+i+'>'+i+'</option>');
+            }
+        }
+    });
+
+    //set number of days per month
+    $month.change(function(){
+        d = $day.val();
+        m = $(this).val();
+        y = $year.val();
+        $dateOfBirth.val(y+"-"+m+"-"+d);
+
+        $day.html('')
+        for(var i=1;i<=daysInMonth(m, y);i++){
+            if(parseInt(d) === i){
+                $day.append('<option value='+i+' selected>'+i+'</option>');
+            } else {
+                $day.append('<option value='+i+'>'+i+'</option>');
+            }
+        }
+        $year.html('')
+        for(var i=startYear;i>=earlyYear;i--){
+            if(parseInt(y) === i){
+                $year.append('<option value='+i+' selected>'+i+'</option>');
+            } else {
+                $year.append('<option value='+i+'>'+i+'</option>');
+            }
+        }
+    });
+
+    //set if the date is correct
+    $year.change(function(){
+        d = $day.val();
+        m = $month.val();
+        y = $(this).val();
+        $dateOfBirth.val(y+"-"+m+"-"+d);
+
+        $day.html('')
+        for(var i=1;i<=daysInMonth(m, y);i++){
+            if(parseInt(d) === i){
+                $day.append('<option value='+i+' selected>'+i+'</option>');
+            } else {
+                $day.append('<option value='+i+'>'+i+'</option>');
+            }
+        }
+        $month.html('')
+        for(var i=1;i<=12;i++){
+            if(parseInt(m) === i){
+                $month.append('<option value='+i+' selected>'+monthArr[i-1]+'</option>');
+            } else {
+                $month.append('<option value='+i+'>'+monthArr[i-1]+'</option>');
+            }
+        }
+    });
 
 });
