@@ -67,7 +67,7 @@ object AnnouncementService {
       implicit c =>
         SQL(
           """
-            select
+            |select
             |r.id,
             |u.user_name,
             |r.description,
@@ -77,7 +77,7 @@ object AnnouncementService {
             |INNER JOIN users u
             |ON r.user_name = u.user_name
             |where
-            |  DATE(a.date_created) = DATE({date_only})
+            |  DATE(r.date_created) = DATE({date_only})
             |ORDER BY date_created asc
           """.stripMargin
         ).on('date_only -> DateWithTime.dateOnly).as {
@@ -151,7 +151,7 @@ object AnnouncementService {
   def addAnnouncement(d: AnnouncementList): Long = {
     val currentUser = username
     val task = "Add"
-    d.id = UUIDGenerator.generateUUID("announcements")
+    d.id = UUIDGenerator.generateUUID("reminders")
     DB.withConnection {
       implicit c =>
         SQL(
@@ -160,15 +160,15 @@ object AnnouncementService {
             |VALUES
             |(
             |{id},
-            |{user_name},
             |{description},
-            |{date_created})
+            |{date_created},
+            |{user_name})
           """.stripMargin).on(
           'id -> d.id,
-          'user_name -> username,
           'description -> d.description,
-          'date_created -> d.dateCreated
-        ).executeUpdate()
+          'date_created -> d.dateCreated,
+          'user_name -> username
+      ).executeUpdate()
       AuditLogService.logTaskAnnouncement(d, username, task)
     }
   }

@@ -119,12 +119,12 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def submitAnnouncementAddForm = Action {
     implicit request =>
       println(request.body)
-      val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
+      val description = request.body.asFormUrlEncoded.get("description").headOption
       val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
-      val pl = AnnouncementList("", Some(""), announcement, dateCreated)
+      val pl = AnnouncementList("", Some(""), description, dateCreated)
 
       if (AnnouncementService.addAnnouncement(pl) >= 1) {
-        Redirect("/announcements")
+        Redirect("/reminders")
         Status(200)
       } else {
         BadRequest
@@ -137,9 +137,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     implicit request =>
       val id =  request.body.asFormUrlEncoded.get("id").head
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val announcement = request.body.asFormUrlEncoded.get("announcement").headOption
+      val description = request.body.asFormUrlEncoded.get("description").headOption
       val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
-      val pl = AnnouncementList(id, userName, announcement, dateCreated)
+      val pl = AnnouncementList(id, userName, description, dateCreated)
 
       if (AnnouncementService.updateAnnouncement(pl) >= 1) {
         Status(200)
