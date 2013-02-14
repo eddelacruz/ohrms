@@ -173,8 +173,7 @@ $(document).ready(function() {
             //TODO lagyan ng get hour at minutes
             start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm:ss');
             end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd HH:mm:ss');
-            /*alert("start"+start)
-            alert("end"+end)*/
+
             $('#appointmentDate').html(appointmentDate);
             $('#addAppointmentModal').modal({top: 'center'});
             $('input[name=date_start]').attr("value", start);
@@ -220,12 +219,21 @@ $(document).ready(function() {
         eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
             //may babaguhin pa dito
 
+            opening = 8
+            closing = 17
+
             start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
             end = $.fullCalendar.formatDate(event.dateEnd, 'yyyy-MM-dd hh:mm:ss');
+            startHour = event.start.getHours();
+            endHour = event.dateEnd.getHours();
 
-            //alert("allday?"+allDay);
+            console.log()
             //alert("start"+start);
             //alert("end"+end);
+
+            if(startHour < opening || endHour > closing) {
+                alert("di yan pwede!");
+            };
 
             var json = new Object();
 
@@ -240,7 +248,6 @@ $(document).ready(function() {
             json.status =  2; //rescheduled
             json.date_start =  start;
             json.date_end =  end;
-
 
             console.log(JSON.stringify(json));
 
@@ -261,7 +268,6 @@ $(document).ready(function() {
                 type: "GET",
                 url: "/scheduler",
                 success: function(res) {
-                    //alert("Record updated!");
                     window.location = url;
                 }
               })

@@ -90,6 +90,7 @@
                         <form action="dashboard.php" class="jmenu">
                             <header class="head">
                                 <h1>Login</h1>
+                                <h2>Security Question</h2>
                                 <div class="clear"></div><span class="divider"></span>
                             </header>
                             <div class="field fullwidth iconized">
@@ -107,30 +108,7 @@
                                 <input type="submit" class="bt blue large" value="Login">
                             </div>
                         </form>
-
-                        <div id="timer" style='border: 1px solid #d1d5d8;'>
-                            <p class="waitingText">Waiting time for the next log in:</p>
-                            <p id="seconds"></p>
-                            <p class="waitingText">seconds</p>
-                        </div>
                     </div>
-                    <script type="text/javascript">
-                        $('.main-box form header, .main-box form div, .main-box form span').hide();
-                    </script>
-                    <script type="text/javascript">
-                        var s = 31
-                        var myVar=setInterval(function(){ timer() }, 1000);
-
-                        function timer(){
-                            s--;
-                            $('#seconds').html(s);
-                            if(s === 0){
-                                clearInterval(myVar);
-                                $('#timer').hide();
-                                $('.main-box form header, .main-box form div, .main-box form span').show();
-                            }
-                        }
-                    </script>
                 </div>
                 @form.globalError.map { error =>
                 <div class="alert grey air" style="opacity: 0.85;">

@@ -185,6 +185,7 @@ object PatientService extends Secured{
             |{contact_no},
             |{date_of_birth},
             |{medical_history},
+            |{gender},
             |{status},
             |{date_created},
             |{date_last_updated},

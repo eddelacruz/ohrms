@@ -50,8 +50,10 @@ object Application extends Controller{
       println(Cache.getAs[String]("wait"))
       if(Cache.getAs[String]("wait") == Some("yes")){
         println(">>>>>>>>>>>>>> tae")
-        tries = 0
+        tries += 1
         Ok(views.html.login_wait(loginForm))
+      } else if(Cache.getAs[String]("wait") == Some("why")){
+        Ok(views.html.login_question(loginForm))
       } else {
         Ok(views.html.login(loginForm))
       }
@@ -62,6 +64,11 @@ object Application extends Controller{
       Ok(views.html.login_wait(loginForm))
   }
 
+  def question = Action {
+    implicit request =>
+      Ok(views.html.login_question(loginForm))
+  }
+
   var tries = 0
 
   def authenticate = Action {
@@ -70,14 +77,19 @@ object Application extends Controller{
         formWithErrors => {
           tries += 1
           println(">>>>>>>>>>>>>>>>>"+tries)
-          tries match {
-            case 3 => {
-              Cache.set("wait", "yes")
-              Redirect(routes.Application.login())
-            }
-            case _ => BadRequest(views.html.login(formWithErrors))
+
+          if(tries == 3){
+            Cache.set("wait", "yes")
+            Redirect(routes.Application.login())
+          } else if(tries >= 5){
+            Cache.set("wait", "why")
+            Redirect(routes.Application.login())
+          } else {
+            BadRequest(views.html.login(formWithErrors))
           }
+
         }, userList => {
+          tries = 0
           Cache.set("wait", "")
           val usrList = LoginService.authenticate(userList._1, userList._2).get
           Cache.set("user_name", usrList.username)

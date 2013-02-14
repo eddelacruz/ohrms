@@ -44,9 +44,11 @@
             <ul class="userlist">
                 @appointmentsToday.map { at =>
                 <li class="first">
-                    <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
+                    <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
                     <div class="info-l">
                         <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
+                        <br>
+                        <span>@at.contactNo</span>
                     </div>
                     <div class="info-r">
                         @if(at.dateStart.get.split(" ")(1).split(":")(0).toInt >= 12){

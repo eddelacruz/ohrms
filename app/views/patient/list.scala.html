@@ -56,10 +56,12 @@
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="last sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
                         <div class="parentsort">Last Service
                             <div class="sorticon"></div>
                         </div>
+                    </th>
+                    <th role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;">
                     </th>
                 </tr>
                 </thead>
@@ -67,13 +69,14 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @patientList.map { pl =>
                 <tr>
-                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a></td>
+                    <td class="  sorting_1"><a href="@routes.Patient.getTreatmentPlan(pl.p.id)">@pl.p.lastName, @pl.p.firstName @pl.p.middleName </a></td>
                     <td>@pl.p.address</td>
                     <td>@pl.p.contactNo</td>
                     <td>@{pl.dateLastVisit match {
                         case Some("None") => "---"
                         case _ => pl.dateLastVisit
                     }}</td>
+                    <td style="width: 15%;"><a href="@routes.Patient.getUpdateForm(pl.p.id)">edit</a></td>
                 </tr>
                 }
                 </tbody>
