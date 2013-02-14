@@ -105,7 +105,7 @@ object AnnouncementService {
             |reminders r
             |INNER JOIN users u
             |ON r.user_name = u.user_name
-            |where a.id = {id}
+            |where r.id = {id}
             |ORDER BY date_created asc
           """.stripMargin).on('id -> id).as {
             get[String]("id") ~
