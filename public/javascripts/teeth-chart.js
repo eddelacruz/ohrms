@@ -474,6 +474,12 @@ function setPaint(tooth, toolType, toolData) {
 //creating canvas to put symbol on
 function setSymbol(tooth, toolType, toolData) {
     var cvs = 'canvas'+tooth+'_'+toolData;
+
+    var fLetter = tooth;
+    fLetter = fLetter.substr(0, 1);
+    fLetter = (fLetter === 'M') ? 'F' : 'M';
+
+    //var anotherTooth = //if MA then FA, vice versa
     console.log("===>bannedServices "+bannedServices);
     console.log("===>toothWithService "+toothWithService);
     checkIfBan(tooth);
