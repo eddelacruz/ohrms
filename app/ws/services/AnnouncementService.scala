@@ -78,7 +78,7 @@ object AnnouncementService {
             |where
             |  DATE(r.date_created) = DATE({date_only})
             |ORDER BY date_created asc
-          """.stripMargin
+            |""".stripMargin
         ).on('date_only -> DateWithTime.dateOnly).as { //
             get[String]("id") ~
             get[Option[String]]("user_name") ~
