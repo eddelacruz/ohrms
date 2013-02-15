@@ -7,128 +7,129 @@
         <div class="clear"></div><span class="divider"></span>
     </header>
 
-    <!-- Reminders -->
-    <div class="simple-box grid_8">
-        <div class="inner">
+    <div class="grid_8">
+        <!-- Reminders -->
+        <div class="simple-box">
+            <div class="inner">
+                <header>
+                    <h1>Reminders</h1>
+                </header>
+
+                <div class="box-content">
+                    @remindersToday.map { rt =>
+                    <p>@rt.dateCreated @rt.description - by @rt.username</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- /Reminders -->
+
+        <!-- Statistics -->
+        <div class="box">
             <header>
-                <h1>Reminders</h1>
-                @remindersToday.map { rt =>
-                    <h1>@rt.dateCreated</h1>
-                }
+                <div class="inner">
+                    <div class="left title">
+                        <h1>Visit Statistics</h1>
+                    </div>
+                    <div class="right">
+                        <nav>
+                            <ul>
+                                <li class="active first"><a href="#tab-1">Monthly</a></li>
+                                <li class="last"><a href="#tab-2">Daily</a></li>
+                            </ul>
+                        </nav>
+                        <a href="#" class="close">close</a>
+                    </div>
+                </div>
             </header>
 
             <div class="box-content">
-                @remindersToday.map { rt =>
-                    <p>@rt.description - by @rt.username</p>
-                }
+                <div id="tab-1" class="tab">
+                    <div id="container" style="width: 590px; height: 300px"></div>
+                </div>
+                <div id="tab-2" class="tab" style="display: none; ">
+                    <div id="container1" style="width: 590px; height: 300px"></div>
+                </div>
             </div>
         </div>
+        <!-- /Statistics -->
     </div>
-    <!-- /Reminders -->
 
-    <!-- Today's Appointments -->
-    <div class="box grid_4">
-        <header>
-            <div class="inner">
-                <div class="left title">
-                    <h1>Today's Appoinments</h1>
-                    <a href="@routes.Scheduler.getCalendar()">view scheduler »</a>
-                </div>
-                <div class="right">
-                    <a href="#" class="close">close</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="box-content no-inner-space" style="display: block; ">
-            <ul class="userlist">
-                @appointmentsToday.map { at =>
-                <li class="first">
-                    <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
-                    <div class="info-l">
-                        <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
-                        <br>
-                        <span>@at.contactNo</span>
+    <div class="grid_4">
+        <!-- Today's Appointments -->
+        <div class="box">
+            <header>
+                <div class="inner">
+                    <div class="left title">
+                        <h1>Today's Appoinments</h1>
+                        <a href="@routes.Scheduler.getCalendar()">view scheduler »</a>
                     </div>
-                    <div class="info-r">
-                        @if(at.dateStart.get.split(" ")(1).split(":")(0).toInt >= 12){
+                    <div class="right">
+                        <a href="#" class="close">close</a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="box-content no-inner-space" style="display: block; ">
+                <ul class="userlist">
+                    @appointmentsToday.map { at =>
+                    <li class="first">
+                        <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
+                        <div class="info-l">
+                            <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
+                            <span>@at.contactNo</span>
+                        </div>
+                        <div class="info-r">
+                            @if(at.dateStart.get.split(" ")(1).split(":")(0).toInt >= 12){
                             <span>@(at.dateStart.get.split(" ")(1).split(":")(0).toInt % 12):@at.dateStart.get.split(" ")(1).split(":")(1) pm</span>
-                        } else {
-                            @if((at.dateStart.get.split(" ")(1).split(":")(0).toInt == 0)){
-                                <span></span>
                             } else {
-                                <span>@at.dateStart.get.split(" ")(1).split(":")(0):@at.dateStart.get.split(" ")(1).split(":")(1) am</span>
+                            @if((at.dateStart.get.split(" ")(1).split(":")(0).toInt == 0)){
+                            <span></span>
+                            } else {
+                            <span>@at.dateStart.get.split(" ")(1).split(":")(0):@at.dateStart.get.split(" ")(1).split(":")(1) am</span>
                             }
-                        }
+                            }
 
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <!-- /Today's Appoinments -->
+
+        <!-- Latest Patients -->
+        <div class="box">
+            <header>
+                <div class="inner">
+                    <div class="left title">
+                        <h1>Latest Patients</h1>
+                        <a href="@routes.Patient.getList()">view patient list »</a>
                     </div>
-                </li>
-                }
-            </ul>
-        </div>
-    </div>
-    <!-- /Today's Appoinments -->
-     <br>
-
-    <!-- Statistics -->
-    <div class="box grid_8">
-        <header>
-            <div class="inner">
-                <div class="left title">
-                    <h1>Visit Statistics</h1>
-                </div>
-                <div class="right">
-                    <nav>
-                        <ul>
-                            <li class="active first"><a href="#tab-1">Monthly</a></li>
-                            <li class="last"><a href="#tab-2">Daily</a></li>
-                        </ul>
-                    </nav>
-                    <a href="#" class="close">close</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="box-content">
-            <div id="tab-1" class="tab">
-                <div id="container" style="width: 590px; height: 300px"></div>
-            </div>
-            <div id="tab-2" class="tab" style="display: none; ">
-                <div id="container1" style="width: 590px; height: 300px"></div>
-            </div>
-        </div>
-    </div>
-    <!-- /Statistics -->
-
-    <!-- Latest Patients -->
-    <div class="box grid_4">
-        <header>
-            <div class="inner">
-                <div class="left title">
-                    <h1>Latest Patients</h1>
-                    <a href="@routes.Patient.getList()">view patient list »</a>
-                </div>
-                <div class="right">
-                    <a href="#" class="close">close</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="box-content no-inner-space latest-patients" style="display: block; ">
-            <ul class="userlist">
-                @patientList.map { pl =>
-                <li class="">
-                    <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.jpg")" width="40" height="40" alt="avatar"></div>
-                    <div class="info-l">
-                        <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title">@pl.lastName, @pl.firstName @pl.middleName</a>
-                        <span>@pl.address</span>
+                    <div class="right">
+                        <a href="#" class="close">close</a>
                     </div>
-                </li>
-                }
-            </ul>
+                </div>
+            </header>
+
+            <div class="box-content no-inner-space latest-patients" style="display: block; ">
+                <ul class="userlist">
+                    @patientList.map { pl =>
+                    <li class="">
+                        <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.jpg")" width="40" height="40" alt="avatar"></div>
+                        <div class="info-l">
+                            <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title">@pl.lastName, @pl.firstName @pl.middleName</a>
+                            <span>@pl.address</span>
+                        </div>
+                    </li>
+                    }
+                </ul>
+            </div>
         </div>
+        <!-- /Latest Patients -->
+
     </div>
-    <!-- /Latest Patients -->
+
 }
 
 

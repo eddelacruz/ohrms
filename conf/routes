@@ -126,10 +126,10 @@ GET     /json/appointments/today    controllers.Json.getAllAppointmentsToday
 GET     /json/appointments/:id          controllers.Json.getAppointmentById(id: String)
 POST    /json/appointments/update       controllers.Json.submitAppointmentUpdateForm
 GET     /json/reminders                controllers.Json.getAnnouncementList(start : Int ?= 0, count : Int ?= 25)
+GET     /json/reminders/today    controllers.Json.getAllAnnouncementsToday
 GET     /json/reminders/:id     controllers.Json.getAnnouncementListById(id: String)
 POST    /json/reminders/update         controllers.Json.submitAnnouncementUpdateForm
 POST    /json/reminders               controllers.Json.submitAnnouncementAddForm
-GET     /json/reminders/today    controllers.Json.getAllAnnouncementsToday
 POST    /json/reminders/delete       controllers.Json.deleteAnnouncementInformation
 GET     /json/:tableName/row_count         controllers.Json.getRowCountOfTable(tableName: String)
 GET     /json/patients/last_visit          controllers.Json.getPatientLastVisit(start : Int ?= 0, count : Int ?= 25)
