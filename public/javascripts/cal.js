@@ -232,7 +232,7 @@ $(document).ready(function() {
             //alert("end"+end);
 
             if(startHour < opening || endHour > closing) {
-                alert("di yan pwede!");
+                alert("Wrong!");
             };
 
             var json = new Object();

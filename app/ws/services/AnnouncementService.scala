@@ -22,8 +22,7 @@ case class AnnouncementList(var id: String, username: Option[String], descriptio
 
 object AnnouncementService {
 
-  val user = Cache.getAs[String]("user_name").toString
-  val username =  user.replace("Some", "").replace("(","").replace(")","")
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
   def getRowCountOfTable(tableName: Option[String]): Long = {
     DB.withConnection {
@@ -67,7 +66,7 @@ object AnnouncementService {
       implicit c =>
         SQL(
           """
-            select
+            |select
             |r.id,
             |u.user_name,
             |r.description,
@@ -77,15 +76,15 @@ object AnnouncementService {
             |INNER JOIN users u
             |ON r.user_name = u.user_name
             |where
-            |  DATE(a.date_created) = DATE({date_only})
+            |  DATE(r.date_created) = DATE({date_only})
             |ORDER BY date_created asc
           """.stripMargin
-        ).on('date_only -> DateWithTime.dateOnly).as {
+        ).on('date_only -> DateWithTime.dateOnly).as { //
             get[String]("id") ~
             get[Option[String]]("user_name") ~
             get[Option[String]]("description") ~
-            get[Option[Date]]("date_created") map {
-            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
+            get[Date]("date_created") map {
+            case a ~ b ~ c ~ d => AnnouncementList(a, b, c, Some(d.toString))
             } *
         }
     }
@@ -149,9 +148,8 @@ object AnnouncementService {
   }
 
   def addAnnouncement(d: AnnouncementList): Long = {
-    val currentUser = username
     val task = "Add"
-    d.id = UUIDGenerator.generateUUID("announcements")
+    d.id = UUIDGenerator.generateUUID("reminders")
     DB.withConnection {
       implicit c =>
         SQL(
@@ -160,15 +158,15 @@ object AnnouncementService {
             |VALUES
             |(
             |{id},
-            |{user_name},
             |{description},
-            |{date_created})
+            |{date_created},
+            |{user_name})
           """.stripMargin).on(
           'id -> d.id,
-          'user_name -> username,
           'description -> d.description,
-          'date_created -> d.dateCreated
-        ).executeUpdate()
+          'date_created -> "2012-2-15 12:12:12", //d.dateCreated,
+          'user_name -> username
+      ).executeUpdate()
       AuditLogService.logTaskAnnouncement(d, username, task)
     }
   }
