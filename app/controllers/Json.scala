@@ -105,7 +105,6 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
   def getAllAnnouncementsToday = Action {
     implicit request =>
       Ok(JsObject(Seq("AnnouncementList" -> toJson(AnnouncementService.getAnnouncementsToday))))
-      //Ok(JsObject(Seq("AppoinmentsList" -> toJson(AppointmentService.getAppointmentsToday))))
   }
 
   def searchAnnouncementList(start: Int, count: Int, filter: String) = Action {
