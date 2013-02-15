@@ -5,7 +5,6 @@
 <!-- Dentist List -->
 <header class="grid_12 head center">
     <h1>@Messages("dentist.list.title")</h1>
-    <a class="right" href="@routes.Dentist.getAddForm()"><span class="glyph zoom-in"></span> add a dentist</a>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -60,6 +59,7 @@
                 <div class="center">
                     <div class="form-details">
                         @helper.form(action = routes.Dentist.submitAddForm){
+                        @if((play.cache.Cache.get("role")) == 0){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
                             <ul>
@@ -109,6 +109,7 @@
                                 <br/>
                             </ul>
                         </div>
+
                     </div>
                 </div>
                 <footer class="pane">
@@ -117,7 +118,7 @@
                 }
             </div>
         </div>
-    </div>
+    </div> }
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
