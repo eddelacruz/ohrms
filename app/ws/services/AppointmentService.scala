@@ -7,6 +7,7 @@ import play.api.db.DB
 import java.util.Date
 import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
+import ws.helper.Maid
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
@@ -20,9 +21,6 @@ case class AppointmentList(var id: String, dentalServiceId: Option[String], firs
  */
 
 object AppointmentService extends Secured {
-
-  val user = Cache.getAs[String]("user_name").toString
-  val username =  user.replace("Some", "").replace("(","").replace(")","")
 
   //TODO lagyan kung sino ang nagrecord ng appointment
   def getAllAppointments = {
@@ -138,9 +136,9 @@ object AppointmentService extends Secured {
   }
 
   def addAppointment(d: AppointmentList): Long = {
-    val currentUser = username
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
+    val currentUser = Maid.getCurrentUser
     //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
@@ -150,8 +148,8 @@ object AppointmentService extends Secured {
             |VALUES
             |(
             |{id},
-            |{dental_service_id},
             |{first_name},
+            |{dental_service_id},
             |{middle_name},
             |{last_name},
             |{dentist_id},
@@ -162,8 +160,8 @@ object AppointmentService extends Secured {
             |);
           """.stripMargin).on(
           'id -> d.id,
-          'dental_service_id -> d.dentalServiceId,
           'first_name -> d.firstName,
+          'dental_service_id -> d.dentalServiceId,
           'middle_name -> d.middleName,
           'last_name -> d.lastName,
           'dentist_id -> d.dentistId,
@@ -177,7 +175,7 @@ object AppointmentService extends Secured {
   }
 
   def updateAppointment(d: AppointmentList): Long = {
-    val currentUser = username
+    val currentUser = Maid.getCurrentUser
     val task = "Update"
     DB.withConnection {
       implicit c =>
