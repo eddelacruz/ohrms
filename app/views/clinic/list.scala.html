@@ -8,6 +8,83 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<div class="grid_3">
+    <div class="simple-box">
+        <div class="inner">
+
+            <div class="box-content">
+                <p>
+                    <a href="">Your Profile</a>
+                </p>
+                <p>
+                    <a href="">Reminders</a>
+                </p>
+                <p>
+                    <a href="">Clinic</a>
+                </p>
+                <p>
+                    <a href="">Dental Services</a>
+                </p>
+                <p>
+                    <a href="">Dentists</a>
+                </p>
+                <p>
+                    <a href="">Staffs</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid_9">
+    <div class="box">
+        <header>
+            <div class="inner">
+                <div class="left title">
+                    <h1></h1>
+                </div>
+                <div class="right">
+                    <nav style="display:none;">
+                        <ul>
+                            <li class="active first"><a href="#tab-1">Profile</a></li>
+                        </ul>
+                    </nav>
+                    <a href="#" class="close">close</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-content">
+            <div id="tab-1" class="tab">
+                <div class="center">
+                    <div class="form-details">
+                        @helper.form(action = routes.Clinic.submitAddForm){
+                        <div class="field left">
+                            <input type="hidden" name="id" value="">
+                            <ul>
+                                <li>
+                                    <label class="upper">Clinic Name:</label>
+                                    <input type="text" name="clinic_name"  required = "required">
+                                </li>
+                                <li>
+                                    <label>Address:</label>
+                                    <input type="text" name="address" required = "required">
+                                </li>
+                                <li>
+                                    <label>Logo:<br></label>
+                                    <input type="file" name="image">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer class="pane">
+                    <input type="submit" class="bt blue right clinic" value="@Messages("button.add")">
+                </footer>
+                }
+            </div>
+        </div>
+    </div>
 <div class="grid_12">
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
@@ -69,5 +146,5 @@
     </div>
 </div>
 <!-- /Clinic List -->
-
+</div>
 }
