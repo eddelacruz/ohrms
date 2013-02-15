@@ -31,15 +31,6 @@
 <div class="box-content">
 <div id="tab-1" class="tab">
     <div class="columns">
-        <div class="form-image left center">
-            <div class="itemdata">
-                <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
-                <div class="categories">
-                    <a href="#" class="bt grey small"><span class="glyph image"></span>Change image</a>
-                </div>
-            </div>
-
-        </div>
         <div class="form-details right mode-1">
             @dentistList.map { dl =>
             <div class="field left">
@@ -94,11 +85,12 @@
     </div>
 </div>
 <footer class="pane">
-    <!--||(play.cache.Cache.get("user_name")) == dl.userName -->
          @if((play.cache.Cache.get("role")) == 0) {
             <a class="bt blue right" href="@routes.Dentist.getUpdateForm(dl.id)">@Messages("button.edit")</a>
         }else{
-            <a class="hidden" href="#" ></a>
+            @if((play.cache.Cache.get("user_name")) == dl.userName){
+                 <a class="bt blue right" href="@routes.Dentist.getUpdateForm(dl.id)">@Messages("button.edit")</a>
+            }
         }
 </footer>
 </div>   }

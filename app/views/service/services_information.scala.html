@@ -62,10 +62,8 @@
     </div> }
     @dentalServiceList.map { ds =>
     <footer class="pane">
-        @if((play.cache.Cache.get("role")) == 1) {
+        @if((play.cache.Cache.get("role")) == 0) {
         <a class="bt blue right" href="@routes.DentalService.getUpdateForm(ds.id)">@Messages("button.edit")</a>
-        } else {
-        <a href="#"></a>
         }
     </footer>
     }
