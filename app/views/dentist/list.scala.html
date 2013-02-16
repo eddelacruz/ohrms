@@ -37,11 +37,12 @@
 </div>
 
 <div class="grid_9">
+    @if((play.cache.Cache.get("role")) == 0){
     <div class="box">
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1></h1>
+                    <h1>Dentist</h1>
                 </div>
                 <div class="right">
                     <nav style="display:none;">
@@ -59,7 +60,6 @@
                 <div class="center">
                     <div class="form-details">
                         @helper.form(action = routes.Dentist.submitAddForm){
-                        @if((play.cache.Cache.get("role")) == 0){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
                             <ul>
@@ -93,7 +93,7 @@
                                     <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                                 </li>
                                 <li>
-                                    <label>Contact Number:</label>
+                                    <label>Contact No:</label>
                                     <input type="text" name="contact_no" required = "required">
 
                                 </li>
@@ -119,6 +119,7 @@
             </div>
         </div>
     </div> }
+
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>

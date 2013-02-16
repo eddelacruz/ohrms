@@ -41,7 +41,7 @@
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1></h1>
+                    <h1>Clinic</h1>
                 </div>
                 <div class="right">
                     <nav style="display:none;">
@@ -63,18 +63,22 @@
                             <input type="hidden" name="id" value="">
                             <ul>
                                 <li>
-                                    <label class="upper">Clinic Name:</label>
+                                    <label class="upper">Name:</label>
                                     <input type="text" name="clinic_name"  required = "required">
                                 </li>
-                                <li>
-                                    <label>Address:</label>
-                                    <input type="text" name="address" required = "required">
-                                </li>
+                            </ul>
+                        </div>
+                        <div class="field right">
+                            <ul>
                                 <li>
                                     <label>Logo:<br></label>
                                     <input type="file" name="image">
                                 </li>
                             </ul>
+                        </div>
+                        <div class="field center">
+                            <label>Address:</label>
+                            <textarea class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </div>
                     </div>
                 </div>
@@ -85,7 +89,8 @@
             </div>
         </div>
     </div>
-<div class="grid_12">
+
+
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
@@ -110,7 +115,7 @@
                 <thead>
                 <tr role="row">
                     <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Clinic name
+                        <div class="parentsort">Name
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -133,18 +138,16 @@
             </table>
             <div class="extension bottom inright pagination">
                 <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
-                    <a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a>
-                    <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
-                                                <span>
-                                                    <a tabindex="0" class="paginate_button">1</a>
-                                                </span>
-                    <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
-                    <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>
+                    <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                        <span>
+                            <a tabindex="0" class="paginate_button">1</a>
+                        </span>
+                    <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 <!-- /Clinic List -->
 </div>
 }

@@ -1,6 +1,12 @@
 @(patientList: List[ws.services.PatientList], appointmentsToday: List[ws.services.AppointmentList], remindersToday: List[ws.services.AnnouncementList])
 
 @main(Messages("dashboard.title")) {
+
+    <script type="text/javascript">
+        $('.main-nav ul').children().removeClass('active');
+        $('.main-nav ul li a[name=Dashboard]').parent().addClass('active');
+    </script>
+
     <!-- # Dashboard -->
     <header class="grid_12 head">
         <h1>@Messages("dashboard.title")</h1>
