@@ -97,6 +97,8 @@ var violet = '#cb3594'
 var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, maskDataUrl;
 var imageObj2, curPrice;
 
+var anotherTooth;//if MA then FA, vice versa
+
 var dentalServices = new Array();
 var toothWithService = new Array();
 var bannedServices = new Array(); //['PASTA', 'OP'] //static for EXT
@@ -350,9 +352,25 @@ function redefineFunctions() {
             //console.log('whynot?'+tooth+toolType+toolData);
             setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+            var cv2 = '#'+anotherTooth+' div #canvas'+anotherTooth+'_'+toolData;
 
             //todo switch here for ext only
             $(cv).each(function() {
+                var id = $(this).attr('id');
+                var c = document.getElementById(id);
+                var ctx = c.getContext("2d");
+                var ctxWidth = parseInt($('#'+c.id).attr('width'));
+                var ctxHeight = parseInt($('#'+c.id).attr('height'));
+
+                ctx.moveTo(0+10, 0+5);
+                ctx.lineTo(ctxWidth-10, ctxHeight-5);
+                ctx.moveTo(ctxWidth-10, 0+5);
+                ctx.lineTo(0+10, ctxHeight-5);
+                ctx.lineCap = 'round';
+                ctx.lineWidth = 6;
+                ctx.stroke();
+            });
+            $(cv2).each(function() {
                 var id = $(this).attr('id');
                 var c = document.getElementById(id);
                 var ctx = c.getContext("2d");
@@ -412,6 +430,7 @@ $('.gum canvas').hover(function() {
                 redefineFunctions();
                 break;
             case 'symbol':
+                anotherTooth = otherTooth(tooth);
                 setVariables(tooth, toolType, toolData);
                 redefineFunctions();
                 break;
@@ -475,33 +494,55 @@ function setPaint(tooth, toolType, toolData) {
 function setSymbol(tooth, toolType, toolData) {
     var cvs = 'canvas'+tooth+'_'+toolData;
 
-    var fLetter = tooth;
-    fLetter = fLetter.substr(0, 1);
-    fLetter = (fLetter === 'M') ? 'F' : 'M';
+    alert(anotherTooth);
 
-    //var anotherTooth = //if MA then FA, vice versa
+    //imageWidth for the other tooth
+    var imageWidth2 = $('#'+anotherTooth+' canvas').attr('width');
+    var imageHeight2 = $('#'+anotherTooth+' canvas').attr('height');
+    alert(imageWidth2+imageHeight2);
+
     console.log("===>bannedServices "+bannedServices);
     console.log("===>toothWithService "+toothWithService);
     checkIfBan(tooth);
+    checkIfBan(anotherTooth);
     if ( $.inArray(toolData, bannedServices) === -1 && flag === 0 ) {
         console.log("==========================> setSymbol: "+tooth);
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
+        var c2 = '#'+anotherTooth+' div #canvas'+anotherTooth+'_'+toolData;
         var t = tooth+"_"+toolData;
+        var t2 = anotherTooth+"_"+toolData;
         //price
         var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
         var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
         //check if not-exists ung canvas, if-not exists add div
-        if ($(c).length <= 0) {
+        if ($(c).length <= 0 || $(c2).length <= 0 ) {
             $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
-            if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
+            $('#'+anotherTooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t2+"' width='"+imageWidth2+"' height='"+imageHeight2+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
+            if($.inArray(tooth+"_"+toolData, toothWithService) <= -1 || $.inArray(anotherTooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
+                toothWithService.push(anotherTooth+"_"+toolData); //end of symbol
                 console.log(">>> toothWithService"+toothWithService);
             }
         } else {
             $(c).parent().remove();
+            $(c2).parent().remove();
             var index = $.inArray(tooth, toothWithService);
+            var index2 = $.inArray(anotherTooth, toothWithService);
             toothWithService.remove(index);
+            toothWithService.remove(index2);
             //console.log(toothWithService); //symbol only has remove from toothWithService
         }
     };
 };
+
+function otherTooth(tooth){
+    var word = tooth;
+    var len = word.length;
+    var fLetter = word.substr(0, 1);
+    var rLetters = word.substr(1, len);
+
+    var newWord = (fLetter === 'M') ? 'F' : 'M';
+    newWord = newWord + rLetters;
+
+    return newWord;
+}
