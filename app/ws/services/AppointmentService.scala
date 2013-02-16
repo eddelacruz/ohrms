@@ -138,7 +138,7 @@ object AppointmentService extends Secured {
   def addAppointment(d: AppointmentList): Long = {
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
-    val currentUser = Maid.getCurrentUser
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
@@ -175,7 +175,7 @@ object AppointmentService extends Secured {
   }
 
   def updateAppointment(d: AppointmentList): Long = {
-    val currentUser = Maid.getCurrentUser
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>

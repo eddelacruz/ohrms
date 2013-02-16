@@ -6,6 +6,7 @@ import play.api.Play.current
 import play.api.db.DB
 import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
+import ws.helper.Maid
 import java.util.Date
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
@@ -21,8 +22,6 @@ import ws.generator.UUIDGenerator
 case class AnnouncementList(var id: String, username: Option[String], description: Option[String], dateCreated: Option[String])
 
 object AnnouncementService {
-
-  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
   def getRowCountOfTable(tableName: Option[String]): Long = {
     DB.withConnection {
@@ -148,6 +147,7 @@ object AnnouncementService {
   }
 
   def addAnnouncement(d: AnnouncementList): Long = {
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("reminders")
     DB.withConnection {
@@ -164,16 +164,16 @@ object AnnouncementService {
           """.stripMargin).on(
           'id -> d.id,
           'description -> d.description,
-          'date_created -> "2012-2-15 12:12:12", //d.dateCreated,
-          'user_name -> username
+          'date_created -> d.dateCreated,
+          'user_name -> currentUser
       ).executeUpdate()
-      AuditLogService.logTaskAnnouncement(d, username, task)
+      AuditLogService.logTaskAnnouncement(d, currentUser, task)
     }
   }
 
 
   def updateAnnouncement(p: AnnouncementList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -186,7 +186,7 @@ object AnnouncementService {
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
-          'user_name -> username,
+          'user_name -> currentUser,
           'description -> p.description,
           'date_created -> p.dateCreated
         ).executeUpdate()
@@ -195,7 +195,7 @@ object AnnouncementService {
   }
 
   def deleteAnnouncement(id: String): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Delete"
     DB.withConnection {
       implicit c =>
