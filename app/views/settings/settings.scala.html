@@ -2,7 +2,7 @@
 
     <!-- # Dashboard -->
     <header class="grid_12 head">
-        <h1>@Messages("Account Settings")</h1>
+        <h1>Settings <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
         <div class="clear"></div><span class="divider"></span>
     </header>
 
@@ -13,19 +13,19 @@
             <div class="box-content">
                 <ul>
                     <li>
-                        <a href="">Your Profile</a>
+                        <a href="#">Your Profile</a>
                     </li>
                     <li>
-                        <a href="@routes.Clinic.getList()">Clinic</a>
+                        <a href="#" name="clinic">Clinic</a>
                     </li>
                     <li>
-                        <a href="@routes.Dentist.getList()">Dentists</a>
+                        <a href="#" name="dentists">Dentists</a>
                     </li>
                     <li>
-                        <a href="@routes.Announcement.getList()">Reminders</a>
+                        <a href="#" name="reminders">Reminders</a>
                     </li>
                     <li>
-                        <a href="@routes.Staff.getList()">Staffs</a>
+                        <a href="#" name="staffs">Staffs</a>
                     </li>
                 </ul>
             </div>
@@ -33,16 +33,7 @@
     </div>
     <!-- DentalService -->
     <!-- /Announcements -->
-    <div class="simple-box grid_9">
-        <div class="inner">
-            <header>
-                <h1>Reminders</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Announcement.getList()">View Reminders List</a>
-            </div>
-        </div>
+    <div class="grid_9">
     </div>
     <!-- /Announcements -->
 }

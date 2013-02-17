@@ -5,7 +5,8 @@
 <!-- Patient List -->
 
 <header class="grid_12 head center">
-    <h1>@Messages("patient.list.title")</h1>
+
+    <h1>@Messages("patient.list.title") <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
     <a class="function-button right" href="@routes.Reports._patientList()"><span class="glyph portrait-view"></span> print</a>
     <a class="function-button right" href="@routes.Patient.getAddForm()"><span class="glyph zoom-in"></span> add a patient</a>
     <div class="clear"></div><span class="divider"></span>
@@ -24,7 +25,6 @@
                     <option value="100">100</option>
                 </select>
                 <span class="textnode"> entries</span>
-                <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;">
             </label>
         </div>
         <div class="dataTables_filter" id="DataTables_Table_0_filter">

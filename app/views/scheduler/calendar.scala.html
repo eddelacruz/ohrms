@@ -3,12 +3,12 @@
 
 <!-- Scheduler -->
 <header class="grid_12 head center">
-    <h1>@Messages("scheduler.title")</h1>
+    <h1>@Messages("scheduler.title") <img id="loader" src="@routes.Assets.at("images/loader.gif")"></h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
 <div class="grid_12">
-    <a href="#" id="showEventsButton" class="bt blue right">Show All Events</a>
+    <a href="#" id="showEventsButton" class="bt blue right" style="display: none;">Show All Events</a>
     <div id="calendar">
     </div>
 </div>

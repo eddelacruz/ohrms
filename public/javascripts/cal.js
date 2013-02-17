@@ -71,6 +71,7 @@ $(document).ready(function() {
                         }]);
                 })
             })
+            $("#loader").hide(); // ajax loader
     });
 
     function clearFields(){
@@ -203,8 +204,12 @@ $(document).ready(function() {
             $.ajax({
                 url : "/appointments/"+appointmentId+"/update",
                 type : "GET",
+                beforeSend: function(){
+                   $("#loader").show();
+                },
                 success :
                     function(res) {
+                        $("#loader").hide();
                         $('#updateAppointmentModalForm .center').html($(res).find('.main-box #updateAppointmentModal .center').html());
                         $('#updateAppointmentModalForm select[name=dentist_id]').html($(res).find('.main-box #updateAppointmentModal select[name=dentist_id]').html());
                         var defaultDentistId = $(res).find(".main-box #updateAppointmentModal select[name=dentist_id]").attr('data-default');

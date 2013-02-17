@@ -888,4 +888,82 @@ function res() {
         }
     });
 
+
+    /*Settings Links*/
+    /*var mod = ["dentists","clinic","staffs","reminders"];
+    for (var i=0;i<mod.length;i++){
+        //alert(mod[i]);
+        var selector = 'a[name='+mod[i]+']';
+        var url = '/'+mod[i];
+        $(selector).click(function(){
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(res) {
+                    $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+                }
+            });
+        });
+    };*/
+
+    //clinic
+    $('a[name=clinic]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/clinic",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //dentists
+    $('a[name=dentists]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/dentists",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //reminders
+    $('a[name=reminders]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/reminders",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //staffs
+    $('a[name=staffs]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/staffs",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
 });
