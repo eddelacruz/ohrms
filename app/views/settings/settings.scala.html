@@ -2,7 +2,7 @@
 
     <!-- # Settings -->
     <header class="grid_12 head">
-        <h1>elidc93's Account <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
+        <h1>@(play.cache.Cache.get("user_name"))'s Account <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
         <div class="clear"></div><span class="divider"></span>
     </header>
 
@@ -13,7 +13,7 @@
             <div class="box-content">
                 <ul>
                     <li>
-                        <a href="#">elidc93's Account</a>
+                        <a href="#">@(play.cache.Cache.get("user_name"))'s Account</a>
                     </li>
                     <li>
                         <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>

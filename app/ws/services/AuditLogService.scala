@@ -511,19 +511,19 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
-          'module -> "ds"
-        ).executeUpdate()
+          'module -> "ds",
+          'user_name -> currentUser //cached user_id when login
+      ).executeUpdate()
     }
   }
 

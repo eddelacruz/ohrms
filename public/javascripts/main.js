@@ -743,9 +743,9 @@ function res() {
         var selected = $('select.special.services-banned option').attr('selected','');
         $.each(selected, function(i, l){
             var v = $(l).val();
-            var i = $('.field.center div.services-banned input').length;
+            var i = $('.field.special div.services-banned input').length;
             var n = 'banned_service['+i+']';
-            $('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
+            $('.field.special div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
         });
         /*var bs = $('.field.center select.special.services-banned option');
         var bannedServices = new Array();

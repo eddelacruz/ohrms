@@ -144,12 +144,12 @@ object ServicesService {
         val getCurrentUserId = SQL(
           """
             |select
-            |id
+            |user_name
             |from users
             |where user_name = {username}
           """.stripMargin
         ).on('username -> username).apply().head
-        getCurrentUserId[String]("id")
+        getCurrentUserId[String]("user_name")
     }
   }
 

@@ -61,8 +61,8 @@
 
         <div class="box-content">
             <div id="tab-1" class="tab">
-                <div class="center">
-                    <div class="form-details">
+                <div class="columns">
+                    <div class="form-details right">
                         @helper.form(action = routes.Clinic.submitAddForm){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
@@ -81,7 +81,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="field center">
+                        <div class="field special">
                             <label>Address:</label>
                             <textarea class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </div>
