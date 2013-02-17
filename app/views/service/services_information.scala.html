@@ -1,6 +1,8 @@
 @(dentalServiceList: List[ws.services.DentalServiceList])
 
 @service("Dental Service") {
+
+
 <header class="grid_12 head">
     <h1>Dental Service</h1>
     <div class="clear"></div><span class="divider"></span>
@@ -24,6 +26,11 @@
     <div class="center">
         <div class="form-details">
             @dentalServiceList.map { dl =>
+            <!-- Breadcrumb -->
+            <script type="text/javascript">
+                $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Services</a> <span class="divider"></span></li><li class="last"><a href="#">@dl.name</a></li></ul></nav></div>').prependTo('#content');
+            </script>
+            <!-- /Breadcrumb -->
             <div class="field left">
                 <input type="hidden" name="id" value="@dl.id">
                 <ul>

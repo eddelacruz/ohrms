@@ -712,29 +712,29 @@ function res() {
     });
 
     //banned dental service
-    $('.field.center .button-set a.forward').click(function(e){
+    $('.field .button-set a.forward').click(function(e){
         e.preventDefault();
         var selected = $('select.special.services-list option:selected').attr('selected','selected');
         $.each(selected, function(i, l){
-            $('.field.center select.services-banned').append(l);
+            $('.field select.services-banned').append(l);
             //var v = $(l).val();
             //var i = $('.field.center div.services-banned input').length;
             //var n = 'banned_service['+i+']';
             //$('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
         });
-        $('.field.center select option').removeAttr('selected');
+        $('.field select option').removeAttr('selected');
     });
 
     //back button
-    $('.field.center .button-set a.back').click(function(e){
+    $('.field .button-set a.back').click(function(e){
         e.preventDefault();
         var selected = $('select.special.services-banned option:selected').attr('selected','selected');
         $.each(selected, function(i, l){
-            $('.field.center select.services-list').append(l);
+            $('.field select.services-list').append(l);
             var v = $(l).val();
-            $('.field.center div.services-banned').remove('input[value="'+v+'"]');
+            $('.field div.services-banned').remove('input[value="'+v+'"]');
         });
-        $('.field.center select option').removeAttr('selected');
+        $('.field select option').removeAttr('selected');
     });
 
     $('#addServiceButton').click(function(){
@@ -888,6 +888,15 @@ function res() {
         }
     });
 
+    //retrieve birthday in update forms
+    if($('input[name=date_of_birth]').val() !== null){
+        var dob = new Date($('input[name=date_of_birth]').val());
+        $day.val(dob.getDate());
+        $month.val(dob.getMonth()+1);
+        $year.val(dob.getFullYear());
+    }
+
+
 
     /*Settings Links*/
     /*var mod = ["dentists","clinic","staffs","reminders"];
@@ -904,7 +913,7 @@ function res() {
                 }
             });
         });
-    };*/
+    };
 
     //clinic
     $('a[name=clinic]').click(function(){
@@ -964,6 +973,6 @@ function res() {
                 $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
             }
         });
-    });
+    });*/
 
 });

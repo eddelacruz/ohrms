@@ -28,8 +28,8 @@
 
 <div class="box-content">
 <div id="tab-1" class="tab patient_information">
-    <div class="center">
-        <div class="form-details">
+    <div class="columns">
+        <div class="form-details right">
             @patientList.map { pl =>
             @helper.form(action = routes.Patient.submitUpdateForm){
             <div class="field left">
@@ -83,12 +83,17 @@
                     </li>
                     <li>
                         <label>Birthdate:</label>
-                        <input class="datepicker" type="text" name="date_of_birth" required = "required" value="@pl.dateOfBirth">
-                        <!--<input type="text" class="datepicker hasDatepicker" id="datepicker">-->
+                        <select id="day" style='width: 18%;'>
+                        </select>
+                        <select id="month" style='width: 40%;'>
+                        </select>
+                        <select id="year" style='width: 35%;'>
+                        </select>
+                        <input type="hidden" name="date_of_birth" required = "required" value="@pl.dateOfBirth">
                     </li>
                 </ul>
             </div>
-            <div class="field center">
+            <div class="field special">
                 <label>Medical History: <span>(optional)</span></label>
                 <textarea id="" class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
             </div>

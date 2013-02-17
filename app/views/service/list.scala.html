@@ -22,8 +22,8 @@
     </header>
 
     <div class="box-content">
-        <div class="center">
-            <div class="form-details">
+        <div class="columns">
+            <div class="form-details right">
                 @helper.form(action = routes.DentalService.submitAddForm){
                 <div class="field left">
                     <input type="hidden" name="id" value="">
@@ -63,10 +63,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="field center">
+                <div class="field special">
                     <label>Banned Services: <span>(optional)</span></label>
                     <div>
-                        <select class="special services-list" multiple>
+                        <select class="special special-left services-list" multiple>
                             @dentalServiceList.map { dsl =>
                             <option value="@dsl.id">@dsl.name</option>
                             }
@@ -77,7 +77,7 @@
                             <a href="#" class="bt blue close center back"><span class="glyph back-2"></span><span class="glyph back-2"></span></a>
                         </div>
 
-                        <select class="special services-banned" multiple>
+                        <select class="special special-right services-banned" multiple>
                         </select>
 
                         <div class="services-banned">

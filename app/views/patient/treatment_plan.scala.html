@@ -31,13 +31,7 @@
 <div class="box-content">
 <div id="tab-1" class="tab patient_information">
     <div class="columns">
-        <div class="form-image left center">
-            <div class="itemdata">
-                <a href='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' class="prettyPhoto thumbnail" title="Photo description"><img class="patient-image" src='@routes.Assets.at("images/thumbs/anon-160x160.jpg")' alt="profilePicture"></a>
-            </div>
-
-        </div>
-        <div class="form-details right mode-1">
+        <div class="form-details right">
             @patientList.map { pl =>
             <div class="field left">
                 <ul>
@@ -87,7 +81,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="field center special">
+            <div class="field special">
                 <label>Medical History: </label>
                 <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
             </div>

@@ -20,8 +20,8 @@
 
 <div class="box-content">
 <div>
-    <div class="center">
-        <div class="form-details">
+    <div class="columns">
+        <div class="form-details right">
             @helper.form(action = routes.Patient.submitAddForm){
             <div class="field left">
                 <input type="hidden" name="id" value="">
@@ -65,12 +65,12 @@
                         </select>
                         <select id="month" style='width: 40%;'>
                         </select>
-                        <select id="year" style='width: 30%;'>
+                        <select id="year" style='width: 35%;'>
                         </select>
                     </li>
                 </ul>
             </div>
-            <div class="field center">
+            <div class="field special">
                 <label>Medical History: <span>(optional)</span></label>
                 <textarea class="autogrow" name="medical_history" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
             </div>

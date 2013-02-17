@@ -1,8 +1,8 @@
 @main(Messages("Settings")) {
 
-    <!-- # Dashboard -->
+    <!-- # Settings -->
     <header class="grid_12 head">
-        <h1>Settings <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
+        <h1>elidc93's Account <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
         <div class="clear"></div><span class="divider"></span>
     </header>
 
@@ -13,19 +13,19 @@
             <div class="box-content">
                 <ul>
                     <li>
-                        <a href="#">Your Profile</a>
+                        <a href="#">elidc93's Account</a>
                     </li>
                     <li>
-                        <a href="#" name="clinic">Clinic</a>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
                     </li>
                     <li>
-                        <a href="#" name="dentists">Dentists</a>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
                     </li>
                     <li>
-                        <a href="#" name="reminders">Reminders</a>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
                     </li>
                     <li>
-                        <a href="#" name="staffs">Staffs</a>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
                     </li>
                 </ul>
             </div>

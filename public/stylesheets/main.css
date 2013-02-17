@@ -2241,7 +2241,6 @@ nav.jsubmenu .submenu li.last a {
 .form-details label {
   margin-top: 5px;
   margin-bottom: 5px;
-  margin-left: auto;
   margin-right: auto;
   text-align: left;
 }
@@ -2250,13 +2249,15 @@ nav.jsubmenu .submenu li.last a {
   margin-bottom: 5px;
 }
 .form-details .form-label,
-.form-details input[type="text"],
 .form-details input[type="file"],
 .form-details input[type="password"],
-.form-details textarea,
-.form-details label,
-.form-details select{
+.form-details label{
   width: 90%;
+}
+.form-details input[type="text"],
+.form-details textarea,
+.form-details select{
+  width: 95%;
 }
 .form-details select.special{
   width: 44%;
@@ -2291,12 +2292,19 @@ nav.jsubmenu .submenu li.last a {
 .field.center label{
   width: 95%;
 }
-.field.center.special textarea{
+.field.special textarea{
   width: 98%;
 }
-.field.center label{
+.field.special label{
   display: inline-block;
 }
+select.special-right {
+  margin-left: 15px;
+}
+select.special-left {
+  margin-right: 15px;
+}
+
 .patient-image {
   width: 160px;
   height: 160px;
