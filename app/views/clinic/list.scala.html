@@ -19,24 +19,23 @@
         <div class="inner">
 
             <div class="box-content">
-                <p>
-                    <a href="">Your Profile</a>
-                </p>
-                <p>
-                    <a href="">Reminders</a>
-                </p>
-                <p>
-                    <a href="">Clinic</a>
-                </p>
-                <p>
-                    <a href="">Dental Services</a>
-                </p>
-                <p>
-                    <a href="">Dentists</a>
-                </p>
-                <p>
-                    <a href="">Staffs</a>
-                </p>
+                <ul>
+                    <li>
+                        <a href="#">elidc93's Account</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -47,7 +46,7 @@
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1>Clinic</h1>
+                    <h1>Add Clinic</h1>
                 </div>
                 <div class="right">
                     <nav style="display:none;">

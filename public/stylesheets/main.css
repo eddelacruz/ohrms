@@ -2250,11 +2250,11 @@ nav.jsubmenu .submenu li.last a {
 }
 .form-details .form-label,
 .form-details input[type="file"],
-.form-details input[type="password"],
 .form-details label{
   width: 90%;
 }
 .form-details input[type="text"],
+.form-details input[type="password"],
 .form-details textarea,
 .form-details select{
   width: 95%;

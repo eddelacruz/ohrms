@@ -110,7 +110,7 @@ object AnnouncementService {
             get[Option[String]]("user_name") ~
             get[Option[String]]("description") ~
             get[Option[Date]]("date_created") map {
-            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString))
+            case a ~ b ~ c  ~ d => AnnouncementList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(")","").replace(".0","")))
           } *
         }
         announcementList

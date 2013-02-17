@@ -289,10 +289,10 @@ object PatientService extends Secured{
             |treatment_plan tp
             |on p.id = tp.patient_id
             |where p.status = {status}
-            |ORDER BY tp.date_performed desc
+            |GROUP BY p.id
+            |ORDER BY p.last_name asc
             |LIMIT {start}, {count}
             |) as result
-            |group by id
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
             get[String]("id") ~
             get[Option[String]]("first_name") ~

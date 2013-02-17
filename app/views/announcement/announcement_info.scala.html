@@ -3,14 +3,22 @@
 @main("Reminder Information") {
 
 <header class="grid_12 head">
-    <h1>Reminder Information</h1>
+    <h1>Reminder Details</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
+
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li><a href="#">Reminders</a> <span class="divider"></span></li><li class="last"><a href="#">Details</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
 
 <div class="box grid_12">
     <header>
         <div class="inner">
-
+            <div class="left title">
+                <h1>@announcementList.map { dl => @dl.dateCreated }</h1>
+            </div>
             <div class="right">
                 <nav style="display: none;">
                     <ul>
@@ -26,29 +34,37 @@
     <div class="box-content">
         <div id="tab-1" class="tab">
             <div class="columns">
-                <div class="form-details right mode-1">
+                <div class="form-details right">
                     @announcementList.map { dl =>
-                    <div class="field left">
+                    <div class="field special">
                         <ul>
                             <li>
+                                <label>Reminder:</label>
+                                <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" name="announcement" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="field left">
+                        <ul>
+                            <!--<li>
                                 <label>Reminder ID:</label>
                                 <label class="form-label">@dl.id</label>
-                            </li>
+                            </li>-->
                             <li>
                                 <label>Created By:</label>
                                 <label class="form-label">@dl.username</label>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="field right">
+                        <ul>
                             <li>
                                 <label>Date Created:</label>
                                 <label class="form-label">@dl.dateCreated</label>
                             </li>
-
+                        </ul>
                     </div>
-                    <li>
-                        <label>Reminder:</label>
-                        <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" name="announcement" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@dl.description</textarea>
 
-                    </li>
                 </div>  }
             </div>
             <footer class="pane">
