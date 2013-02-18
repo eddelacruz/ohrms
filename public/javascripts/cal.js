@@ -115,10 +115,10 @@ $(document).ready(function() {
             } catch(err) {
                 exists = false;
             }
-        });
+        });*/
 
         $calendar.fullCalendar('clientEvents').map( function(item){
-            /*try {
+           /* try {
                 if(startVar.getMonth() === item.start.getMonth() && startVar.getFullYear() === item.start.getFullYear() && startVar.getHours() >= item.start.getHours() && endVar.getHours() <= item.end.getHours() && dentistId === item.dentistId){
                    alert("Dentist is busy this time! add after");
                    exists = true;
@@ -130,8 +130,11 @@ $(document).ready(function() {
             }
             if(item.start === start && item.end === end){
                 alert("pareho");
-            }
-        });  */
+            }*/
+           console.log(item.start);
+           console.log("=========================>");
+           console.log(e);
+        });
 
         //add if the form was completely filled up check if may entry ung fname, lname, description and dentist
         if(firstName != "" && lastName != "" && dentalService != "" && dentistId != "" && exists === false){
@@ -205,7 +208,6 @@ $(document).ready(function() {
                     e.preventDefault();
                 }
             }
-
         },
         /*eventDrop: function ( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
             $calendar.fullCalendar('clientEvents').map( function(item){

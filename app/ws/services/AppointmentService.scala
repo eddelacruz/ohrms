@@ -24,6 +24,23 @@ case class AppointmentDetails(a: AppointmentList, dFirstName: Option[String], dM
 
 object AppointmentService extends Secured {
 
+  def checkIfDentistIsAvailable(dentistId: String, dateStart: String, dateEnd: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |SELECT
+            |    count(*)
+            |FROM
+            |    ohrms.appointments
+            |where
+            |    dentist_id = {dentist_id}
+            |    and ({date_start} between date_start and date_end
+            |	   or {date_end} between date_start and date_end);
+          """.stripMargin).on('dentist_id -> dentistId, 'date_start -> dateStart,'date_end -> dateEnd).as(scalar[Long].single)
+    }
+  }
+
   //TODO lagyan kung sino ang nagrecord ng appointment
   def getAllAppointments = {
     DB.withConnection {
