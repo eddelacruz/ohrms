@@ -72,7 +72,7 @@ GET     /reports/patient_list       controllers.Reports._patientList(start : Int
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/service_list       controllers.Reports._serviceList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/staff_list         controllers.Reports._staffList(start : Int ?= 0, count : Int ?= 25)
-GET     /reports/medical_report     controllers.Application.medical
+GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCertificate(patientId)
 
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)

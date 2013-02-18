@@ -2377,3 +2377,41 @@ div.mode-1{
     color: #0574b5;
     height: 22px;
 }
+
+.form-details .password-safe {
+    border: 1px solid #71BD1D;
+}
+.form-details .password-too-short {
+    border: 1px solid #B21C20;
+}
+.form-details .password-weak {
+    border: 1px solid #eecb40;
+}
+.form-details password-label{
+  text-align: right;
+  font-size: 11px;
+}
+.form-details label.strength {
+  color: #999;
+}
+.form-details label.safe {
+    font-weight: bold;
+    color: #71BD1D;
+    display: inline;
+    text-align: right;
+    font-size: 11px;
+}
+.form-details label.too-short {
+    font-weight: bold;
+    color: #B21C20;
+    display: inline;
+    text-align: right;
+    font-size: 11px;
+}
+.form-details label.weak {
+    font-weight: bold;
+    color: #eecb40;
+    display: inline;
+    text-align: right;
+    font-size: 11px;
+}
