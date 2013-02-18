@@ -22,8 +22,8 @@ case class SpecializationList(var id: String, dentistId: String, name: String)
 
 object DentistService {
 
-  val user = Cache.getAs[String]("user_name").toString
-  val username =  user.replace("Some", "").replace("(","").replace(")","")
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
 
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {

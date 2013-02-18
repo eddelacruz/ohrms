@@ -22,28 +22,13 @@ case class ClinicList(var id: String, clinicName: Option[String], address: Optio
 
 object ClinicService {
 
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
       implicit c =>
         val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
         rowCount[Long]("c")
-    }
-  }
-
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-        val getCurrentUserId = SQL(
-          """
-            |select
-            |id
-            |from users
-            |where user_name = {username}
-          """.stripMargin
-        ).on('username -> username).apply().head
-        getCurrentUserId[String]("id")
     }
   }
 
@@ -128,8 +113,7 @@ object ClinicService {
   }
 
   def addClinic(d: ClinicList): Long = {
-    println(getUserId)
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("clinic")
     DB.withConnection {
@@ -155,7 +139,7 @@ object ClinicService {
 
 
   def updateClinic(p: ClinicList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>

@@ -49,10 +49,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -94,10 +94,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -139,10 +139,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -184,10 +184,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -229,10 +229,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -274,10 +274,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -319,10 +319,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -351,10 +351,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -415,10 +415,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -543,10 +543,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
@@ -575,10 +575,10 @@ object AuditLogService {
             |(
             |{id},
             |{task},
-            |{user_name},
             |{description},
             |{date_created},
-            |{module}
+            |{module},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),

@@ -21,8 +21,7 @@ case class StaffList(var id: String, firstName: Option[String], middleName: Opti
 
 object StaffService {
 
-  val user = Cache.getAs[String]("user_name").toString
-  val username =  user.replace("Some", "").replace("(","").replace(")","")
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
   def getStaffList(start: Int, count: Int): List[StaffList] = {
     val status = 1

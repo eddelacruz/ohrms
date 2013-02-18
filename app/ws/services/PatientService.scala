@@ -23,6 +23,8 @@ case class PatientLastVisit(p: PatientList, dateLastVisit: Option[String])
 
 object PatientService extends Secured{
 
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
       implicit c =>
@@ -148,26 +150,9 @@ object PatientService extends Secured{
     }
   }
 
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-      val getCurrentUserId = SQL(
-        """
-          |select
-          |id
-          |from users
-          |where user_name = {username}
-        """.stripMargin
-      ).on('username -> username).apply().head
-      getCurrentUserId[String]("id")
-     }
-  }
 
   def addPatient(p: PatientList): Long = {
-    println(getUserId)
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
     p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
@@ -211,7 +196,7 @@ object PatientService extends Secured{
   }
 
   def updatePatient(p: PatientList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -246,7 +231,7 @@ object PatientService extends Secured{
   }
 
   def deletePatient(id: String): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Delete"
     DB.withConnection {
       implicit c =>
