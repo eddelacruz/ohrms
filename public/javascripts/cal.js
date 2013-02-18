@@ -7,7 +7,7 @@ $(document).ready(function() {
     var y = date.getFullYear();
     var startVar, endVar, allDayVar;
     var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-    var title, firstName, middleName, lastName, description, dentistName, contactNo, address;
+    var title, firstName, middleName, lastName, dentalServiceId, dentistName, contactNo, address;
     var exists = false;
     var appointments;
     var appointmentsProperties = ["id", "description", "firstName", "middleName", "lastName", "address", "contactNo", "dateEnd", "dateStart", "dentistId"]
@@ -18,12 +18,13 @@ $(document).ready(function() {
             //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
-                    var s = new Date(Date.parse(vl.dateStart));
-                    var e = new Date(Date.parse(vl.dateEnd));
+
+                    var s = new Date(Date.parse(vl[0].dateStart));
+                    var e = new Date(Date.parse(vl[0].dateEnd));
                     //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+s)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
-                    switch(vl.status) {
+                    switch(vl[0].status) {
                     case 1: //pending blue
                         color = '#006dcc';
                         borderColor = '#0044cc';
@@ -51,23 +52,25 @@ $(document).ready(function() {
                     }
                     $calendar.fullCalendar('addEventSource',
                         [{
-                            title: vl.lastName+", "+vl.firstName+" "+vl.middleName+" - "+vl.description,
+                            title: vl[0].lastName+", "+vl[0].firstName+" "+vl[0].middleName+" - Dr. "+vl[1].dFirstName+" "+vl[1].dMiddleName+" "+vl[1].dLastName,
                             start: new Date(s.getFullYear(), s.getMonth(), s.getDate(), s.getHours(), s.getMinutes()),
                             end: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes()),
                             allDay: allDay,
-                            firstName: vl.firstName,
-                            middleName: vl.middleName,
-                            lastName: vl.lastName,
-                            dentistId: vl.dentistId,
-                            description: vl.description,
-                            contactNo: vl.contactNo,
-                            address: vl.address,
-                            status: vl.status,
+                            firstName: vl[0].firstName,
+                            middleName: vl[0].middleName,
+                            lastName: vl[0].lastName,
+                            dentistId: vl[0].dentistId,
+                            dentalServiceId: vl[0].dentalServiceId,
+                            contactNo: vl[0].contactNo,
+                            address: vl[0].address,
+                            status: vl[0].status,
                             color: color,
                             borderColor: borderColor,
                             textColor: textColor,
-                            id: vl.id,
-                            dateEnd: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes())
+                            id: vl[0].id,
+                            dateEnd: new Date(e.getFullYear(), e.getMonth(), e.getDate(), e.getHours(), e.getMinutes()),
+                            dentistName: "Dr. "+vl[1].dFirstName+" "+vl[1].dMiddleName+" "+vl[1].dLastName,
+                            dentalServiceName: vl[1].dentalServiceName
                         }]);
                 })
             })
@@ -95,12 +98,12 @@ $(document).ready(function() {
         firstName =  $('#addAppointmentModal input[name=first_name]').val();
         middleName = $('#addAppointmentModal input[name=middle_name]').val();
         lastName =  $('#addAppointmentModal input[name=last_name]').val();
-        description = $('#addAppointmentModal textarea[name=description]').val();
+        dentalServiceId = $('#addAppointmentModal select[name=dental_service_id]').val();
         dentistId = $('#addAppointmentModal input[name=dentist_id]').val(); //TODO select box to dapat so, dapat di sya delete
         contactNo = $('#addAppointmentModal input[name=contact_no]').val();
         address = $('#addAppointmentModal textarea[name=address]').val();
 
-        $calendar.fullCalendar('clientEvents').map( function(item){
+        /*$calendar.fullCalendar('clientEvents').map( function(item){
             //check if may kapareho ng araw and oras and dentists.. if meron
             try {
                 if(startVar.getMonth() === item.start.getMonth() && startVar.getFullYear() === item.start.getFullYear() && startVar.getHours() >= item.start.getHours() && endVar.getHours() <= item.end.getHours() && dentistId === item.dentistId){
@@ -112,11 +115,30 @@ $(document).ready(function() {
             } catch(err) {
                 exists = false;
             }
+        });*/
+
+        $calendar.fullCalendar('clientEvents').map( function(item){
+           /* try {
+                if(startVar.getMonth() === item.start.getMonth() && startVar.getFullYear() === item.start.getFullYear() && startVar.getHours() >= item.start.getHours() && endVar.getHours() <= item.end.getHours() && dentistId === item.dentistId){
+                   alert("Dentist is busy this time! add after");
+                   exists = true;
+                } else {
+                   exists = false;
+                }
+            } catch(err) {
+                exists = false;
+            }
+            if(item.start === start && item.end === end){
+                alert("pareho");
+            }*/
+           console.log(item.start);
+           console.log("=========================>");
+           console.log(e);
         });
 
         //add if the form was completely filled up check if may entry ung fname, lname, description and dentist
-        if(firstName != "" && lastName != "" && description != "" && dentistId != "" && exists === false){
-            title = lastName+", "+firstName+" "+middleName+" - "+description;
+        if(firstName != "" && lastName != "" && dentalService != "" && dentistId != "" && exists === false){
+            title = lastName+", "+firstName+" "+middleName;
             $calendar.fullCalendar('renderEvent',
                 {
                     title: title,
@@ -127,7 +149,7 @@ $(document).ready(function() {
                     middleName: middleName,
                     lastName: lastName,
                     dentistId: dentistId,
-                    description: description,
+                    dentalServiceId: dentalServiceId,
                     contactNo: contactNo,
                     address: address,
                     status: 'pending'
@@ -162,24 +184,30 @@ $(document).ready(function() {
         selectable: true,
         selectHelper: true,
         select: function(start, end, allDay, e) {
-            //fullfill variables
-            startVar = start
-            endVar = end
-            allDayVar = allDay
-            if(start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear() && start.getDate() === end.getDate()){
-                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()
-            } else {
-                appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
-            }
-            //TODO lagyan ng get hour at minutes
-            start = $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm:ss');
-            end = $.fullCalendar.formatDate(end, 'yyyy-MM-dd HH:mm:ss');
+            opening = 8
+            closing = 17
+            var startHour = start.getHours();
+            var endHour = end.getHours();
 
-            $('#appointmentDate').html(appointmentDate);
-            $('#addAppointmentModal').modal({top: 'center'});
-            $('input[name=date_start]').attr("value", start);
-            $('input[name=date_end]').attr("value", end);
-            e.preventDefault();
+            //alert(opening > startHour);
+            //alert(closing +"<"+ endHour);
+
+            if(startHour >= opening && endHour <= closing && endHour !== 0 ){
+                //fullfill variables
+                if(end.getHours() !== closing || end.getMinutes() < 30){ //for 5 to 5:30  and 8 to 8:30
+                    allDayVar = allDay;
+                    if(start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear() && start.getDate() === end.getDate()){
+                      appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()
+                    } else {
+                      appointmentDate = "on "+monthNames[start.getMonth()]+" "+start.getDate()+", "+start.getFullYear()+" to "+monthNames[end.getMonth()]+" "+end.getDate()+","+end.getFullYear()
+                    }
+                    $('#appointmentDate').html(appointmentDate);
+                    $('#addAppointmentModal').modal({top: 'center'});
+                    $('input[name=date_start]').attr("value", $.fullCalendar.formatDate(start, 'yyyy-MM-dd HH:mm:ss'));
+                    $('input[name=date_end]').attr("value", $.fullCalendar.formatDate(end, 'yyyy-MM-dd HH:mm:ss'));
+                    e.preventDefault();
+                }
+            }
         },
         /*eventDrop: function ( event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view ){
             $calendar.fullCalendar('clientEvents').map( function(item){
@@ -222,28 +250,14 @@ $(document).ready(function() {
             $('#updateAppointmentModalForm').modal({top: 'center'});
         },
         eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
-            //may babaguhin pa dito
-
-            opening = 8
-            closing = 17
-
-            start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
-            end = $.fullCalendar.formatDate(event.dateEnd, 'yyyy-MM-dd hh:mm:ss');
-            startHour = event.start.getHours();
-            endHour = event.dateEnd.getHours();
-
-            console.log()
-            //alert("start"+start);
-            //alert("end"+end);
-
-            if(startHour < opening || endHour > closing) {
-                alert("Wrong!");
-            };
 
             var json = new Object();
 
+            event.start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
+            event.end = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd hh:mm:ss');
+
             json.id = event.id;
-            json.description = event.description;
+            json.dental_service_id = event.dentalServiceId;
             json.first_name = event.firstName;
             json.middle_name = event.middleName;
             json.last_name = event.lastName;
@@ -251,8 +265,8 @@ $(document).ready(function() {
             json.contact_no =  event.contactNo;
             json.address =  event.address;
             json.status =  2; //rescheduled
-            json.date_start =  start;
-            json.date_end =  end;
+            json.date_start =  event.start;
+            json.date_end =  event.end;
 
             console.log(JSON.stringify(json));
 

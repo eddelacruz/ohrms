@@ -225,8 +225,6 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val al = AppointmentList(id, dentalServiceId,firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
-      //println(">>>>>>>>>>>>"+al)
-
       if (AppointmentService.updateAppointment(al) >= 1) {
         Status(200)
       } else {
@@ -517,14 +515,20 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val pl = AppointmentList("", dentalServiceId, firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
-      if (AppointmentService.addAppointment(pl) >= 1) {
-        Redirect("/scheduler")
-        Status(200)
+      //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> bilang ng mga rows dapat "+AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
+
+      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) < 1){
+        if (AppointmentService.addAppointment(pl) >= 1) {
+          Redirect("/scheduler")
+          Status(200)
+        } else {
+          BadRequest
+          Status(500)
+        }
       } else {
         BadRequest
         Status(500)
       }
-
   }
 
   def deleteStaffInformation = Action {
