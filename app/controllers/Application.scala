@@ -39,6 +39,11 @@ object Application extends Controller{
       Ok(html.reports.billy())
   }
 
+  def medical = Action{
+    implicit request =>
+      Ok(html.reports.medical_report())
+  }
+
 
   def login = Action {
     implicit request =>
