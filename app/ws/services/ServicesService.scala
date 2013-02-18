@@ -21,6 +21,8 @@ case class DentalServiceList(var id: String, name: Option[String], code: Option[
 
 object ServicesService {
 
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
       implicit c =>
@@ -136,25 +138,8 @@ object ServicesService {
     }
   }
 
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-        val getCurrentUserId = SQL(
-          """
-            |select
-            |user_name
-            |from users
-            |where user_name = {username}
-          """.stripMargin
-        ).on('username -> username).apply().head
-        getCurrentUserId[String]("user_name")
-    }
-  }
-
   def addDentalService(d: DentalServiceList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
     //d.id = UUIDGenerator.generateUUID("dental_services")
     DB.withConnection {
@@ -210,7 +195,7 @@ object ServicesService {
   }
 
   def updateDentalService(d: DentalServiceList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -293,7 +278,7 @@ object ServicesService {
   }
 
   def deleteServices(id: String): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Delete"
     DB.withConnection {
       implicit c =>

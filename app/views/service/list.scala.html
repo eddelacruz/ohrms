@@ -10,6 +10,7 @@
 
 <!-- Add Dental Service-->
 <div class="box grid_12">
+    @if((play.cache.Cache.get("role")) == 0){
     <header>
         <div class="inner">
             <div class="left title">
@@ -98,6 +99,7 @@
         }
     </div>
 </div>
+        }
 <!-- /Add Dental Service-->
 
 <!-- Service List -->
