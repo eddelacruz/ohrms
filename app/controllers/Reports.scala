@@ -28,5 +28,6 @@ object Reports {
   def _staffList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._staffList.render(StaffDelegate.getStaffList(start, count)))
   }
+
 }
 
