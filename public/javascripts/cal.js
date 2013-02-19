@@ -1,17 +1,174 @@
 $(document).ready(function() {
 
+    var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+
+    var chart;
+    var curYear = new Date().getFullYear();
+    var curMonth = new Date().getMonth();
+    var monthlyPatientVisits;
+
+    $.getJSON("/json/patients/visits/"+curYear,
+        function(data){
+            monthlyPatientVisits = data;
+    //            console.log(patientVisits);
+
+        /*Chart*/
+        chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    type: 'column',
+                    plotBackgroundColor: '#ffffff',
+                    plotBorderColor: '#c5c5c5',
+                    plotBorderWidth: 2,
+                    marginRight: 130,
+                    marginBottom: 25
+                },
+
+        // title of the charts
+
+                title: {
+                    text: 'Monthly Patient Visits',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'January - December '+curYear,
+                    x: -20//
+                },
+
+        //description in x-axis
+
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+
+        //description in y-axis
+
+                yAxis: {
+
+                    title: {
+                        text: 'Number  of Patient'
+                    },
+
+           //color of gridlines
+                    gridLineColor: '#c5c5c5',
+                    gridLineWidth: 2
+
+                  },
+
+
+        //charts tooltips
+
+                tooltip: {
+                    formatter: function() {
+                            return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y +'person';
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -10,
+                    y: 100,
+                    borderWidth: 0
+                },
+
+        //different color of the column bars
+                plotOptions: {
+                series: {
+                    color: '#09aae5'
+
+                }
+            },
+
+        //no of patient per months
+                series: [  {
+
+                    name: 'Patient',
+                    data: monthlyPatientVisits
+
+                }]
+            });
+
+    });
+
+
+    $.getJSON("/json/patients/visits/"+curYear,
+        function(data){
+            monthlyPatientVisits = data;
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container1',
+                    type: 'line'
+                },
+                title: {
+                    text: 'Daily Patient Visits'
+                },
+                subtitle: {
+                    text: monthNames[curMonth]+" "+curYear
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Number of Patient'
+                    }
+                },
+                tooltip: {
+                    enabled: false,
+                    formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                            this.x +': '+ this.y +'°C';
+                    }
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: false
+                    }
+                },
+                series: [{
+                    name: 'Patient',
+                    data: [0,4,0,0,0,0,0,0,0,0,0,0]
+                }]
+            });
+        }
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*Calendar*/
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
     var startVar, endVar, allDayVar;
-    var monthNames = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
     var title, firstName, middleName, lastName, dentalServiceId, dentistName, contactNo, address;
     var exists = false;
     var appointments;
-    var appointmentsProperties = ["id", "description", "firstName", "middleName", "lastName", "address", "contactNo", "dateEnd", "dateStart", "dentistId"]
-
+    var appointmentsProperties = ["id", "description", "firstName", "middleName", "lastName", "address", "contactNo", "dateEnd", "dateStart", "dentistId"];
 
     $.getJSON("/json/appointments",
         function(data){
@@ -176,6 +333,9 @@ $(document).ready(function() {
 
     var $calendar = $('#calendar');
     $calendar.fullCalendar({
+        minTime: 8,
+        maxTime: 18,
+        defaultView: 'agendaWeek',
         header: {
             left: 'prev,next today',
             center: 'title',
@@ -185,7 +345,7 @@ $(document).ready(function() {
         selectHelper: true,
         select: function(start, end, allDay, e) {
             opening = 8
-            closing = 17
+            closing = 18
             var startHour = start.getHours();
             var endHour = end.getHours();
 

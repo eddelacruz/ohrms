@@ -9,8 +9,8 @@
 </header>
 
 <!-- Add Dental Service-->
+@if((play.cache.Cache.get("role")) == 0){
 <div class="box grid_12">
-    @if((play.cache.Cache.get("role")) == 0){
     <header>
         <div class="inner">
             <div class="left title">
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </div>
-        @if((play.cache.Cache.get("role")) == 1) {
+        @if((play.cache.Cache.get("role")) == 0) {
         <footer class="pane">
             <input id="addServiceButton" type="submit" class="bt blue right close" value="@Messages("button.add")">
         </footer>

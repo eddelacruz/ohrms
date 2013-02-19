@@ -1,4 +1,4 @@
-@(dentists: List[ws.services.DentistList], services: List[ws.services.DentalServiceList])
+@(dentists: List[ws.services.DentistList], services: List[ws.services.DentalServiceList], patients: List[ws.services.PatientList])
 
 <!-- AddAppointmentModal -->
 <div class="box grid_11" id="addAppointmentModal" hidden="">
@@ -20,6 +20,14 @@
                 <div class="field left">
                     <input type="hidden" name="id" value="">
                     <ul>
+                        <li>
+                            <label>Patient Id:</label>
+                            <select>
+                                @patients.map { p =>
+                                <option value="@p.id">@p.firstName</option>
+                                }
+                            </select>
+                        </li>
                         <li>
                             <label>Service:</label>
                             <select name="dental_service_id">

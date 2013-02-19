@@ -141,6 +141,8 @@ GET     /json/specializations/:id     controllers.Json.getSpecializationById(id:
 POST    /json/specializations/update         controllers.Json.submitSpecializationUpdateForm
 POST    /json/specializations/delete       controllers.Json.deleteSpecializationInformation
 POST    /json/specializations                controllers.Json.submitSpecializationAddForm
+GET     /json/patients/all                 controllers.Json.getAllPatients
+GET     /json/patients/visits/:year        controllers.Json.getPatientVisitsByYear(year: Int)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

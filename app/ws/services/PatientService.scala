@@ -71,6 +71,43 @@ object PatientService extends Secured{
     }
   }
 
+  def getAllPatients: List[PatientList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val patientList: List[PatientList] = SQL(
+          """
+            |select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.medical_history,
+            |p.gender
+            |from
+            |patients p
+            |where status = {status}
+            |ORDER BY last_name asc
+          """.stripMargin).on('status -> status ).as {
+          get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[Option[String]]("medical_history")~
+            get[String]("gender")map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k=> PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
+          } *
+        }
+        patientList
+    }
+  }
+
   def getPatientListById(id: String): List[PatientList] = {
     DB.withConnection {
       implicit c =>
@@ -293,6 +330,38 @@ object PatientService extends Secured{
           } *
         }
         patientList
+    }
+  }
+
+  def getPatientVisitsByYear(year: Int, month: Int): Long = {
+    val date = year+"-"+month+"-01"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select count(*) from
+            |(select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.medical_history,
+            |p.gender,
+            |tp.date_performed
+            |from
+            |patients p
+            |inner join
+            |treatment_plan tp
+            |on p.id = tp.patient_id
+            |where p.status = '1'
+            |and date_performed between {date} and LAST_DAY({date})
+            |GROUP BY tp.date_performed
+            |ORDER BY p.last_name asc
+            |) as result
+          """.stripMargin).on('date -> date).as(scalar[Long].single)
     }
   }
 

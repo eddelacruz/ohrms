@@ -921,10 +921,10 @@ function res() {
             $(this).removeClass("password-weak")
             $(this).addClass("password-safe")
         } else if(len <= 0) {
-            $('.password-label').addClass("too-short").html('too short')
+            $('.password-label').removeClass("too-short").html('')
             $('.password-label').removeClass("weak")
             $('.password-label').removeClass("safe")
-            $(this).addClass("password-too-short")
+            $(this).removeClass("password-too-short")
             $(this).removeClass("password-weak")
             $(this).removeClass("password-safe")
         } else {}

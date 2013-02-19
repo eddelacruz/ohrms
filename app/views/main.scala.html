@@ -1,6 +1,6 @@
 @(title: String)(content: Html)
 @import play.cache.Cache
-@import ws.delegates.{DentistDelegate, DentalServiceDelegate}
+@import ws.delegates.{DentistDelegate, DentalServiceDelegate, PatientDelegate}
 
 <!DOCTYPE html>
 
@@ -70,10 +70,9 @@
     <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/raphael-min.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/dental-chart-child.js")'></script>-->
     <script type="text/javascript" src='@routes.Assets.at("javascripts/functions.js")'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-resize.js")'></script>
     <script type="text/javascript" src='@routes.Assets.at("javascripts/jquery.contextmenu.js")'></script>
-    <script type="text/javascript" src='@routes.Assets.at("javascripts/chart.js")'></script>
+    <script type="text/javascript" src='@routes.Assets.at("javascripts/cal.js")'></script>
 
     <!--<script type="text/javascript" src='@routes.Assets.at("javascripts/jquery-ui-1.9.2.custom.js")'></script>-->
 
@@ -167,7 +166,7 @@
 
 <div id="content">
 <!-- AddAppointmentModal -->
-@modal._add_appointment(DentistDelegate.getAllDentists, DentalServiceDelegate.getAllDentalServiceList)
+@modal._add_appointment(DentistDelegate.getAllDentists, DentalServiceDelegate.getAllDentalServiceList, PatientDelegate.getAllPatients)
 <!-- /AddAppointmentModal -->
 
 <!-- UpdateAppointmentModal -->
@@ -230,5 +229,6 @@ modal._add_patient()
 <script type="text/javascript" src='@routes.Assets.at("javascripts/teeth-chart.js")'></script>
 <script type="text/javascript" src='@routes.Assets.at("javascripts/highcharts/js/highcharts.js")'></script>
 <script type="text/javascript" src='@routes.Assets.at("javascripts/highcharts/modules/exporting.js")'></script>
+
 </body>
 </html>

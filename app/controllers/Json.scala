@@ -38,6 +38,20 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientLastVisit(start, count, filter)))))
   }
 
+  def getAllPatients = Action {
+    implicit request =>
+      Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getAllPatients))))
+  }
+
+  def getPatientVisitsByYear(year: Int) = Action {
+    implicit request =>
+      var pl = ListBuffer[Long]()
+      for( x <- 1 to 12){
+        pl += PatientService.getPatientVisitsByYear(year, x)
+      }
+      Ok(toJson(pl.toList))
+  }
+
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.searchDentistList(start, count, filter)))))
   }
