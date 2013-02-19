@@ -896,6 +896,43 @@ function res() {
         $year.val(dob.getFullYear());
     }
 
+    /*Password Complexity*/
+    $('input[name=password]').on('keypress', function(e){
+        var len = $(this).val().length;
+        if(len < 5){
+            $('.password-label').addClass("too-short").html('too-short')
+            $('.password-label').removeClass("weak")
+            $('.password-label').removeClass("safe")
+            $(this).addClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else if(len < 8) {
+            $('.password-label').removeClass("too-short")
+            $('.password-label').addClass("weak").html('weak')
+            $('.password-label').removeClass("safe")
+            $(this).removeClass("password-too-short")
+            $(this).addClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else if(len < 15){
+            $('.password-label').removeClass("too-short")
+            $('.password-label').removeClass("weak")
+            $('.password-label').addClass("safe").html('safe')
+            $(this).removeClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).addClass("password-safe")
+        } else if(len <= 0) {
+            $('.password-label').addClass("too-short").html('too short')
+            $('.password-label').removeClass("weak")
+            $('.password-label').removeClass("safe")
+            $(this).addClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else {}
+    }).on('keydown', function(e) {
+        if (e.keyCode==8)
+            $(this).trigger('keypress');
+    });
+
 
 
     /*Settings Links*/

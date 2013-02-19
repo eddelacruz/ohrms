@@ -1,3 +1,6 @@
+@(patientId: String)
+@import play.cache.Cache
+@import ws.helper.DateWithTime
 
 <!DOCTYPE html>
 
@@ -49,29 +52,27 @@
         .br-1 {
         margin-bottom: 15px;
         }
+        .underline {
+            border-bottom: solid 1px;
+        }
     </style>
 </head>
 <body>
+
 <div class="title">
-    <img src="@routes.Assets.at("images/logo.png")">
+
 </div>
-<br/>
-Date: _______________________
-<br>
-To Whom It May Concern:
-This is to certify that the bearer, _________________________________ was examined and attended by the undersigned Dental treatment
-procedures done: <br>
-<ol>
-    <li>1. Oral Prophylaxix <input type="checkbox"></li>
-    <li>2. Extraction of tooth no.'s __________________________________________________________________________</li>
-    <li>3. Permanent fillings or restorations of tooth's no __________________________________________________________________________</li>
-    <li>4. Dentures<input type="checkbox">
-    <li>5. Others ____________________________________________________________________________________________________________________</li>
-</ol>
+Date: @(DateWithTime.dateWithTimeString)
+<p>To Whom It May Concern:</p>
+<p>This is to certify that the bearer, _________________________________ was examined and attended by the undersigned Dental treatment procedures done:</p>
+<ul>
+    <li>Oral Prophylaxis</li>
+    <li>Extraction of tooth no.'s __________________________________________________________________________</li>
+    <li>Permanent fillings or restorations of tooth's no __________________________________________________________________________</li>
+    <li>Dentures</li>
+    <li>Others <p class="underline" style="width: 100%;"></p></li>
+</ul>
 
-Recommendations : </br>
-__________________________________________________________________________________________________________________
-
+<p>Recommendations:</p>
 </body>
-
 </html>

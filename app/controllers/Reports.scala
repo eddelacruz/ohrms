@@ -29,5 +29,9 @@ object Reports {
     return PDF.ok(html.reports._staffList.render(StaffDelegate.getStaffList(start, count)))
   }
 
+  def _dentalCertificate(patientId: String): Result = {
+    return PDF.ok(html.reports._dental_certificate.render(patientId))
+  }
+
 }
 
