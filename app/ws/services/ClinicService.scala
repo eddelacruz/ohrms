@@ -18,7 +18,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String])
+case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String], userName: Option[String])
 
 object ClinicService {
 
@@ -41,7 +41,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |ORDER BY clinic_name asc
@@ -50,8 +51,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address")~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c  ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c  ~ d ~ e => ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -67,7 +69,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |where id = {id}
@@ -76,8 +79,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name")  map {
+            case a ~ b ~ c ~ d ~ e=> ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -93,7 +97,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |where clinic_name like "%"{filter}"%"
@@ -104,8 +109,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c ~ d ~ e => ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -126,12 +132,14 @@ object ClinicService {
             |{id},
             |{clinic_name},
             |{address},
-            |{image})
+            |{image},
+            |{user_name})
           """.stripMargin).on(
           'id -> d.id,
           'clinic_name -> d.clinicName,
           'address -> d.address,
-          'image -> d.image
+          'image -> d.image,
+          'user_name -> d.userName
         ).executeUpdate()
       AuditLogService.logTaskClinic(d, currentUser, task)
     }
@@ -148,13 +156,15 @@ object ClinicService {
             |UPDATE clinic SET
             |clinic_name = {clinic_name},
             |address = {address},
-            |image = {image}
+            |image = {image},
+            |user_name = {user_name}
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
           'clinic_name -> p.clinicName,
           'address -> p.address,
-          'image -> p.image
+          'image -> p.image,
+          'user_name -> p.userName
         ).executeUpdate()
         AuditLogService.logTaskClinic(p, currentUser, task)
     }

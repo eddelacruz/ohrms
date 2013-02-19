@@ -34,6 +34,8 @@
                     @helper.form(action = routes.Clinic.submitUpdateForm){
                     <div class="field left">
                         <input type="hidden" name="id" value="@dl.id">
+                        <input type="hidden" name="user_name" value="@(play.cache.Cache.get("user_name"))">
+
                         <ul>
                             <li>
                                 <label>Clinic Name:</label>
@@ -45,7 +47,7 @@
                             </li>
                             <li>
                                 <label>Logo:<br></label>
-                                <input type="file" name="image" value="@dl.image">
+                                <input type="file" name="imaging" value="@dl.image">
                             </li>
                     </div>
 

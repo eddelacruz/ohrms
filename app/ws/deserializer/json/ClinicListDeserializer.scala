@@ -18,7 +18,8 @@ trait ClinicListDeserializer {
       (json \ "id").as[String],
       (json \ "clinicName").asOpt[String],
       (json \ "address").asOpt[String],
-      (json \ "image").asOpt[String]
+      (json \ "image").asOpt[String],
+      (json \ "user_name").asOpt[String]
     )
 
     def writes(d: ClinicList): JsValue = JsObject(
@@ -26,7 +27,8 @@ trait ClinicListDeserializer {
         "id" -> JsString(d.id),
         "clinicName" -> JsString(d.clinicName.get),
         "address" -> JsString(d.address.get),
-        "image" -> JsString(d.address.get)
+        "image" -> JsString(d.address.get),
+        "user_name" -> JsString(d.userName.get)
       )
     )
   }

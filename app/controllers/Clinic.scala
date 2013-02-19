@@ -46,7 +46,7 @@ object Clinic extends Controller with Secured {
     username =>
       implicit request =>
         Cache.get("role") match {
-          case Some(1) => Ok(clinic.update(ClinicService.getClinicListById(id)))
+          case Some(0) => Ok(clinic.update(ClinicService.getClinicListById(id)))
           case _ => Redirect("/clinic/"+id)
         }
   }
@@ -73,7 +73,7 @@ object Clinic extends Controller with Secured {
     username =>
       implicit request =>
         Cache.get("role") match {
-          case Some(1) => Ok(clinic.add())
+          case Some(0) => Ok(clinic.add())
           case _ => Redirect("/clinic")
         }
 

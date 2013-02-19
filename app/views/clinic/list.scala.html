@@ -67,6 +67,7 @@
                         @helper.form(action = routes.Clinic.submitAddForm){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
+                            <input type="hidden" name="user_name" value="@(play.cache.Cache.get("user_name"))">
                             <ul>
                                 <li>
                                     <label class="upper">Name:</label>
