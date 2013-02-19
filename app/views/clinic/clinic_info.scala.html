@@ -68,7 +68,7 @@
         <footer class="pane">
             @clinicList.map { d =>
 
-            @if((play.cache.Cache.get("role")) == 1) {
+            @if((play.cache.Cache.get("role")) == 0) {
             <a class="bt blue right" href="@routes.Clinic.getUpdateForm(d.id)">@Messages("button.edit")</a>
             } else {
                 <a href="#"></a>

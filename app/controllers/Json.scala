@@ -192,8 +192,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
 
-      val pl = ClinicList("", clinicName, address, image)
+      val pl = ClinicList("", clinicName, address, image, userName)
 
       if (ClinicService.addClinic(pl) >= 1) {
         //Redirect("/clinic")
@@ -211,7 +212,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("imaging").headOption
-      val pl = ClinicList(id, clinicName, address, image)
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val pl = ClinicList(id, clinicName, address, image, userName)
 
       if (ClinicService.updateClinic(pl) >= 1) {
         Status(200)

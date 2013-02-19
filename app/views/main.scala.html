@@ -80,7 +80,20 @@
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery-ui-1.9.2.custom.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/jquery.contextmenu.css")'>
     <link rel="stylesheet" type="text/css" href='@routes.Assets.at("stylesheets/main.css")'>
+    <script type="text/javascript">
 
+        function enterNumber(){
+
+        var e = document.getElementById('text');
+
+        if (!/^[0-9]+$/.test(e.value))
+        {
+        alert("Please enter numbers Only.");
+        e.value = e.value.substring(0,e.value.length-1);
+        }
+        }
+
+    </script>
 </head>
 <body style="background-image: url(@routes.Assets.at("images/bg-pattern-5.png"); ">
 <!-- wrapper -->
