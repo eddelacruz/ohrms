@@ -277,7 +277,6 @@ function loadPaint() {
 
     if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
         toothWithService.push(tooth+"_"+toolData); //end of paint
-        console.log(">>> toothWithService"+toothWithService);
     }
 };
 
@@ -494,12 +493,12 @@ function setPaint(tooth, toolType, toolData) {
 function setSymbol(tooth, toolType, toolData) {
     var cvs = 'canvas'+tooth+'_'+toolData;
 
-    alert(anotherTooth);
+    //alert(anotherTooth);
 
     //imageWidth for the other tooth
     var imageWidth2 = $('#'+anotherTooth+' canvas').attr('width');
     var imageHeight2 = $('#'+anotherTooth+' canvas').attr('height');
-    alert(imageWidth2+imageHeight2);
+    //alert(imageWidth2+imageHeight2);
 
     console.log("===>bannedServices "+bannedServices);
     console.log("===>toothWithService "+toothWithService);
