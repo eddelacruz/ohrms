@@ -25,6 +25,7 @@ $(function() {
         var $id = $this.attr('data-id');
         var $toolType = $this.attr('data-type');
         var $price = $this.attr('data-price');
+        var $imageTemplate = $this.attr('data-image-template');
         $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val($price);
 
         //populate services in dentist tool dialog box
@@ -44,11 +45,13 @@ $(function() {
         if ($toolType === "1" && $id != "ERASER") {
             toolType = "paint";
             toolData = $id;
+            toolImageTemplate = $imageTemplate
             curColor = $this.attr("data-color"); //get the color if paint
         } else if ($toolType === "2") {
             toolType = "symbol";
             toolData = $id;
-            curColor = "";
+            curColor = $this.attr("data-color");
+            toolImageTemplate = $imageTemplate
         }
 
         //if eraser is selected
@@ -93,16 +96,20 @@ Array.prototype.remove = function(from, to) {
 var imageWidth;
 var imageHeight;
 
-var $tempCanvas, $gum = $('.gum'), canvas, tempCanvas, maskCanvas, ctx, tempCtx, maskCtx, outlineCtx, tooth, toolType, toolData, service="", $id, $tooth, maskDataUrl;
+var $tempCanvas, $gum = $('.gum'), service="", $id, $tooth, maskDataUrl;
+var ctx, tempCtx, maskCtx, outlineCtx;
+var canvas, tempCanvas, maskCanvas;
+var tooth, toolType, toolData, toolImageTemplate;
 var imageObj2, curPrice;
 
 var anotherTooth;//if MA then FA, vice versa
 
 var dentalServices = new Array();
 var toothWithService = new Array();
-var bannedServices = new Array(); //['PASTA', 'OP'] //static for EXT
+var bannedServices = new Array(); //['PASTA', 'OP'] for EXT
 var curTooth = new Array();
 var curService = new Array();
+var toothRegion = []; //will contain tooth of the selected region, if click ung upper, lahat ng upper from FA - M...
 var clickX = new Array();
 var clickY = new Array();
 var clickDrag = new Array();
@@ -112,7 +119,6 @@ var curTool = 'crayon';
 var curColor;
 var paint;
 var ex;
-var flag;
 
 function setVariables(tooth, toolType, toolData) {
     //dito may error dapat ifix to, ang nanyayare ay if wala pang canvasFA_EXT or shit like dat, sinesave nya muna ung paint area...
@@ -345,37 +351,39 @@ function redefineFunctions() {
             setSymbol(tooth, toolType, toolData);
             var cv = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
             var cv2 = '#'+anotherTooth+' div #canvas'+anotherTooth+'_'+toolData;
+            var pair = [cv, cv2];
 
-            //todo switch here for ext only
-            $(cv).each(function() {
-                var id = $(this).attr('id');
-                var c = document.getElementById(id);
-                var ctx = c.getContext("2d");
-                var ctxWidth = parseInt($('#'+c.id).attr('width'));
-                var ctxHeight = parseInt($('#'+c.id).attr('height'));
+            $.each(pair, function(k, v){
+                $(v).each(function() {
+                    var id = $(this).attr('id');
+                    var c = document.getElementById(id);
+                    var ctx = c.getContext("2d");
+                    var ctxWidth = parseInt($('#'+c.id).attr('width'));
+                    var ctxHeight = parseInt($('#'+c.id).attr('height'));
+                    switch(toolImageTemplate){
+                        case 'CROSSOUT':   //from db
+                            ctx.moveTo(0+10, 0+5);
+                            ctx.lineTo(ctxWidth-10, ctxHeight-5);
+                            ctx.moveTo(ctxWidth-10, 0+5);
+                            ctx.lineTo(0+10, ctxHeight-5);
+                            ctx.lineCap = 'round';
+                            ctx.lineWidth = 6;
+                            ctx.stroke();
+                            break;
+                        case 'CHAR':
+                            ctx.fillStyle = curColor;
+                            ctx.stroke();
+                            ctx.closePath();
 
-                ctx.moveTo(0+10, 0+5);
-                ctx.lineTo(ctxWidth-10, ctxHeight-5);
-                ctx.moveTo(ctxWidth-10, 0+5);
-                ctx.lineTo(0+10, ctxHeight-5);
-                ctx.lineCap = 'round';
-                ctx.lineWidth = 6;
-                ctx.stroke();
-            });
-            $(cv2).each(function() {
-                var id = $(this).attr('id');
-                var c = document.getElementById(id);
-                var ctx = c.getContext("2d");
-                var ctxWidth = parseInt($('#'+c.id).attr('width'));
-                var ctxHeight = parseInt($('#'+c.id).attr('height'));
-
-                ctx.moveTo(0+10, 0+5);
-                ctx.lineTo(ctxWidth-10, ctxHeight-5);
-                ctx.moveTo(ctxWidth-10, 0+5);
-                ctx.lineTo(0+10, ctxHeight-5);
-                ctx.lineCap = 'round';
-                ctx.lineWidth = 6;
-                ctx.stroke();
+                            ctx.font = "bold 20px Verdana";
+                            ctx.textBaseline = "right";
+                            ctx.fillText("B", ctxWidth/2, ctxHeight/2);
+                            break;
+                        default:
+                            console.log("No Image Template");
+                            break;
+                    }
+                });
             });
         };
     });
@@ -474,19 +482,23 @@ function setSymbol(tooth, toolType, toolData) {
     var imageHeight2 = $('#'+anotherTooth+' canvas').attr('height');
 
     //console.log("===>toothWithService "+toothWithService);
-    //alert(checkIfNotBan(tooth));
+
     if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
         console.log("==========================> setSymbol: "+tooth);
+
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var c2 = '#'+anotherTooth+' div #canvas'+anotherTooth+'_'+toolData;
         var t = tooth+"_"+toolData;
         var t2 = anotherTooth+"_"+toolData;
+
         //price
         var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
         var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
 
         //check if not-exists ung canvas, if-not exists add div
-        if ($(c).length <= 0 || $(c2).length <= 0 ) {
+        /*if($(c).length <= 0 && ){
+
+        } else */if ($(c).length <= 0 || $(c2).length <= 0 ) {
             $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
             $('#'+anotherTooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t2+"' width='"+imageWidth2+"' height='"+imageHeight2+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1 || $.inArray(anotherTooth+"_"+toolData, toothWithService) <= -1){

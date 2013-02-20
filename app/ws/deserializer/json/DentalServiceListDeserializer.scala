@@ -20,7 +20,8 @@ trait DentalServiceListDeserializer {
       (json \ "type").asOpt[String],
       (json \ "tool_type").asOpt[Int],
       (json \ "price").asOpt[String],
-      (json \ "color").asOpt[String]
+      (json \ "color").asOpt[String],
+      (json \ "image_template").asOpt[String]
     )
 
     def writes(d: DentalServiceList): JsValue = JsObject(
@@ -31,7 +32,8 @@ trait DentalServiceListDeserializer {
         "type" -> JsString(d.sType.get),
         "tool_type" -> JsNumber(d.toolType.get),
         "price" -> JsString(d.price.get),
-        "color" -> JsString(d.color.get)
+        "color" -> JsString(d.color.get),
+        "image_template" -> JsString(d.imageTemplate.get)
       )
     )
   }

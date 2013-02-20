@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentalServiceList(var id: String, name: Option[String], code: Option[String], sType: Option[String], toolType: Option[Int], price: Option[String], color: Option[String])
+case class DentalServiceList(var id: String, name: Option[String], code: Option[String], sType: Option[String], toolType: Option[Int], price: Option[String], color: Option[String], imageTemplate: Option[String])
 
 object ServicesService {
 
@@ -45,7 +45,8 @@ object ServicesService {
             |type,
             |tool_type,
             |price,
-            |color
+            |color,
+            |image_template
             |from
             |dental_services
             |where status = {status}
@@ -58,8 +59,9 @@ object ServicesService {
             get[Option[String]]("type") ~
             get[Option[Int]]("tool_type") ~
             get[Option[String]]("price") ~
-            get[Option[String]]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+            get[Option[String]]("color") ~
+            get[Option[String]]("image_template") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => DentalServiceList(a, b, c, d, e, f, g, h)
           } *
         }
         dentalServiceList
@@ -80,7 +82,8 @@ object ServicesService {
             |type,
             |tool_type,
             |price,
-            |color
+            |color,
+            |image_template
             |from
             |dental_services
             |where status = {status} and
@@ -97,8 +100,9 @@ object ServicesService {
             get[Option[String]]("type") ~
             get[Option[Int]]("tool_type") ~
             get[Option[String]]("price") ~
-            get[Option[String]]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+            get[Option[String]]("color") ~
+            get[Option[String]]("image_template") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => DentalServiceList(a, b, c, d, e, f, g, h)
           } *
         }
         dentalServiceList
@@ -117,7 +121,8 @@ object ServicesService {
             |type,
             |tool_type,
             |price,
-            |color
+            |color,
+            |image_template
             |from
             |dental_services
             |WHERE id = {id}
@@ -130,8 +135,9 @@ object ServicesService {
             get[Option[String]]("type") ~
             get[Option[Int]]("tool_type") ~
             get[Option[String]]("price") ~
-            get[Option[String]]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+            get[Option[String]]("color") ~
+            get[Option[String]]("image_template") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => DentalServiceList(a, b, c, d, e, f, g, h)
           } *
         }
         dentalServiceList
@@ -158,7 +164,8 @@ object ServicesService {
             |{color},
             |{date_created},
             |{date_last_updated},
-            |{status}
+            |{status},
+            |{image_template}
             |);
           """.stripMargin).on(
           'id -> d.id,
@@ -170,7 +177,8 @@ object ServicesService {
           'color -> d.color,
           'date_created -> DateWithTime.dateNow,
           'date_last_updated -> DateWithTime.dateNow,
-          'status -> 1
+          'status -> 1,
+          'image_template -> d.imageTemplate
       ).executeUpdate()
        AuditLogService.logTaskServices(d, currentUser, task)
     }
@@ -208,6 +216,7 @@ object ServicesService {
             |tool_type = {tool_type},
             |price = {price},
             |color = {color},
+            |image_template = {image_template}
             |date_last_updated = {date_last_updated}
             |WHERE id = {id};
           """.stripMargin).on(
@@ -218,6 +227,7 @@ object ServicesService {
           'tool_type -> d.toolType,
           'price -> d.price,
           'color -> d.color,
+          'image -> d.imageTemplate,
           'date_last_updated -> DateWithTime.dateNow
         ).executeUpdate()
       AuditLogService.logTaskServices(d, currentUser, task)
@@ -258,7 +268,8 @@ object ServicesService {
             |type,
             |tool_type,
             |price,
-            |color
+            |color,
+            |image_template
             |from
             |dental_services
             |ORDER BY name asc
@@ -269,8 +280,9 @@ object ServicesService {
             get[Option[String]]("type") ~
             get[Option[Int]]("tool_type") ~
             get[Option[String]]("price") ~
-            get[Option[String]]("color") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g => DentalServiceList(a, b, c, d, e, f, g)
+            get[Option[String]]("color") ~
+            get[Option[String]]("image_template") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => DentalServiceList(a, b, c, d, e, f, g, h)
           } *
         }
         dentalServiceList

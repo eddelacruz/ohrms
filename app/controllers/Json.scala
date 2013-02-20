@@ -387,7 +387,7 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image)
+          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
           TreatmentPlanService.addTreatment(tp)
           index+=1
         }
@@ -412,7 +412,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
+      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       try {
         while (request.body.asFormUrlEncoded.get("banned_service["+index+"]").head != null) {
@@ -444,7 +445,8 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
+      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       if (ServicesService.updateDentalService(dl) >= 1) {
         Status(200)
