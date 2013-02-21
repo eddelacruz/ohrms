@@ -19,7 +19,10 @@ trait PaymentListDeserializer {
       (json \ "patientId").asOpt[String],
       (json \ "payment").asOpt[String],
       (json \ "dateOfPayment").asOpt[String],
-      (json \ "userName").asOpt[String]
+      (json \ "userName").asOpt[String],
+      (json \ "totalPayment").asOpt[Double],
+      (json \ "balance").asOpt[Double],
+      (json \ "totalPrice").asOpt[Double]
     )
 
     def writes(d: PaymentList): JsValue = JsObject(
@@ -28,7 +31,10 @@ trait PaymentListDeserializer {
         "patientId" -> JsString(d.patientId.get),
         "payment" -> JsString(d.payment.get),
         "dateOfPayment" -> JsString(d.dateOfPayment.get),
-        "userName" -> JsString(d.userName.get)
+        "userName" -> JsString(d.userName.get),
+        "totalPayment" -> JsNumber(d.totalPayment.get),
+        "balance" -> JsNumber(d.balance.get),
+        "totalPrice" -> JsNumber(d.totalPrice.get)
       )
     )
   }

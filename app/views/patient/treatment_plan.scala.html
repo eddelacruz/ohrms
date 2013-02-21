@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType], paymentList: List[ws.services.PaymentList])
 @import ws.delegates.{PaymentDelegate}
 
 @patient("Treatment Plan") {
@@ -219,11 +219,13 @@
 
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr>
-                        <td class="  sorting_1"><a href="#">a</a></td>
-                        <td>a</td>
-                        <td>a</td>
-                        <td>a</td>
+                        @paymentList.map { pl =>
+                        <td class="  sorting_1"><a href="#">@pl.id</a></td>
+                        <td>@pl.dateOfPayment</td>
+                        <td>@pl.payment</td>
+                        <td>@pl.userName</td>
                     </tr>
+                    }
                     </tbody>
                 </table>
                 <div class="extension bottom inright pagination">

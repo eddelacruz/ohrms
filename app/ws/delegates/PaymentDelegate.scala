@@ -9,6 +9,7 @@ import play.api.data.Form
 import play.api.data.Forms._
 import ws.services.PaymentList
 import play.api.libs.ws.Response
+import play.api.data.format.Formats._
 
 /**
  * Created with IntelliJ IDEA.
@@ -25,7 +26,10 @@ object PaymentDelegate extends WsHelper{
       "patient_id" -> optional(text),
       "payment" -> optional(text),
       "date_of_payment" -> optional(text),
-      "user_name" -> optional(text)
+      "user_name" -> optional(text),
+      "total_payment" -> of[Double],
+      "balance" -> of[Double],
+      "total_price" -> of[Double]
     )(PaymentList.apply)(PaymentList.unapply)
   )
 
@@ -48,7 +52,10 @@ object PaymentDelegate extends WsHelper{
       (j \ "patientId").asOpt[String],
       (j \ "payment").asOpt[String],
       (j \ "dateOfPayment").asOpt[String],
-      (j \ "userName").asOpt[String]
+      (j \ "userName").asOpt[String],
+      (j \ "totalPayment").asOpt[Double],
+      (j \ "balance").asOpt[Double],
+      (j \ "totalPrice").asOpt[Double]
     )
   }
 
