@@ -1,5 +1,6 @@
 package ws.delegates
 
+
 import play.api.libs.concurrent.Promise
 import play.api.libs.ws._
 import play.api.libs.json.{JsString, JsValue, JsObject}
@@ -9,7 +10,16 @@ import play.api.data.Form
 import play.api.data.Forms._
 import ws.services.PaymentList
 import play.api.libs.ws.Response
+import play.api.data.format.Formatter
+import play.api.data.Mapping
 import play.api.data.format.Formats._
+import play.api.data.FormError
+import play.api.data.validation.Constraint
+import play.api.data.validation.Invalid
+import play.api.data.validation.Valid
+import play.api.data.validation.ValidationError
+import play.api.data.validation.Constraints
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,16 +30,14 @@ import play.api.data.format.Formats._
  */
 
 object PaymentDelegate extends WsHelper{
+
   val _paymentProfileForm = Form(
     mapping(
       "id" -> text,
       "patient_id" -> optional(text),
       "payment" -> optional(text),
       "date_of_payment" -> optional(text),
-      "user_name" -> optional(text),
-      "total_payment" -> of[Double],
-      "balance" -> of[Double],
-      "total_price" -> of[Double]
+      "user_name" -> optional(text)
     )(PaymentList.apply)(PaymentList.unapply)
   )
 
@@ -52,10 +60,7 @@ object PaymentDelegate extends WsHelper{
       (j \ "patientId").asOpt[String],
       (j \ "payment").asOpt[String],
       (j \ "dateOfPayment").asOpt[String],
-      (j \ "userName").asOpt[String],
-      (j \ "totalPayment").asOpt[Double],
-      (j \ "balance").asOpt[Double],
-      (j \ "totalPrice").asOpt[Double]
+      (j \ "userName").asOpt[String]
     )
   }
 

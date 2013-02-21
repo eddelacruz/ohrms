@@ -9,7 +9,7 @@ import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
 import java.util.Date
-import scala.math.BigDecimal
+import java.math.BigDecimal
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +19,7 @@ import scala.math.BigDecimal
  * To change this template use File | Settings | File Templates.
  */
 
-case class PaymentList(var id: String, patientId : Option[String], payment: Option[String], dateOfPayment: Option[String], userName: Option[String],totalPayment: Option[Double], balance: Option[Double], totalPrice: Option[Double])
+case class PaymentList(var id: String, patientId : Option[String], payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
 //case class PaymentDetails(p: PaymentList, totalPayment: Option[String], balance: Option[String], totalPrice: Option[String])
 
 object PaymentService {
@@ -47,13 +47,9 @@ object PaymentService {
             |pat.first_name,
             |pat.middle_name,
             |pat.last_name,
-            |pay.user_name,
-            |SUM(pay.payment) as total_payment,
-            |SUM(tp.price) as total_price,
-            |(SUM(tp.price) - SUM(pay.payment)) as balance
+            |pay.user_name
             |from payments pay
             |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
-            |LEFT OUTER JOIN treatment_plan tp ON pay.patient_id=tp.patient_id
             |where pay.patient_id = {patient_id}
             |ORDER BY pay.date_of_payment desc
             |LIMIT {start}, {count}
@@ -62,11 +58,8 @@ object PaymentService {
             get[Option[String]]("patient_id") ~
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
-            get[Option[String]]("user_name") ~
-            get[Option[Double]]("total_payment") ~
-            get[Option[Double]]("balance") ~
-            get[Option[Double]]("total_price")  map {
-            case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentList(a, b, c, Some(d.toString), e, f, g, h)
+            get[Option[String]]("user_name")map {
+            case a ~ b ~ c  ~ d ~ e  => PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
           } *
         }
         paymentList
@@ -106,7 +99,10 @@ object PaymentService {
             |pat.first_name,
             |pat.middle_name,
             |pat.last_name,
-            |pay.user_name
+            |pay.user_name,
+            |SUM(pay.payment) as total_payment,
+            |1000.00 as total_price,
+            |(1000 - SUM(pay.payment)) as balance
             |from payments pay
             |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
             |where pay.patient_id = {patient_id}
@@ -118,11 +114,8 @@ object PaymentService {
             get[Option[String]]("patient_id") ~
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
-            get[Option[String]]("user_name") ~
-            get[Option[Double]]("total_payment") ~
-            get[Option[Double]]("balance") ~
-            get[Option[Double]]("total_price") map {
-            case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentList(a, b, c, Some(d.toString), e,  f, g, h)
+            get[Option[String]]("user_name")map {
+            case a ~ b ~ c  ~ d ~ e  => PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
           } *
         }
         paymentList
