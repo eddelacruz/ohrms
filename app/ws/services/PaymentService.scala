@@ -8,6 +8,7 @@ import play.api.cache.{EhCachePlugin, Cache}
 import ws.helper.DateWithTime
 import collection.mutable.ListBuffer
 import ws.generator.UUIDGenerator
+import java.util.Date
 
 /**
  * Created with IntelliJ IDEA.
@@ -32,7 +33,7 @@ object PaymentService {
   def getPaymentsByPatientId(start: Int, count: Int, patientId: String): List[PaymentList] = {
     DB.withConnection {
       implicit c =>
-        val paymentList: List[ClinicList] = SQL(
+        val paymentList: List[PaymentList] = SQL(
           """
             |select
             |pay.id,
@@ -55,7 +56,7 @@ object PaymentService {
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c  ~ d ~ e => PaymentList(a, b, c, d.toString, e)
+            case a ~ b ~ c  ~ d ~ e => PaymentList(a, b, c, Some(d.toString), e)
           } *
         }
         paymentList
@@ -65,7 +66,7 @@ object PaymentService {
   def getPaymentsByPatientIdById(patientId: String, id: String): List[PaymentList] = {
     DB.withConnection {
       implicit c =>
-        val paymentList: List[ClinicList] = SQL(
+        val paymentList: List[PaymentList] = SQL(
           """
             |select
             |pay.id,
@@ -83,13 +84,13 @@ object PaymentService {
             |and pay.id = {id}
             |ORDER BY pay.date_of_payment desc
             |LIMIT {start}, {count}
-          """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId, 'id -> id).as {
+          """.stripMargin).on('patient_id -> patientId, 'id -> id).as {
           get[String]("id") ~
             get[Option[String]]("patient_id") ~
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
             get[Option[String]]("user_name") map {
-            case a ~ b ~ c  ~ d ~ e => PaymentList(a, b, c, d.toString(), e)
+            case a ~ b ~ c  ~ d ~ e => PaymentList(a, b, c, Some(d.toString()), e)
           } *
         }
         paymentList

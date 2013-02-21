@@ -1,6 +1,12 @@
 @(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@import ws.delegates.{PaymentDelegate}
 
 @patient("Treatment Plan") {
+
+@patientList.map { pl =>
+@modal._add_payment(PaymentDelegate.getPaymentsByPatientId(0, 5, pl.id ))
+}
+
 <!-- # Treatment Plan -->
 <header class="grid_12 head">
     <h1>Treatment Plan</h1>
@@ -21,6 +27,7 @@
                 <ul>
                     <li class="active first"><a href="#tab-1">Profile</a></li>
                     <li><a href="#tab-2">Personal Dental Chart</a></li>
+                    <li><a href="#tab-3">Payment</a></li>
                 </ul>
             </nav>
             <a href="#" class="close">close</a>
@@ -83,7 +90,7 @@
             </div>
             <div class="field special">
                 <label>Medical History: </label>
-                <textarea id="textarea-input-grow" disabled="disabled" class="autogrow" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
+                <textarea disabled="disabled" class="autogrow" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@pl.medicalHistory</textarea>
             </div>
             }
         </div>
@@ -164,6 +171,85 @@
         </div>
     </div>
     <!-- /Dental Services -->
+</div>
+<div id="tab-3" class="tab patient_information">
+    <div class="form-details right">
+        <div class="extension top fullwidth">
+            <div id="DataTables_Table_0_length" class="dataTables_length">
+                <label>
+                    <span class="textnode">Show </span>
+                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
+                        <option value="0" selected="selected">-</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="textnode"> entries</span>
+                </label>
+            </div>
+            <div class="clear"></div></div>
+        <div class="table">
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+                <table class="datatable dataTable" id="DataTables_Table_0">
+                    <thead>
+                    <tr role="row">
+                        <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                            <div class="parentsort">Payment Id
+                                <div class="sorticon"></div>
+                            </div>
+                        </th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
+                            <div class="parentsort">Date of Payment
+                                <div class="sorticon"></div>
+                            </div>
+                        </th>
+                        <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                            <div class="parentsort">Payment
+                                <div class="sorticon"></div>
+                            </div>
+                        </th>
+                        <th class="last sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Platform(s): activate to sort column ascending">
+                            <div class="parentsort">Recorded By
+                                <div class="sorticon"></div>
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody role="alert" aria-live="polite" aria-relevant="all">
+                    <tr>
+                        <td class="  sorting_1"><a href="#">a</a></td>
+                        <td>a</td>
+                        <td>a</td>
+                        <td>a</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="extension bottom inright pagination">
+                    <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
+                        <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                            <span>
+                                <a tabindex="0" class="paginate_button">1</a>
+                            </span>
+                        <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav>
+            <ul>
+                <li class="last">
+                    <!--<a class="bt blue right" href="#addAppointmentModal" class="modal">Pay!</a>-->
+                    <a href="#addPaymentModal" class="modal">
+                        Proceed to Counter
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+    </div>
 </div>
 
 <footer class="pane">

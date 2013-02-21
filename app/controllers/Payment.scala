@@ -38,15 +38,16 @@ object Payment extends Controller with Secured{
         Ok(modal._add_payment(PaymentDelegate.getPaymentsByPatientId(start,count,patientId)))
   }
 
-  def getUpdateForm(id: String) = IsAuthenticated {
+  /*def getUpdateForm(id: String) = IsAuthenticated {
     username =>
       implicit request =>
+        val patientId = "aaa"
         Cache.get("role") match {
           case Some(0) => Ok(payment.update(PaymentService.getPaymentsByPatientIdById(patientId,id)))
-          case Some(1) => Ok(payment.update(PaymentService.getClinicListById(patientId,id)))
+          case Some(1) => Ok(payment.update(PaymentService.getPaymentsByPatientIdById(patientId,id)))
           case _ => Redirect("/payments/"+id)
         }
-  }
+  }*/
 
   def submitUpdateForm = Action {
     implicit request =>
@@ -66,7 +67,7 @@ object Payment extends Controller with Secured{
   }
 
 
-  def getAddForm = IsAuthenticated {
+  /*def getAddForm = IsAuthenticated {
     username =>
       implicit request =>
         Cache.get("role") match {
@@ -75,7 +76,7 @@ object Payment extends Controller with Secured{
           case _ => Redirect("/payments")
         }
 
-  }
+  }*/
 
   def submitAddForm = Action {
     implicit request =>

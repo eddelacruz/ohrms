@@ -30,7 +30,7 @@ object PaymentDelegate extends WsHelper{
   )
 
   def getPaymentsByPatientId(start: Int, count: Int, patientId: String) = {
-    val res: Promise[Response] = doGet("/json/payments?start="+start+"&count="+count)
+    val res: Promise[Response] = doGet("/json/payments/"+patientId+"?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val dl = ListBuffer[PaymentList]()
 
@@ -43,7 +43,7 @@ object PaymentDelegate extends WsHelper{
 
 
   def convertToPaymentList (j: JsValue): PaymentList = {
-    new PaymentList()(
+    new PaymentList(
       (j \ "id").as[String],
       (j \ "patientId").asOpt[String],
       (j \ "payment").asOpt[String],
