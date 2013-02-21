@@ -151,4 +151,20 @@ object TreatmentPlanService {
     }
   }
 
+  def getTeethByPositionAndType(position: String, tType: String): List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |SELECT
+            |    id
+            |FROM
+            |    teeth_affected
+            |where
+            |    position = {position} and type = {t_type}
+            |and (view = 'm' or view = 'f');
+          """.stripMargin).on('position -> position, 't_type -> tType).as(get[String]("id")*).toList
+    }
+  }
+
 }

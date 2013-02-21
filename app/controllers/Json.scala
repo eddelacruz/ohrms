@@ -648,4 +648,9 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
       }
   }
 
+  def getTeethByPositionAndType(position: String, tType: String) = Action {
+    implicit request =>
+      Ok(toJson(TreatmentPlanService.getTeethByPositionAndType(position, tType)))
+  }
+
 }

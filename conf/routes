@@ -143,6 +143,7 @@ POST    /json/specializations/delete       controllers.Json.deleteSpecialization
 POST    /json/specializations                controllers.Json.submitSpecializationAddForm
 GET     /json/patients/all                 controllers.Json.getAllPatients
 GET     /json/patients/visits/:year        controllers.Json.getPatientVisitsByYear(year: Int)
+GET     /json/teeth/type/:tType/position/:position        controllers.Json.getTeethByPositionAndType(position: String, tType: String)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload
