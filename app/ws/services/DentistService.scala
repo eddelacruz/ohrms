@@ -22,8 +22,8 @@ case class SpecializationList(var id: String, dentistId: String, name: String)
 
 object DentistService {
 
-  val user = Cache.getAs[String]("user_name").toString
-  val username =  user.replace("Some", "").replace("(","").replace(")","")
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
 
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
@@ -305,10 +305,10 @@ object DentistService {
             |{address},
             |{contact_no},
             |{prc_no},
-            |{user_name},
             |{status},
             |{date_created},
-            |{date_last_updated}
+            |{date_last_updated},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> d.id,
@@ -318,11 +318,11 @@ object DentistService {
           'address -> d.address,
           'contact_no -> d.contactNo,
           'prc_no -> d.prcNo,
-          'user_name -> d.userName,
           'status -> 1,
           'date_created -> DateWithTime.dateNow,
-          'date_last_updated -> DateWithTime.dateNow
-        ).executeUpdate()
+          'date_last_updated -> DateWithTime.dateNow,
+          'user_name -> d.userName
+      ).executeUpdate()
         AuditLogService.logTaskDentist(d, currentUser, task)
     }
   }

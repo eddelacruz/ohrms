@@ -8,40 +8,46 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li class="last"><a href="#">Dentists</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
+
 <div class="grid_3">
     <div class="simple-box">
         <div class="inner">
 
             <div class="box-content">
-                <p>
-                    <a href="">Your Profile</a>
-                </p>
-                <p>
-                    <a href="">Reminders</a>
-                </p>
-                <p>
-                    <a href="">Clinic</a>
-                </p>
-                <p>
-                    <a href="">Dental Services</a>
-                </p>
-                <p>
-                    <a href="">Dentists</a>
-                </p>
-                <p>
-                    <a href="">Staffs</a>
-                </p>
+                <ul>
+                    <li>
+                        <a href="#">elidc93's Account</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
 <div class="grid_9">
+    @if((play.cache.Cache.get("role")) == 0){
     <div class="box">
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1></h1>
+                    <h1>Add Dentist</h1>
                 </div>
                 <div class="right">
                     <nav style="display:none;">
@@ -56,10 +62,9 @@
 
         <div class="box-content">
             <div id="tab-1" class="tab">
-                <div class="center">
-                    <div class="form-details">
+                <div class="columns">
+                    <div class="form-details right">
                         @helper.form(action = routes.Dentist.submitAddForm){
-                        @if((play.cache.Cache.get("role")) == 0){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
                             <ul>
@@ -93,7 +98,7 @@
                                     <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                                 </li>
                                 <li>
-                                    <label>Contact Number:</label>
+                                    <label>Contact No:</label>
                                     <input type="text" name="contact_no" required = "required">
 
                                 </li>
@@ -103,7 +108,7 @@
                                 </li>
                                 <li>
                                     <label>Specialization</label>
-                                    <input type="text" name="specializationName[0]" data-count=0 value="" style="width: 81%;">
+                                    <input type="text" name="specializationName[0]" data-count=0 value="" style="width: 85%;">
                                     <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
                                 </li>
                                 <br/>
@@ -119,6 +124,7 @@
             </div>
         </div>
     </div> }
+
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
@@ -158,12 +164,12 @@
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 184px;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">Contact number
+                        <div class="parentsort">Contact No.
                             <div class="sorticon"></div>
                         </div>
                     </th>
                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 184px;" aria-label="Platform(s): activate to sort column ascending">
-                        <div class="parentsort">PRCNo
+                        <div class="parentsort">PRC No.
                             <div class="sorticon"></div>
                         </div>
                     </th>

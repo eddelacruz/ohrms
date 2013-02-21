@@ -2,9 +2,15 @@
 
 @main("Staff") {
 <header class="grid_12 head">
-    <h1>Staff</h1>
+    <h1>Staff Profile</h1>
     <div class="clear"></div><span class="divider"></span>
 </header>
+
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li><a href="#">Staffs</a> <span class="divider"></span></li><li class="last"><a href="#">@staffList.map { s => @s.firstName @s.middleName @s.lastName \'s Profile }</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
 
 <div class="box grid_12">
 <header>
@@ -17,7 +23,7 @@
         <div class="right">
             <nav>
                 <ul>
-                    <li class="active first"><a href="#tab-1">Profile</a></li>
+                    <li class="active first" style="display: none;"><a href="#tab-1">Profile</a></li>
                 </ul>
             </nav>
             <a href="#" class="close">close</a>
@@ -29,14 +35,14 @@
 <div id="tab-1" class="tab">
     <div class="columns">
 
-        <div class="form-details right mode-1">
+        <div class="form-details right">
             @staffList.map { s =>
             <div class="field left">
                 <ul>
-                    <li>
+                    <!--<li>
                         <label>Staff ID:</label>
                         <label class="form-label">@s.id</label>
-                    </li>
+                    </li>-->
                     <li>
                         <label>First Name:</label>
                         <label class="form-label">@s.firstName</label>
@@ -70,21 +76,16 @@
                         <label>Username:</label>
                         <label class="form-label">@s.userName</label>
                     </li>
-                    <li>
-                        <label>Password:</label>
-                        <label class="form-label">@s.password</label>
-                    </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
+@if((play.cache.Cache.get("user_name")) == s.userName || (play.cache.Cache.get("role")) == 0) {
 <footer class="pane">
-        @if((play.cache.Cache.get("user_name")) == s.userName || (play.cache.Cache.get("role")) == 0) {
-        <a class="bt blue right" href="@routes.Staff.getUpdateForm(s.id)">@Messages("button.edit")</a>
-        }
-
+    <a class="bt blue right" href="@routes.Staff.getUpdateForm(s.id)">@Messages("button.edit")</a>
     }
 </footer>
+}
 </div>
 }

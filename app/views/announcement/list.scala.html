@@ -8,30 +8,35 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li class="last"><a href="#">Reminders</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
+
 <!-- DentalService -->
 <div class="grid_3">
     <div class="simple-box">
         <div class="inner">
 
             <div class="box-content">
-                <p>
-                    <a href="">Your Profile</a>
-                </p>
-                <p>
-                    <a href="">Reminders</a>
-                </p>
-                <p>
-                    <a href="">Clinic</a>
-                </p>
-                <p>
-                    <a href="">Dental Services</a>
-                </p>
-                <p>
-                    <a href="">Dentists</a>
-                </p>
-                <p>
-                    <a href="">Staffs</a>
-                </p>
+                <ul>
+                    <li>
+                        <a href="#">elidc93's Account</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
@@ -39,11 +44,12 @@
 <!-- DentalService -->
 <!-- /Reminders -->
 <div class="grid_9">
+    @if((play.cache.Cache.get("role")) == 0){
     <div class="box">
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1>Reminders</h1>
+                    <h1>Add Reminder</h1>
                 </div>
                 <div class="right">
                     <a href="#" class="close">close</a>
@@ -52,25 +58,23 @@
         </header>
 
         <div class="box-content">
-            <div class="center">
-                <div class="form-details">
+            <div class="columns">
+                <div class="form-details right">
                     @helper.form(action = routes.Announcement.submitAddForm){
                     <div class="field left">
                         <input type="hidden" name="id" value="">
                         <input type="hidden" name="user_name" value="">
                         <ul>
-
-                            <li>
-                                <label>Description:</label>
-                                <input type="text" name="description" required = "required">
-                            </li>
                             <li>
                                 <label>Date:</label>
-                                <input type="text" name="date_created" required = "required">
+                                <input class="datepicker" type="text" name="date_created" required = "required">
                             </li>
                         </ul>
                     </div>
-
+                    <div class="field special">
+                        <label>Description: <span>(200 characters)</span></label>
+                        <textarea class="autogrow" name="description" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                    </div>
                 </div>
             </div>
             <footer class="pane">
@@ -79,7 +83,7 @@
             }
         </div>
     </div>
-
+     }
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
@@ -103,18 +107,18 @@
             <table class="datatable dataTable" id="DataTables_Table_0">
                 <thead>
                 <tr role="row">
-                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 60%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
                         <div class="parentsort">Description
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
-                        <div class="parentsort">Created By
+                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-label="Browser: activate to sort column ascending">
+                        <div class="parentsort">Date Created
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
-                        <div class="parentsort">Date Created
+                    <th class="last sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 15%;" aria-label="Browser: activate to sort column ascending">
+                        <div class="parentsort">Created By
                             <div class="sorticon"></div>
                         </div>
                     </th>
@@ -124,22 +128,20 @@
                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                 @announcementList.map { al =>
                 <tr>
-                    <td class="sorting_1"><a href="routes.Announcement.getAnnouncementListById(al.id)">@al.description</a></td>
-                    <td>@al.username</td>
+                    <td class="sorting_1"><a href="@routes.Announcement.getAnnouncementListById(al.id)">@al.description</a></td>
                     <td>@al.dateCreated</td>
+                    <td>@al.username</td>
                 </tr>
                 }
                 </tbody>
             </table>
             <div class="extension bottom inright pagination">
                 <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
-                    <a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a>
-                    <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
-                                                <span>
-                                                    <a tabindex="0" class="paginate_button">1</a>
-                                                </span>
-                    <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
-                    <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>
+                    <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                        <span>
+                            <a tabindex="0" class="paginate_button">1</a>
+                        </span>
+                    <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
                 </div>
             </div>
         </div>

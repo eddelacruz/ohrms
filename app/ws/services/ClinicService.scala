@@ -18,32 +18,17 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String])
+case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String], userName: Option[String])
 
 object ClinicService {
+
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
       implicit c =>
         val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
         rowCount[Long]("c")
-    }
-  }
-
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-        val getCurrentUserId = SQL(
-          """
-            |select
-            |id
-            |from users
-            |where user_name = {username}
-          """.stripMargin
-        ).on('username -> username).apply().head
-        getCurrentUserId[String]("id")
     }
   }
 
@@ -56,7 +41,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |ORDER BY clinic_name asc
@@ -65,8 +51,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address")~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c  ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c  ~ d ~ e => ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -82,7 +69,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |where id = {id}
@@ -91,8 +79,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name")  map {
+            case a ~ b ~ c ~ d ~ e=> ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -108,7 +97,8 @@ object ClinicService {
             |id,
             |clinic_name,
             |address,
-            |image
+            |image,
+            |user_name
             |from
             |clinic
             |where clinic_name like "%"{filter}"%"
@@ -119,8 +109,9 @@ object ClinicService {
           get[String]("id") ~
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
-            get[Option[String]]("image")map {
-            case a ~ b ~ c ~ d => ClinicList(a, b, c, d)
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name") map {
+            case a ~ b ~ c ~ d ~ e => ClinicList(a, b, c, d, e)
           } *
         }
         clinicList
@@ -128,8 +119,7 @@ object ClinicService {
   }
 
   def addClinic(d: ClinicList): Long = {
-    println(getUserId)
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("clinic")
     DB.withConnection {
@@ -142,12 +132,14 @@ object ClinicService {
             |{id},
             |{clinic_name},
             |{address},
-            |{image})
+            |{image},
+            |{user_name})
           """.stripMargin).on(
           'id -> d.id,
           'clinic_name -> d.clinicName,
           'address -> d.address,
-          'image -> d.image
+          'image -> d.image,
+          'user_name -> d.userName
         ).executeUpdate()
       AuditLogService.logTaskClinic(d, currentUser, task)
     }
@@ -155,7 +147,7 @@ object ClinicService {
 
 
   def updateClinic(p: ClinicList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -164,13 +156,15 @@ object ClinicService {
             |UPDATE clinic SET
             |clinic_name = {clinic_name},
             |address = {address},
-            |image = {image}
+            |image = {image},
+            |user_name = {user_name}
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
           'clinic_name -> p.clinicName,
           'address -> p.address,
-          'image -> p.image
+          'image -> p.image,
+          'user_name -> p.userName
         ).executeUpdate()
         AuditLogService.logTaskClinic(p, currentUser, task)
     }

@@ -1,8 +1,8 @@
 @main(Messages("Settings")) {
 
-    <!-- # Dashboard -->
+    <!-- # Settings -->
     <header class="grid_12 head">
-        <h1>@Messages("Account Settings")</h1>
+        <h1>@(play.cache.Cache.get("user_name"))'s Account <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
         <div class="clear"></div><span class="divider"></span>
     </header>
 
@@ -11,159 +11,31 @@
         <div class="inner">
 
             <div class="box-content">
-                <p>
-                    <a href="">Your Profile</a>
-                </p>
-                <p>
-                    <a href="">Reminders</a>
-                </p>
-                <p>
-                    <a href="">Clinic</a>
-                </p>
-                <p>
-                    <a href="">Dental Services</a>
-                </p>
-                <p>
-                    <a href="">Dentists</a>
-                </p>
-                <p>
-                    <a href="">Staffs</a>
-                </p>
-                <!--<a href="@routes.DentalService.getAddForm()">Add Dental Services</a><br>
-                <a href="@routes.Announcement.getList()">View Announcements List</a><br>
-                <a href="@routes.Staff.getAddForm()">Add Staff</a><br>
-                <a href="@routes.Staff.getList()">Edit Staff List</a><br>
-                <a href="@routes.Dentist.getAddForm()">Add Dentist</a><br>
-                <a href="@routes.Dentist.getList()">Edit Dentist List</a><br>
-                <a href="@routes.Clinic.getAddForm()">Add Clinic</a><br>
-                <a href="@routes.Clinic.getList()">Edit Clinic List</a><br>
-                <a href="@routes.Reports._dentistList()">View Dentist Reports</a><br>-->
+                <ul>
+                    <li>
+                        <a href="#">@(play.cache.Cache.get("user_name"))'s Account</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
     <!-- DentalService -->
     <!-- /Announcements -->
-    <div class="simple-box grid_9">
-        <div class="inner">
-            <header>
-                <h1>Reminders</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Announcement.getList()">View Reminders List</a>
-            </div>
-        </div>
+    <div class="grid_9">
     </div>
     <!-- /Announcements -->
-
-<!--    &lt;!&ndash; Today's Appointments &ndash;&gt;
-    <div class="box grid_4">
-        <header>
-            <div class="inner">
-                <div class="left title">
-                    <h1>Today's Appoinments</h1>
-                    <a href="routes.Scheduler.getCalendar()">view scheduler »</a>
-                </div>
-                <div class="right">
-                    <a href="#" class="close">close</a>
-                </div>
-            </div>
-        </header>
-
-        <div class="box-content no-inner-space" style="display: block; ">
-            <ul class="userlist">
-
-                <li class="first">
-                    <div class="avatar"><img src="routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>
-                    <div class="info-l">
-                        <a href="#" class="title">at.lastName, at.firstName at.middleName</a>
-                        <span>at.description</span>
-                    </div>
-                    <div class="info-r">
-                        <span>(at.dateStart.get.split(" ")(1).split(":")(0).toInt % 12):at.dateStart.get.split(" ")(1).split(":")(1) pm</span>
-                        <span></span>
-                        <span>at.dateStart.get.split(" ")(1).split(":")(0):at.dateStart.get.split(" ")(1).split(":")(1) am</span>
-
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    &lt;!&ndash; /Today's Appoinments &ndash;&gt;
-
-    <!-- /Announcements --><!--
-    <div class="simple-box grid_8">
-        <div class="inner">
-            <header>
-                <h1>Announcements</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Announcement.getList()">View Announcements List</a>
-            </div>
-        </div>
-    </div>
-    &lt;!&ndash; /Announcements &ndash;&gt;
-
-    &lt;!&ndash; /Staff &ndash;&gt;
-    <div class="simple-box grid_8">
-        <div class="inner">
-            <header>
-                <h1>Staff</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Staff.getAddForm()">Add Staff</a><br>
-                <a href="@routes.Staff.getList()">Edit Staff List</a>
-            </div>
-        </div>
-    </div>
-    &lt;!&ndash; /Staff &ndash;&gt;
-
-    &lt;!&ndash; /Dentist &ndash;&gt;
-    <div class="simple-box grid_8">
-        <div class="inner">
-            <header>
-                <h1>Dentist</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Dentist.getAddForm()">Add Dentist</a><br>
-                <a href="@routes.Dentist.getList()">Edit Dentist List</a>
-            </div>
-        </div>
-    </div>
-    &lt;!&ndash; /Dentist &ndash;&gt;
-
-    &lt;!&ndash; /Clinic &ndash;&gt;
-    <div class="simple-box grid_8">
-        <div class="inner">
-            <header>
-                <h1>Clinic</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Clinic.getAddForm()">Add Clinic</a><br>
-                <a href="@routes.Clinic.getList()">Edit Clinic List</a>
-            </div>
-        </div>
-    </div>
-    &lt;!&ndash; /Clinic &ndash;&gt;
-
-    &lt;!&ndash; /Report &ndash;&gt;
-    <div class="simple-box grid_8">
-        <div class="inner">
-            <header>
-                <h1>Report</h1>
-            </header>
-
-            <div class="box-content">
-                <a href="@routes.Reports._dentistList()">View Dentist Reports</a>
-            </div>
-        </div>
-    </div>
-&lt;!&ndash; /Report &ndash;&gt;
--->
 }
 
 

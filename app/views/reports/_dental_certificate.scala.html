@@ -1,4 +1,4 @@
-@(staffList: List[ws.services.StaffList])
+@(patientId: String)
 @import play.cache.Cache
 @import ws.helper.DateWithTime
 
@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    <title>Staff List</title>
+    <title>Sabertooth Dental Clinic</title>
     <style type="text/css">
         .title {
         text-align: center;
@@ -52,53 +52,27 @@
         .br-1 {
         margin-bottom: 15px;
         }
-        .footer {
-        text-align: right;
-        font-size: 11px;
-        font-weight: normal;
-        color: #8E8F92;
-        font-family: sans-serif;
+        .underline {
+            border-bottom: solid 1px;
         }
     </style>
 </head>
 <body>
-<div class="title">
-    Sabertooth Dental Clinic
-</div>
-<div class="sub-title">
-    Malolos City, Bulacan
-</div>
-<br/>
 
 <div class="title">
-    Staff List
-</div>
-<div class="sub-title">
-    List of Staffs as of @(DateWithTime.dateWithTimeString)
-</div>
-<div class="br-1"></div>
-<table class="table" border="1">
-    <tr class="center table-header">
-        <th>Complete Name</th>
-        <th>Position</th>
-        <th>Contact Number</th>
-        <th>Username</th>
 
-    </tr>
-    @staffList.map { sl =>
-    <tr>
-        <td>@sl.firstName @sl.middleName @sl.lastName</td>
-        <td>@sl.position</td>
-        <td>@sl.contactNo</td>
-        <td>@sl.userName</td>
-
-
-    </tr>       }
-</table>
-<br/>
-<div class="footer">
-    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
 </div>
+Date: @(DateWithTime.dateWithTimeString)
+<p>To Whom It May Concern:</p>
+<p>This is to certify that the bearer, _________________________________ was examined and attended by the undersigned Dental treatment procedures done:</p>
+<ul>
+    <li>Oral Prophylaxis</li>
+    <li>Extraction of tooth no.'s __________________________________________________________________________</li>
+    <li>Permanent fillings or restorations of tooth's no __________________________________________________________________________</li>
+    <li>Dentures</li>
+    <li>Others <p class="underline" style="width: 100%;"></p></li>
+</ul>
+
+<p>Recommendations:</p>
 </body>
-
 </html>

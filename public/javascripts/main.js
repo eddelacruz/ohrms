@@ -712,29 +712,29 @@ function res() {
     });
 
     //banned dental service
-    $('.field.center .button-set a.forward').click(function(e){
+    $('.field .button-set a.forward').click(function(e){
         e.preventDefault();
         var selected = $('select.special.services-list option:selected').attr('selected','selected');
         $.each(selected, function(i, l){
-            $('.field.center select.services-banned').append(l);
+            $('.field select.services-banned').append(l);
             //var v = $(l).val();
             //var i = $('.field.center div.services-banned input').length;
             //var n = 'banned_service['+i+']';
             //$('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
         });
-        $('.field.center select option').removeAttr('selected');
+        $('.field select option').removeAttr('selected');
     });
 
     //back button
-    $('.field.center .button-set a.back').click(function(e){
+    $('.field .button-set a.back').click(function(e){
         e.preventDefault();
         var selected = $('select.special.services-banned option:selected').attr('selected','selected');
         $.each(selected, function(i, l){
-            $('.field.center select.services-list').append(l);
+            $('.field select.services-list').append(l);
             var v = $(l).val();
-            $('.field.center div.services-banned').remove('input[value="'+v+'"]');
+            $('.field div.services-banned').remove('input[value="'+v+'"]');
         });
-        $('.field.center select option').removeAttr('selected');
+        $('.field select option').removeAttr('selected');
     });
 
     $('#addServiceButton').click(function(){
@@ -743,9 +743,9 @@ function res() {
         var selected = $('select.special.services-banned option').attr('selected','');
         $.each(selected, function(i, l){
             var v = $(l).val();
-            var i = $('.field.center div.services-banned input').length;
+            var i = $('.field.special div.services-banned input').length;
             var n = 'banned_service['+i+']';
-            $('.field.center div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
+            $('.field.special div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
         });
         /*var bs = $('.field.center select.special.services-banned option');
         var bannedServices = new Array();
@@ -887,5 +887,129 @@ function res() {
             }
         }
     });
+
+    //retrieve birthday in update forms
+    if($('input[name=date_of_birth]').val() !== null){
+        var dob = new Date($('input[name=date_of_birth]').val());
+        $day.val(dob.getDate());
+        $month.val(dob.getMonth()+1);
+        $year.val(dob.getFullYear());
+    }
+
+    /*Password Complexity*/
+    $('input[name=password]').on('keypress', function(e){
+        var len = $(this).val().length;
+        if(len < 5){
+            $('.password-label').addClass("too-short").html('too-short')
+            $('.password-label').removeClass("weak")
+            $('.password-label').removeClass("safe")
+            $(this).addClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else if(len < 8) {
+            $('.password-label').removeClass("too-short")
+            $('.password-label').addClass("weak").html('weak')
+            $('.password-label').removeClass("safe")
+            $(this).removeClass("password-too-short")
+            $(this).addClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else if(len < 15){
+            $('.password-label').removeClass("too-short")
+            $('.password-label').removeClass("weak")
+            $('.password-label').addClass("safe").html('safe')
+            $(this).removeClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).addClass("password-safe")
+        } else if(len <= 0) {
+            $('.password-label').removeClass("too-short").html('')
+            $('.password-label').removeClass("weak")
+            $('.password-label').removeClass("safe")
+            $(this).removeClass("password-too-short")
+            $(this).removeClass("password-weak")
+            $(this).removeClass("password-safe")
+        } else {}
+    }).on('keydown', function(e) {
+        if (e.keyCode==8)
+            $(this).trigger('keypress');
+    });
+
+
+
+    /*Settings Links*/
+    /*var mod = ["dentists","clinic","staffs","reminders"];
+    for (var i=0;i<mod.length;i++){
+        //alert(mod[i]);
+        var selector = 'a[name='+mod[i]+']';
+        var url = '/'+mod[i];
+        $(selector).click(function(){
+            $.ajax({
+                type: "GET",
+                url: url,
+                success: function(res) {
+                    $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+                }
+            });
+        });
+    };
+
+    //clinic
+    $('a[name=clinic]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/clinic",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //dentists
+    $('a[name=dentists]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/dentists",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //reminders
+    $('a[name=reminders]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/reminders",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });
+
+    //staffs
+    $('a[name=staffs]').click(function(){
+        $.ajax({
+            type: "GET",
+            url: "/staffs",
+            beforeSend: function(){
+               $("#loader").show();
+            },
+            success: function(res) {
+                $("#loader").hide();
+                $('.main-box .grid_9').html($(res).find('.main-box .grid_9').html());
+            }
+        });
+    });*/
 
 });

@@ -20,7 +20,7 @@
         <div>
             <ul id="dental_services">
                 @dentalServices.map { ds =>
-                    <button id="@ds.code" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="@ds.color" data-price="@ds.price">@ds.name</button>
+                    <button id="@ds.code" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="@ds.color" data-price="@ds.price" data-image-template="@ds.imageTemplate">@ds.name</button>
                 }
                 <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
             </ul>

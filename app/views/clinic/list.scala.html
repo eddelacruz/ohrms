@@ -8,40 +8,46 @@
     <div class="clear"></div><span class="divider"></span>
 </header>
 
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li class="last"><a href="#">Clinic</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
+
 <div class="grid_3">
     <div class="simple-box">
         <div class="inner">
 
             <div class="box-content">
-                <p>
-                    <a href="">Your Profile</a>
-                </p>
-                <p>
-                    <a href="">Reminders</a>
-                </p>
-                <p>
-                    <a href="">Clinic</a>
-                </p>
-                <p>
-                    <a href="">Dental Services</a>
-                </p>
-                <p>
-                    <a href="">Dentists</a>
-                </p>
-                <p>
-                    <a href="">Staffs</a>
-                </p>
+                <ul>
+                    <li>
+                        <a href="#">elidc93's Account</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
+                    </li>
+                    <li>
+                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
 </div>
 
 <div class="grid_9">
+    @if((play.cache.Cache.get("role")) == 0){
     <div class="box">
         <header>
             <div class="inner">
                 <div class="left title">
-                    <h1></h1>
+                    <h1>Add Clinic</h1>
                 </div>
                 <div class="right">
                     <nav style="display:none;">
@@ -56,25 +62,30 @@
 
         <div class="box-content">
             <div id="tab-1" class="tab">
-                <div class="center">
-                    <div class="form-details">
+                <div class="columns">
+                    <div class="form-details right">
                         @helper.form(action = routes.Clinic.submitAddForm){
                         <div class="field left">
                             <input type="hidden" name="id" value="">
+                            <input type="hidden" name="user_name" value="@(play.cache.Cache.get("user_name"))">
                             <ul>
                                 <li>
-                                    <label class="upper">Clinic Name:</label>
+                                    <label class="upper">Name:</label>
                                     <input type="text" name="clinic_name"  required = "required">
                                 </li>
-                                <li>
-                                    <label>Address:</label>
-                                    <input type="text" name="address" required = "required">
-                                </li>
+                            </ul>
+                        </div>
+                        <div class="field right">
+                            <ul>
                                 <li>
                                     <label>Logo:<br></label>
                                     <input type="file" name="image">
                                 </li>
                             </ul>
+                        </div>
+                        <div class="field special">
+                            <label>Address:</label>
+                            <textarea class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
                         </div>
                     </div>
                 </div>
@@ -85,7 +96,8 @@
             </div>
         </div>
     </div>
-<div class="grid_12">
+    }
+
     <div class="extension top fullwidth">
         <div id="DataTables_Table_0_length" class="dataTables_length">
             <label>
@@ -110,11 +122,11 @@
                 <thead>
                 <tr role="row">
                     <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                        <div class="parentsort">Clinic name
+                        <div class="parentsort">Name
                             <div class="sorticon"></div>
                         </div>
                     </th>
-                    <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
+                    <th class="last sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
                         <div class="parentsort">Address
                             <div class="sorticon"></div>
                         </div>
@@ -133,18 +145,16 @@
             </table>
             <div class="extension bottom inright pagination">
                 <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
-                    <a tabindex="0" class="first paginate_button paginate_button_disabled" id="DataTables_Table_0_first">First</a>
-                    <a tabindex="0" class="previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
-                                                <span>
-                                                    <a tabindex="0" class="paginate_button">1</a>
-                                                </span>
-                    <a tabindex="0" class="next paginate_button" id="DataTables_Table_0_next">Next</a>
-                    <a tabindex="0" class="last paginate_button" id="DataTables_Table_0_last">Last</a>
+                    <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                        <span>
+                            <a tabindex="0" class="paginate_button">1</a>
+                        </span>
+                    <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 <!-- /Clinic List -->
 </div>
 }

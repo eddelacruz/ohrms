@@ -57,7 +57,8 @@ object TreatmentPlanDelegate extends WsHelper{
       (j \ "patientId").asOpt[String],
       (j \ "dentistId").asOpt[String],
       (j \ "dentistName").asOpt[String],
-      (j \ "image").asOpt[String]
+      (j \ "image").asOpt[String],
+      (j \ "imageTemplate").asOpt[String]
     )
   }
 

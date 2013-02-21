@@ -39,7 +39,6 @@ object Application extends Controller{
       Ok(html.reports.billy())
   }
 
-
   def login = Action {
     implicit request =>
       //val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
@@ -94,7 +93,7 @@ object Application extends Controller{
           val usrList = LoginService.authenticate(userList._1, userList._2).get
           Cache.set("user_name", usrList.username)
           Cache.set("role", usrList.role)
-          println(">>> Successfully logged in: " + usrList.username)
+          println(">>> Successfully logged in: " + Cache.getAs[String]("user_name").toString)
           Redirect(routes.Application.dashboard()).withSession(Security.username -> usrList.username)
         }
       )

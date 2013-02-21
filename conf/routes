@@ -76,7 +76,8 @@ GET     /payments/patient/:id       controllers.Payment.getPaymentsByPatientId(i
 GET     /reports/patient_list       controllers.Reports._patientList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/service_list       controllers.Reports._serviceList(start : Int ?= 0, count : Int ?= 25)
-GET     /reports/staff_list       controllers.Reports._staffList(start : Int ?= 0, count : Int ?= 25)
+GET     /reports/staff_list         controllers.Reports._staffList(start : Int ?= 0, count : Int ?= 25)
+GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCertificate(patientId)
 
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)
@@ -145,6 +146,9 @@ GET     /json/specializations/:id     controllers.Json.getSpecializationById(id:
 POST    /json/specializations/update         controllers.Json.submitSpecializationUpdateForm
 POST    /json/specializations/delete       controllers.Json.deleteSpecializationInformation
 POST    /json/specializations                controllers.Json.submitSpecializationAddForm
+GET     /json/patients/all                 controllers.Json.getAllPatients
+GET     /json/patients/visits/:year        controllers.Json.getPatientVisitsByYear(year: Int)
+GET     /json/teeth/type/:tType/position/:position        controllers.Json.getTeethByPositionAndType(position: String, tType: String)
 
 GET     /json/payments                controllers.Json.getPaymentsByPatientId(start : Int ?= 0, count : Int ?= 25, patientId: String)
 POST    /json/payments/update         controllers.Json.submitPaymentUpdateForm

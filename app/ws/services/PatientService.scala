@@ -23,6 +23,8 @@ case class PatientLastVisit(p: PatientList, dateLastVisit: Option[String])
 
 object PatientService extends Secured{
 
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+
   def getRowCountOfTable(tableName: String): Long = {
     DB.withConnection {
       implicit c =>
@@ -54,6 +56,43 @@ object PatientService extends Secured{
             |LIMIT {start}, {count}
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
             get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[Option[String]]("medical_history")~
+            get[String]("gender")map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k=> PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
+          } *
+        }
+        patientList
+    }
+  }
+
+  def getAllPatients: List[PatientList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val patientList: List[PatientList] = SQL(
+          """
+            |select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.medical_history,
+            |p.gender
+            |from
+            |patients p
+            |where status = {status}
+            |ORDER BY last_name asc
+          """.stripMargin).on('status -> status ).as {
+          get[String]("id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("middle_name") ~
             get[Option[String]]("last_name") ~
@@ -148,26 +187,9 @@ object PatientService extends Secured{
     }
   }
 
-  def getUserId = {
-    val user = Cache.getAs[String]("user_name").toString
-    val username =  user.replace("Some", "").replace("(","").replace(")","")
-    DB.withConnection {
-      implicit c =>
-      val getCurrentUserId = SQL(
-        """
-          |select
-          |id
-          |from users
-          |where user_name = {username}
-        """.stripMargin
-      ).on('username -> username).apply().head
-      getCurrentUserId[String]("id")
-     }
-  }
 
   def addPatient(p: PatientList): Long = {
-    println(getUserId)
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Add"
     p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
@@ -211,7 +233,7 @@ object PatientService extends Secured{
   }
 
   def updatePatient(p: PatientList): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -246,7 +268,7 @@ object PatientService extends Secured{
   }
 
   def deletePatient(id: String): Long = {
-    val currentUser = getUserId
+    val currentUser = username
     val task = "Delete"
     DB.withConnection {
       implicit c =>
@@ -289,10 +311,10 @@ object PatientService extends Secured{
             |treatment_plan tp
             |on p.id = tp.patient_id
             |where p.status = {status}
-            |ORDER BY tp.date_performed desc
+            |GROUP BY p.id
+            |ORDER BY p.last_name asc
             |LIMIT {start}, {count}
             |) as result
-            |group by id
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
             get[String]("id") ~
             get[Option[String]]("first_name") ~
@@ -308,6 +330,38 @@ object PatientService extends Secured{
           } *
         }
         patientList
+    }
+  }
+
+  def getPatientVisitsByYear(year: Int, month: Int): Long = {
+    val date = year+"-"+month+"-01"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select count(*) from
+            |(select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.medical_history,
+            |p.gender,
+            |tp.date_performed
+            |from
+            |patients p
+            |inner join
+            |treatment_plan tp
+            |on p.id = tp.patient_id
+            |where p.status = '1'
+            |and date_performed between {date} and LAST_DAY({date})
+            |GROUP BY tp.date_performed
+            |ORDER BY p.last_name asc
+            |) as result
+          """.stripMargin).on('date -> date).as(scalar[Long].single)
     }
   }
 

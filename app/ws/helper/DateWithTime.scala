@@ -22,6 +22,10 @@ object DateWithTime {
     DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" 00:00:00"
   }
 
+  def dateEndOfDay: String = {
+    DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" 23:59:59"
+  }
+
   def dateOnly: String = {
     DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth
   }

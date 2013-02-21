@@ -27,7 +27,8 @@ object DentalServiceDelegate extends WsHelper{
       "type" -> optional(text),
       "target" -> optional(number),
       "price" -> optional(text),
-      "color" -> optional(text)
+      "color" -> optional(text),
+      "image_template" -> optional(text)
     )(DentalServiceList.apply)(DentalServiceList.unapply)
   )
 
@@ -75,7 +76,8 @@ object DentalServiceDelegate extends WsHelper{
       (j \ "type").asOpt[String],
       (j \ "tool_type").asOpt[Int],
       (j \ "price").asOpt[String],
-      (j \ "color").asOpt[String]
+      (j \ "color").asOpt[String],
+      (j \ "image_template").asOpt[String]
     )
   }
 

@@ -12,6 +12,8 @@ import ws.generator.UUIDGenerator
 import controllers.Application.Secured
 
 case class AppointmentList(var id: String, dentalServiceId: Option[String], firstName: Option[String], middleName: Option[String], lastName: Option[String],dentistId: Option[String],contactNo: Option[String], address: Option[String], dateStart: Option[String], dateEnd: Option[String])
+case class AppointmentDetails(a: AppointmentList, dFirstName: Option[String], dMiddleName: Option[String], dLastName: Option[String], dentalServiceName: Option[String])
+
 /**
  * Created with IntelliJ IDEA.
  * User: joh
@@ -22,6 +24,23 @@ case class AppointmentList(var id: String, dentalServiceId: Option[String], firs
 
 object AppointmentService extends Secured {
 
+  def checkIfDentistIsAvailable(dentistId: String, dateStart: String, dateEnd: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |SELECT
+            |    count(*)
+            |FROM
+            |    ohrms.appointments
+            |where
+            |    dentist_id = {dentist_id}
+            |    and ({date_start} between date_start and date_end
+            |	   or {date_end} between date_start and date_end);
+          """.stripMargin).on('dentist_id -> dentistId, 'date_start -> dateStart,'date_end -> dateEnd).as(scalar[Long].single)
+    }
+  }
+
   //TODO lagyan kung sino ang nagrecord ng appointment
   def getAllAppointments = {
     DB.withConnection {
@@ -29,30 +48,39 @@ object AppointmentService extends Secured {
         SQL(
           """
             |select
-            |id,
-            |dental_service_id,
-            |first_name,
-            |middle_name,
-            |last_name,
-            |dentist_id,
-            |contact_no,
-            |address,
-            |date_start,
-            |date_end
-            |from appointments
+            |a.id,
+            |a.dental_service_id,
+            |a.first_name,
+            |a.middle_name,
+            |a.last_name,
+            |a.dentist_id,
+            |a.contact_no,
+            |a.address,
+            |a.date_start,
+            |a.date_end,
+            |d.first_name,
+            |d.middle_name,
+            |d.last_name,
+            |ds.name
+            |from appointments as a inner join dental_services as ds inner join dentists as d
+            |on a.dental_service_id = ds.id and a.dentist_id = d.id
           """.stripMargin
         ).as {
-          get[String]("id") ~
+          get[String]("appointments.id") ~
           get[Option[String]]("dental_service_id") ~
-          get[Option[String]]("first_name") ~
-          get[Option[String]]("middle_name") ~
-          get[Option[String]]("last_name") ~
-          get[Option[String]]("dentist_id") ~
-          get[Option[String]]("contact_no") ~
-          get[Option[String]]("address")~
+          get[Option[String]]("appointments.first_name") ~
+          get[Option[String]]("appointments.middle_name") ~
+          get[Option[String]]("appointments.last_name") ~
+          get[Option[String]]("appointments.dentist_id") ~
+          get[Option[String]]("appointments.contact_no") ~
+          get[Option[String]]("appointments.address")~
           get[Date]("date_start")~
-          get[Date]("date_end") map {
-          case a ~ b ~ c ~ d ~ e ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e,  g, h, i, Some(j.toString), Some(k.toString))
+          get[Date]("date_end")~
+          get[Option[String]]("dentists.first_name")~
+          get[Option[String]]("dentists.middle_name")~
+          get[Option[String]]("dentists.last_name")~
+          get[Option[String]]("dental_services.name") map {
+          case a ~ b ~ c ~ d ~ e ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o => AppointmentDetails(AppointmentList(a, b, c, d, e,  g, h, i, Some(j.toString), Some(k.toString)), l, m, n, o)
         } *
       }
     }
@@ -113,12 +141,11 @@ object AppointmentService extends Secured {
             |date_end
             |from appointments
             |where
-            |  DATE(date_start) = DATE({date_only})
-            |or
-            |DATE(date_end) = DATE({date_only})
-            |order by date_start asc;
+            |date_start
+            |BETWEEN {date_now} AND {date_end_of_day}
+            |order by date_start, last_name asc;
           """.stripMargin
-        ).on('date_only -> DateWithTime.dateOnly).as {
+        ).on('date_now -> DateWithTime.dateNow, 'date_end_of_day -> DateWithTime.dateEndOfDay).as {
             get[String]("id") ~
             get[Option[String]]("dental_service_id") ~
             get[Option[String]]("first_name") ~
@@ -138,7 +165,7 @@ object AppointmentService extends Secured {
   def addAppointment(d: AppointmentList): Long = {
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("appointments")
-    val currentUser = Maid.getCurrentUser
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Date Start"+d.dateStart)
     DB.withConnection {
       implicit c =>
@@ -175,7 +202,7 @@ object AppointmentService extends Secured {
   }
 
   def updateAppointment(d: AppointmentList): Long = {
-    val currentUser = Maid.getCurrentUser
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>

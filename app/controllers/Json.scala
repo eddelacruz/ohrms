@@ -38,6 +38,20 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.searchPatientLastVisit(start, count, filter)))))
   }
 
+  def getAllPatients = Action {
+    implicit request =>
+      Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getAllPatients))))
+  }
+
+  def getPatientVisitsByYear(year: Int) = Action {
+    implicit request =>
+      var pl = ListBuffer[Long]()
+      for( x <- 1 to 12){
+        pl += PatientService.getPatientVisitsByYear(year, x)
+      }
+      Ok(toJson(pl.toList))
+  }
+
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.searchDentistList(start, count, filter)))))
   }
@@ -178,8 +192,9 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
 
-      val pl = ClinicList("", clinicName, address, image)
+      val pl = ClinicList("", clinicName, address, image, userName)
 
       if (ClinicService.addClinic(pl) >= 1) {
         //Redirect("/clinic")
@@ -197,7 +212,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val clinicName = request.body.asFormUrlEncoded.get("clinic_name").headOption
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("imaging").headOption
-      val pl = ClinicList(id, clinicName, address, image)
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val pl = ClinicList(id, clinicName, address, image, userName)
 
       if (ClinicService.updateClinic(pl) >= 1) {
         Status(200)
@@ -224,8 +240,6 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val al = AppointmentList(id, dentalServiceId,firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
-
-      //println(">>>>>>>>>>>>"+al)
 
       if (AppointmentService.updateAppointment(al) >= 1) {
         Status(200)
@@ -373,7 +387,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image)
+          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
           TreatmentPlanService.addTreatment(tp)
           index+=1
         }
@@ -398,7 +412,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
+      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       try {
         while (request.body.asFormUrlEncoded.get("banned_service["+index+"]").head != null) {
@@ -430,7 +445,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color)
+      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       if (ServicesService.updateDentalService(dl) >= 1) {
         Status(200)
@@ -517,14 +533,20 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val dateEnd = request.body.asFormUrlEncoded.get("date_end").headOption
       val pl = AppointmentList("", dentalServiceId, firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
-      if (AppointmentService.addAppointment(pl) >= 1) {
-        Redirect("/scheduler")
-        Status(200)
+      //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> bilang ng mga rows dapat "+AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
+
+      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) < 1){
+        if (AppointmentService.addAppointment(pl) >= 1) {
+          Redirect("/scheduler")
+          Status(200)
+        } else {
+          BadRequest
+          Status(500)
+        }
       } else {
         BadRequest
         Status(500)
       }
-
   }
 
   def deleteStaffInformation = Action {
@@ -666,6 +688,11 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
         Status(500)
       }
 
+  }
+
+  def getTeethByPositionAndType(position: String, tType: String) = Action {
+    implicit request =>
+      Ok(toJson(TreatmentPlanService.getTeethByPositionAndType(position, tType)))
   }
 
 }

@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], image: Option[String])
+case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], image: Option[String], imageTemplate: Option[String])
 
 object TreatmentPlanService {
 
@@ -112,7 +112,8 @@ object TreatmentPlanService {
             |d.`first_name`,
             |d.`middle_name`,
             |d.`last_name`,
-            |tp.`image`
+            |tp.`image`,
+            |s.`image_template`
             |FROM treatment_plan as tp inner join teeth_affected as ttha inner join dental_services as s inner join patients as p
             |inner join dentists as d
             |on tp.`service_id` = s.`id` AND
@@ -141,11 +142,28 @@ object TreatmentPlanService {
             get[String]("dentists.first_name") ~
             get[String]("dentists.middle_name") ~
             get[String]("dentists.last_name") ~
-            get[Option[String]]("treatment_plan.image") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString.replace(".0","")), j, k, l, m, n, o, Some(p+" "+q+" "+r), s)
+            get[Option[String]]("treatment_plan.image") ~
+            get[Option[String]]("dental_services.image_template") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s ~ t=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString.replace(".0","")), j, k, l, m, n, o, Some(p+" "+q+" "+r), s, t)
           } *
         }
         treatmentPlan
+    }
+  }
+
+  def getTeethByPositionAndType(position: String, tType: String): List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |SELECT
+            |    id
+            |FROM
+            |    teeth_affected
+            |where
+            |    position = {position} and type = {t_type}
+            |and (view = 'm' or view = 'f');
+          """.stripMargin).on('position -> position, 't_type -> tType).as(get[String]("id")*).toList
     }
   }
 

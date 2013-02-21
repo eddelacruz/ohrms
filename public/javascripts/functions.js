@@ -135,7 +135,7 @@ $(document).ready(function() {
 
 
     //show # of entries
-	$('select[name="DataTables_Table_0_length"]').on( "change",
+	$('select[name="DataTables_Table_0_length"]').live( "change",
         function(evt){
             var $this = $(this);
             count = parseInt($this.val());
@@ -170,7 +170,7 @@ $(document).ready(function() {
 	);
 
     //next
-	$('#DataTables_Table_0_next').on("click",
+	$('#DataTables_Table_0_next').live("click",
         function(evt){
             var $this = $(this);
             count = parseInt($('select[name="DataTables_Table_0_length"]').val());
@@ -405,27 +405,7 @@ $(document).ready(function() {
     });
 
 
-    /*var Timer;
-    var TotalSeconds;
 
-
-    function CreateTimer(TimerID, Time) {
-        Timer = document.getElementById(TimerID);
-        TotalSeconds = Time;
-
-         UpdateTimer()
-         window.setTimeout("Tick()", 1000);
-    }
-
-    function Tick() {
-          TotalSeconds -= 1;
-          UpdateTimer()
-          window.setTimeout("Tick()", 1000);
-    }
-
-    function UpdateTimer() {
-         Timer.innerHTML = TotalSeconds;
-    }*/
 
 
 });

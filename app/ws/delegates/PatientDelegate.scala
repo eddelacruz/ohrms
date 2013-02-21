@@ -88,6 +88,18 @@ object PatientDelegate extends WsHelper{
     pl.toList
   }
 
+  def getAllPatients() = {
+    val res: Promise[Response] = doGet("/json/patients/all")
+    val json: JsValue = res.await.get.json
+    val pl = ListBuffer[PatientList]()
+
+    (json \ "PatientList").as[Seq[JsObject]].map({
+      p =>
+        pl += convertToPatientList(p)
+    })
+    pl.toList
+  }
+
   def convertToPatientList (j: JsValue): PatientList = {
     new PatientList(
       (j \ "id").as[String],

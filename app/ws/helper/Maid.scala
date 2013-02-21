@@ -13,6 +13,6 @@ import cache.Cache
  */
 object Maid {
 
-  val getCurrentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+  //val getCurrentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
 }
