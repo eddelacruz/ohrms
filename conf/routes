@@ -49,6 +49,11 @@ POST    /appointments                  controllers.Appointments.submitAddForm
 POST    /appointments/update            controllers.Appointments.submitUpdateForm
 GET     /appointments/:id                 controllers.Appointments.getAppointmentListById(id: String)
 GET     /appointments/:id/update          controllers.Appointments.getUpdateForm(id: String)
+GET     /payments                     controllers.Payment.getList(start : Int ?= 0, count : Int ?= 25, patientId: String)
+POST    /payments                     controllers.Payment.submitAddForm
+GET     /payments/add                 controllers.Payment.getAddForm
+POST    /payments/update            controllers.Payment.submitUpdateForm
+GET     /payments/:id/update          controllers.Payment.getUpdateForm(id: String)
 
 
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
@@ -140,6 +145,10 @@ GET     /json/specializations/:id     controllers.Json.getSpecializationById(id:
 POST    /json/specializations/update         controllers.Json.submitSpecializationUpdateForm
 POST    /json/specializations/delete       controllers.Json.deleteSpecializationInformation
 POST    /json/specializations                controllers.Json.submitSpecializationAddForm
+
+GET     /json/payments                controllers.Json.getPaymentsByPatientId(start : Int ?= 0, count : Int ?= 25, patientId: String)
+POST    /json/payments/update         controllers.Json.submitPaymentUpdateForm
+POST    /json/payments                controllers.Json.submitPaymentAddForm
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

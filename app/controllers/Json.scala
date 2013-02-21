@@ -8,9 +8,9 @@ import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.WsHelper
-import ws.deserializer.json.{SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
+import ws.deserializer.json.{PaymentListDeserializer, SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
-import ws.services.{PatientList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
+import ws.services.{PatientList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
 
 
 /**
@@ -20,7 +20,7 @@ import ws.services.{PatientList, DentistList, SpecializationList, StaffList, Cli
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with AnnouncementListDeserializer with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer with SpecializationListDeserializer{
+object Json extends Controller with WsHelper with PaymentListDeserializer with AnnouncementListDeserializer with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer with SpecializationListDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -624,6 +624,48 @@ object Json extends Controller with WsHelper with AnnouncementListDeserializer w
         BadRequest
         Status(500)
       }
+  }
+
+
+  def getPaymentsByPatientId(start: Int, count: Int, patientId: String) = Action {
+    Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentsByPatientId(start,count,patientId)))))
+  }
+
+
+  def submitPaymentUpdateForm = Action {
+    implicit request =>
+      val id =  request.body.asFormUrlEncoded.get("id").head
+      val patientId = request.body.asFormUrlEncoded.get("patient_id").headOption
+      val payment = request.body.asFormUrlEncoded.get("payment").headOption
+      val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val dl = PaymentList(id, patientId, payment, paymentDate, userName)
+
+      if (PaymentService.updatePayment(dl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
+
+  def submitPaymentAddForm = Action {
+    implicit request =>
+      val id = ""
+      val patientId = request.body.asFormUrlEncoded.get("patient_id").headOption
+      val payment = request.body.asFormUrlEncoded.get("payment").headOption
+      val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
+      val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val dl = PaymentList("", patientId, payment, paymentDate, userName)
+
+      if (PaymentService.addPayment(dl) >= 1) {
+        Redirect("/payments")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
   }
 
 }

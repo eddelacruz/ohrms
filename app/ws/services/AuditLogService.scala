@@ -367,6 +367,38 @@ object AuditLogService {
     }
   }
 
+  def logTaskPayment(l: PaymentList, currentUser: String, task: String): Long = {
+    var description: String = ""
+    task match {
+      case "Add" => description = l.userName + "recorded" + l.payment
+      case "Update" => description = l.userName + "updated payment id"+ l.id
+      case _ => ""
+    }
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |INSERT INTO audit_log
+            |VALUES
+            |(
+            |{id},
+            |{task},
+            |{user_name},
+            |{description},
+            |{date_created},
+            |{module}
+            |);
+          """.stripMargin).on(
+          'id -> UUIDGenerator.generateUUID("audit_log"),
+          'task -> task,
+          'user_name -> currentUser, //cached user_id when login
+          'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
+          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'module -> "pay"
+        ).executeUpdate()
+    }
+  }
+
   def logTaskDentist(l: DentistList, currentUser: String, task: String): Long = {
    var description: String = ""
     task match {
