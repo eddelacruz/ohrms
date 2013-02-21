@@ -1,7 +1,7 @@
 @(paymentList: List[ws.services.PaymentList] )
 
 <!-- AddPaymentModal -->
-<div class="box grid_7" id="addPaymentModal" hidden="">
+<div class="box grid_5" id="addPaymentModal" hidden="">
     <header>
         <div class="inner">
             <div class="left title">
@@ -15,37 +15,25 @@
 
     <div class="box-content">
         <div class="columns">
-
             <table>
                 <tr>
-                    <th>
-                        ahaha
-                    </th>
+                    <td>
+                        <label>Payment:</label>
+                    </td>
+                    <td>
+                        <input type="text" name=""/>
+                    </td>
                 </tr>
                 <tr>
                     <td>
-                        shit
+                        <label>Balance:</label>
+                    </td>
+                    <td>
+                        <input type="text" name=""/>
                     </td>
                 </tr>
 
             </table>
-
-
-            <div class="form-details right">
-                <ul>
-                    <li>
-                        <label>Payment:</label>
-                        <input type="text" name=""/>
-                    </li>
-                    <li>
-                        <label>Balance:</label>
-                        <input type="text" name=""/>
-                    </li>
-                    <li>
-                        <input type="text" name=""/>
-                    </li>
-                </ul>
-            </div>
         </div>
         <footer class="pane">
             <input type="submit" class="bt blue right" value="Pay! ">
