@@ -8,7 +8,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views.html.{patient, modal}
 import ws.services.{TreatmentPlanService, PatientList, PatientService}
-import ws.delegates.{DentistDelegate, DentalServiceDelegate, PatientDelegate, TreatmentPlanDelegate}
+import ws.delegates._
 import ws.generator.UUIDGenerator
 import ws.services
 import Application.Secured
@@ -25,7 +25,7 @@ object Patient extends Controller with Secured{
   def getTreatmentPlan(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count))) //Todo make PatientService to delegate
+        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), PaymentDelegate.getPaymentsByPatientId(start,count,id))) //Todo make PatientService to delegate
   }
 
   def search(start: Int, count: Int, filter: String) = Action {

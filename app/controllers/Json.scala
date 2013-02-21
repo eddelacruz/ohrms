@@ -661,7 +661,10 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val payment = request.body.asFormUrlEncoded.get("payment").headOption
       val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val dl = PaymentList(id, patientId, payment, paymentDate, userName)
+      val totalPayment = request.body.asFormUrlEncoded.get("total_payment").asInstanceOf[Double]
+      val balance = request.body.asFormUrlEncoded.get("balance").asInstanceOf[Double]
+      val totalPrice = request.body.asFormUrlEncoded.get("total_price").asInstanceOf[Double]
+      val dl = PaymentList("", patientId, payment, paymentDate, userName, Some(totalPayment), Some(balance), Some(totalPrice))
 
       if (PaymentService.updatePayment(dl) >= 1) {
         Status(200)
@@ -678,7 +681,10 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val payment = request.body.asFormUrlEncoded.get("payment").headOption
       val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val dl = PaymentList("", patientId, payment, paymentDate, userName)
+      val totalPayment = request.body.asFormUrlEncoded.get("total_payment").asInstanceOf[Double]
+      val balance = request.body.asFormUrlEncoded.get("balance").asInstanceOf[Double]
+      val totalPrice = request.body.asFormUrlEncoded.get("total_price").asInstanceOf[Double]
+      val dl = PaymentList("", patientId, payment, paymentDate, userName, Some(totalPayment), Some(balance), Some(totalPrice))
 
       if (PaymentService.addPayment(dl) >= 1) {
         Redirect("/payments")
@@ -687,7 +693,6 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
         BadRequest
         Status(500)
       }
-
   }
 
   def getTeethByPositionAndType(position: String, tType: String) = Action {
