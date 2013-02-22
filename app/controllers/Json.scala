@@ -653,6 +653,12 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentsByPatientId(start,count,patientId)))))
   }
 
+  def getPaymentDetails(start: Int, count: Int, patientId: String) = Action {
+    var totalPayment = PaymentService.getPaymentDetails(start: Int, count: Int, patientId: String)
+    Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentDetails(start: Int, count: Int, patientId: String)))))
+    //Ok(totalPayment)
+  }
+
 
   def submitPaymentUpdateForm = Action {
     implicit request =>
@@ -681,7 +687,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val dl = PaymentList("", patientId, payment, paymentDate, userName)
 
       if (PaymentService.addPayment(dl) >= 1) {
-        Redirect("/payments")
+        Redirect("/patients")
         Status(200)
       } else {
         BadRequest

@@ -20,7 +20,7 @@ import java.math.BigDecimal
  */
 
 case class PaymentList(var id: String, patientId : Option[String], payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
-//case class PaymentDetails(p: PaymentList, totalPayment: Option[String], balance: Option[String], totalPrice: Option[String])
+case class PaymentDetails(p: PaymentList, totalPayment: Option[Double], balance: Option[Double], totalPrice: Option[Double])
 
 object PaymentService {
 
@@ -65,27 +65,48 @@ object PaymentService {
         paymentList
     }
   }
-/*
-  def getPaymentDetails(patientId: String) : List[PaymentDetails] ={
+
+  def getPaymentDetails(start: Int, count: Int,patientId: String) : List[PaymentDetails] ={
     DB.withConnection {
       implicit c =>
       val paymentDetails: List[PaymentDetails] = SQL(
         """
           |select
+          |pay.id,
+          |pay.patient_id,
+          |pay.user_name,
+          |pay.date_of_payment,
+          |pay.payment,
+          |pat.first_name,
+          |pat.middle_name,
+          |pat.last_name,
+          |pay.user_name,
           |SUM(pay.payment) as total_payment,
           |SUM(tp.price) as total_price,
-          |SUM(tp.price) - SUM(pay.payment) as balance
+          |(SUM(tp.price) - SUM(pay.payment)) as balance
           |from
           |payments pay
+          |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
           |LEFT OUTER JOIN treatment_plan tp ON pay.patient_id=tp.patient_id
-          |where patient_id = {patient_id}
-        """.stripMargin).on('patient_id -> patientId).as{
+          |where pay.patient_id = {patient_id}
+        """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId).as{
         get[String]("")
+        get[String]("id") ~
+          get[Option[String]]("patient_id") ~
+          get[Option[String]]("payment")~
+          get[Option[Date]]("date_of_payment") ~
+          get[Option[String]]("user_name") ~
+          get[BigDecimal]("total_payment")~
+          get[BigDecimal]("balance") ~
+          get[BigDecimal]("total_price")  map {
+          case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentDetails(PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e), Some(f.toString().toDouble), Some(g.toString().toDouble), Some(h.toString().toDouble))
+        }*
       }
+        paymentDetails
     }
-  }*/
+  }
 
-  def getPaymentsByPatientIdById(patientId: String, id: String): List[PaymentList] = {
+  /*def getPaymentsByPatientIdById(patientId: String, id: String): List[PaymentList] = {
     DB.withConnection {
       implicit c =>
         val paymentList: List[PaymentList] = SQL(
@@ -101,12 +122,11 @@ object PaymentService {
             |pat.last_name,
             |pay.user_name,
             |SUM(pay.payment) as total_payment,
-            |1000.00 as total_price,
-            |(1000 - SUM(pay.payment)) as balance
+            |SUM(tp.price) as total_price,
+            |(SUM(tp.price) - SUM(pay.payment)) as balance
             |from payments pay
             |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
             |where pay.patient_id = {patient_id}
-            |and pay.id = {id}
             |ORDER BY pay.date_of_payment desc
             |LIMIT {start}, {count}
           """.stripMargin).on('patient_id -> patientId, 'id -> id).as {
@@ -121,7 +141,7 @@ object PaymentService {
         paymentList
     }
   }
-
+*/
   /*def getTotalPayment(patientId: String)  {
     DB.withConnection {
       implicit c =>
@@ -153,15 +173,15 @@ object PaymentService {
             |(
             |{id},
             |{patient_id},
-            |{payment},
             |{date_of_payment},
+            |{payment},
             |{user_name})
           """.stripMargin).on(
           'id -> d.id,
           'patient_id -> d.patientId,
           'payment -> d.payment,
-          'date_of_payment -> d.dateOfPayment,
-          'user_name -> d.userName
+          'date_of_payment -> DateWithTime.dateNow,
+          'user_name -> username
         ).executeUpdate()
         AuditLogService.logTaskPayment(d, currentUser, task)
     }

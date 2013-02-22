@@ -35,7 +35,7 @@ object Payment extends Controller with Secured{
   def getList(start: Int, count: Int, patientId: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(modal._add_payment(PaymentDelegate.getPaymentsByPatientId(start,count,patientId)))
+        Ok(modal._add_payment(PaymentService.getPaymentDetails(start,count,patientId), patientId))
   }
 
   /*def getUpdateForm(id: String) = IsAuthenticated {
@@ -88,7 +88,7 @@ object Payment extends Controller with Secured{
         payment => {
           var params = request.body.asFormUrlEncoded.get
           PaymentDelegate.submitAddPaymentForm(params)
-          Redirect("/payments")
+          Redirect("/patients")
         }
       )
   }

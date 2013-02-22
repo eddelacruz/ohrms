@@ -1,4 +1,4 @@
-@(paymentList: List[ws.services.PaymentList] )
+@(paymentDetails: List[ws.services.PaymentDetails], patientId: String)
 
 <!-- AddPaymentModal -->
 <div class="box grid_5" id="addPaymentModal" hidden="">
@@ -12,16 +12,21 @@
             </div>
         </div>
     </header>
-
+    @helper.form(action = routes.Payment.submitAddForm){
     <div class="box-content">
         <div class="columns">
+            <input type="hidden" name="id"/>
+            <input type="hidden" name="date_of_payment"/>
+            <input type="hidden" name="user_name"/>
+            <input type="hidden" name="patient_id" value="@patientId"/>
             <table>
+                @paymentDetails.map { pd =>
                 <tr>
                     <td>
                         <label>Payment:</label>
                     </td>
                     <td>
-                        <input type="text" name=""/>
+                        <input type="text" name="payment"/>
                     </td>
                 </tr>
                 <tr>
@@ -29,16 +34,16 @@
                         <label>Balance:</label>
                     </td>
                     <td>
-                        <input type="text" name=""/>
+                        <input type="text" disabled="disabled" value="@pd.balance"/>
                     </td>
                 </tr>
-
+                 }
             </table>
         </div>
         <footer class="pane">
             <input type="submit" class="bt blue right" value="Pay! ">
         </footer>
-
+          }
     </div>
 </div>
 <!-- /AddPaymentModal -->

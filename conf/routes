@@ -149,6 +149,7 @@ GET     /json/patients/visits/:year        controllers.Json.getPatientVisitsByYe
 GET     /json/teeth/type/:tType/position/:position        controllers.Json.getTeethByPositionAndType(position: String, tType: String)
 
 GET     /json/payments/:patientId                controllers.Json.getPaymentsByPatientId(start : Int ?= 0, count : Int ?= 25, patientId: String)
+GET     /json/payments/details/:patientId                controllers.Json.getPaymentDetails(start : Int ?= 0, count : Int ?= 25, patientId: String)
 POST    /json/payments/update         controllers.Json.submitPaymentUpdateForm
 POST    /json/payments                controllers.Json.submitPaymentAddForm
 
