@@ -390,16 +390,17 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
-          //println("------------------------>>>>"+TreatmentPlanService.checkDentalServiceToolType(serviceId.get))
           val abc = teethName.get.charAt(0)
 
           if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2) {
+            val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), Some(""), Some(""))
             TreatmentPlanService.addTreatment(tp)
+            index+=1
           } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1){
+            val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
             TreatmentPlanService.addTreatment(tp)
+            index+=1
           }
-          index+=1
         }
       } catch {
         case e: Exception =>

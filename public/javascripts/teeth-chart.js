@@ -491,11 +491,11 @@ function setSymbol(tooth, toolType, toolData) {
     var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
     var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
 
-    /*if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
+    if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
         console.log("==========================> setSymbol: "+tooth);
 
         //check if not-exists ung canvas, if-not exists add div
-        if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
+        /*if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
             //toothRegion = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', ,'F19', 'F20', 'F21', 'F22']
 
             $.getJSON("/json/teeth/type/a/position/upper",
@@ -565,7 +565,7 @@ function setSymbol(tooth, toolType, toolData) {
         toothWithService.remove(index2);
         //symbol only has remove from toothWithService
     }
-    //};
+    };
 };
 
 function otherTooth(tooth){
