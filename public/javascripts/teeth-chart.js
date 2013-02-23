@@ -579,3 +579,33 @@ function otherTooth(tooth){
 
     return newWord;
 }
+
+function drawTemplate(template, id){
+    var c = document.getElementById(id);
+    var ctx = c.getContext("2d");
+    var ctxWidth = parseInt($('#'+c.id).attr('width'));
+    var ctxHeight = parseInt($('#'+c.id).attr('height'));
+    switch(template){
+        case 'CROSSOUT':   //from db
+            ctx.moveTo(0+10, 0+5);
+            ctx.lineTo(ctxWidth-10, ctxHeight-5);
+            ctx.moveTo(ctxWidth-10, 0+5);
+            ctx.lineTo(0+10, ctxHeight-5);
+            ctx.lineCap = 'round';
+            ctx.lineWidth = 6;
+            ctx.stroke();
+            break;
+        case 'CHAR':
+            ctx.fillStyle = curColor;
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.font = "bold 20px Verdana";
+            ctx.textBaseline = "right";
+            ctx.fillText("B", ctxWidth/2, ctxHeight/2);
+            break;
+        default:
+            console.log("No Image Template");
+            break;
+    }
+}

@@ -315,29 +315,37 @@ $(document).ready(function() {
     console.log(patientId);
     $.getJSON("/json/treatment_plan/"+patientId,
         function(data){
-            //console.log(data["AppointmentList"][0].id); or console.log(data["AppointmentList"][0]["id"]);
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
                     //console.log(vl.toolType);
                     var tn = $('#'+vl.teethName+' > canvas');
+                    var ot = otherTooth(vl.teethName);
+                    var atn = $('#'+ot+' > canvas');
                     var id = "canvas"+vl.teethName+"_"+vl.serviceId+"_"+vl.id;
+                    var id2 = "canvas"+ot+"_"+vl.serviceId+"_"+vl.id;
                     imageWidth = tn.attr("width");
+                    imageWidth2 = atn.attr("width");
                     imageHeight = tn.attr("height");
+                    imageHeight2 = atn.attr("height");
 
                     if(vl.toolType === '1'){
                         $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                        var myCvs = document.getElementById(id);
+                        var myCtx = myCvs.getContext('2d');
+                        var imageObj = new Image();
+                        imageObj.onload = function() {
+                            myCtx.drawImage(imageObj, 0, 0);
+                        }
+                        imageObj.src = vl.image;
                     } else if(vl.toolType === '2') {
                         $('#'+vl.teethName+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                        drawTemplate(vl.imageTemplate, id);
+                        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ot)
+                        $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
+                        drawTemplate(vl.imageTemplate, id2);
                     }
 
-                    var myCvs = document.getElementById(id);
-                    var myCtx = myCvs.getContext('2d');
 
-                    var imageObj = new Image();
-                    imageObj.onload = function() {
-                        myCtx.drawImage(imageObj, 0, 0);
-                    }
-                    imageObj.src = vl.image;
                 })
             })
     });
