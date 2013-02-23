@@ -167,4 +167,19 @@ object TreatmentPlanService {
     }
   }
 
+  def checkDentalServiceToolType(serviceId: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |    tool_type
+            |from
+            |    dental_services
+            |where
+            |    id = {service_id};
+          """.stripMargin).on('service_id -> serviceId).as(scalar[Long].single)
+    }
+  }
+
 }

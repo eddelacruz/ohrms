@@ -90,16 +90,15 @@ object PaymentService {
           |LEFT OUTER JOIN treatment_plan tp ON pay.patient_id=tp.patient_id
           |where pay.patient_id = {patient_id}
         """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId).as{
-        get[String]("")
-        get[String]("id") ~
+          get[Option[String]]("id") ~
           get[Option[String]]("patient_id") ~
           get[Option[String]]("payment")~
           get[Option[Date]]("date_of_payment") ~
           get[Option[String]]("user_name") ~
-          get[BigDecimal]("total_payment")~
-          get[BigDecimal]("balance") ~
-          get[BigDecimal]("total_price")  map {
-          case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentDetails(PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e), Some(f.toString().toDouble), Some(g.toString().toDouble), Some(h.toString().toDouble))
+          get[Option[BigDecimal]]("total_payment")~
+          get[Option[BigDecimal]]("balance") ~
+          get[Option[BigDecimal]]("total_price")  map {
+          case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentDetails(PaymentList(a.toString, b, c, Some(d.toString.replace("Some(", "").replace(".0)","")), e), Some(f.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble), Some(g.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble), Some(h.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble))
         }*
       }
         paymentDetails

@@ -377,6 +377,9 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     implicit request =>
       val treatmentPlan = request.body.asFormUrlEncoded.get; //request.body.asJson.get.\("Treatment_Plan")
       var index = 0
+      //println(treatmentPlan)
+      //var flag = 0
+
       try{
         while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
           val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.headOption
@@ -387,6 +390,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
+          println("------------------------>>>>"+TreatmentPlanService.checkDentalServiceToolType(serviceId.get))
           val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
           TreatmentPlanService.addTreatment(tp)
           index+=1
