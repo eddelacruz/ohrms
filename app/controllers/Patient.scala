@@ -25,7 +25,7 @@ object Patient extends Controller with Secured{
   def getTreatmentPlan(id: String, start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), PaymentDelegate.getPaymentsByPatientId(start,count,id), PaymentService.getPaymentDetails(start,count,id))) //Todo make PatientService to delegate
+        Ok(patient.treatment_plan(PatientService.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id, start, count), PaymentDelegate.getPaymentsByPatientId(start, count, id), PaymentService.getTotalPayments(id), PaymentService.getTotalPrices(id), PaymentService.getPaymentBalance(id))) //Todo make PatientService to delegate
   }
 
   def search(start: Int, count: Int, filter: String) = Action {

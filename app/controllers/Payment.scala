@@ -32,11 +32,13 @@ object Payment extends Controller with Secured{
         Ok(payment.counter())
   }*/
 
+/*
   def getList(start: Int, count: Int, patientId: String) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(modal._add_payment(PaymentService.getPaymentDetails(start,count,patientId), patientId))
+        Ok(modal._add_payment(PaymentService.getPaymentsByPatientId(start,count,patientId), patientId))
   }
+*/
 
   /*def getUpdateForm(id: String) = IsAuthenticated {
     username =>

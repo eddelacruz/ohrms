@@ -1,10 +1,9 @@
-@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType], paymentList: List[ws.services.PaymentList], paymentDetails: List[ws.services.PaymentDetails])
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType], paymentList: List[ws.services.PaymentList], totalPayments: Double, totalPrices: Double, balance: Double)
 @import ws.delegates.{PaymentDelegate}
-@import ws.services.{PaymentService}
 @patient("Treatment Plan") {
 
 @patientList.map { pl =>
-@modal._add_payment(PaymentService.getPaymentDetails(0, 5, pl.id ), pl.id)
+@modal._add_payment(paymentList, pl.id, balance)
 }
 
 <!-- # Treatment Plan -->
@@ -243,10 +242,9 @@
         <nav>
             <ul>
                 <li class="last">
-                    @paymentDetails.map { pd =>
-                    Total Payment: <span class="label">@pd.totalPayment</span>
-                    Remaining Balance: <span class="label">@pd.balance</span>
-                    }
+
+                    Total Payment: <span class="label">@totalPayments</span>
+                    Remaining Balance: <span class="label">@balance</span>
                     <!--<a class="bt blue right" href="#addAppointmentModal" class="modal">Pay!</a>-->
                     <a href="#addPaymentModal" class="modal">
                         Proceed to Counter

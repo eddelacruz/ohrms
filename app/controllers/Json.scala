@@ -679,6 +679,17 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     //Ok(totalPayment)
   }
 
+  def getTotalPayments(patientId: String) = Action {
+    Ok(toJson(PaymentService.getTotalPayments(patientId)))
+  }
+
+  def getTotalPrices(patientId: String) = Action {
+    Ok(toJson(PaymentService.getTotalPrices(patientId)))
+  }
+
+  def getPaymentBalance(patientId: String) = Action {
+    Ok(toJson(PaymentService.getPaymentBalance(patientId)))
+  }
 
   def submitPaymentUpdateForm = Action {
     implicit request =>

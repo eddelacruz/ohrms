@@ -54,7 +54,7 @@ object PaymentService {
             |ORDER BY pay.date_of_payment desc
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId).as {
-          get[String]("id") ~
+            get[String]("id") ~
             get[Option[String]]("patient_id") ~
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
@@ -160,7 +160,7 @@ object PaymentService {
   val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
   def addPayment(d: PaymentList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("payments")
     DB.withConnection {
@@ -174,7 +174,8 @@ object PaymentService {
             |{patient_id},
             |{date_of_payment},
             |{payment},
-            |{user_name})
+            |{user_name}
+            |)
           """.stripMargin).on(
           'id -> d.id,
           'patient_id -> d.patientId,
@@ -209,6 +210,39 @@ object PaymentService {
         AuditLogService.logTaskPayment(p, currentUser, task)
     }
   }
+
+  def getTotalPayments(patientId: String): Double = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |sum(pay.payment) as payment
+            |from payments pay inner join patients pat on pay.patient_id = pat.id
+            |where pay.patient_id = {patient_id}
+          """.stripMargin).on('patient_id -> patientId).as(scalar[Double].single)
+    }
+  }
+
+  def getTotalPrices(patientId: String): Double = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """select
+            |sum(tp.price) as total_price
+            |from treatment_plan tp inner join patients p on tp.patient_id = p.id
+            |where tp.patient_id = {patient_id}
+          """.stripMargin).on('patient_id -> patientId).as(scalar[Double].single)
+    }
+  }
+
+  def getPaymentBalance(patientId: String): Double = {
+    var bal = getTotalPrices(patientId) - getTotalPayments(patientId)
+    if(bal < 0 ) bal = 0
+    bal
+  }
+
+
 
 }
 
