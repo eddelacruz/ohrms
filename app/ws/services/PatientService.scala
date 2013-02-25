@@ -358,12 +358,45 @@ object PatientService extends Secured{
             |on p.id = tp.patient_id
             |where p.status = '1'
             |and date_performed between {date} and LAST_DAY({date})
-            |GROUP BY tp.date_performed
+            |GROUP BY DATE_FORMAT(tp.date_performed, '%Y-%m-%d')
             |ORDER BY p.last_name asc
             |) as result
           """.stripMargin).on('date -> date).as(scalar[Long].single)
     }
   }
+
+  def getPatientVisitsByMonth(year: Int, month: Int, day: Int): Long = {
+    //val date = year+"-"+month+"-"+day
+    val date = format("%d-%d-%d", year, month, day)
+    DB.withConnection {
+        implicit c =>
+          SQL(
+            """
+              |select count(*) from
+              |(select
+              |p.id,
+              |p.first_name,
+              |p.middle_name,
+              |p.last_name,
+              |p.address,
+              |p.contact_no,
+              |p.date_of_birth,
+              |p.medical_history,
+              |p.gender,
+              |tp.date_performed
+              |from
+              |patients p
+              |inner join
+              |treatment_plan tp
+              |on p.id = tp.patient_id
+              |where p.status = '1'
+              |and DATE_FORMAT(date_performed, '%Y-%m-%d') = DATE({date})
+              |GROUP BY DATE_FORMAT(tp.date_performed, '%Y-%m-%d')
+              |ORDER BY p.last_name asc
+              |) as result
+            """.stripMargin).on('date -> date).as(scalar[Long].single)
+      }
+    }
 
   def searchPatientLastVisit(start: Int,count: Int, filter: String): List[PatientLastVisit] = {
     val status = 1

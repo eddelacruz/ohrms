@@ -52,6 +52,16 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Ok(toJson(pl.toList))
   }
 
+  def getPatientVisitsByMonth(year: Int, month: Int) = Action {
+    implicit request =>
+      var pl = ListBuffer[Long]()
+      val d = DateWithTime.getNumberOfDays(year, month)
+      for( x <- 1 to d){
+        pl += PatientService.getPatientVisitsByMonth(year, month, x)
+      }
+      Ok(toJson(pl.toList))
+  }
+
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
     Ok(JsObject(Seq("DentistList" -> toJson(DentistService.searchDentistList(start, count, filter)))))
   }

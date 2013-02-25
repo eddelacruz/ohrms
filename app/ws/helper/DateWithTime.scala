@@ -34,4 +34,8 @@ object DateWithTime {
     monthArr(DateTime.now.getMonthOfYear-1)+" "+DateTime.now.getDayOfMonth+", "+DateTime.now.getYear
   }
 
+  def getNumberOfDays(year: Int, month: Int): Int = {
+    DateTime.parse(year+"-"+month).dayOfMonth.getMaximumValue
+  }
+
 }

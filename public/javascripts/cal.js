@@ -92,10 +92,10 @@ $(document).ready(function() {
 
     });
 
-
-    $.getJSON("/json/patients/visits/"+curYear,
+    $.getJSON("/json/patients/visits/"+curYear+"/"+(curMonth+1),
         function(data){
-            monthlyPatientVisits = data;
+            yearlyPatientVisits = data;
+            //alert(data);
             chart = new Highcharts.Chart({
                 chart: {
                     renderTo: 'container1',
@@ -108,7 +108,8 @@ $(document).ready(function() {
                     text: monthNames[curMonth]+" "+curYear
                 },
                 xAxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                    min: 1,
+                    categories: ['0', '1', '2']
                 },
                 yAxis: {
                     title: {
@@ -132,7 +133,7 @@ $(document).ready(function() {
                 },
                 series: [{
                     name: 'Patient',
-                    data: [0,4,0,0,0,0,0,0,0,0,0,0]
+                    data: yearlyPatientVisits
                 }]
             });
         }
