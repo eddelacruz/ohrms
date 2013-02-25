@@ -43,6 +43,11 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getAllPatients))))
   }
 
+  def getAllPatientNames = Action {
+    implicit request =>
+      Ok(toJson(PatientService.getAllPatientNames))
+  }
+
   def getPatientVisitsByYear(year: Int) = Action {
     implicit request =>
       var pl = ListBuffer[Long]()

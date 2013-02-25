@@ -1017,4 +1017,23 @@ function res() {
     	timeFormat: "hh:mm tt"
     });
 
+    /*Typeahead add appointment*/
+    $.getJSON("/json/patients/all/names", function(data){
+        $('#addAppointmentModal input[name=first_name]').typeahead({
+            source: data,
+            items: 8,
+            highlighter: function(item){
+                return '<div class="typeahead">'+item+'</div>'
+            },
+            updater: function(val) {
+                /*var klid = $('ul.typeahead li.active:visible a img');
+                if (klid && klid.length) {
+                  klid = klid[0].id.substr(5);
+                  // do stuff with metadata...
+                }*/
+                return(val);
+            }
+        });
+    });
+
 });

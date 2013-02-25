@@ -18,15 +18,15 @@
             <div class="form-details right">
                 @helper.form(action = routes.Appointments.submitAddForm){
                 <div class="field left">
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id">
                     <ul>
                         <li>
-                            <label>Patient Id:</label>
+                            <!--<label>Patient Id:</label>
                             <select>
                                 @patients.map { p =>
                                 <option value="@p.id">@p.firstName</option>
                                 }
-                            </select>
+                            </select>-->
                         </li>
                         <li>
                             <label>Service:</label>
@@ -38,7 +38,7 @@
                         </li>
                         <li>
                             <label>First Name:</label>
-                            <input type="text" name="first_name" required = "required">
+                            <input type="text" name="first_name" required = "required" data-provide="typeahead">
                         </li>
                         <li>
                             <label>Middle Name: <span>(optional)</span></label>

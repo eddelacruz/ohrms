@@ -14,32 +14,8 @@
 </script>
 <!-- /Breadcrumb -->
 
-<div class="grid_3">
-    <div class="simple-box">
-        <div class="inner">
+@settings._settings_sidebar()
 
-            <div class="box-content">
-                <ul>
-                    <li>
-                        <a href="#">elidc93's Account</a>
-                    </li>
-                    <li>
-                        <a href="@routes.Clinic.getList()" name="clinic">Clinic</a>
-                    </li>
-                    <li>
-                        <a href="@routes.Dentist.getList()" name="dentists">Dentists</a>
-                    </li>
-                    <li>
-                        <a href="@routes.Announcement.getList()" name="reminders">Reminders</a>
-                    </li>
-                    <li>
-                        <a href="@routes.Staff.getList()" name="staffs">Staffs</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="grid_9">
     @if((play.cache.Cache.get("role")) == 0){
     <div class="box">

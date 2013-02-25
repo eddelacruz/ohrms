@@ -1,0 +1,21 @@
+@main(Messages("Settings")) {
+
+    <!-- # Settings -->
+    <header class="grid_12 head">
+        <h1>@(play.cache.Cache.get("user_name"))'s Account <img id="loader" src="@routes.Assets.at("images/loader.gif")" style="display: none;"></h1>
+        <div class="clear"></div><span class="divider"></span>
+    </header>
+
+    <!-- DentalService -->
+    @settings._settings_sidebar()
+    <!-- DentalService -->
+    <!-- /Announcements -->
+    <div class="grid_9">
+    </div>
+    <!-- /Announcements -->
+}
+
+
+
+
+

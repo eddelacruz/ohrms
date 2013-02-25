@@ -108,6 +108,22 @@ object PatientService extends Secured{
     }
   }
 
+  def getAllPatientNames: List[String] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |p.first_name
+            |from
+            |patients p
+            |where status = {status}
+            |ORDER BY last_name asc
+          """.stripMargin).on('status -> status ).as( str("first_name") * )
+    }
+  }
+
   def getPatientListById(id: String): List[PatientList] = {
     DB.withConnection {
       implicit c =>
