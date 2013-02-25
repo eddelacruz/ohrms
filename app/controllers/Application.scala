@@ -29,7 +29,7 @@ object Application extends Controller{
       "password" -> text
     ) verifying("Invalid username or password", result => result match {
       case (user_name, password) => {
-        LoginService.authenticate(user_name, password).isDefined
+        LoginService.authenticate(user_name, hash(password)).isDefined
       }
     })
   )
@@ -41,16 +41,7 @@ object Application extends Controller{
 
   def login = Action {
     implicit request =>
-      val pass: String = "e"
-      //random.nextBytes(salt);
-      val spec = new PBEKeySpec(pass.toArray, pass.getBytes, 65536, 128)
-      val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-      val hash = f.generateSecret(spec)
-      val digest = Base64.encodeBase64(hash.getEncoded)
-      val result = new String(digest, "ASCII");
-
-      println("secret >>>>>>>"+result)
-      println(Cache.getAs[String]("wait"))
+      //println(Cache.getAs[String]("wait"))
       if(Cache.getAs[String]("wait") == Some("yes")){
         println(">>>>>>>>>>>>>> tae")
         tries += 1
@@ -70,6 +61,16 @@ object Application extends Controller{
   def question = Action {
     implicit request =>
       Ok(views.html.login_question(loginForm))
+  }
+
+  def hash(pass: String): String = {
+    //random.nextBytes(salt);
+    val spec = new PBEKeySpec(pass.toArray, pass.getBytes, 65536, 128)
+    val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+    val hash = f.generateSecret(spec)
+    val digest = Base64.encodeBase64(hash.getEncoded)
+    //val result = new String(digest, "ASCII")
+    new String(digest, "ASCII")
   }
 
   var tries = 0
@@ -94,7 +95,7 @@ object Application extends Controller{
         }, userList => {
           tries = 0
           Cache.set("wait", "")
-          val usrList = LoginService.authenticate(userList._1, userList._2).get
+          val usrList = LoginService.authenticate(userList._1, hash(userList._2)).get
           Cache.set("user_name", usrList.username)
           Cache.set("role", usrList.role)
           println(">>> Successfully logged in: " + Cache.getAs[String]("user_name").toString)

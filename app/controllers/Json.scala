@@ -11,7 +11,7 @@ import ws.helper.{DateWithTime, WsHelper}
 import ws.deserializer.json.{PaymentListDeserializer, SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.{PatientList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
-
+import controllers.Application.hash
 
 /**
  * Created with IntelliJ IDEA.
@@ -283,7 +283,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val sn = request.body.asFormUrlEncoded.get("specialization_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
       var specializationName: Option[Seq[String]] = Option(Seq(sn.get))
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, Some(""), password, Some(specializationName.get.toSeq))
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, Some(""), Some(hash(password.get)), Some(specializationName.get.toSeq))
 
       if (DentistService.updateDentist(dl) >= 1) {
         Status(200)
@@ -305,7 +305,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val prcNo = request.body.asFormUrlEncoded.get("prc_no").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, userName, password, Some(specializationList))
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, userName, Some(hash(password.get)), Some(specializationList))
 
       var index = 0
       /*if (DentistService.addDentist(dl) >= 1) {*/
@@ -478,7 +478,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val position = request.body.asFormUrlEncoded.get("position").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, password)
+      val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, Some(hash(password.get)))
 
       if (StaffService.addStaff(s) >= 1) {
         Redirect("/staffs")
@@ -513,7 +513,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val position = request.body.asFormUrlEncoded.get("position").headOption
       val password = request.body.asFormUrlEncoded.get("password").headOption
-      val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, Some(""), password)
+      val s = StaffList(id, firstName, middleName, lastName, contactNo, address, position, Some(""), Some(hash(password.get)))
 
       if (StaffService.updateStaff(s) >= 1) {
         Status(200)
