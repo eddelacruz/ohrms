@@ -270,7 +270,7 @@ $(document).ready(function() {
             var myObject = new Object();
 
             myObject.service_id = b[1];
-            myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price'); //may mali //TODO dynamic
+            myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
             myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
 //            console.log(myObject.date_performed);
             myObject.teeth_name = b[0];
@@ -301,9 +301,9 @@ $(document).ready(function() {
             type: "GET",
             url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
             success: function(res) {
-                //window.location = url;
+                window.location = url;
 //                console.log(res);
-                $('.grid_11 table').html($(res).find('.grid_11 table').html());
+                //$('.grid_11 table').html($(res).find('.grid_11 table').html());
                 //$('.mouth.child').html($(res).find('.mouth.child').html());
             }
           })

@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], image: Option[String], imageTemplate: Option[String])
+case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], var image: Option[String], imageTemplate: Option[String])
 
 object TreatmentPlanService {
 

@@ -16,9 +16,9 @@ import ws.services.LoginService
 import views.html.patient
 import ws.delegates.{AnnouncementDelegate, PatientDelegate, AppointmentDelegate}
 import org.reflections.vfs.Vfs.File
-import javax.crypto.SecretKey
-import javax.crypto.SecretKeyFactory
-import scala.util.Random
+import javax.crypto.{SecretKey,SecretKeyFactory}
+import javax.crypto.spec.SecretKeySpec
+import javax.crypto.spec.PBEKeySpec
 import org.apache.commons.codec.binary.Base64
 
 object Application extends Controller{
@@ -41,11 +41,15 @@ object Application extends Controller{
 
   def login = Action {
     implicit request =>
-      //val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
-      //val salt = Random.nextString(8)
-      //val salt = hash("elizer")
-      //val key = f.generateSecret(PB)
-      //println(">>>>>>>>>>>>Secret Key Factory "+salt)
+      val pass: String = "e"
+      //random.nextBytes(salt);
+      val spec = new PBEKeySpec(pass.toArray, pass.getBytes, 65536, 128)
+      val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
+      val hash = f.generateSecret(spec)
+      val digest = Base64.encodeBase64(hash.getEncoded)
+      val result = new String(digest, "ASCII");
+
+      println("secret >>>>>>>"+result)
       println(Cache.getAs[String]("wait"))
       if(Cache.getAs[String]("wait") == Some("yes")){
         println(">>>>>>>>>>>>>> tae")

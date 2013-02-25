@@ -2415,3 +2415,12 @@ div.mode-1{
     text-align: right;
     font-size: 11px;
 }
+#dentistTools #dental_services>button {
+    width: 48%;
+}
+#dentistTools .small {
+    width: 50%;
+}
+#dentistTools .large {
+    width: 100%;
+}

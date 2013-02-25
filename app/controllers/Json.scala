@@ -7,7 +7,7 @@ import play.api.libs.json._
 import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
-import ws.helper.WsHelper
+import ws.helper.{DateWithTime, WsHelper}
 import ws.deserializer.json.{PaymentListDeserializer, SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
 import ws.services.{PatientList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
@@ -390,17 +390,16 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          val abc = teethName.get.charAt(0)
+          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
 
+          val abc = teethName.get.charAt(0)
           if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2) {
-            val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), Some(""), Some(""))
+            tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)
-            index+=1
           } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1){
-            val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
             TreatmentPlanService.addTreatment(tp)
-            index+=1
           }
+          index+=1
         }
       } catch {
         case e: Exception =>

@@ -154,9 +154,9 @@ object AppointmentService extends Secured {
             get[Option[String]]("dentist_id") ~
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address")~
-            get[Date]("date_start")~
+            get[Date]("date_start") ~
             get[Date]("date_end") map {
-            case a ~ b ~ c ~ d ~ e ~ g ~ h ~ i ~ j ~ k => AppointmentList(a, b, c, d, e, g, h, i, Some(j.toString.replace(".0", "")), Some(k.toString.replace(".0", "")))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j => AppointmentList(a, b, c, d, e, f, g, h, Some(i.toString.replace(".0", "")), Some(j.toString.replace(".0", "")))
           } *
         }
     }

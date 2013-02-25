@@ -1,8 +1,7 @@
 $(function() {
     /*Dentist Tools Dialog*/
     $( "#dentistTools" ).dialog({
-        autoOpen: false,
-        width: 375
+        autoOpen: false
     }).dialog('option', 'position', [500,500]);
 
     $( "#accordion" ).accordion({
@@ -25,8 +24,10 @@ $(function() {
         var $id = $this.attr('data-id');
         var $toolType = $this.attr('data-type');
         var $price = $this.attr('data-price');
+        var $name = $this.attr('name');
         var $imageTemplate = $this.attr('data-image-template');
-        $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val($price);
+        $('#dentistTools').find('.dental-services-details.ui-box input[name=price]').val($price);
+        $('#dentistTools').find('.dental-service-name').html($name);
 
         //populate services in dentist tool dialog box
         //retrieval of dental services

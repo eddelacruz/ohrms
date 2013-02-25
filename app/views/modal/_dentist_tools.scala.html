@@ -5,34 +5,29 @@
     <h4>Selected Teeth: </h4>
     <div class="selected-tooth ui-box center">
     </div>
-    <div class="dental-services ui-box center">
-        <p>Price: <span class="pesos">P</span> <input name="price" type="text" style="width: 200px;"></p>
-        <p>Dentist:
-        <select name="dentist_id" style="width: 200px;">
+    <div class="dental-services ui-box dental-services-details">
+        <p class="center dental-service-name"></p>
+        <p>Price:</p>
+        <input class="small" name="price" type="text">
+        <p>Dentist:</p>
+        <select class="large" name="dentist_id">
             @dentists.map { d =>
             <option value="@d.id">Dr. @d.firstName @d.middleName @d.lastName</option>
             }
-        </select></p>
-        <p>Date Performed: <input name="date_performed" type="text" style="width: 200px;"></p>
+        </select>
+        <p>Date Performed: <input class="large" name="date_performed" type="text"></p>
     </div>
-    <div id="accordion">
-        <h3>Condition</h3>
+    <!--<div id="accordion">-->
+    <h4>Dental Services</h4>
+    <div class="ui-box center">
         <div>
             <ul id="dental_services">
                 @dentalServices.map { ds =>
-                    <button id="@ds.code" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="@ds.color" data-price="@ds.price" data-image-template="@ds.imageTemplate">@ds.name</button>
+                <button id="@ds.code" original-title="@ds.name" name="@ds.name" class="dental_service ui-widget-content" data-id="@ds.id" data-type="@ds.toolType" data-color="@ds.color" data-price="@ds.price" data-image-template="@ds.imageTemplate">@ds.code</button>
                 }
                 <button id="ERASER" class="dental_service ui-widget-content" data-type="paint" data-color="white">ERASER</button>
             </ul>
         </div>
-        <h3>Examination/Diagnosis</h3>
-        <div>Second content panel</div>
-        <h3>Periodontics</h3>
-        <div>Second content panel</div>
-        <h3>Crowns/Bridges</h3>
-        <div>Second content panel</div>
-        <h3>Endodontics</h3>
-        <div>Second content panel</div>
     </div>
 </div>
 <!--/Dentist Tools-->
