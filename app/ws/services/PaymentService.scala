@@ -186,7 +186,7 @@ object PaymentService {
           'patient_id -> d.patientId,
           'payment -> d.payment,
           'date_of_payment -> DateWithTime.dateNow,
-          'user_name -> username
+          'user_name -> currentUser
         ).executeUpdate()
         AuditLogService.logTaskPayment(d, currentUser, task)
     }

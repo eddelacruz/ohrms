@@ -88,10 +88,10 @@ object Payment extends Controller with Secured{
           BadRequest
         },
         payment => {
-          var params = request.body.asFormUrlEncoded.get
-          println(">>>>>>"+params)
+          val params = request.body.asFormUrlEncoded.get
+          val patientId = params.get("patient_id").head.head
           PaymentDelegate.submitAddPaymentForm(params)
-          Redirect("/patients")
+          Redirect("/patients/"+patientId+"/treatment_plan")
         }
       )
   }
