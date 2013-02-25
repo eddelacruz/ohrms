@@ -539,6 +539,12 @@ object AuditLogService {
         SQL(
           """
             |INSERT INTO audit_log
+            |(`id`,
+            |`task`,
+            |`description`,
+            |`date_created`,
+            |`module`,
+            |`user_name`)
             |VALUES
             |(
             |{id},
@@ -552,9 +558,9 @@ object AuditLogService {
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
-          'date_created -> DateWithTime.dateNow,//must be date.now "0000-00-00 00:00:00"
+          'date_created -> DateWithTime.dateNow,
           'module -> "ds",
-          'user_name -> currentUser //cached user_id when login
+          'user_name -> currentUser
       ).executeUpdate()
     }
   }

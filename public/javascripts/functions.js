@@ -275,7 +275,7 @@ $(document).ready(function() {
 //            console.log(myObject.date_performed);
             myObject.teeth_name = b[0];
             myObject.patient_id = $('.patient_information input[name=id]').val();
-            myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist'); //"71b8ecdd-33c9-4aaf-aa30-9d77419aeb95"; //dropdown //TODO dynamic
+            myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
             myObject.image =  $("#canvas"+a)[0].toDataURL();
             myArray.push(myObject);
 
@@ -301,7 +301,7 @@ $(document).ready(function() {
             type: "GET",
             url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
             success: function(res) {
-                window.location = url;
+                window.location = "/patients/"+myObject.patient_id+"/treatment_plan";
 //                console.log(res);
                 //$('.grid_11 table').html($(res).find('.grid_11 table').html());
                 //$('.mouth.child').html($(res).find('.mouth.child').html());

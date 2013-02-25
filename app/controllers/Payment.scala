@@ -89,6 +89,7 @@ object Payment extends Controller with Secured{
         },
         payment => {
           var params = request.body.asFormUrlEncoded.get
+          println(">>>>>>"+params)
           PaymentDelegate.submitAddPaymentForm(params)
           Redirect("/patients")
         }

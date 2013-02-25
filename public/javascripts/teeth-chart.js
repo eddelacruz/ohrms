@@ -464,8 +464,8 @@ function setPaint(tooth, toolType, toolData) {
         var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
         var t = tooth+"_"+toolData;
         //price & dentist
-        var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
-        var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
+        var price = $('#dentistTools').find('.dental-services input[name=price]').val();
+        var dentist = $('#dentistTools').find('.dental-services select[name=dentist_id]').val();
 
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
@@ -489,8 +489,8 @@ function setSymbol(tooth, toolType, toolData) {
     var t2 = anotherTooth+"_"+toolData;
 
     //price
-    var price = $('#dentistTools').find('.dental-services.ui-box.center input[name=price]').val();
-    var dentist = $('#dentistTools').find('.dental-services.ui-box.center select[name=dentist_id]').val();
+    var price = $('#dentistTools').find('.dental-services input[name=price]').val();
+    var dentist = $('#dentistTools').find('.dental-services select[name=dentist_id]').val();
 
     if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
         console.log("==========================> setSymbol: "+tooth);

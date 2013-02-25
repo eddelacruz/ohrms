@@ -1012,4 +1012,9 @@ function res() {
         });
     });*/
 
+    /*Date Performed DateTime Picker*/
+    $('#dentistTools .dental-services-details input[name=date_performed]').datetimepicker({
+    	timeFormat: "hh:mm tt"
+    });
+
 });

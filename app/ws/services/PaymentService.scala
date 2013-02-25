@@ -168,6 +168,11 @@ object PaymentService {
         SQL(
           """
             |INSERT INTO payments
+            |(`id`,
+            |`patient_id`,
+            |`date_of_payment`,
+            |`payment`,
+            |`user_name`)
             |VALUES
             |(
             |{id},
@@ -217,7 +222,7 @@ object PaymentService {
         SQL(
           """
             |select
-            |sum(pay.payment) as payment
+            |COALESCE(sum(pay.payment), 0)  as total_payment
             |from payments pay inner join patients pat on pay.patient_id = pat.id
             |where pay.patient_id = {patient_id}
           """.stripMargin).on('patient_id -> patientId).as(scalar[Double].single)
@@ -229,7 +234,7 @@ object PaymentService {
       implicit c =>
         SQL(
           """select
-            |sum(tp.price) as total_price
+            |COALESCE(sum(tp.price), 0) as total_price
             |from treatment_plan tp inner join patients p on tp.patient_id = p.id
             |where tp.patient_id = {patient_id}
           """.stripMargin).on('patient_id -> patientId).as(scalar[Double].single)
