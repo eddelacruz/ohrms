@@ -466,10 +466,11 @@ function setPaint(tooth, toolType, toolData) {
         //price & dentist
         var price = $('#dentistTools').find('.dental-services input[name=price]').val();
         var dentist = $('#dentistTools').find('.dental-services select[name=dentist_id]').val();
+        var datePerformed = $('#dentistTools').find('.dental-services input[name=date_performed]').val();
 
         //check if not-exists ung canvas, if-not exists add div
         if ($(c).length <= 0) {
-            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></canvas></div>");
+            $(gum).prepend("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></canvas></div>");
         }
     };
 };
@@ -491,67 +492,14 @@ function setSymbol(tooth, toolType, toolData) {
     //price
     var price = $('#dentistTools').find('.dental-services input[name=price]').val();
     var dentist = $('#dentistTools').find('.dental-services select[name=dentist_id]').val();
+    var datePerformed = $('#dentistTools').find('.dental-services input[name=date_performed]').val();
 
     if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
         console.log("==========================> setSymbol: "+tooth);
 
-        //check if not-exists ung canvas, if-not exists add div
-        /*if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
-            //toothRegion = ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16', 'F17', 'F18', ,'F19', 'F20', 'F21', 'F22']
-
-            $.getJSON("/json/teeth/type/a/position/upper",
-                function(data){
-                    $.each(data, function(key, value){
-                        toothRegion.push(value);
-                    })
-            });
-            //console.log("===> utut region "+toothRegion);
-
-            $.each(toothRegion, function(k, v){
-                if ( $('#'+v+' div #canvas'+v+'_'+toolData).length <= 0 ){
-                    var imgWidth = $('#'+v).width();
-                    var imgHeight = 130;
-                    $('#'+v+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+v+"_"+toolData+"' width='"+imgWidth+"' height='"+imageHeight+"' data-price=price data-dentist=dentist ></div>");
-
-                    var cv = '#'+v+' div #canvas'+v+'_'+toolData;
-                    var id = $(cv).attr('id');
-                    var c = document.getElementById(id);
-                    var ctx = c.getContext("2d");
-                    var ctxWidth = parseInt($('#'+c.id).attr('width'));
-                    var ctxHeight = parseInt($('#'+c.id).attr('height'));
-
-                    switch('CHAR'){
-                        case 'CROSSOUT':   //from db
-                            ctx.moveTo(0+10, 0+5);
-                            ctx.lineTo(ctxWidth-10, ctxHeight-5);
-                            ctx.moveTo(ctxWidth-10, 0+5);
-                            ctx.lineTo(0+10, ctxHeight-5);
-                            ctx.lineCap = 'round';
-                            ctx.lineWidth = 6;
-                            ctx.stroke();
-                            break;
-                        case 'CHAR':
-                            ctx.fillStyle = curColor;
-                            ctx.stroke();
-                            ctx.closePath();
-
-                            ctx.font = "bold 20px Verdana";
-                            ctx.textBaseline = "right";
-                            ctx.fillText("B", ctxWidth/2, ctxHeight/2);
-                            break;
-                        default:
-                            console.log("No Image Template");
-                            break;
-                    }
-
-
-                }
-            })
-
-
-    } else*/ if ($(c).length <= 0 || $(c2).length <= 0 ) {
-        $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
-        $('#'+anotherTooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t2+"' width='"+imageWidth2+"' height='"+imageHeight2+"' data-price='"+price+"' data-dentist='"+dentist+"'></div>");
+        if ($(c).length <= 0 || $(c2).length <= 0 ) {
+        $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+imageWidth+"' height='"+imageHeight+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
+        $('#'+anotherTooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t2+"' width='"+imageWidth2+"' height='"+imageHeight2+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
         if($.inArray(tooth+"_"+toolData, toothWithService) <= -1 || $.inArray(anotherTooth+"_"+toolData, toothWithService) <= -1){
             toothWithService.push(tooth+"_"+toolData); //end of symbol
             toothWithService.push(anotherTooth+"_"+toolData); //end of symbol
