@@ -328,7 +328,6 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           while (request.body.asFormUrlEncoded.get("specializationName["+index+"]") != null) {
             val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption.get
 
-            println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>((((((("+specializationName.length)
             if (specializationName.length > 1){
               val sl = SpecializationList("", dl.id, specializationName)
               DentistService.addSpecialization(sl)
