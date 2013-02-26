@@ -325,20 +325,15 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, userName, Some(hash(password.get)), Some(specializationList))
 
       var index = 0
-      /*if (DentistService.addDentist(dl) >= 1) {*/
-        /*
-        Redirect("/dentists")
-        Status(200)
-      } else {
-        BadRequest
-        Status(500)
-      }*/
       if (DentistService.addDentist(dl) >= 1) {
         try{
           while (request.body.asFormUrlEncoded.get("specializationName["+index+"]") != null) {
-            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption
-            val sl = SpecializationList("", dl.id, specializationName.get)
-            DentistService.addSpecialization(sl)
+            val specializationName = request.body.asFormUrlEncoded.get("specializationName["+index+"]").headOption.get
+
+            if (specializationName.length > 1){
+              val sl = SpecializationList("", dl.id, specializationName)
+              DentistService.addSpecialization(sl)
+            }
             index += 1
           }
         } catch {
@@ -439,7 +434,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val imageTemplate = request.body.asFormUrlEncoded.get("image_template").headOption
       val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       try {
@@ -733,6 +728,16 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
   def getTeethByPositionAndType(position: String, tType: String) = Action {
     implicit request =>
       Ok(toJson(TreatmentPlanService.getTeethByPositionAndType(position, tType)))
+  }
+
+  def getAllDentalServiceTypes = Action {
+    implicit request =>
+      Ok(toJson(ServicesService.getAllDentalServiceTypes))
+  }
+
+  def getAllSpecializationNames = Action {
+    implicit request =>
+      Ok(toJson(DentistService.getAllSpecializationNames))
   }
 
 }

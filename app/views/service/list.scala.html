@@ -39,7 +39,11 @@
                         </li>
                         <li>
                             <label>Service Type:</label>
-                            <input type="text" name="type" required="required">
+                            <input type="text" name="type" required="required" data-provide="typeahead">
+                        </li>
+                        <li>
+                            <label>Price:</label>
+                            <input type="text" name="price" required="required">
                         </li>
                     </ul>
                 </div>
@@ -50,16 +54,24 @@
                             <select name="target">
                                 <option value="1">Paint</option>
                                 <option value="2">Symbol</option>
+                                <option value="3">Selective</option>
+                                <option value="4">Inclusive</option>
                             </select>
                         </li>
                         <li>
-                            <label>Price:</label>
-                            <input type="text" name="price" required="required">
+                            <label>Template:</label>
+                            <select name="image_template">
+                                <option value="CHAR-A">CHAR-A</option>
+                                <option value="CHAR-B">CHAR-B</option>
+                                <option value="CHAR-C">CHAR-C</option>
+                                <option value="CHAR-D">CHAR-D</option>
+                                <option value="CROSSOUT">CROSSOUT</option>
+                            </select>
                         </li>
                         <li>
                             <label>Color:</label>
                             <div class="field small">
-                               <input name="color" type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" required="required" style="padding-right: 35px;">
+                                <input name="color" type="text" class="colorpicker miniColors"  maxlength="7" autocomplete="off" required="required" style="padding-right: 35px;">
                             </div>
                         </li>
                     </ul>
@@ -172,7 +184,7 @@
                     <td>@dsl.code</td>
                     <td>@dsl.sType</td>
                     <td>@dsl.toolType</td>
-                    <td><span class="pesos">P</span> @dsl.price.00</td>
+                    <td><span class="pesos">P</span> @dsl.price</td>
                     <td class="center"><span class="label" style="background: @dsl.color;">@dsl.color</span></td>
                 </tr>
                 }
@@ -181,9 +193,9 @@
             <div class="extension bottom inright pagination">
                 <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
                     <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
-                                                <span>
-                                                    <a tabindex="0" class="paginate_active">1</a>
-                                                </span>
+                        <span>
+                            <a tabindex="0" class="paginate_active">1</a>
+                        </span>
                     <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
                 </div>
             </div>

@@ -31,6 +31,32 @@ object ServicesService {
     }
   }
 
+  def getAllDentalServiceTypes: List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select Distinct(type) from dental_services where status = 1;
+          """.stripMargin).as( str("type") * )
+    }
+  }
+
+  def getAllPatientNames: List[String] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |p.first_name
+            |from
+            |patients p
+            |where status = {status}
+            |ORDER BY last_name asc
+          """.stripMargin).on('status -> status ).as( str("first_name") * )
+    }
+  }
+
 
   def getDentalServiceList(start: Int, count: Int): List[DentalServiceList] = {
     val status = 1

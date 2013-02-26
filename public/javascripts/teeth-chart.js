@@ -371,7 +371,7 @@ function redefineFunctions() {
                             ctx.lineWidth = 6;
                             ctx.stroke();
                             break;
-                        case 'CHAR':
+                        case 'CHAR-B':
                             ctx.fillStyle = curColor;
                             ctx.stroke();
                             ctx.closePath();

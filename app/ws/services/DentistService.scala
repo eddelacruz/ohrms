@@ -22,7 +22,7 @@ case class SpecializationList(var id: String, dentistId: String, name: String)
 
 object DentistService {
 
-  val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
+  val username =  Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
 
 
   def getRowCountOfTable(tableName: String): Long = {
@@ -220,7 +220,7 @@ object DentistService {
   }
 
   def updateDentist(d: DentistList): Long = {
-    val currentUser = username
+    val currentUser =  Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -267,7 +267,7 @@ object DentistService {
   }
 
   def addDentist(d: DentistList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Add"
     d.id = UUIDGenerator.generateUUID("dentists")
     DB.withConnection {
@@ -328,7 +328,7 @@ object DentistService {
   }
 
   def deleteDentist(id: String): Long = {
-    val currentUser = username
+    val currentUser =  Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Delete"
     var userName = ""
     DB.withConnection {
@@ -467,7 +467,7 @@ object DentistService {
 
 
   def addSpecialization(s: SpecializationList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Add"
     s.id = UUIDGenerator.generateUUID("specializations")
     DB.withConnection {
@@ -493,7 +493,7 @@ object DentistService {
   }
 
   def updateSpecialization(s: SpecializationList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -514,7 +514,7 @@ object DentistService {
   }
 
   def deleteSpecialization(id: String): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some(", "").replace(")","")
     val task = "Delete"
     println("pumasok dito")
     DB.withConnection {
@@ -529,6 +529,16 @@ object DentistService {
           'status -> 0
         ).executeUpdate()
         AuditLogService.logTaskDeleteSpecialization(id, currentUser, task)
+    }
+  }
+
+  def getAllSpecializationNames: List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select Distinct(name) from specializations where status = 1;
+          """.stripMargin).as( str("name") * )
     }
   }
 

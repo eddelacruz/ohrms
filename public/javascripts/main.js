@@ -634,7 +634,7 @@ $(window).load(function(){
            var dataCount = currentIndex
            var name = "specializationName["+(currentIndex)+"]";
            e.preventDefault();
-           $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
+           $('#specialization_list').append('<li><input type="text" class="specialization" name='+name+'  data-count='+dataCount+' value="" style="width: 85%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
 
@@ -1026,14 +1026,69 @@ function res() {
                 return '<div class="typeahead">'+item+'</div>'
             },
             updater: function(val) {
-                /*var klid = $('ul.typeahead li.active:visible a img');
-                if (klid && klid.length) {
-                  klid = klid[0].id.substr(5);
-                  // do stuff with metadata...
-                }*/
                 return(val);
             }
         });
+    });
+
+    /*Typeahead add dental service*/
+    $.getJSON("/json/dental_services/all/types", function(data){
+        $('input[name=type]').typeahead({
+            source: data,
+            items: 8,
+            highlighter: function(item){
+                return '<div class="typeahead">'+item+'</div>'
+            },
+            updater: function(val) {
+                return(val);
+            }
+        });
+    });
+
+    /*Typeahead add dental service*/
+    $('input[type=text].specialization').on("keypress", function(e){
+        $.getJSON("/json/specialization/all/names", function(data){
+            $('input[type=text].specialization').typeahead({
+                source: data,
+                items: 8,
+                highlighter: function(item){
+                    return '<div class="typeahead">'+item+'</div>'
+                },
+                updater: function(val) {
+                    return(val);
+                }
+            });
+        });
+    });
+
+    /*add dental service change of tool type*/
+    $('select[name=target]').on("change", function(){
+        if($(this).val() === '2' || $(this).val() === '3'){
+            $('select[name=image_template]').parent().show();
+        } else {
+            $('select[name=image_template]').val('')
+            $('select[name=image_template]').parent().hide();
+        };
+    });
+
+    /*contact number 6-12 digits only*/
+    $('input[name=contact_no]#contact_no').on("keyup", function(e){
+        var len = $(this).val().length;
+        if($(this).val().match(/^[0-9]+$/) === null){
+            $(this).attr("value","");
+        }
+    });
+
+    $('input[name=contact_no]#contact_no').on("blur", function(e){
+        var len = $(this).val().length;
+        if($(this).val().length < 6 || $(this).val().length > 12){
+            var a = $(this).val().substr(0,12);
+            $(this).attr("value",a);
+            alert("Please enter a valid contact number.");
+        }
+    }).on('keydown', function(e) {
+    if (e.keyCode==8)
+        $(this).trigger('keypress');
     });
 
 });

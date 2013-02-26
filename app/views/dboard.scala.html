@@ -22,8 +22,12 @@
                 </header>
 
                 <div class="box-content">
-                    @remindersToday.map { rt =>
-                    <p>@rt.dateCreated @rt.description - by @rt.username</p>
+                    @if(remindersToday.length == 0){
+                        <p>No reminders today. <a href="@routes.Announcement.getList()">add a reminder</a></p>
+                    } else {
+                        @remindersToday.map { rt =>
+                        <p>@rt.dateCreated @rt.description - by @rt.username</p>
+                        }
                     }
                 </div>
             </div>
@@ -78,26 +82,30 @@
 
             <div class="box-content no-inner-space" style="display: block; ">
                 <ul class="userlist">
-                    @appointmentsToday.map { at =>
-                    <li class="first">
-                        <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
-                        <div class="info-l">
-                            <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
-                            <span>@at.contactNo</span>
-                        </div>
-                        <div class="info-r">
-                            @if(at.dateStart.get.split(" ")(1).split(":")(0).toInt >= 12){
-                            <span>@(at.dateStart.get.split(" ")(1).split(":")(0).toInt % 12):@at.dateStart.get.split(" ")(1).split(":")(1) pm</span>
-                            } else {
-                            @if((at.dateStart.get.split(" ")(1).split(":")(0).toInt == 0)){
-                            <span></span>
-                            } else {
-                            <span>@at.dateStart.get.split(" ")(1).split(":")(0):@at.dateStart.get.split(" ")(1).split(":")(1) am</span>
-                            }
-                            }
+                    @if(remindersToday.length == 0){
+                        <li class="first">No appointments at this time. <a href="@routes.Scheduler.getCalendar()">add an appointment</a></li>
+                    } else {
+                        @appointmentsToday.map { at =>
+                        <li class="first">
+                            <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
+                            <div class="info-l">
+                                <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
+                                <span>@at.contactNo</span>
+                            </div>
+                            <div class="info-r">
+                                @if(at.dateStart.get.split(" ")(1).split(":")(0).toInt >= 12){
+                                <span>@(at.dateStart.get.split(" ")(1).split(":")(0).toInt % 12):@at.dateStart.get.split(" ")(1).split(":")(1) pm</span>
+                                } else {
+                                    @if((at.dateStart.get.split(" ")(1).split(":")(0).toInt == 0)){
+                                    <span></span>
+                                    } else {
+                                    <span>@at.dateStart.get.split(" ")(1).split(":")(0):@at.dateStart.get.split(" ")(1).split(":")(1) am</span>
+                                    }
+                                }
 
-                        </div>
-                    </li>
+                            </div>
+                        </li>
+                        }
                     }
                 </ul>
             </div>

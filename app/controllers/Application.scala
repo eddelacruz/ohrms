@@ -42,7 +42,6 @@ object Application extends Controller{
   def login = Action {
     implicit request =>
       //println(Cache.getAs[String]("wait"))
-      println(hash("admin"))
       if(Cache.getAs[String]("wait") == Some("yes")){
         println(">>>>>>>>>>>>>> tae")
         tries += 1

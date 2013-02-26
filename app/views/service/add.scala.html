@@ -52,6 +52,8 @@
                         <select name="target">
                             <option value="1">Paint</option>
                             <option value="2">Symbol</option>
+                            <option value="3">Selective</option>
+                            <option value="4">Inclusive</option>
                         </select>
                     </li>
                     <li>
@@ -61,7 +63,16 @@
                     <li>
                         <label>Color:</label>
                         <input type="text" name="color" class="colorpicker miniColors"  maxlength="7" autocomplete="off" required = "required" style="padding-right: 35px;">
-
+                    </li>
+                    <li>
+                        <label>Template:</label>
+                        <select name="image_template">
+                            <option value="CHAR-A">CHAR-A</option>
+                            <option value="CHAR-B">CHAR-B</option>
+                            <option value="CHAR-C">CHAR-C</option>
+                            <option value="CHAR-D">CHAR-D</option>
+                            <option value="CROSSOUT">CROSSOUT</option>
+                        </select>
                     </li>
                 </ul>
             </div>
