@@ -13,6 +13,7 @@ import play.api.mvc.Security.Authenticated
 import util.pdf.PDF
 import views._
 import ws.services.{DentistService, LoginService}
+import ws.services.{LoginService, ClinicService}
 import views.html.patient
 import ws.delegates.{AnnouncementDelegate, PatientDelegate, AppointmentDelegate}
 import org.reflections.vfs.Vfs.File
@@ -52,7 +53,12 @@ object Application extends Controller{
   }
 
   def login = Action {
-    implicit request =>
+    implicit request =>println(hash("admin"))
+      val clinic = ClinicService.getClinic()
+      Cache.set("clinic-id", ClinicService.getClinic().head.id)
+      Cache.set("clinic-name", ClinicService.getClinic().head.clinicName)
+      Cache.set("clinic-address", ClinicService.getClinic().head.address)
+      Cache.set("clinic-contact_no", ClinicService.getClinic().head.contactNumber)
       if(Cache.getAs[String]("wait") == Some("yes")){
         println(">>>>>>>>>>>>>> tae")
         tries += 1
@@ -82,7 +88,8 @@ object Application extends Controller{
 
   def hash(pass: String): String = {
     //random.nextBytes(salt);
-    val spec = new PBEKeySpec(pass.toArray, pass.getBytes, 65536, 128)
+    val salt = "ohrms"
+    val spec = new PBEKeySpec(pass.toArray, salt.getBytes, 65536, 128)
     val f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1")
     val hash = f.generateSecret(spec)
     val digest = Base64.encodeBase64(hash.getEncoded)
@@ -161,6 +168,10 @@ object Application extends Controller{
   def logout = Action {
     Cache.set("user_name", null)
     Cache.set("role", null)
+    Cache.set("clinic-id", "")
+    Cache.set("clinic-name", "")
+    Cache.set("clinic-address", "")
+    Cache.set("clinic-contact_no", "")
     Redirect(routes.Application.login).withNewSession
   }
 
@@ -204,7 +215,6 @@ object Application extends Controller{
 
   trait Secured {
     private def username(request: RequestHeader) = {
-      //Cache.getAs[String]("user_name")
       request.session.get(Security.username)
     }
 
@@ -221,7 +231,4 @@ object Application extends Controller{
     }
   }
 
-  /*  def samplePdf(id: String): Result = {
-    return PDF.ok(html.samplePdf.render)
-  }*/
 }

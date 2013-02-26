@@ -128,7 +128,7 @@
         <div class="box-content">
             <div class="grid_11 table">
                 <div>
-                    <table>
+                    <table id="tbl-treatments">
                         <thead>
                         <tr>
                             <th class="first" style="text-align: center;"><span class="glyph center"></span></th>
@@ -142,7 +142,7 @@
                         <tbody>
                         @treatmentPlan.map { tp =>
                         <tr class="center">
-                            <td><input type='checkbox'></td>
+                            <td><input type='checkbox' data-teeth-name="@tp.teethName" data-service-id="@tp.serviceId" data-treat-id="@tp.id"></td>
                             <td><span class="label" style="background: @tp.color;">@tp.serviceName</span></td>
                             <td>@tp.teethName</td>
                             <td><span class="pesos">P</span> @tp.servicePrice</td>

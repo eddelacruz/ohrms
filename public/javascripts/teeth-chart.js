@@ -107,6 +107,7 @@ var anotherTooth;//if MA then FA, vice versa
 
 var dentalServices = new Array();
 var toothWithService = new Array();
+var toothWithServiceFromDB = new Array();
 var bannedServices = new Array(); //['PASTA', 'OP'] for EXT
 var curTooth = new Array();
 var curService = new Array();
@@ -447,6 +448,12 @@ function checkIfNotBan(tooth){
     console.log("\n"+tooth);
     for(var i=0; i < bannedServices.length; i++){
         if($.inArray(tooth+'_'+bannedServices[i], toothWithService) > -1){
+            flag = 1;
+            return false;
+        }
+    }
+    for(var i=0; i < bannedServices.length; i++){
+        if($.inArray("canvas"+tooth+'_'+bannedServices[i], toothWithServiceFromDB) > -1){
             flag = 1;
             return false;
         }

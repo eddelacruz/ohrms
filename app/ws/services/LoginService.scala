@@ -54,15 +54,15 @@ object LoginService {
     DB.withConnection { implicit connection =>
       SQL(
         """
-          select
-          |user_name,
-          |password,
-          |role,
-          |question,
+          |select
+          |u.user_name,
+          |u.password,
+          |u.role,
+          |u.question,
           |sq.question,
-          |answer
-          |from users
-          |left outer join security_questions sq ON question = sq.id
+          |u.answer
+          |from users u
+          |left outer join security_questions sq ON u.question = sq.id
           |where user_name = {user_name} and password = {password}
           |and status = {status}
         """.stripMargin)
