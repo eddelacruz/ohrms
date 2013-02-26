@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('.mouth.child').hide() //hide first the child teeth chart
 
-    $('#delete_patient').live("click",
+    /*$('#delete_patient').live("click",
         function(e) {
             var $this = $(this)
 			var patientId = $this.attr("data-patient_id")
@@ -119,7 +119,7 @@ $(document).ready(function() {
                 			})
                 		}
                 	    }
-                	 );
+                	 );*/
 
     //url static, only for patients
     var count = 1;
@@ -129,8 +129,6 @@ $(document).ready(function() {
     var endpoint = window.location.pathname;
     var endpointsearch = window.location.search.replace("?","&");
     var urls;
-
-
 
 
 
