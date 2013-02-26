@@ -5,7 +5,11 @@
 <!DOCTYPE html>
 
 <html>
-<head><title>Sabertooth Dental Clinic</title></head>
+<head>
+    @patientList.map { pl =>
+    <title>pl.firstName pl.middleName pl.lastName Dental Report</title>
+    }
+</head>
 
 <body>
 <p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
