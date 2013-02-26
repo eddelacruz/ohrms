@@ -69,7 +69,7 @@
                                 </li>
                                 <li>
                                     <label>Contact Number:</label>
-                                    <input type="text" required = "required" name="contact_no">
+                                    <input type="text" id="text" required = "required" name="contact_no" onkeyup="enterNumber()">
 
                                 </li>
                                 <li>
@@ -77,12 +77,12 @@
                                     <input type="text" required = "required" name="user_name" id="userName">
                                 </li>
                                 <li>
-                                    <label>Password: <label class="password-label"></label></label>
-                                    <input type="password" required = "required" name="password" id="password">
+                                    <label>Password:</label>
+                                    <input type="password" id ="password" name="password" required = "required">
                                 </li>
                                 <li>
-                                    <label>Retype Password:</label>
-                                    <input type="password" required = "required" name="confirm_password" id="confirm_password">
+                                    <label>Confirm Password:</label>
+                                    <input type="password" id="confirmpassword" required = "required" onblur="confirmPassword()">
                                 </li>
                                 <br/>
                             </ul>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
                 <footer class="pane">
-                    <input type="submit" class="bt blue right" value="@Messages("button.add")">
+                    <input type="submit" onclick="confirmPassword()" class="bt blue right" value="@Messages("button.add")">
                 </footer>
                 }
             </div>

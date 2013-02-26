@@ -62,7 +62,11 @@
                                 </li>
                                 <li>
                                     <label>Password:</label>
-                                    <input type="password" name="password" required = "required">
+                                    <input type="password" id ="password" name="password" required = "required">
+                                </li>
+                                <li>
+                                    <label>Confirm Password:</label>
+                                    <input type="password" id="confirmpassword" required = "required" onblur="confirmPassword()">
                                 </li>
                             </ul>
                         </div>
@@ -74,7 +78,7 @@
                                 </li>
                                 <li>
                                     <label>Contact No:</label>
-                                    <input type="text" name="contact_no" required = "required">
+                                    <input type="text" name="contact_no" id="text" required = "required" onkeyup="enterNumber()">
 
                                 </li>
                                 <li>
@@ -93,7 +97,7 @@
                     </div>
                 </div>
                 <footer class="pane">
-                    <input type="submit" class="bt blue right" value="@Messages("button.add")">
+                    <input type="submit" onclick="confirmPassword()" class="bt blue right" value="@Messages("button.add")">
                 </footer>
                 }
             </div>
