@@ -17,8 +17,9 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class DentistList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], prcNo: Option[String], userName: Option[String], password: Option[String], specializationName: Option[Seq[String]])
+case class DentistList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], address: Option[String], contactNo: Option[String], prcNo: Option[String], userName: Option[String], password: Option[String], specializationName: Option[Seq[String]], question: Option[String], answer: Option[String])
 case class SpecializationList(var id: String, dentistId: String, name: String)
+case class SecurityQuestion(var id: String, question: String)
 
 object DentistService {
 
@@ -50,7 +51,9 @@ object DentistService {
             |d.prc_no,
             |u.user_name,
             |u.password,
-            |d.user_name
+            |d.user_name,
+            |u.question,
+            |u.answer
             |from
             |dentists d
             |INNER JOIN users u
@@ -72,8 +75,10 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("user_name")~
-            get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)))
+            get[Option[String]]("password") ~
+            get[Option[String]]("question")~
+            get[Option[String]]("answer") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)), j, k)
           } *
         }
         dentistList
@@ -96,6 +101,8 @@ object DentistService {
             |d.prc_no,
             |u.user_name,
             |u.password,
+            |u.question,
+            |u.answer,
             |d.user_name
             |from
             |dentists d
@@ -113,8 +120,10 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("user_name")~
-            get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i  => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)))
+            get[Option[String]]("password") ~
+            get[Option[String]]("question")~
+            get[Option[String]]("answer") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)), j, k)
           } *
         }
         dentistList
@@ -154,7 +163,7 @@ object DentistService {
             get[Option[String]]("prc_no") ~
             get[Option[String]]("user_name")~
             get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)))
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)), Some(""), Some(""))
           } *
         }
         dentistList
@@ -211,8 +220,10 @@ object DentistService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("prc_no") ~
             get[Option[String]]("user_name")~
-            get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i  => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(id)))
+            get[Option[String]]("password") ~
+          get[Option[String]]("question")~
+            get[Option[String]]("answer") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k => DentistList(a, b, c, d, e, f, g, h, i, Some(getSpecializationToList(a)), j, k)
           } *
         }
         dentistList
@@ -281,14 +292,18 @@ object DentistService {
             |{password},
             |{role},
             |{status},
-            |{date_created}
+            |{date_created},
+            |{question},
+            |{answer}
             |);
           """.stripMargin).on(
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 1, //Dentist
           'status -> 1,
-          'date_created -> DateWithTime.dateNow
+          'date_created -> DateWithTime.dateNow,
+          'question -> d.question,
+          'answer -> d.answer
         ).executeUpdate()
     }
     DB.withTransaction {
@@ -480,7 +495,9 @@ object DentistService {
             |{id},
             |{name},
             |{status},
-            |{dentist_id}
+            |{dentist_id},
+            |{question},
+            |{answer}
             |);
           """.stripMargin).on(
           'id -> s.id,
@@ -539,6 +556,25 @@ object DentistService {
           """
             |select Distinct(name) from specializations where status = 1;
           """.stripMargin).as( str("name") * )
+    }
+  }
+
+  def getAllSecurityQuestion(): List[SecurityQuestion] = {
+    DB.withConnection {
+      implicit c =>
+        val securityQuestionList: List[SecurityQuestion] = SQL(
+          """
+            |select
+            |id,
+            |question
+            |from security_questions
+          """.stripMargin).as {
+          get[String]("id") ~
+            get[String]("question") map {
+            case a ~ b => SecurityQuestion(a, b)
+          } *
+        }
+        securityQuestionList
     }
   }
 

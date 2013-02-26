@@ -8,6 +8,10 @@ import util.pdf.PDF
 import views._
 import ws.delegates._
 import ws.services.PaymentService
+import play.mvc.Result
+import util.pdf.PDF
+import views.html.reports
+import controllers.Application.Secured
 
 /**
  * Created with IntelliJ IDEA.
@@ -16,7 +20,7 @@ import ws.services.PaymentService
  * Time: 4:53 PM
  * To change this template use File | Settings | File Templates.
  */
-object Reports {
+object Reports extends Controller with Secured{
    def _patientList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start, count)))
   }
@@ -44,6 +48,12 @@ object Reports {
 
   def _monthlyIncomeReport(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._monthly_income.render(PaymentService.getMonthlyIncomeReport(start,count)))
+  }
+
+  def getReportsList() = IsAuthenticated {
+    username =>
+      implicit request =>
+        Ok(reports.reports())
   }
 
 }

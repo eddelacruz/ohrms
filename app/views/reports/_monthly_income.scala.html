@@ -5,30 +5,90 @@
 <!DOCTYPE html>
 
 <html>
-<head><title>Sabertooth Dental Clinic</title></head>
+<head><title>Sabertooth Dental Clinic</title>
+    <style type="text/css">
+        .title {
+        text-align: center;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 24px;
+
+        }
+        .sub-title {
+        text-align: center;
+        font-size: 11px;
+        font-weight: normal;
+        color: #8E8F92;
+        font-family: sans-serif;
+        }
+        .table {
+        width: 100%;
+        border-collapse: collapse;
+        display: table;
+        white-space: normal;
+        line-height: normal;
+        font-family: sans-serif;
+        font-weight: normal;
+        font-size: 12px;
+        font-variant: normal;
+        font-style: normal;
+        color: #000;
+        text-align: auto;
+        border-spacing: 2px;
+        border-color: #000;
+        }
+        .center {
+        text-align: center;
+        }
+        .medium-font {
+        font-size: 14px;
+        font-weight: medium;
+        }
+        .table-header {
+        color: #09A;
+        background-color: #E4FFFF;
+        padding-left: 10px;
+        padding-right: 10px;
+        }
+        .br-1 {
+        margin-bottom: 15px;
+        }
+        .footer {
+        text-align: right;
+        font-size: 11px;
+        font-weight: normal;
+        color: #8E8F92;
+        font-family: sans-serif;
+        }
+    </style>
+</head>
 
 <body>
-<center><h2>Monthly Income Report</h2></center>
+<div class="title">Monthly Income Report</div>
 <center>Date Start:  wla pa     Date End: wla pa</center>
 <p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
 <p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
 
+<div class="br-1"></div>
+<table class="table" border="1">
+    <tr class="center table-header">
+        <th>Patient's Name</th>
+        <th>Service Name</th>
+        <th>Price</th>
+        <th>Date Performed</th>
 
-<tr class="center">
-    <td>Patient's Name</td>
-    <td>Service Name</td>
-    <td>Price</td>
-    <td>Date Performed</td>
-</tr>
+    </tr>
+
+
 @monthlyIncome.map { mi =>
-<tr class="center">
+<tr class="">
     <td>@mi.firstName @mi.lastName</td>
     <td>@mi.serviceName</td>
     <td><span class="pesos">P</span> @mi.price</td>
     <td>@mi.datePerformed</td>
 </tr>
 }
-
+     </table>
 Total:    wala pa
 </body>
 </html>

@@ -1,4 +1,4 @@
-@(staffList: List[ws.services.StaffList])
+@(staffList: List[ws.services.StaffList], securityQuestions: List[ws.services.SecurityQuestion])
 
 @main(Messages("staff.title")){
 
@@ -55,23 +55,7 @@
                                     <label>Last Name:</label>
                                     <input type="text" required = "required" name="last_name">
                                 </li>
-                                <li>
-                                    <label>Position:</label>
-                                    <input type="text" required = "required" name="position">
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="field right">
-                            <ul id="specialization_list">
-                                <li>
-                                    <label class="upper">Address:</label>
-                                    <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
-                                </li>
-                                <li>
-                                    <label>Contact Number:</label>
-                                    <input type="text" id="text" required = "required" name="contact_no" onkeyup="enterNumber()">
 
-                                </li>
                                 <li>
                                     <label>Username:</label>
                                     <input type="text" required = "required" name="user_name" id="userName">
@@ -83,6 +67,33 @@
                                 <li>
                                     <label>Confirm Password:</label>
                                     <input type="password" id="confirmpassword" required = "required" onblur="confirmPassword()">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="field right">
+                            <ul id="specialization_list">
+                                <li>
+                                    <label>Position:</label>
+                                    <input type="text" required = "required" name="position">
+                                </li>
+                                <li>
+                                    <label class="upper">Address:</label>
+                                    <textarea id="textarea-input-grow" class="autogrow" name="address" required = "required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2"></textarea>
+                                </li>
+                                <li>
+                                    <label>Contact Number:</label>
+                                    <input type="text" id="text" required = "required" name="contact_no" onkeyup="enterNumber()">
+
+                                </li>
+                                <p>Security Question:</p>
+                                <select class="large" name="question">
+                                    @securityQuestions.map { sq =>
+                                    <option value="@sq.id">@sq.question</option>
+                                    }
+                                </select>
+                                <li>
+                                    <label>Answer:</label>
+                                    <input type="text" name="answer" required = "required">
                                 </li>
                                 <br/>
                             </ul>

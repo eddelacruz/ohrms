@@ -22,7 +22,9 @@ trait StaffListDeserializer {
       (json \ "address").asOpt[String],
       (json \ "position").asOpt[String],
       (json \ "userName").asOpt[String],
-      (json \ "password").asOpt[String]
+      (json \ "password").asOpt[String],
+      (json \ "question").asOpt[String],
+      (json \ "answer").asOpt[String]
     )
 
     def writes(d: StaffList): JsValue = JsObject(
@@ -35,7 +37,9 @@ trait StaffListDeserializer {
         "address" -> JsString(d.address.get),
         "position" -> JsString(d.position.get),
         "userName" -> JsString(d.userName.get),
-        "password" -> JsString(d.password.get)
+        "password" -> JsString(d.password.get),
+        "question" -> JsString(d.question.get),
+        "answer" -> JsString(d.answer.get)
       )
     )
   }

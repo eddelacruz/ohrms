@@ -1,4 +1,4 @@
-@(dentistList: List[ws.services.DentistList])
+@(dentistList: List[ws.services.DentistList],securityQuestions: List[ws.services.SecurityQuestion])
 
 @main(Messages("dentist.title")){
 
@@ -67,6 +67,18 @@
                                 <li>
                                     <label>Confirm Password:</label>
                                     <input type="password" id="confirmpassword" required = "required" onblur="confirmPassword()">
+                                </li>
+                                <li>
+                                    <p>Security Question:</p>
+                                    <select class="large" name="question">
+                                        @securityQuestions.map { sq =>
+                                        <option value="@sq.id">@sq.question</option>
+                                        }
+                                    </select>
+                                </li>
+                                <li>
+                                    <label>Answer:</label>
+                                    <input type="text" name="answer" required = "required">
                                 </li>
                             </ul>
                         </div>

@@ -187,6 +187,16 @@
                     <span class="textnode"> entries</span>
                 </label>
             </div>
+
+            <div class=""><div class="dataTables_filter" id="DataTables_Table_0_filter">
+              <div class="textnode>  Total Payment: <span class="">@totalPayments</span>
+                Remaining Balance: <span class="">@balance</span>
+                <!--<a class="bt blue right" href="#addAppointmentModal" class="modal">Pay!</a>-->
+                <a href="#addPaymentModal" class="modal">
+                    <span>Proceed to Counter </span>
+                </a>
+              </div>
+            </div> </div>
             <div class="clear"></div></div>
         <!--<nav>
             <ul>
@@ -249,17 +259,7 @@
                 </div>
             </div>
         </div>
-            <ul>
-                <li class="last">
-                    Total Payment: <span class="label">@totalPayments</span>
-                    Remaining Balance: <span class="label">@balance</span>
-                    <!--<a class="bt blue right" href="#addAppointmentModal" class="modal">Pay!</a>-->
-                    @if(balance > 0){
-                    <a href="#addPaymentModal" class="modal">
-                        Proceed to Counter
-                    </a>}
-                </li>
-            </ul>
+
         </nav>
     </div>
 </div>

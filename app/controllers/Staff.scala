@@ -9,7 +9,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views.html.{staff, modal}
-import ws.services.{StaffService}
+import ws.services.{StaffService, DentistService}
 import ws.delegates.StaffDelegate
 import ws.generator.UUIDGenerator
 import controllers.Application.Secured
@@ -24,13 +24,13 @@ import controllers.Application.Secured
 object Staff extends Controller with Secured{
 
   def searchStaffList(start: Int, count: Int, filter: String) = Action {
-    Ok(staff.list(StaffDelegate.searchStaffList(start,count,filter)))
+    Ok(staff.list(StaffDelegate.searchStaffList(start,count,filter),DentistService.getAllSecurityQuestion()))
   }
 
   def getList(start: Int, count: Int) =  IsAuthenticated{
     username =>
       implicit request =>
-       Ok(staff.list(StaffDelegate.getStaffList(start,count)))
+       Ok(staff.list(StaffDelegate.getStaffList(start,count),DentistService.getAllSecurityQuestion()))
   }
 
   def getStaffById(id: String) = IsAuthenticated {

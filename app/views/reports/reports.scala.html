@@ -1,0 +1,38 @@
+@main("Reports"){
+<script type="text/javascript">
+    $('.main-nav ul').children().removeClass('active');
+    $('.main-nav ul li a[name=Reports]').parent().addClass('active');
+</script>
+
+
+<!--  Reports -->
+<header class="grid_12 head center">
+    <h1>Reports List</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="grid_12">
+    <ul>
+        <li>
+            <p><a href="@routes.Reports._patientList()" target="_blank">Patients List</a></p>
+        </li>
+        <li>
+            <p><a href="@routes.Reports._individualPatientReport("abc")" target="_blank">Patient Treatments List</a></p>
+        </li>
+        <li>
+            <p><a href="@routes.Reports._monthlyIncomeReport()" target="_blank">Monthly Income</a></p>
+        </li>
+        <li>
+            <p><a href="@routes.Reports._serviceList()" target="_blank">Services List</a></p>
+        </li>
+        <li>
+            <p><a href="@routes.Reports._dentistList()" target="_blank">Dentists List</a></p>
+        </li>
+        <li>
+            <p><a href="@routes.Reports._staffList()" target="_blank">Staff List</a></p>
+        </li>
+    </ul>
+</div>
+<!-- / Reports -->
+
+}

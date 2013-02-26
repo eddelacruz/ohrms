@@ -7,6 +7,7 @@ GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
 GET     /login_wait                 controllers.Application.countdown
 GET     /login_question             controllers.Application.question
+POST    /security_question          controllers.Application.questionAuthenticate
 GET     /logout                     controllers.Application.logout
 GET     /settings                         controllers.Settings.settings
 GET     /dashboard                  controllers.Application.dashboard
@@ -71,6 +72,7 @@ POST    /staffs/update             controllers.Staff.submitUpdateForm
 GET     /staffs/:id                controllers.Staff.getStaffById(id: String)
 POST    /staffs/delete            controllers.Staff.deleteInformation(id: String)
 GET     /staffs/:id/update                controllers.Staff.getUpdateForm(id: String)
+GET     /reports                    controllers.Reports.getReportsList()
 GET     /reports/patient_list       controllers.Reports._patientList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/dentist_list       controllers.Reports._dentistList(start : Int ?= 0, count : Int ?= 25)
 GET     /reports/service_list       controllers.Reports._serviceList(start : Int ?= 0, count : Int ?= 25)

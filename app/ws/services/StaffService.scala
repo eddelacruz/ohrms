@@ -17,7 +17,7 @@ import ws.generator.UUIDGenerator
  */
 
 
-case class StaffList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String])
+case class StaffList(var id: String, firstName: Option[String], middleName: Option[String], lastName: Option[String], contactNo: Option[String], address: Option[String], position: Option[String], userName: Option[String], password: Option[String], question: Option[String], answer: Option[String])
 
 object StaffService {
 
@@ -38,11 +38,13 @@ object StaffService {
             |d.contact_no,
             |d.address,
             |d.position,
-            |u.user_name
+            |u.user_name,
+            |u.question
             |from
             |staffs d
             |INNER JOIN users u
             |ON d.user_name=u.user_name
+            |INNER JOIN security_questions sq ON u.question = sq.id
             |where d.status = {status}
             |ORDER BY d.last_name asc
             |LIMIT {start}, {count}
@@ -54,8 +56,9 @@ object StaffService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h  => StaffList(a, b, c, d, e, f, g, h,  Some(""))
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("question") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h  ~ i => StaffList(a, b, c, d, e, f, g, h,  Some(""), i,Some(""))
           } *
         }
         staffList
@@ -77,11 +80,13 @@ object StaffService {
             |d.contact_no,
             |d.address,
             |d.position,
-            |u.user_name
+            |u.user_name,
+            |u.question
             |from
             |staffs d
             |INNER JOIN users u
             |ON d.user_name=u.user_name
+            |INNER JOIN security_questions sq ON u.question = sq.id
             |where d.status = {status}
             |and d.last_name like "%"{filter}"%"
             |or d.first_name like "%"{filter}"%"
@@ -96,8 +101,9 @@ object StaffService {
             get[Option[String]]("contact_no") ~
             get[Option[String]]("address") ~
             get[Option[String]]("position") ~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h => StaffList(a, b, c, d, e, f, g, h, Some(""))
+            get[Option[String]]("user_name") ~
+          get[Option[String]]("question") map {
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h  ~ i  => StaffList(a, b, c, d, e, f, g, h,  Some(""), i,Some(""))
           } *
         }
         staffList
@@ -136,7 +142,7 @@ object StaffService {
             get[Option[String]]("position") ~
             get[Option[String]]("user_name") ~
             get[Option[String]]("password") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i => StaffList(a, b, c, d, e, f, g, h, i, Some(""),Some(""))
           } *
         }
         staffList
@@ -205,14 +211,18 @@ object StaffService {
             |{password},
             |{role},
             |{status},
-            |{date_created}
+            |{date_created},
+            |{question},
+            |{answer}
             |);
           """.stripMargin).on(
           'user_name -> d.userName,
           'password -> d.password,
           'role -> 2,
           'status -> 1,
-          'date_created -> DateWithTime.dateNow
+          'date_created -> DateWithTime.dateNow,
+          'question -> d.question,
+          'answer -> d.answer
         ).executeUpdate()
       AuditLogService.logTaskStaff(d, currentUser, task)
     }
@@ -227,13 +237,13 @@ object StaffService {
             |{first_name},
             |{middle_name},
             |{last_name},
-            |{address},
             |{contact_no},
+            |{address},
             |{position},
-            |{user_name},
             |{status},
             |{date_created},
-            |{date_last_updated}
+            |{date_last_updated},
+            |{user_name}
             |);
           """.stripMargin).on(
           'id -> d.id,

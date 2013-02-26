@@ -551,7 +551,7 @@ function drawTemplate(template, id){
             ctx.lineWidth = 6;
             ctx.stroke();
             break;
-        case 'CHAR':
+        case 'CHAR-B':
             ctx.fillStyle = curColor;
             ctx.stroke();
             ctx.closePath();
@@ -559,6 +559,33 @@ function drawTemplate(template, id){
             ctx.font = "bold 20px Verdana";
             ctx.textBaseline = "right";
             ctx.fillText("B", ctxWidth/2, ctxHeight/2);
+            break;
+        case 'CHAR-A':
+            ctx.fillStyle = curColor;
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.font = "bold 20px Verdana";
+            ctx.textBaseline = "right";
+            ctx.fillText("A", ctxWidth/2, ctxHeight/2);
+            break;
+        case 'CHAR-C':
+            ctx.fillStyle = curColor;
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.font = "bold 20px Verdana";
+            ctx.textBaseline = "right";
+            ctx.fillText("C", ctxWidth/2, ctxHeight/2);
+            break;
+        case 'CHAR-D':
+            ctx.fillStyle = curColor;
+            ctx.stroke();
+            ctx.closePath();
+
+            ctx.font = "bold 20px Verdana";
+            ctx.textBaseline = "right";
+            ctx.fillText("D", ctxWidth/2, ctxHeight/2);
             break;
         default:
             console.log("No Image Template");

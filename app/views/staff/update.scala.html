@@ -34,6 +34,8 @@
                     <div class="field left">
                         <input type="hidden" name="id" value="@sl.id">
                         <input type="hidden" name="user_name"  value="@sl.userName">
+                        <input type="hidden" name="question" value="@sl.question">
+                        <input type="hidden" name="answer" value="@sl.answer">
                         <ul>
                             <li>
                                 <label class="upper">First Name:</label>
@@ -65,18 +67,17 @@
                                 <label>Address:</label>
                                 <textarea id="textarea-input-grow" class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
                             </li>
-                            @if((play.cache.Cache.get("user_name")) == sl.userName){
+
                             <li>
                                 <label>Password:</label>
                                 <input type="password" name="password" required = "required" value="@sl.password">
                             </li>
-                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <footer class="pane">
-                @if((play.cache.Cache.get("user_name")) == sl.userName || (play.cache.Cache.get("role")) == 0){
+                @if((play.cache.Cache.get("role")) == 0){
                     <input type="submit" class="bt blue right" value="@Messages("button.update")">
                 }
             </footer>
