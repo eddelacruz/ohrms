@@ -271,8 +271,8 @@ $(document).ready(function() {
 
             myObject.service_id = b[1];
             myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
-            myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
-//            console.log(myObject.date_performed);
+            //myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
+            myObject.date_performed = $("#canvas"+b[0]+"_"+b[1]).attr('data-date-performed');
             myObject.teeth_name = b[0];
             myObject.patient_id = $('.patient_information input[name=id]').val();
             myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');

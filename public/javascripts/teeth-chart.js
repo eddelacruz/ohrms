@@ -492,7 +492,7 @@ function setSymbol(tooth, toolType, toolData) {
     //price
     var price = $('#dentistTools').find('.dental-services input[name=price]').val();
     var dentist = $('#dentistTools').find('.dental-services select[name=dentist_id]').val();
-    var datePerformed = $('#dentistTools').find('.dental-services select[name=date_performed]').val();
+    var datePerformed = $('#dentistTools').find('.dental-services input[name=date_performed]').val();
 
     if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
         console.log("==========================> setSymbol: "+tooth);

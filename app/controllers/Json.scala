@@ -390,7 +390,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       //println(treatmentPlan)
       //var flag = 0
 
-      /*try{*/
+      try{
         while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
           val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.headOption
           val servicePrice = treatmentPlan.get("Treatment_Plan["+index+"][service_price]").get.headOption
@@ -400,7 +400,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>date per"+dentistId)
+          println(">>>>"+datePerformed)
+
           val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
 
           val abc = teethName.get.charAt(0)
@@ -412,10 +413,10 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           }
           index+=1
         }
-      /*} catch {
+      } catch {
         case e: Exception =>
           println("----->>>>> (END OF ITERATION OF "+index+" TREATMENT_PLAN) <<<<<-----")
-      }*/
+      }
       Status(200)
  }
 

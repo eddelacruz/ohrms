@@ -1012,10 +1012,12 @@ function res() {
         });
     });*/
 
+    var opening = 8
+
     /*Date Performed DateTime Picker*/
     $('#dentistTools .dental-services-details input[name=date_performed]').datetimepicker({
     	//timeFormat: "hh:mm tt"
-    	hourMin: 8,
+    	hourMin: opening,
         hourMax: 18,
     	stepMinute: 15
     });
@@ -1093,5 +1095,13 @@ function res() {
     if (e.keyCode==8)
         $(this).trigger('keypress');
     });
+
+    /*date performed default value*/
+    var date = new Date();
+    var curr_date = date.getDate();
+    var curr_month = date.getMonth() + 1; //Months are zero based
+    var curr_year = date.getFullYear();
+    $('#dentistTools').find('.dental-services input[name=date_performed]').val(curr_year+"-"+curr_month+"-"+curr_date+" "+opening+":00");
+
 
 });
