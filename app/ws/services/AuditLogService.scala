@@ -147,11 +147,11 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
-          'module -> "s"
-        ).executeUpdate()
+          'module -> "p",
+          'user_name -> currentUser
+      ).executeUpdate()
     }
   }
 
@@ -359,19 +359,19 @@ object AuditLogService {
           """.stripMargin).on(
           'id -> UUIDGenerator.generateUUID("audit_log"),
           'task -> task,
-          'user_name -> currentUser, //cached user_id when login
           'description -> description.replace("Some", "").replace("(","").replace(")","").replace("Some", "").replace("(","").replace(")",""),
           'date_created -> DateWithTime.dateNow,
-          'module -> "ap"
-        ).executeUpdate()
+          'module -> "p",
+          'user_name -> currentUser
+      ).executeUpdate()
     }
   }
 
   def logTaskPayment(l: PaymentList, currentUser: String, task: String): Long = {
     var description: String = ""
     task match {
-      case "Add" => description = l.userName + "recorded" + l.payment
-      case "Update" => description = l.userName + "updated payment id"+ l.id
+      case "Add" => description = l.userName + "Recorded " + l.payment +" payment"
+      case "Update" => description = l.userName + "Updated payment "+ l.id
       case _ => ""
     }
     DB.withConnection {

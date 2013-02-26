@@ -437,7 +437,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val target = request.body.asFormUrlEncoded.get("target").headOption
       val price = request.body.asFormUrlEncoded.get("price").headOption
       val color = request.body.asFormUrlEncoded.get("color").headOption
-      val imageTemplate = request.body.asFormUrlEncoded.get("color").headOption
+      val imageTemplate = request.body.asFormUrlEncoded.get("image_template").headOption
       val dl = DentalServiceList(id, name, code, sType, Some(target.get.toInt), price, color, imageTemplate)
 
       try {
@@ -734,6 +734,11 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
   def getTeethByPositionAndType(position: String, tType: String) = Action {
     implicit request =>
       Ok(toJson(TreatmentPlanService.getTeethByPositionAndType(position, tType)))
+  }
+
+  def getAllDentalServiceTypes = Action {
+    implicit request =>
+      Ok(toJson(ServicesService.getAllDentalServiceTypes))
   }
 
 }

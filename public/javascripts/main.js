@@ -1026,14 +1026,28 @@ function res() {
                 return '<div class="typeahead">'+item+'</div>'
             },
             updater: function(val) {
-                /*var klid = $('ul.typeahead li.active:visible a img');
-                if (klid && klid.length) {
-                  klid = klid[0].id.substr(5);
-                  // do stuff with metadata...
-                }*/
                 return(val);
             }
         });
+    });
+
+    /*Typeahead add dental service*/
+    $.getJSON("/json/dental_services/all/types", function(data){
+        $('input[name=type]').typeahead({
+            source: data,
+            items: 8,
+            highlighter: function(item){
+                return '<div class="typeahead">'+item+'</div>'
+            },
+            updater: function(val) {
+                return(val);
+            }
+        });
+    });
+
+    /*add dental service change of tool type*/
+    $('select[name=targe]').on("change", function(){
+        alert("wenk wenk");
     });
 
 });

@@ -193,7 +193,7 @@ object PaymentService {
   }
 
   def updatePayment(p: PaymentList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>

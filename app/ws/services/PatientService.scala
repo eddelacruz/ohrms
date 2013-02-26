@@ -205,7 +205,7 @@ object PatientService extends Secured{
 
 
   def addPatient(p: PatientList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Add"
     p.id = UUIDGenerator.generateUUID("patients")
     DB.withConnection {
@@ -223,7 +223,6 @@ object PatientService extends Secured{
             |{contact_no},
             |{date_of_birth},
             |{medical_history},
-            |{gender},
             |{status},
             |{date_created},
             |{date_last_updated},
@@ -231,25 +230,25 @@ object PatientService extends Secured{
             |);
           """.stripMargin).on(
           'id -> p.id,
-          'first_name -> Option(p.firstName),
-          'middle_name -> Option(p.middleName),
-          'last_name -> Option(p.lastName),
-          'address -> Option(p.address),
-          'contact_no -> Option(p.contactNo),
-          'date_of_birth -> Option(p.dateOfBirth),
-          'medical_history -> Option(p.medicalHistory),
-          'gender -> p.gender,
+          'first_name -> p.firstName,
+          'middle_name -> p.middleName,
+          'last_name -> p.lastName,
+          'address -> p.address,
+          'contact_no -> p.contactNo,
+          'date_of_birth -> p.dateOfBirth,
+          'medical_history -> p.medicalHistory,
           'status -> 1,
           'date_created -> DateWithTime.dateNow,
-          'date_last_updated -> DateWithTime.dateNow
-        ).executeUpdate()
+          'date_last_updated -> DateWithTime.dateNow,
+          'gender -> p.gender
+      ).executeUpdate()
         AuditLogService.logTaskPatient(p, currentUser, task)
     }
 
   }
 
   def updatePatient(p: PatientList): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Update"
     DB.withConnection {
       implicit c =>
@@ -284,7 +283,7 @@ object PatientService extends Secured{
   }
 
   def deletePatient(id: String): Long = {
-    val currentUser = username
+    val currentUser = Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
     val task = "Delete"
     DB.withConnection {
       implicit c =>
