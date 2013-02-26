@@ -15,38 +15,21 @@ import play.api.Play.current
  * Time: 7:53 PM
  * To change this template use File | Settings | File Templates.
  */
-case class UserList(var username:String, password:String, role: Int)
+case class UserList(var username:String, password:String, role: Int, question: String, answer: String)
 
 object LoginService {
-
-/** def getUserList: List[UserList] = {
-    DB.withConnection {
-      implicit c =>
-        val userList: List[UserList] = SQL(
-          """
-            |select
-            |user_name,
-            |password
-            |from
-            |users
-          """.stripMargin).as{
-            get[String]("user_name") ~
-            get[String]("password") map {
-            case a~b => UserList(a,b)
-          }*
-        }
-        userList
-    }
-  } */
 
   val userList = {
     get[String]("user_name") ~
     get[String]("password") ~
-    get[Int]("role") map {
-      case user_name~password~role=>
-        UserList(user_name, password, role)
+    get[Int]("role") ~
+    get[String]("question") ~
+    get[String]("answer")  map {
+      case user_name~password~role~question~answer=>
+        UserList(user_name, password, role, question, answer)
     }
   }
+
 
   def findByUserName(user_name:String): Option[UserList] = {
     DB.withConnection { implicit connection =>
@@ -55,9 +38,12 @@ object LoginService {
           |select
           |user_name,
           |password,
-          |role
-          |from
-          |users
+          |role,
+          |question,
+          |sq.question,
+          |answer
+          |from users
+          |left outer join security_questions sq ON question = sq.id
         """.stripMargin)
         .on('user_name -> user_name).as(LoginService.userList.singleOpt)
     }
@@ -68,12 +54,15 @@ object LoginService {
     DB.withConnection { implicit connection =>
       SQL(
         """
-          |select
+          select
           |user_name,
           |password,
-          |role
-          |from
-          |users
+          |role,
+          |question,
+          |sq.question,
+          |answer
+          |from users
+          |left outer join security_questions sq ON question = sq.id
           |where user_name = {user_name} and password = {password}
           |and status = {status}
         """.stripMargin)
@@ -81,6 +70,29 @@ object LoginService {
         'user_name -> user_name,
         'password -> password,
         'status -> 1
+      ).as(LoginService.userList.singleOpt)
+    }
+  }
+
+  def securityQuestionAuthenticate(userName: String, question: String, answer: String): Option[UserList] = {
+    DB.withConnection { implicit connection =>
+      SQL(
+        """
+          |select
+          |u.user_name,
+          |u.password,
+          |u.role,
+          |u.question,
+          |sq.question,
+          |u.answer
+          |from users u
+          |left outer join security_questions sq ON u.question = sq.id
+          |where u.user_name = {user_name} and sq.question = {question} and u.answer = {answer}
+        """.stripMargin)
+        .on(
+        'user_name -> userName,
+        'question -> question,
+        'answer -> answer
       ).as(LoginService.userList.singleOpt)
     }
   }

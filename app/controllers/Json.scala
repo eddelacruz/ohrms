@@ -324,7 +324,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val password = request.body.asFormUrlEncoded.get("password").headOption
       val question = request.body.asFormUrlEncoded.get("question").headOption
       val answer = request.body.asFormUrlEncoded.get("answer").headOption
-      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, userName, Some(hash(password.get)), Some(specializationList), question, answer)
+      val dl = DentistList(id, firstName, middleName, lastName, address, contactNo, prcNo, userName, Some(hash(password.get)), Some(specializationList), question, Some(hash(answer.get)))
 
       var index = 0
       if (DentistService.addDentist(dl) >= 1) {
@@ -496,7 +496,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val password = request.body.asFormUrlEncoded.get("password").headOption
       val question = request.body.asFormUrlEncoded.get("question").headOption
       val answer = request.body.asFormUrlEncoded.get("answer").headOption
-      val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, Some(hash(password.get)), question, answer)
+      val s = StaffList("", firstName, middleName, lastName, contactNo, address, position, userName, Some(hash(password.get)), question, Some(hash(answer.get)))
 
       if (StaffService.addStaff(s) >= 1) {
         Redirect("/staffs")

@@ -1,4 +1,4 @@
-@(form: Form[(String,String)])
+@(securityQuestions: List[ws.services.SecurityQuestion], form: Form[(String,String,String)])
 
 <html class=" -webkit-">
 <head>
@@ -85,21 +85,29 @@
                         <img src="@routes.Assets.at("images/logo.png")" alt="logo">
                     </div>
                     <div class="main-box">
-                        @helper.form(routes.Application.authenticate) {
+                        @helper.form(routes.Application.questionAuthenticate) {
 
-                        <form action="dashboard.php" class="jmenu">
+                        <form class="jmenu">
                             <header class="head">
-                                <h1>Login</h1>
                                 <h2>Security Question</h2>
                                 <div class="clear"></div><span class="divider"></span>
                             </header>
                             <div class="field fullwidth iconized">
+                                <p>Username:</p>
                                 <label class="glyph user" for="user_name" style="left: 23px;padding-top: 8px;"></label>
                                 <input type="text" placeholder="Username" name="user_name" id="user_name" value="@form("user_name").value">
                             </div>
-                            <div class="field fullwidth iconized">
-                                <label class="glyph closed-lock" for="password" style="left: 23px;padding-top: 8px;"></label>
-                                <input type="password" placeholder="Password" name="password" id="password" value="@form("password").value">
+                            <div class="field fullwidth">
+                                <p>Security Question:</p>
+                                <select class="large" name="question" id="question" value="@form("question").value">
+                                @securityQuestions.map { sq =>
+                                <option>@sq.question</option>
+                                }
+                                </select>
+                            </div>
+                            <div class="field fullwidth">
+                                <p>Answer:</p>
+                                <input type="password" placeholder="Security Answer" name="answer" id="answer" value="@form("answer").value">
                             </div>
 
                             <span class="divider"></span>
@@ -112,7 +120,7 @@
                 </div>
                 @form.globalError.map { error =>
                 <div class="alert grey air" style="opacity: 0.85;">
-                    <p><strong>Sorry!</strong> Invalid username or password.</p>
+                    <p><strong>Sorry!</strong> Wrong answer to the question.</p>
                     <a class="close" href="#">close</a>
                 </div>
                 </font>
