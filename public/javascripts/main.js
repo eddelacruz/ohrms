@@ -738,8 +738,6 @@ function res() {
     });
 
     $('#addServiceButton').click(function(){
-
-        //alert("wo shixiao");
         var selected = $('select.special.services-banned option').attr('selected','');
         $.each(selected, function(i, l){
             var v = $(l).val();
@@ -747,38 +745,6 @@ function res() {
             var n = 'banned_service['+i+']';
             $('.field.special div.services-banned').append('<input name="'+n+'" type="hidden" value="'+v+'"/>');
         });
-        /*var bs = $('.field.center select.special.services-banned option');
-        var bannedServices = new Array();
-
-        $.each(bs, function(i, l){
-            bannedServices.push($(l).val());
-        });
-
-        */
-
-        /*$.ajax({
-            type: "POST",
-            //url: "/json/dental_services/banned_services",
-            url: "/json/dental_services",
-            dataType: "json",
-            data: {"Banned_Services" : bannedServices},
-            error: function(xhr, ajaxOptions, thrownError){
-                //alert(xhr.status);
-                //alert(thrownError);
-            },
-            beforeSend: function(x) {
-            if (x && x.overrideMimeType) {
-                x.overrideMimeType("application/j-son;charset=UTF-8");
-            }
-            },
-            success:  $.ajax({
-            type: "GET",
-            url: "/scheduler",
-            success: function(res) {
-                window.location = url;
-            }
-            })
-        })*/
     });
 
     /*Birthdays*/
@@ -1103,5 +1069,18 @@ function res() {
     var curr_year = date.getFullYear();
     $('#dentistTools').find('.dental-services input[name=date_performed]').val(curr_year+"-"+curr_month+"-"+curr_date+" "+opening+":00");
 
+
+    /*tbl-treatment hide/show the service*/
+    $('#tbl-treatments').find('input[type=checkbox]').click(function(){
+        var dataCanvas = "#canvas"+$(this).attr("data-teeth-name")+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
+        var dataCanvas2 = "#canvas"+otherTooth($(this).attr("data-teeth-name"))+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
+        if($(this).attr("checked") === "checked"){
+            $(dataCanvas).fadeOut();
+            $(dataCanvas2).fadeOut();
+        } else {
+            $(dataCanvas).fadeIn()
+            $(dataCanvas2).fadeIn()
+        }
+    });
 
 });
