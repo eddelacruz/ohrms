@@ -1014,7 +1014,10 @@ function res() {
 
     /*Date Performed DateTime Picker*/
     $('#dentistTools .dental-services-details input[name=date_performed]').datetimepicker({
-    	timeFormat: "hh:mm tt"
+    	//timeFormat: "hh:mm tt"
+    	hourMin: 8,
+        hourMax: 18,
+    	stepMinute: 15
     });
 
     /*Typeahead add appointment*/
