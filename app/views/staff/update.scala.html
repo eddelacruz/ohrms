@@ -67,18 +67,17 @@
                                 <label>Address:</label>
                                 <textarea id="textarea-input-grow" class="autogrow" name="address" required="required" style="height: 50px; overflow: hidden; margin-top: 0px; margin-bottom: 0px;" rows="2">@sl.address</textarea>
                             </li>
-                            @if((play.cache.Cache.get("user_name")) == sl.userName){
+
                             <li>
                                 <label>Password:</label>
                                 <input type="password" name="password" required = "required" value="@sl.password">
                             </li>
-                            }
                         </ul>
                     </div>
                 </div>
             </div>
             <footer class="pane">
-                @if((play.cache.Cache.get("user_name")) == sl.userName || (play.cache.Cache.get("role")) == 0){
+                @if((play.cache.Cache.get("role")) == 0){
                     <input type="submit" class="bt blue right" value="@Messages("button.update")">
                 }
             </footer>
