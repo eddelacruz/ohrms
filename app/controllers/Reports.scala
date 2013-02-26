@@ -42,5 +42,9 @@ object Reports {
     return PDF.ok(html.reports._individual_patient.render(PatientDelegate.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id,start,count)))
   }
 
+  def _monthlyIncomeReport(start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._monthly_income.render(PaymentService.getMonthlyIncomeReport(start,count)))
+  }
+
 }
 

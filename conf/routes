@@ -78,6 +78,7 @@ GET     /reports/staff_list         controllers.Reports._staffList(start : Int ?
 GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCertificate(patientId)
 GET     /reports/payment_receipt/:id    controllers.Reports._paymentReceipt(id, start : Int ?= 0, count : Int ?= 25)
 GET     /reports/individual_patients/:id    controllers.Reports._individualPatientReport(id, start : Int ?= 0, count : Int ?= 25)
+GET     /reports/monthly_income    controllers.Reports._monthlyIncomeReport(start : Int ?= 0, count : Int ?= 25)
 
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)

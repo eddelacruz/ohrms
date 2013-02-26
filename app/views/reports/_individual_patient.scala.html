@@ -9,6 +9,7 @@
 
 <body>
 <p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
+<p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
  @patientList.map { pl =>
  @pl.firstName, @pl.middleName, @pl.lastName
 }

@@ -20,7 +20,7 @@ import java.math.BigDecimal
  */
 
 case class PaymentList(var id: String, patientId : Option[String], firstName: String, lastName: String, payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
-
+case class MonthlyIncome(var id: String, firstName : Option[String], lastName : Option[String], datePerformed : Option[String], price : Option[String],serviceName : Option[String])
 object PaymentService {
 
   def getRowCountOfTable(tableName: String): Long = {
@@ -28,6 +28,38 @@ object PaymentService {
       implicit c =>
         val rowCount = SQL("""select count(*) as c from """+tableName+""" where status = '1' """).apply().head
         rowCount[Long]("c")
+    }
+  }
+
+  def getMonthlyIncomeReport(start: Int, count: Int): List[MonthlyIncome] = {
+    DB.withConnection {
+      implicit c =>
+        val paymentList: List[MonthlyIncome] = SQL(
+          """
+            |select
+            |tp.id,
+            |pat.first_name,
+            |pat.middle_name,
+            |pat.last_name,
+            |tp.date_performed,
+            |tp.price,
+            |s.name
+            |from treatment_plan tp
+            |left outer JOIN patients pat ON  tp.patient_id = pat.id
+            |left outer JOIN dental_services s ON tp.service_id = s.id
+            |where date(tp.date_performed) between "2013-02-26" and "2013-02-26"
+            |ORDER BY tp.date_performed desc
+          """.stripMargin).on('start -> start, 'count -> count).as {
+          get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[Date]]("date_performed") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("name")  map {
+            case a ~ b ~ c  ~ d ~ e ~ f => MonthlyIncome(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e, f)
+          } *
+        }
+        paymentList
     }
   }
 
@@ -187,18 +219,6 @@ object PaymentService {
     var bal = getTotalPrices(patientId) - getTotalPayments(patientId)
     if(bal < 0 ) bal = 0
     bal
-  }
-
-
-  def getMonthlyIncome = {
-    DB.withConnection {
-      implicit c =>
-        SQL(
-          """select
-            |COALESCE(sum(tp.price), 0) as total_price
-            |from treatment_plan tp
-          """.stripMargin).as(scalar[Double].single)
-    }
   }
 
 }
