@@ -23,7 +23,7 @@
 
                 <div class="box-content">
                     @if(remindersToday.length == 0){
-                        <p>No reminders today. <a href="@routes.Announcement.getList()">add a reminder</a></p>
+                        <p>No reminders today. <a href="@routes.Announcement.getList()" target="_blank">add a reminder</a></p>
                     } else {
                         @remindersToday.map { rt =>
                         <p>@rt.dateCreated @rt.description - by @rt.username</p>
@@ -72,7 +72,7 @@
                 <div class="inner">
                     <div class="left title">
                         <h1>Today's Appoinments</h1>
-                        <a href="@routes.Scheduler.getCalendar()">view scheduler »</a>
+                        <a href="@routes.Scheduler.getCalendar()" target="_blank">view scheduler »</a>
                     </div>
                     <div class="right">
                         <a href="#" class="close">close</a>
@@ -83,13 +83,13 @@
             <div class="box-content no-inner-space" style="display: block; ">
                 <ul class="userlist">
                     @if(remindersToday.length == 0){
-                        <li class="first">No appointments at this time. <a href="@routes.Scheduler.getCalendar()">add an appointment</a></li>
+                        <li class="first">No appointments at this time. <a href="@routes.Scheduler.getCalendar()" target="_blank">add an appointment</a></li>
                     } else {
                         @appointmentsToday.map { at =>
                         <li class="first">
                             <!--<div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.png")" width="40" height="40" alt="avatar"></div>-->
                             <div class="info-l">
-                                <a href="#" class="title">@at.lastName, @at.firstName @at.middleName</a>
+                                <a href="#" class="title" target="_blank">@at.lastName, @at.firstName @at.middleName</a>
                                 <span>@at.contactNo</span>
                             </div>
                             <div class="info-r">
@@ -118,7 +118,7 @@
                 <div class="inner">
                     <div class="left title">
                         <h1>Latest Patients</h1>
-                        <a href="@routes.Patient.getList()">view patient list »</a>
+                        <a href="@routes.Patient.getList()" target="_blank">view patient list »</a>
                     </div>
                     <div class="right">
                         <a href="#" class="close">close</a>
@@ -128,13 +128,17 @@
 
             <div class="box-content no-inner-space latest-patients" style="display: block; ">
                 <ul class="userlist">
-                    @patientList.map { pl =>
-                    <li class="">
-                        <div class="info-l">
-                            <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title">@pl.lastName, @pl.firstName @pl.middleName</a>
-                            <span>@pl.address</span>
-                        </div>
-                    </li>
+                    @if(patientList.length == 0){
+                        <li class="first">No patients at this time. <a href="@routes.Patient.getAddForm()" target="_blank">add a patient</a></li>
+                    } else {
+                        @patientList.map { pl =>
+                        <li class="">
+                            <div class="info-l">
+                                <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title" target="_blank">@pl.lastName, @pl.firstName @pl.middleName</a>
+                                <span>@pl.address</span>
+                            </div>
+                        </li>
+                        }
                     }
                 </ul>
             </div>
