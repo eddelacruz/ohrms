@@ -130,7 +130,6 @@
                 <ul class="userlist">
                     @patientList.map { pl =>
                     <li class="">
-                        <div class="avatar"><img src="@routes.Assets.at("images/thumbs/anon.jpg")" width="40" height="40" alt="avatar"></div>
                         <div class="info-l">
                             <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title">@pl.lastName, @pl.firstName @pl.middleName</a>
                             <span>@pl.address</span>

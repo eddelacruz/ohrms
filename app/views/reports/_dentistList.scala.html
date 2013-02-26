@@ -75,10 +75,13 @@
 </head>
 <body>
 <div class="title">
-    Sabertooth Dental Clinic
+    @(play.cache.Cache.get("clinic-name"))
 </div>
 <div class="sub-title">
-    Malolos City, Bulacan
+    @(play.cache.Cache.get("clinic-address"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-contact_no"))
 </div>
 <br/>
 <div class="title2">

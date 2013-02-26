@@ -30,7 +30,9 @@ object DentistDelegate extends WsHelper{
       "prc_no" -> optional(text),
       "user_name" -> optional(text),
       "password" -> optional(text),
-      "specialization_name" -> optional(seq(text))
+      "specialization_name" -> optional(seq(text)),
+      "question" -> optional(text),
+      "answer" -> optional(text)
     )(DentistList.apply)(DentistList.unapply)
   )
 
@@ -70,7 +72,9 @@ object DentistDelegate extends WsHelper{
       (j \ "prcNo").asOpt[String],
       (j \ "userName").asOpt[String],
       (j \ "password").asOpt[String],
-      (j \ "specializationName").asOpt[Seq[String]]
+      (j \ "specializationName").asOpt[Seq[String]],
+      (j \ "question").asOpt[String],
+      (j \ "answer").asOpt[String]
     )
   }
 

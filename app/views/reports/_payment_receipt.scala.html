@@ -7,6 +7,16 @@
 
 <body>
 
+<div class="title">
+    @(play.cache.Cache.get("clinic-name"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-address"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-contact_no"))
+</div>
+
 @clinicList.map  { cl =>
 <center><h2>@cl.clinicName</h2></center>
 <center><h5>@cl.address</h5>  </center>

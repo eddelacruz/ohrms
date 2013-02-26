@@ -119,16 +119,16 @@
 
             <!-- bar -->
             <ul class="bar">
-                <li class="search first">
+                <!--<li class="search first">
                     <div>
                         <form>
-                            <!-- the "L" value represents the icon, don't change -->
+                            &lt;!&ndash; the "L" value represents the icon, don't change &ndash;&gt;
                             <input type="submit" value="L" class="tooltip glyph" original-title="Click to search">
                             <input type="text" placeholder="What you want to search?" name="s" style="display: none; ">
                         </form>
                     </div>
-                </li>
-                <li>
+                </li>-->
+                <li class="first">
                     <a href="@routes.Settings.settings()" class="tooltip" original-title="settings">
                         <span class="glyph settings"></span>
                     </a>
@@ -139,7 +139,7 @@
                     </a>
                 </li>
                 <li class="last">
-                    <a href="#" class="tooltip" original-title="edit profile">
+                    <a href="#">
                         <span class="glyph user"></span>
                         <span class="text">@(play.cache.Cache.get("user_name"))</span>
                     </a>
@@ -238,7 +238,7 @@ modal._add_patient()
 
 <footer>
     <div class="container_12">
-        <p>Sabertooth Dental Clinic <a href="#" target="_blank">Developers</a></p>
+        <p>@(play.cache.Cache.get("clinic-name")) <a href="#" target="_blank"> - About the Developers</a></p>
     </div>
 </footer>
 

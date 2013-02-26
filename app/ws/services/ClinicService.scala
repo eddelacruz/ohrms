@@ -179,6 +179,35 @@ object ClinicService {
     }
   }
 
+  def getClinic(): List[ClinicList] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select
+            |id,
+            |clinic_name,
+            |address,
+            |image,
+            |user_name,
+            |contact_number
+            |from
+            |clinic
+            |ORDER BY clinic_name
+            |LIMIT 1
+          """.stripMargin).as {
+            get[String]("id") ~
+            get[Option[String]]("clinic_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("image") ~
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("contact_number") map {
+            case a ~ b ~ c ~ d ~ e ~ f => ClinicList(a, b, c, d, e, f)
+          } *
+        }
+    }
+  }
+
 
 }
 

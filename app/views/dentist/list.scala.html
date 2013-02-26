@@ -1,4 +1,4 @@
-@(dentistList: List[ws.services.DentistList])
+@(dentistList: List[ws.services.DentistList],securityQuestions: List[ws.services.SecurityQuestion])
 
 @main(Messages("dentist.title")){
 
@@ -89,6 +89,16 @@
                                     <label>Specialization: <span>(optional)</span></label>
                                     <input type="text" class="specialization" name="specializationName[0]" data-count=0 value="" style="width: 85%;">
                                     <a href="#" class="bt blue left box" style="width: 10px;"><span class="glyph zoom-in"></span></a>
+                                </li>
+                                <p>Security Question:</p>
+                                <select class="large" name="question">
+                                    @securityQuestions.map { sq =>
+                                    <option value="@sq.id">@sq.question</option>
+                                    }
+                                </select>
+                                <li>
+                                    <label>Answer:</label>
+                                    <input type="text" name="answer" required = "required">
                                 </li>
                                 <br/>
                             </ul>

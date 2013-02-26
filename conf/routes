@@ -7,6 +7,7 @@ GET     /                           controllers.Application.login
 POST    /login_attempt              controllers.Application.authenticate
 GET     /login_wait                 controllers.Application.countdown
 GET     /login_question             controllers.Application.question
+POST    /security_question          controllers.Application.questionAuthenticate
 GET     /logout                     controllers.Application.logout
 GET     /settings                         controllers.Settings.settings
 GET     /dashboard                  controllers.Application.dashboard

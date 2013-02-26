@@ -34,6 +34,8 @@
             @helper.form(action = routes.Dentist.submitUpdateForm){
             <div class="field left">
                 <input type="hidden" name="id" value="@dl.id">
+                <input type="hidden" name="question" value="@dl.question">
+                <input type="hidden" name="answer" value="@dl.answer">
                 <ul>
                     <li>
                         <label>First Name:</label>
@@ -65,12 +67,10 @@
                         <label>PRC No:</label>
                         <input type="text" name="prc_no" required = "required" value="@dl.prcNo">
                     </li>
-                    @if((play.cache.Cache.get("user_name")) == dl.userName){
                     <li>
                         <label>Password:</label>
                         <input type="password" name="password" required = "required" value="@dl.password">
                     </li>
-                    }
                    <label>Specialization</label>
                     @for(sn <- dl.specializationName){
                     <li>
@@ -83,12 +83,8 @@
         </div>
     </div>
     <footer class="pane">
-        @if((play.cache.Cache.get("user_name")) == dl.userName) {
+        @if((play.cache.Cache.get("role")) == 0){
             <input type="submit" class="bt blue right" value="@Messages("button.update")">
-        }else {
-            @if((play.cache.Cache.get("role")) == 0){
-                <input type="submit" class="bt blue right" value="@Messages("button.update")">
-            }
         }
     </footer>
     }

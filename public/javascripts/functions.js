@@ -310,7 +310,6 @@ $(document).ready(function() {
 
     //for loading treatment plan
     var patientId = $('.patient_information').find('input[name=id]').val()
-    console.log(patientId);
     $.getJSON("/json/treatment_plan/"+patientId,
         function(data){
             $.each(data, function(key, value){
@@ -326,8 +325,11 @@ $(document).ready(function() {
                     imageHeight = tn.attr("height");
                     imageHeight2 = atn.attr("height");
 
+                    toothWithServiceFromDB.push("canvas"+vl.teethName+"_"+vl.serviceId);
+                    toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
+
                     if(vl.toolType === '1'){
-                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"' data-service='"+vl.serviceId+"'></canvas></div>");
                         var myCvs = document.getElementById(id);
                         var myCtx = myCvs.getContext('2d');
                         var imageObj = new Image();
@@ -338,7 +340,6 @@ $(document).ready(function() {
                     } else if(vl.toolType === '2') {
                         $('#'+vl.teethName+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
                         drawTemplate(vl.imageTemplate, id);
-                        console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+ot)
                         $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
                         drawTemplate(vl.imageTemplate, id2);
                     }
