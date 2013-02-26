@@ -29,7 +29,9 @@ object StaffDelegate extends WsHelper{
       "address" -> optional(text),
       "position" -> optional(text),
       "user_name" -> optional(text),
-      "password" -> optional(text)
+      "password" -> optional(text),
+      "question" -> optional(text),
+      "answer" -> optional(text)
     )(StaffList.apply)(StaffList.unapply)
   )
 
@@ -56,7 +58,9 @@ object StaffDelegate extends WsHelper{
       (j \ "address").asOpt[String],
       (j \ "position").asOpt[String],
       (j \ "userName").asOpt[String],
-      (j \ "password").asOpt[String]
+      (j \ "password").asOpt[String],
+      (j \ "question").asOpt[String],
+      (j \ "answer").asOpt[String]
     )
   }
 

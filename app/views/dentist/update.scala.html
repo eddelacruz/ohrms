@@ -34,6 +34,8 @@
             @helper.form(action = routes.Dentist.submitUpdateForm){
             <div class="field left">
                 <input type="hidden" name="id" value="@dl.id">
+                <input type="hidden" name="question" value="@dl.question">
+                <input type="hidden" name="answer" value="@dl.answer">
                 <ul>
                     <li>
                         <label>First Name:</label>

@@ -21,13 +21,13 @@ import play.api.Play.current
 object Dentist extends Controller with Secured{
 
   def searchDentistList(start: Int, count: Int, filter: String) = Action {
-    Ok(dentist.list(DentistDelegate.searchDentistList(start,count,filter)))
+    Ok(dentist.list(DentistDelegate.searchDentistList(start,count,filter),DentistService.getAllSecurityQuestion()))
   }
 
   def getList(start: Int, count: Int) = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(dentist.list(DentistDelegate.getDentistList(start,count)))
+        Ok(dentist.list(DentistDelegate.getDentistList(start,count),DentistService.getAllSecurityQuestion()))
   }
 
   def getDentistInformationById(id: String) = IsAuthenticated {
@@ -104,7 +104,7 @@ object Dentist extends Controller with Secured{
   def getAll() = IsAuthenticated {
     username =>
       implicit request =>
-        Ok(dentist.list(DentistDelegate.getAllDentists()))
+        Ok(dentist.list(DentistDelegate.getAllDentists(),DentistService.getAllSecurityQuestion()))
   }
 
 }
