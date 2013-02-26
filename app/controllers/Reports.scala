@@ -6,7 +6,7 @@ import play.api.mvc._
 import play.mvc.Result
 import util.pdf.PDF
 import views._
-import ws.delegates.{StaffDelegate, DentistDelegate, PatientDelegate, DentalServiceDelegate, ClinicDelegate, PaymentDelegate}
+import ws.delegates._
 import ws.services.PaymentService
 
 /**
@@ -37,6 +37,10 @@ object Reports {
     def _paymentReceipt(id: String, start: Int, count: Int): Result = {
       return PDF.ok(html.reports._payment_receipt.render(PaymentDelegate.getPaymentById(id), ClinicDelegate.getClinicList(start,count), PaymentService.getPaymentBalance(id)))
     }
+
+  def _individualPatientReport(id: String, start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._individual_patient.render(PatientDelegate.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id,start,count)))
+  }
 
 }
 

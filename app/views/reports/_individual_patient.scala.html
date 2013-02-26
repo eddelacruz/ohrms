@@ -1,0 +1,34 @@
+@(patientList: List[ws.services.PatientList], treatmentPlan: List[ws.services.TreatmentPlanType])
+@import play.cache.Cache
+@import ws.helper.DateWithTime
+
+<!DOCTYPE html>
+
+<html>
+<head><title>Sabertooth Dental Clinic</title></head>
+
+<body>
+<p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
+ @patientList.map { pl =>
+ @pl.firstName, @pl.middleName, @pl.lastName
+}
+<tr class="center">
+    <td>Service Name</td>
+    <td>Teeth Name</td>
+    <td>Price</td>
+    <td>Date Performed</td>
+    <td>Dentist Name</td>
+</tr>
+ @treatmentPlan.map { tp =>
+
+ <tr class="center">
+     <td>@tp.serviceName</td>
+     <td>@tp.teethName</td>
+     <td><span class="pesos">P</span> @tp.servicePrice</td>
+     <td>@tp.datePerformed</td>
+     <td>Dr. @tp.dentistName</td>
+ </tr>
+ }
+
+</body>
+</html>
