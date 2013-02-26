@@ -1055,4 +1055,24 @@ function res() {
         };
     });
 
+    /*contact number 6-12 digits only*/
+    $('input[name=contact_no]#contact_no').on("keyup", function(e){
+        var len = $(this).val().length;
+        if($(this).val().match(/^[0-9]+$/) === null){
+            $(this).attr("value","");
+        }
+    });
+
+    $('input[name=contact_no]#contact_no').on("blur", function(e){
+        var len = $(this).val().length;
+        if($(this).val().length < 6 || $(this).val().length > 12){
+            var a = $(this).val().substr(0,12);
+            $(this).attr("value",a);
+            alert("Please enter a valid contact number.");
+        }
+    }).on('keydown', function(e) {
+    if (e.keyCode==8)
+        $(this).trigger('keypress');
+    });
+
 });
