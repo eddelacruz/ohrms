@@ -79,11 +79,6 @@
                 @if((play.cache.Cache.get("user_name")) == sl.userName || (play.cache.Cache.get("role")) == 0){
                     <input type="submit" class="bt blue right" value="@Messages("button.update")">
                 }
-
-
-                @if((play.cache.Cache.get("role")) == 0){
-                    <a id="delete_staff" class="bt red left" href="#" data-staff_id="@sl.id">@Messages("button.delete")</a>
-                }
             </footer>
             }
             }
