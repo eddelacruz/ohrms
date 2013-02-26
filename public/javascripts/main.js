@@ -1046,8 +1046,13 @@ function res() {
     });
 
     /*add dental service change of tool type*/
-    $('select[name=targe]').on("change", function(){
-        alert("wenk wenk");
+    $('select[name=target]').on("change", function(){
+        if($(this).val() === '2' || $(this).val() === '3'){
+            $('select[name=image_template]').parent().show();
+        } else {
+            $('select[name=image_template]').val('')
+            $('select[name=image_template]').parent().hide();
+        };
     });
 
 });
