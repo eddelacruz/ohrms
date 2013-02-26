@@ -19,8 +19,7 @@ import java.math.BigDecimal
  * To change this template use File | Settings | File Templates.
  */
 
-case class PaymentList(var id: String, patientId : Option[String], payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
-case class PaymentDetails(p: PaymentList, totalPayment: Option[Double], balance: Option[Double], totalPrice: Option[Double])
+case class PaymentList(var id: String, patientId : Option[String], firstName: String, lastName: String, payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
 
 object PaymentService {
 
@@ -31,7 +30,6 @@ object PaymentService {
         rowCount[Long]("c")
     }
   }
-
 
   def getPaymentsByPatientId(start: Int, count: Int, patientId: String): List[PaymentList] = {
     DB.withConnection {
@@ -54,22 +52,24 @@ object PaymentService {
             |ORDER BY pay.date_of_payment desc
             |LIMIT {start}, {count}
           """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId).as {
-            get[String]("id") ~
+          get[String]("id") ~
             get[Option[String]]("patient_id") ~
+            get[String]("first_name") ~
+            get[String]("last_name") ~
             get[Option[String]]("payment")~
             get[Option[Date]]("date_of_payment") ~
             get[Option[String]]("user_name")map {
-            case a ~ b ~ c  ~ d ~ e  => PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
+            case a ~ b ~ f ~ g ~ c  ~ d ~ e  => PaymentList(a, b, f, g, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
           } *
         }
         paymentList
     }
   }
 
-  def getPaymentDetails(start: Int, count: Int,patientId: String) : List[PaymentDetails] ={
+  def getPaymentById(id: String): List[PaymentList] ={
     DB.withConnection {
       implicit c =>
-      val paymentDetails: List[PaymentDetails] = SQL(
+      val paymentDetails: List[PaymentList] = SQL(
         """
           |select
           |pay.id,
@@ -80,82 +80,24 @@ object PaymentService {
           |pat.first_name,
           |pat.middle_name,
           |pat.last_name,
-          |pay.user_name,
-          |SUM(pay.payment) as total_payment,
-          |SUM(tp.price) as total_price,
-          |(SUM(tp.price) - SUM(pay.payment)) as balance
-          |from
-          |payments pay
+          |pay.user_name
+          |from payments pay
           |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
-          |LEFT OUTER JOIN treatment_plan tp ON pay.patient_id=tp.patient_id
-          |where pay.patient_id = {patient_id}
-        """.stripMargin).on('start -> start, 'count -> count, 'patient_id -> patientId).as{
-          get[Option[String]]("id") ~
+          |where pay.id = {id}
+        """.stripMargin).on('id -> id).as {
+        get[String]("id") ~
           get[Option[String]]("patient_id") ~
+          get[String]("first_name") ~
+          get[String]("last_name") ~
           get[Option[String]]("payment")~
           get[Option[Date]]("date_of_payment") ~
-          get[Option[String]]("user_name") ~
-          get[Option[BigDecimal]]("total_payment")~
-          get[Option[BigDecimal]]("balance") ~
-          get[Option[BigDecimal]]("total_price")  map {
-          case a ~ b ~ c  ~ d ~ e ~ f ~ g ~ h => PaymentDetails(PaymentList(a.toString, b, c, Some(d.toString.replace("Some(", "").replace(".0)","")), e), Some(f.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble), Some(g.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble), Some(h.toString().replace("Some(", "").replace(")","").replace("None","0").toDouble))
-        }*
+          get[Option[String]]("user_name")map {
+          case a ~ b ~ f ~ g ~ c  ~ d ~ e  => PaymentList(a, b, f, g, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
+        } *
       }
-        paymentDetails
+      paymentDetails
     }
   }
-
-  /*def getPaymentsByPatientIdById(patientId: String, id: String): List[PaymentList] = {
-    DB.withConnection {
-      implicit c =>
-        val paymentList: List[PaymentList] = SQL(
-          """
-            |select
-            |pay.id,
-            |pay.patient_id,
-            |pay.user_name,
-            |pay.date_of_payment,
-            |pay.payment,
-            |pat.first_name,
-            |pat.middle_name,
-            |pat.last_name,
-            |pay.user_name,
-            |SUM(pay.payment) as total_payment,
-            |SUM(tp.price) as total_price,
-            |(SUM(tp.price) - SUM(pay.payment)) as balance
-            |from payments pay
-            |LEFT OUTER JOIN patients pat ON pay.patient_id=pat.id
-            |where pay.patient_id = {patient_id}
-            |ORDER BY pay.date_of_payment desc
-            |LIMIT {start}, {count}
-          """.stripMargin).on('patient_id -> patientId, 'id -> id).as {
-          get[String]("id") ~
-            get[Option[String]]("patient_id") ~
-            get[Option[String]]("payment")~
-            get[Option[Date]]("date_of_payment") ~
-            get[Option[String]]("user_name")map {
-            case a ~ b ~ c  ~ d ~ e  => PaymentList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e)
-          } *
-        }
-        paymentList
-    }
-  }
-*/
-  /*def getTotalPayment(patientId: String)  {
-    DB.withConnection {
-      implicit c =>
-        val getTotalPayment = SQL(
-          """
-            |select
-            |SUM(payment) as total_payment
-            |from payments
-            |where patient_id = {patient_id}
-            |ORDER BY pay.date_of_payment desc
-          """.stripMargin
-        ).on('patient_id -> patientId).apply().head
-        getTotalPayment[String]("total_payment")
-    }
-  }*/
 
   val username =  Cache.getAs[String]("user_name").toString.replace("Some", "").replace("(","").replace(")","")
 
@@ -259,7 +201,4 @@ object PaymentService {
     }
   }
 
-
-
 }
-

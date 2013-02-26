@@ -18,7 +18,7 @@ import ws.generator.UUIDGenerator
  * To change this template use File | Settings | File Templates.
  */
 
-case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String], userName: Option[String])
+case class ClinicList(var id: String, clinicName: Option[String], address: Option[String], image: Option[String], userName: Option[String], contactNumber: Option[String])
 
 object ClinicService {
 
@@ -42,7 +42,8 @@ object ClinicService {
             |clinic_name,
             |address,
             |image,
-            |user_name
+            |user_name,
+            |contact_number
             |from
             |clinic
             |ORDER BY clinic_name asc
@@ -52,8 +53,9 @@ object ClinicService {
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address")~
             get[Option[String]]("image") ~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c  ~ d ~ e => ClinicList(a, b, c, d, e)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("contact_number") map {
+            case a ~ b ~ c  ~ d ~ e ~ f=> ClinicList(a, b, c, d, e, f)
           } *
         }
         clinicList
@@ -70,7 +72,8 @@ object ClinicService {
             |clinic_name,
             |address,
             |image,
-            |user_name
+            |user_name,
+            |contact_number
             |from
             |clinic
             |where id = {id}
@@ -80,8 +83,9 @@ object ClinicService {
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
             get[Option[String]]("image") ~
-            get[Option[String]]("user_name")  map {
-            case a ~ b ~ c ~ d ~ e=> ClinicList(a, b, c, d, e)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("contact_number") map {
+            case a ~ b ~ c ~ d ~ e ~ f=> ClinicList(a, b, c, d, e, f)
           } *
         }
         clinicList
@@ -110,8 +114,9 @@ object ClinicService {
             get[Option[String]]("clinic_name") ~
             get[Option[String]]("address") ~
             get[Option[String]]("image") ~
-            get[Option[String]]("user_name") map {
-            case a ~ b ~ c ~ d ~ e => ClinicList(a, b, c, d, e)
+            get[Option[String]]("user_name") ~
+            get[Option[String]]("contact_number") map {
+            case a ~ b ~ c ~ d ~ e ~ f=> ClinicList(a, b, c, d, e, f)
           } *
         }
         clinicList
@@ -133,13 +138,15 @@ object ClinicService {
             |{clinic_name},
             |{address},
             |{image},
-            |{user_name})
+            |{user_name},
+            |{contact_number})
           """.stripMargin).on(
           'id -> d.id,
           'clinic_name -> d.clinicName,
           'address -> d.address,
           'image -> d.image,
-          'user_name -> d.userName
+          'user_name -> d.userName,
+          'contact_number -> d.contactNumber
         ).executeUpdate()
       AuditLogService.logTaskClinic(d, currentUser, task)
     }
@@ -157,14 +164,16 @@ object ClinicService {
             |clinic_name = {clinic_name},
             |address = {address},
             |image = {image},
-            |user_name = {user_name}
+            |user_name = {user_name},
+            |contact_number = {contact_number}
             |WHERE id = {id}
           """.stripMargin).on(
           'id -> p.id,
           'clinic_name -> p.clinicName,
           'address -> p.address,
           'image -> p.image,
-          'user_name -> p.userName
+          'user_name -> p.userName,
+          'contact_number -> p.contactNumber
         ).executeUpdate()
         AuditLogService.logTaskClinic(p, currentUser, task)
     }

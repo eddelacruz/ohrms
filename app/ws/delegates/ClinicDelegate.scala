@@ -25,7 +25,8 @@ object ClinicDelegate extends WsHelper{
       "clinic_name" -> optional(text),
       "address" -> optional(text),
       "image" -> optional(text),
-      "user_name" -> optional(text)
+      "user_name" -> optional(text),
+      "contact_number" -> optional(text)
     )(ClinicList.apply)(ClinicList.unapply)
   )
 
@@ -60,7 +61,8 @@ object ClinicDelegate extends WsHelper{
       (j \ "clinicName").asOpt[String],
       (j \ "address").asOpt[String],
       (j \ "image").asOpt[String],
-      (j \ "user_name").asOpt[String]
+      (j \ "user_name").asOpt[String],
+      (j \ "contact_number").asOpt[String]
     )
   }
 
