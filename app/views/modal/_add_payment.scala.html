@@ -1,6 +1,24 @@
 @(paymentList: List[ws.services.PaymentList], patientId: String, balance: Double)
 
 <!-- AddPaymentModal -->
+        <script type="text/javascript">
+//compute balance
+function computeBalance(){
+
+var payment = document.getElementById('payment');
+var balance = @balance;
+var bal = document.getElementById('balance');
+            //alert(balance);
+
+if (payment.value > balance){
+alert("Payment exceed!");
+payment.value = "";
+}
+else {
+bal.value = balance - payment.value;
+}
+}
+</script>
 <div class="box grid_5" id="addPaymentModal" hidden="">
     <header>
         <div class="inner">
@@ -25,7 +43,7 @@
                         <label>Payment:</label>
                     </td>
                     <td>
-                        <input type="text" name="payment"/>
+                        <input type="text" id="payment" name="payment" required = "required" onblur="computeBalance()"/>
                     </td>
                 </tr>
                 <tr>
@@ -33,7 +51,7 @@
                         <label>Balance:</label>
                     </td>
                     <td>
-                        <input type="text" disabled="disabled" value="@balance"/>
+                        <input type="text" id="balance" disabled="disabled" value="@balance"/>
                     </td>
                 </tr>
             </table>

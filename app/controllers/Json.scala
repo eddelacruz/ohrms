@@ -208,8 +208,9 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("image").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
+      val contactNumber = request.body.asFormUrlEncoded.get("contact_number").headOption
 
-      val pl = ClinicList("", clinicName, address, image, userName)
+      val pl = ClinicList("", clinicName, address, image, userName, contactNumber)
 
       if (ClinicService.addClinic(pl) >= 1) {
         //Redirect("/clinic")
@@ -228,7 +229,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val address = request.body.asFormUrlEncoded.get("address").headOption
       val image = request.body.asFormUrlEncoded.get("imaging").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val pl = ClinicList(id, clinicName, address, image, userName)
+      val contactNumber = request.body.asFormUrlEncoded.get("contact_number").headOption
+      val pl = ClinicList(id, clinicName, address, image, userName, contactNumber)
 
       if (ClinicService.updateClinic(pl) >= 1) {
         Status(200)
@@ -670,15 +672,12 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       }
   }
 
-
   def getPaymentsByPatientId(start: Int, count: Int, patientId: String) = Action {
     Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentsByPatientId(start,count,patientId)))))
   }
 
-  def getPaymentDetails(start: Int, count: Int, patientId: String) = Action {
-    var totalPayment = PaymentService.getPaymentDetails(start: Int, count: Int, patientId: String)
-    Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentDetails(start: Int, count: Int, patientId: String)))))
-    //Ok(totalPayment)
+  def getPaymentById(id: String) = Action {
+    Ok(JsObject(Seq("PaymentList" -> toJson(PaymentService.getPaymentById(id)))))
   }
 
   def getTotalPayments(patientId: String) = Action {
@@ -700,7 +699,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val payment = request.body.asFormUrlEncoded.get("payment").headOption
       val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val dl = PaymentList("", patientId, payment, paymentDate, userName)
+      val dl = PaymentList("", patientId, "", "", payment, paymentDate, userName)
 
       if (PaymentService.updatePayment(dl) >= 1) {
         Status(200)
@@ -717,7 +716,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val payment = request.body.asFormUrlEncoded.get("payment").headOption
       val paymentDate = request.body.asFormUrlEncoded.get("date_of_payment").headOption
       val userName = request.body.asFormUrlEncoded.get("user_name").headOption
-      val dl = PaymentList("", patientId, payment, paymentDate, userName)
+      val dl = PaymentList("", patientId, "", "", payment, paymentDate, userName)
 
       if (PaymentService.addPayment(dl) >= 1) {
         Redirect("/patients")

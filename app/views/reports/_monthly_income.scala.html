@@ -1,0 +1,34 @@
+@(monthlyIncome: List[ws.services.MonthlyIncome])
+@import play.cache.Cache
+@import ws.helper.DateWithTime
+
+<!DOCTYPE html>
+
+<html>
+<head><title>Sabertooth Dental Clinic</title></head>
+
+<body>
+<center><h2>Monthly Income Report</h2></center>
+<center>Date Start:  wla pa     Date End: wla pa</center>
+<p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
+<p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
+
+
+<tr class="center">
+    <td>Patient's Name</td>
+    <td>Service Name</td>
+    <td>Price</td>
+    <td>Date Performed</td>
+</tr>
+@monthlyIncome.map { mi =>
+<tr class="center">
+    <td>@mi.firstName @mi.lastName</td>
+    <td>@mi.serviceName</td>
+    <td><span class="pesos">P</span> @mi.price</td>
+    <td>@mi.datePerformed</td>
+</tr>
+}
+
+Total:    wala pa
+</body>
+</html>

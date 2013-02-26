@@ -9,7 +9,6 @@ import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
 import ws.services.PaymentList
-import ws.services.PaymentDetails
 import play.api.libs.ws.Response
 import play.api.data.format.Formatter
 import play.api.data.Mapping
@@ -36,6 +35,8 @@ object PaymentDelegate extends WsHelper{
     mapping(
       "id" -> text,
       "patient_id" -> optional(text),
+      "first_name" -> text,
+      "last_name" -> text,
       "payment" -> optional(text),
       "date_of_payment" -> optional(text),
       "user_name" -> optional(text)
@@ -59,23 +60,11 @@ object PaymentDelegate extends WsHelper{
     new PaymentList(
       (j \ "id").as[String],
       (j \ "patientId").asOpt[String],
+      (j \ "firstName").as[String],
+      (j \ "lastName").as[String],
       (j \ "payment").asOpt[String],
       (j \ "dateOfPayment").asOpt[String],
       (j \ "userName").asOpt[String]
-    )
-  }
-
-  def convertToPaymentDetails(json: Seq[JsValue]): PaymentDetails = {
-    new PaymentDetails(
-      new PaymentList(
-        (json.head \ "id").as[String],
-        (json.headOption.get \ "patientId").asOpt[String],
-        (json.headOption.get \ "payment").asOpt[String],
-        (json.headOption.get \ "dateOfPayment").asOpt[String],
-        (json.headOption.get \ "userName").asOpt[String]
-      ), (json.tail.headOption.get \ "totalPayment").asOpt[Double],
-        (json.tail.headOption.get \ "balance").asOpt[Double],
-        (json.tail.headOption.get \ "totalPrice").asOpt[Double]
     )
   }
 
@@ -93,5 +82,16 @@ object PaymentDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+  def getPaymentById(id: String) = {
+    val res: Promise[Response] = doGet("/json/reports/payment_receipt/"+id)
+    val json: JsValue = res.await.get.json
+    val pl = ListBuffer[PaymentList]()
+
+    (json \ "PaymentList").as[Seq[JsObject]].map({
+      p =>
+        pl += convertToPaymentList(p)
+    })
+    pl.toList
+  }
 }
 

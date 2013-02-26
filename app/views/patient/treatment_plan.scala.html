@@ -238,7 +238,7 @@
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr>
                         @paymentList.map { pl =>
-                        <td class="  sorting_1"><a href="#">@pl.id</a></td>
+                        <td class="sorting_1">@pl.id</td>
                         <td>@pl.dateOfPayment</td>
                         <td>@pl.payment</td>
                         <td>@pl.userName</td>
@@ -257,9 +257,18 @@
                 </div>
             </div>
         </div>
-
-
-
+            <ul>
+                <li class="last">
+                    Total Payment: <span class="label">@totalPayments</span>
+                    Remaining Balance: <span class="label">@balance</span>
+                    <!--<a class="bt blue right" href="#addAppointmentModal" class="modal">Pay!</a>-->
+                    @if(balance > 0){
+                    <a href="#addPaymentModal" class="modal">
+                        Proceed to Counter
+                    </a>}
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 

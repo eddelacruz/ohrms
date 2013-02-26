@@ -1,0 +1,32 @@
+@(paymentList: List[ws.services.PaymentList], clinicList: List[ws.services.ClinicList], balance: Double)
+@import play.cache.Cache
+<!DOCTYPE html>
+
+<html>
+<head><title>Sabertooth Dental Clinic</title></head>
+
+<body>
+
+@clinicList.map  { cl =>
+<center><h2>@cl.clinicName</h2></center>
+<center><h5>@cl.address</h5>  </center>
+<center><h5>@cl.contactNumber</h5> </center>
+}
+
+@paymentList.map { pl =>
+Payment Id: <h5>@pl.id</h5>
+Date: <h5>@pl.dateOfPayment</h5>
+
+
+<div>Name:  @pl.firstName, @pl.lastName</div>
+<div>Payment Cash:  @pl.payment</div>
+<div>Balance:  @balance</div>
+<div>Remarks:
+_________________________________________________________________________________________.</div>
+                                                                                <div>Received by:</div>
+                                                                                <div>__________________________</div>
+                                                                                 <div>@(play.cache.Cache.get("user_name"))</div>
+
+}
+</body>
+</html>
