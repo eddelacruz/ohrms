@@ -32,7 +32,7 @@ object AuditLogDelegate extends WsHelper{
   )
 
   def getAllLogs(start: Int, count: Int) = {
-    val res: Promise[Response] = doGet("/json/settings/audit_log")
+    val res: Promise[Response] = doGet("/json/settings/audit_log?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json
     val al = ListBuffer[AuditLog]()
 
