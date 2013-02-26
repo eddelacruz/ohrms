@@ -37,27 +37,21 @@ bal.value = balance - payment.value;
             <input type="hidden" name="date_of_payment"/>
             <input type="hidden" name="user_name"/>
             <input type="hidden" name="patient_id" value="@patientId"/>
-            <table>
-                <tr>
-                    <td>
-                        <label>Payment:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="payment" name="payment" required = "required" onblur="computeBalance()"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <label>Balance:</label>
-                    </td>
-                    <td>
-                        <input type="text" id="balance" disabled="disabled" value="@balance"/>
-                    </td>
-                </tr>
-            </table>
+
+           <table>
+                <ul>
+                    <li>
+                        <label class="upper">Payment:</label>
+                       <div class="center"><input style="width: 250px;" class="center" type="text" id="payment" name="payment" required = "required" onblur="computeBalance()"/> </div>
+                    </li>
+                    <li>
+                        <label class="upper">Balance:</label>    </br>
+                        <div class="center"><input style="width: 250px;" type="text" id="balance" disabled="disabled" value="@balance"/></div>
+                    </li> </ul>
+           </table>
         </div>
         <footer class="pane">
-            <input type="submit" class="bt blue right" value="Pay! ">
+            <input type="submit" class="bt blue right" value="Pay ">
         </footer>
           }
     </div>
