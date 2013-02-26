@@ -248,6 +248,18 @@ object PaymentService {
   }
 
 
+  def getMonthlyIncome = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """select
+            |COALESCE(sum(tp.price), 0) as total_price
+            |from treatment_plan tp
+          """.stripMargin).as(scalar[Double].single)
+    }
+  }
+
+
 
 }
 

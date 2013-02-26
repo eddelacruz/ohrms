@@ -90,7 +90,19 @@
         if (!/^[0-9]+$/.test(e.value))
         {
         alert("Please enter numbers Only.");
-        e.value = e.value.substring(0,e.value.length-1);
+        e.value = e.value.substring(0,e.value.length.value="");
+        }
+        }
+
+        function confirmPassword(){
+
+        var password = document.getElementById('password');
+        var confirmPassword = document.getElementById('confirmpassword');
+
+        if (password.value != confirmPassword.value)
+        {
+        alert("Password not matched");
+        confirmPassword.value = confirmPassword.value.substring(0,confirmPassword.value="");
         }
         }
 
