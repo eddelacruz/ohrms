@@ -532,4 +532,14 @@ object DentistService {
     }
   }
 
+  def getAllSpecializationNames: List[String] = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |select Distinct(name) from specializations where status = 1;
+          """.stripMargin).as( str("name") * )
+    }
+  }
+
 }

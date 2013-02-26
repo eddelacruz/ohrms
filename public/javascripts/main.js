@@ -634,7 +634,7 @@ $(window).load(function(){
            var dataCount = currentIndex
            var name = "specializationName["+(currentIndex)+"]";
            e.preventDefault();
-           $('#specialization_list').append('<li><input type="text" name='+name+'  data-count='+dataCount+' value="" style="width: 81%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
+           $('#specialization_list').append('<li><input type="text" class="specialization" name='+name+'  data-count='+dataCount+' value="" style="width: 85%;"><a href="#" class="bt blue left" style="width: 10px;"><span class="glyph zoom-in"></span></a></li><br/>');
         }
     );
 
@@ -1042,6 +1042,22 @@ function res() {
             updater: function(val) {
                 return(val);
             }
+        });
+    });
+
+    /*Typeahead add dental service*/
+    $('input[type=text].specialization').on("keypress", function(e){
+        $.getJSON("/json/specialization/all/names", function(data){
+            $('input[type=text].specialization').typeahead({
+                source: data,
+                items: 8,
+                highlighter: function(item){
+                    return '<div class="typeahead">'+item+'</div>'
+                },
+                updater: function(val) {
+                    return(val);
+                }
+            });
         });
     });
 

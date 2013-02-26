@@ -158,6 +158,7 @@ GET     /json/payments/:patientId/total_payments     controllers.Json.getTotalPa
 GET     /json/payments/:patientId/total_prices     controllers.Json.getTotalPrices(patientId)
 GET     /json/payments/:patientId/balance     controllers.Json.getPaymentBalance(patientId)
 GET     /json/dental_services/all/types         controllers.Json.getAllDentalServiceTypes
+GET     /json/specialization/all/names         controllers.Json.getAllSpecializationNames
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload
