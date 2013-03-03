@@ -399,16 +399,14 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val serviceId = treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.headOption
           val servicePrice = treatmentPlan.get("Treatment_Plan["+index+"][service_price]").get.headOption
           val datePerformed = treatmentPlan.get("Treatment_Plan["+index+"][date_performed]").get.headOption
-          val teethName = treatmentPlan.get("Treatment_Plan["+index+"][teeth_name]").get.headOption
+          val teethId = treatmentPlan.get("Treatment_Plan["+index+"][teeth_name]").get.headOption
           val patientId = treatmentPlan.get("Treatment_Plan["+index+"][patient_id]").get.headOption
           val dentistId = treatmentPlan.get("Treatment_Plan["+index+"][dentist_id]").get.headOption
           val image = treatmentPlan.get("Treatment_Plan["+index+"][image]").get.headOption
 
-          println(">>>>"+datePerformed)
+          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethId, Some(""), Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
 
-          val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethName, Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
-
-          val abc = teethName.get.charAt(0)
+          val abc = teethId.get.charAt(0)
           if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2) {
             tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)

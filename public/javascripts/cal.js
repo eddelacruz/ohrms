@@ -349,11 +349,21 @@ $(document).ready(function() {
             closing = 18
             var startHour = start.getHours();
             var endHour = end.getHours();
+            var dateNow = new Date();
+            //dateNow = dateNow
 
             //alert(opening > startHour);
             //alert(closing +"<"+ endHour);
 
-            if(startHour >= opening && endHour <= closing && endHour !== 0 ){
+            /*var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+
+            var yyyy = today.getFullYear();
+            if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
+            document.write(today);*/
+
+            if(startHour >= opening && endHour <= closing && endHour !== 0){
                 //fullfill variables
                 if(end.getHours() !== closing || end.getMinutes() < 30){ //for 5 to 5:30  and 8 to 8:30
                     allDayVar = allDay;
@@ -436,9 +446,9 @@ $(document).ready(function() {
               url: "/json/appointments/update",
               dataType: "json",
               data: json,
-              error: function(xhr, ajaxOptions, thrownError){
+              /*error: function(xhr, ajaxOptions, thrownError){
                 //alert(xhr.status);
-              },
+              },*/
               beforeSend: function(x) {
                 if (x && x.overrideMimeType) {
                     x.overrideMimeType("application/j-son;charset=UTF-8");

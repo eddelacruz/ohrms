@@ -50,6 +50,7 @@ object TreatmentPlanDelegate extends WsHelper{
       (j \ "servicePrice").asOpt[String],
       (j \ "color").asOpt[String],
       (j \ "datePerformed").asOpt[String],
+      (j \ "teethId").asOpt[String],
       (j \ "teethName").asOpt[String],
       (j \ "teethView").asOpt[String],
       (j \ "teethPosition").asOpt[String],

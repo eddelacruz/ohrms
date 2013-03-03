@@ -315,10 +315,10 @@ $(document).ready(function() {
             $.each(data, function(key, value){
                 $.each(value, function(ky, vl){
                     //console.log(vl.toolType);
-                    var tn = $('#'+vl.teethName+' > canvas');
-                    var ot = otherTooth(vl.teethName);
+                    var tn = $('#'+vl.teethId+' > canvas');
+                    var ot = otherTooth(vl.teethId);
                     var atn = $('#'+ot+' > canvas');
-                    var id = "canvas"+vl.teethName+"_"+vl.serviceId+"_"+vl.id;
+                    var id = "canvas"+vl.teethId+"_"+vl.serviceId+"_"+vl.id;
                     var id2 = "canvas"+ot+"_"+vl.serviceId+"_"+vl.id;
                     imageWidth = tn.attr("width");
                     imageWidth2 = atn.attr("width");
@@ -329,7 +329,7 @@ $(document).ready(function() {
                     toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
 
                     if(vl.toolType === '1'){
-                        $('#'+vl.teethName).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"' data-service='"+vl.serviceId+"'></canvas></div>");
+                        $('#'+vl.teethId).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"' data-service='"+vl.serviceId+"'></canvas></div>");
                         var myCvs = document.getElementById(id);
                         var myCtx = myCvs.getContext('2d');
                         var imageObj = new Image();
@@ -338,7 +338,7 @@ $(document).ready(function() {
                         }
                         imageObj.src = vl.image;
                     } else if(vl.toolType === '2') {
-                        $('#'+vl.teethName+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                        $('#'+vl.teethId+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
                         drawTemplate(vl.imageTemplate, id);
                         $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
                         drawTemplate(vl.imageTemplate, id2);

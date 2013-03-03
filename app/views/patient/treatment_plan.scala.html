@@ -62,6 +62,22 @@
                         <label>Gender:</label>
                         @{pl.gender match {
                         case "m" => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                         <label class="form-label">Male</label>
                         }
                         case "f" => {
@@ -214,11 +230,6 @@
                 <table class="datatable dataTable" id="DataTables_Table_0">
                     <thead>
                     <tr role="row">
-                        <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
-                            <div class="parentsort">Payment Id
-                                <div class="sorticon"></div>
-                            </div>
-                        </th>
                         <th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
                             <div class="parentsort">Date of Payment
                                 <div class="sorticon"></div>
@@ -240,7 +251,6 @@
                     <tbody role="alert" aria-live="polite" aria-relevant="all">
                     <tr>
                         @paymentList.map { pl =>
-                        <td class="sorting_1">@pl.id</td>
                         <td>@pl.dateOfPayment</td>
                         <td>@pl.payment</td>
                         <td>@pl.userName</td>

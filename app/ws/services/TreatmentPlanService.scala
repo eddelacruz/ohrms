@@ -17,7 +17,7 @@ import ws.helper.DateWithTime
  * To change this template use File | Settings | File Templates.
  */
 
-case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], var image: Option[String], imageTemplate: Option[String])
+case class TreatmentPlanType(var id: String, serviceId: Option[String], serviceName: Option[String], serviceCode: Option[String], toolType: Option[String], serviceType: Option[String], servicePrice: Option[String], color: Option[String], datePerformed: Option[String], teethId: Option[String], teethName: Option[String], teethView: Option[String], teethPosition: Option[String], teethType: Option[String], patientId: Option[String], dentistId: Option[String], dentistName: Option[String], var image: Option[String], imageTemplate: Option[String])
 
 object TreatmentPlanService {
 
@@ -56,7 +56,7 @@ object TreatmentPlanService {
         'dentist_id -> tp.dentistId,
         'status -> 1,
         'image -> tp.image,
-        'teeth_id -> tp.teethName,
+        'teeth_id -> tp.teethId,
         'price -> tp.servicePrice
       ).executeUpdate()
     }
@@ -103,6 +103,7 @@ object TreatmentPlanService {
             |tp.`price` as 'service_price',
             |s.`color`,
             |tp.`date_performed`,
+            |ttha.`id` as 'teeth_id',
             |ttha.`name` as 'teeth_name',
             |ttha.`view` as 'teeth_view',
             |ttha.`position` as 'teeth_position',
@@ -117,7 +118,7 @@ object TreatmentPlanService {
             |FROM treatment_plan as tp inner join teeth_affected as ttha inner join dental_services as s inner join patients as p
             |inner join dentists as d
             |on tp.`service_id` = s.`id` AND
-            |tp.`teeth_id` = ttha.`name` AND
+            |tp.`teeth_id` = ttha.`id` AND
             |tp.`patient_id` = p.`id` AND
             |tp.`dentist_id` = d.`id`
             |WHERE tp.`patient_id` = {patientId}
@@ -133,6 +134,7 @@ object TreatmentPlanService {
             get[Option[String]]("treatment_plan.price") ~
             get[Option[String]]("dental_services.color") ~
             get[Date]("treatment_plan.date_performed") ~
+            get[Option[String]]("teeth_affected.id") ~
             get[Option[String]]("teeth_affected.name") ~
             get[Option[String]]("teeth_affected.view") ~
             get[Option[String]]("teeth_affected.position") ~
@@ -144,7 +146,7 @@ object TreatmentPlanService {
             get[String]("dentists.last_name") ~
             get[Option[String]]("treatment_plan.image") ~
             get[Option[String]]("dental_services.image_template") map {
-            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s ~ t=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString.replace(".0","")), j, k, l, m, n, o, Some(p+" "+q+" "+r), s, t)
+            case a ~ b ~ c ~ d ~ e ~ f ~ g ~ h ~ i ~ id ~ j ~ k ~ l ~ m ~ n ~ o ~ p ~ q ~ r ~ s ~ t=> TreatmentPlanType(a, b, c, d, Some(e.toString), f, g, h, Some(i.toString.replace(".0","")), id, j, k, l, m, n, o, Some(p+" "+q+" "+r), s, t)
           } *
         }
         treatmentPlan
