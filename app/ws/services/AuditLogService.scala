@@ -697,4 +697,38 @@ object AuditLogService {
     }
   }
 
+  def getAuditLogReport(module: String, dateStart: String, dateEnd: String): List[AuditLog] = {
+    DB.withConnection {
+      implicit c =>
+        val auditLog: List[AuditLog] = SQL(
+          """
+            |SELECT
+            | a.id,
+            |	a.task,
+            |	a.description,
+            |	a.date_created,
+            |	u.user_name
+            |FROM
+            |    audit_log as a
+            |INNER JOIN
+            |    users as u
+            |ON
+            |	a.user_name = u.user_name
+            |WHERE a.module = {module}
+            |and (a.date_created BETWEEN {date_start} AND {date_end})
+            |ORDER BY
+            | a.date_created asc
+          """.stripMargin).on('module -> module, 'date_start -> dateStart, 'date_end -> dateEnd).as {
+            get[String]("id") ~
+            get[String]("task") ~
+            get[String]("description") ~
+            get[Date]("date_created") ~
+            get[String]("user_name")map {
+            case a ~ b ~ c ~ d ~ e  => AuditLog(a, b, c, d.toString, e)
+          } *
+        }
+        auditLog
+    }
+  }
+
 }

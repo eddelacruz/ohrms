@@ -744,4 +744,9 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Ok(toJson(DentistService.getAllSpecializationNames))
   }
 
+  def getAuditLogReport(module: String, dateStart: String, dateEnd: String) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("AuditLog" -> toJson(AuditLogService.getAuditLogReport(module, dateStart, dateEnd)))))
+  }
+
 }

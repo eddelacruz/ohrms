@@ -7,7 +7,7 @@ import play.mvc.Result
 import util.pdf.PDF
 import views._
 import ws.delegates._
-import ws.services.PaymentService
+import ws.services.{AuditLogService, PaymentService}
 import play.mvc.Result
 import util.pdf.PDF
 import views.html.reports
@@ -48,6 +48,10 @@ object Reports extends Controller with Secured{
 
   def _monthlyIncomeReport(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._monthly_income.render(PaymentService.getMonthlyIncomeReport(start,count)))
+  }
+
+  def _auditLogReport(module: String, dateStart: String, dateEnd: String): Result = {
+    return PDF.ok(html.reports._audit_logs.render(AuditLogService.getAuditLogReport(module, dateStart, dateEnd)))
   }
 
   def getReportsList() = IsAuthenticated {

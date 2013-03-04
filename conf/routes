@@ -81,6 +81,7 @@ GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCe
 GET     /reports/payment_receipt/:id    controllers.Reports._paymentReceipt(id, start : Int ?= 0, count : Int ?= 25)
 GET     /reports/individual_patients/:id    controllers.Reports._individualPatientReport(id, start : Int ?= 0, count : Int ?= 25)
 GET     /reports/monthly_income    controllers.Reports._monthlyIncomeReport(start : Int ?= 0, count : Int ?= 25)
+GET     /reports/audit_logs/:module/:dateStart/:dateEnd    controllers.Reports._auditLogReport(module: String, dateStart: String, dateEnd: String)
 
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)
@@ -164,6 +165,7 @@ GET     /json/payments/:patientId/total_prices     controllers.Json.getTotalPric
 GET     /json/payments/:patientId/balance     controllers.Json.getPaymentBalance(patientId)
 GET     /json/dental_services/all/types         controllers.Json.getAllDentalServiceTypes
 GET     /json/specialization/all/names         controllers.Json.getAllSpecializationNames
+GET     /json/settings/audit_log/:module/:date_start/:date_end    controllers.Json.getAuditLogReport(module: String, date_start: String, date_end: String)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload
