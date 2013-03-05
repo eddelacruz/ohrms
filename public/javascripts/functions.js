@@ -287,8 +287,8 @@ $(document).ready(function() {
           dataType: "json",
           data: json,
           error: function(xhr, ajaxOptions, thrownError){
-            alert(xhr.status);
-            alert(ajaxOptions);
+            /*alert(xhr.status);
+            alert(ajaxOptions);*/
           },
           beforeSend: function(x) {
             if (x && x.overrideMimeType) {

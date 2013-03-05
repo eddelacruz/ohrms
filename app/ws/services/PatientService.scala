@@ -327,7 +327,7 @@ object PatientService extends Secured{
             |on p.id = tp.patient_id
             |where p.status = {status}
             |GROUP BY p.id
-            |ORDER BY p.last_name asc
+            |ORDER BY tp.date_performed desc, p.last_name asc
             |LIMIT {start}, {count}
             |) as result
           """.stripMargin).on('status -> status, 'start -> start, 'count -> count).as {
@@ -373,7 +373,7 @@ object PatientService extends Secured{
             |on p.id = tp.patient_id
             |where p.status = '1'
             |and date_performed between {date} and LAST_DAY({date})
-            |GROUP BY DATE_FORMAT(tp.date_performed, '%Y-%m-%d')
+            |GROUP BY p.id
             |ORDER BY p.last_name asc
             |) as result
           """.stripMargin).on('date -> date).as(scalar[Long].single)

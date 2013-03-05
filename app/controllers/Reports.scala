@@ -51,7 +51,7 @@ object Reports extends Controller with Secured{
   }
 
   def _auditLogReport(module: String, dateStart: String, dateEnd: String): Result = {
-    return PDF.ok(html.reports._audit_logs.render(AuditLogService.getAuditLogReport(module, dateStart, dateEnd)))
+    return PDF.ok(html.reports._audit_logs.render(AuditLogService.getAuditLogReport(module, dateStart, dateEnd), dateStart, dateEnd))
   }
 
   def getReportsList() = IsAuthenticated {

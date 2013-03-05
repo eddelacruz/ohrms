@@ -36,7 +36,7 @@ object AppointmentService extends Secured {
             |where
             |    dentist_id = {dentist_id}
             |    and ({date_start} between date_start and date_end
-            |	   or {date_end} between date_start and date_end);
+            |	   and {date_end} between date_start and date_end);
           """.stripMargin).on('dentist_id -> dentistId, 'date_start -> dateStart,'date_end -> dateEnd).as(scalar[Long].single)
     }
   }

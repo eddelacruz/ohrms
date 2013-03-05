@@ -1083,4 +1083,13 @@ function res() {
         }
     });
 
+    /*name of each tooth in teeth chart*/
+    $('.tooth_label').each(function(i, d){
+        var toothId = $(d).parent().attr('id');
+        $.getJSON("/json/dental_services/tooth/name/"+toothId, function(data){
+            $(d).html(data);
+        });
+    });
+
+
 });

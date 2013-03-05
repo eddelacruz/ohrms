@@ -301,7 +301,7 @@ object ServicesService {
             |ORDER BY name asc
           """.stripMargin).as {
             get[String]("id") ~
-            get [Option[String]]("name") ~
+            get[Option[String]]("name") ~
             get[Option[String]]("code") ~
             get[Option[String]]("type") ~
             get[Option[Int]]("tool_type") ~
@@ -331,6 +331,14 @@ object ServicesService {
         ).executeUpdate()
     }
     AuditLogService.logTaskDeleteService(id, currentUser, task)
+  }
+
+  def getToothName(toothId: String): String = {
+    DB.withConnection {
+      implicit c =>
+        val toothName = SQL("select name from teeth_affected where id = {tooth_id}").on('tooth_id -> toothId).apply().head
+        toothName[String]("name")
+    }
   }
 }
 

@@ -12,7 +12,9 @@
 <header>
     <div class="inner">
         <div class="left title">
-            <h1></h1>
+            @patientList.map { pl =>
+            <h1>@pl.lastName, @pl.firstName @pl.middleName</h1>
+            }
         </div>
         <div class="right">
             <nav>

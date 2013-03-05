@@ -1,4 +1,4 @@
-@(auditLogs: List[ws.services.AuditLog])
+@(auditLogs: List[ws.services.AuditLog], dateStart: String, dateEnd: String)
 @import play.cache.Cache
 @import ws.helper.DateWithTime
 
@@ -65,7 +65,7 @@
 
 <body>
 <div class="title">Audit Log Report</div>
-<center>Date Start:  wla pa     Date End: wla pa</center>
+<center>from @dateStart to @dateEnd</center>
 <p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
 <p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
 

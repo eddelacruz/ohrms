@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList], appointmentsToday: List[ws.services.AppointmentList], remindersToday: List[ws.services.AnnouncementList])
+@(patientList: List[ws.services.PatientLastVisit], appointmentsToday: List[ws.services.AppointmentList], remindersToday: List[ws.services.AnnouncementList])
 
 @main(Messages("dashboard.title")) {
 
@@ -82,7 +82,7 @@
 
             <div class="box-content no-inner-space" style="display: block; ">
                 <ul class="userlist">
-                    @if(remindersToday.length == 0){
+                    @if(appointmentsToday.length == 0){
                         <li class="first">No appointments at this time. <a href="@routes.Scheduler.getCalendar()" target="_blank">add an appointment</a></li>
                     } else {
                         @appointmentsToday.map { at =>
@@ -134,8 +134,8 @@
                         @patientList.map { pl =>
                         <li class="">
                             <div class="info-l">
-                                <a href="@routes.Patient.getTreatmentPlan(pl.id)" class="title" target="_blank">@pl.lastName, @pl.firstName @pl.middleName</a>
-                                <span>@pl.address</span>
+                                <a href="@routes.Patient.getTreatmentPlan(pl.p.id)" class="title" target="_blank">@pl.p.lastName, @pl.p.firstName @pl.p.middleName</a>
+                                <span>@pl.p.address</span>
                             </div>
                         </li>
                         }

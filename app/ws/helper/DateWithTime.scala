@@ -1,6 +1,7 @@
 package ws.helper
 
 import org.joda.time._
+import format.{PeriodFormatter, PeriodFormatterBuilder, DateTimeFormat, DateTimeFormatter}
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,7 +16,8 @@ object DateWithTime {
 
   def dateNow: String = {
     //var a = new DateTime.parse(DateTime.now.getYear+"-"+DateTime.now.getMonthOfYear+"-"+DateTime.now.getDayOfMonth+" "+DateTime.now.getHourOfDay+":"+DateTime.now.getMinuteOfHour+":"+DateTime.now.getSecondOfMinute
-    DateTime.now.toDateTimeISO.toLocalDate.toString+" "+DateTime.now.toDateTimeISO.toLocalTime.toString
+    val time = DateTime.now.toDateTimeISO.toLocalTime.getHourOfDay+":"+DateTime.now.toDateTimeISO.toLocalTime.getMinuteOfHour+":"+DateTime.now.toDateTimeISO.toLocalTime.getSecondOfMinute
+    DateTime.now.toDateTimeISO.toLocalDate.toString+" "+time
   }
 
   def dateNowAllDay: String = {

@@ -166,6 +166,7 @@ GET     /json/payments/:patientId/balance     controllers.Json.getPaymentBalance
 GET     /json/dental_services/all/types         controllers.Json.getAllDentalServiceTypes
 GET     /json/specialization/all/names         controllers.Json.getAllSpecializationNames
 GET     /json/settings/audit_log/:module/:date_start/:date_end    controllers.Json.getAuditLogReport(module: String, date_start: String, date_end: String)
+GET     /json/dental_services/tooth/name/:toothId       controllers.Json.getToothName(toothId: String)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

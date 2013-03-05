@@ -163,12 +163,12 @@ object Application extends Controller{
       implicit request =>
         val start = 0
         val count = 5
-        Ok(html.dboard(PatientDelegate.getPatientList(start,count), AppointmentDelegate.getAppointmentsToday, AnnouncementDelegate.getAnnouncementsToday()))
+        Ok(html.dboard(PatientDelegate.getPatientLastVisit(start, count), AppointmentDelegate.getAppointmentsToday, AnnouncementDelegate.getAnnouncementsToday()))
   }
 
   def logout = Action {
-    Cache.set("user_name", null)
-    Cache.set("role", null)
+    Cache.set("user_name", "")
+    Cache.set("role", "")
     Cache.set("clinic-id", "")
     Cache.set("clinic-name", "")
     Cache.set("clinic-address", "")

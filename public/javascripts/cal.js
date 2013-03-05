@@ -182,25 +182,40 @@ $(document).ready(function() {
                     //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+s)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
-                    switch(vl[0].status) {
-                    case 1: //pending blue
+                    switch(s.getDay()) {
+                    case 0: //sun
+                        color = '#803e96';
+                        borderColor = '#771d7d';
+                        textColor = '#fff';
+                        break;
+                    case 1: //pending blue mon
                         color = '#006dcc';
                         borderColor = '#0044cc';
                         textColor = '#fff';
                         break;
-                    case 2: //rescheduled yellow
-                        color = '#fbb450';
-                        borderColor = '#f89406';
+                    case 2: //rescheduled yellow tue
+                        color = '#f2891e';
+                        borderColor = '#cd6619';
                         textColor = '#fff';
                         break;
-                    case 3: //cancelled red
+                    case 3: //cancelled red wed
                         color = '#ee5f5b';
                         borderColor = '#bd362f';
                         textColor = '#fff';
                         break;
-                    case 4: //completed green
-                        color = '#62c462';
+                    case 4: //completed green thu
+                        color = '#68b360';
                         borderColor = '#51a351';
+                        textColor = '#fff';
+                        break;
+                    case 5: //pending blue fri
+                        color = '#cc661b';
+                        borderColor = '#b32018';
+                        textColor = '#fff';
+                        break;
+                    case 6: //sat
+                        color = '#e63e96';
+                        borderColor = '#b3005c';
                         textColor = '#fff';
                         break;
                     default:
@@ -363,7 +378,7 @@ $(document).ready(function() {
             if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm} today = mm+'/'+dd+'/'+yyyy;
             document.write(today);*/
 
-            if(startHour >= opening && endHour <= closing && endHour !== 0){
+            if(startHour >= opening && endHour <= closing && endHour !== 0 && (start >= dateNow)){
                 //fullfill variables
                 if(end.getHours() !== closing || end.getMinutes() < 30){ //for 5 to 5:30  and 8 to 8:30
                     allDayVar = allDay;

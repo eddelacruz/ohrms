@@ -12,6 +12,8 @@ import ws.deserializer.json.{PaymentListDeserializer, SpecializationListDeserial
 import collection.mutable.ListBuffer
 import ws.services.{PatientList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
 import controllers.Application.hash
+import org.joda.time.format.DateTimeFormatter
+import org.joda.time.format.DateTimeFormat
 
 /**
  * Created with IntelliJ IDEA.
@@ -561,7 +563,13 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
 
       //println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> bilang ng mga rows dapat "+AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
 
-      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) < 1){
+      println(dateStart)
+      println(dateEnd)
+      println(AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
+      //val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+      //&& (formatter.parseDateTime(DateWithTime.dateNow).isBefore(formatter.parseDateTime(dateStart.get)))
+
+      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) == 0 ){
         if (AppointmentService.addAppointment(pl) >= 1) {
           Redirect("/scheduler")
           Status(200)
@@ -570,6 +578,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           Status(500)
         }
       } else {
+        println("Dentist not available at this time.")
         BadRequest
         Status(500)
       }
@@ -747,6 +756,11 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
   def getAuditLogReport(module: String, dateStart: String, dateEnd: String) = Action {
     implicit request =>
       Ok(JsObject(Seq("AuditLog" -> toJson(AuditLogService.getAuditLogReport(module, dateStart, dateEnd)))))
+  }
+
+  def getToothName(toothId: String) = Action {
+    implicit request =>
+      Ok(toJson(ServicesService.getToothName(toothId)))
   }
 
 }
