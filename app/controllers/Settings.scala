@@ -27,6 +27,11 @@ object Settings extends Controller with Secured {
 
   def settings = Action {
     implicit request =>
-      Ok(views.html.settings.setting())
+      Ok(html.settings.setting())
+  }
+
+  def teethNaming = Action {
+    implicit request =>
+      Ok(html.settings.teeth_naming())
   }
 }

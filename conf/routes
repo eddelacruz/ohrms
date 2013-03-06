@@ -99,6 +99,7 @@ POST    /specializations/update            controllers.Specialization.submitUpda
 GET     /specializations/:id                 controllers.Specialization.getSpecializationById(id: String)
 GET     /specializations/:id/update          controllers.Specialization.getUpdateForm(id: String)
 POST    /specializations/delete            controllers.Specialization.deleteInformation(id: String)
+GET     /settings/teeth_naming              controllers.Settings.teethNaming()
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)

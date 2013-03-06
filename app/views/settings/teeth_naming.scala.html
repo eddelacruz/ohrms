@@ -1,0 +1,33 @@
+@main(Messages("Teeth Naming")){
+
+<header class="grid_12 head center">
+    <h1>Teeth Naming</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="grid_12">
+    <!-- Teeth Naming -->
+    <div class="simple-box">
+        <div class="inner">
+            <div class="box-content">
+                <ul class="button-bar blue small teeth-type">
+                    <li name="adultButton" class="first active"><a href="#">Adult</a></li>
+                    <li name="childButton" class="last"><a id="teeth-status" href="#">Child</a></li>
+                </ul>
+                <br>
+                <!--Teeth Chart-->
+                <div class="face no-highlight">
+                    <!--Child-->
+                    @modal._child_teeth_chart()
+                    <!--/Child-->
+                    <!--Adult-->
+                    @modal._adult_teeth_chart_with_text()
+                    <!--/Adult-->
+                </div>
+                <!--/Teeth Chart-->
+            </div>
+        </div>
+    </div>
+    <!-- /Teeth Naming -->
+</div>
+}

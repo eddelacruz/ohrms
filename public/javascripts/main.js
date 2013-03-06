@@ -1097,5 +1097,20 @@ function res() {
         });
     });
 
+    var origPrice;
+
+    /*dental services button*/
+    $('#dentistTools #dental_services button').click(function(){
+        origPrice = parseFloat($(this).attr('data-price'));
+    });
+
+    /*discount on teeth chart*/
+    $('select[class=discount]').change(function(){
+       var multiplier = parseFloat($(this).val());
+       var price = origPrice;
+       price = (price * multiplier).toFixed(2);
+       $('input[name=price]').val(price);
+    });
+
 
 });
