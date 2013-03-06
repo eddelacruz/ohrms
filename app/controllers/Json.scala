@@ -8,9 +8,9 @@ import play.api.libs.json.Json._
 import ws.services._
 import ws.generator.UUIDGenerator
 import ws.helper.{DateWithTime, WsHelper}
-import ws.deserializer.json.{PaymentListDeserializer, SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
+import ws.deserializer.json.{SupplyDeserializer, PaymentListDeserializer, SpecializationListDeserializer,AnnouncementListDeserializer, AuditLogDeserializer,ClinicListDeserializer, PatientListDeserializer, DentistListDeserializer, DentalServiceListDeserializer, StaffListDeserializer, TreatmentPlanDeserializer, AppointmentDeserializer}
 import collection.mutable.ListBuffer
-import ws.services.{PatientList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
+import ws.services.{PatientList, SupplyList, PaymentList, DentistList, SpecializationList, StaffList, ClinicList, AnnouncementList, PatientLastVisit}
 import controllers.Application.hash
 import org.joda.time.format.DateTimeFormatter
 import org.joda.time.format.DateTimeFormat
@@ -22,7 +22,7 @@ import org.joda.time.format.DateTimeFormat
  * Time: 12:41 PM
  * To change this template use File | Settings | File Templates.
  */
-object Json extends Controller with WsHelper with PaymentListDeserializer with AnnouncementListDeserializer with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer with SpecializationListDeserializer{
+object Json extends Controller with WsHelper with SupplyDeserializer with PaymentListDeserializer with AnnouncementListDeserializer with PatientListDeserializer with AuditLogDeserializer with DentistListDeserializer with DentalServiceListDeserializer with StaffListDeserializer with TreatmentPlanDeserializer with AppointmentDeserializer with ClinicListDeserializer with SpecializationListDeserializer{
 
   def getPatientList(start: Int, count: Int) = Action {
     Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientList(start, count)))))
@@ -770,4 +770,54 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Ok(toJson(ServicesService.getToothName(toothId)))
   }
 
+
+  def getSupplyListById(id: String) = Action {
+    Ok(JsObject(Seq("SupplyList" -> toJson(SupplyService.getSupplyListById(id)))))
+  }
+
+  def getSupplyList(start: Int, count: Int) = Action {
+    Ok(JsObject(Seq("SupplyList" -> toJson(SupplyService.getSupplyList(start, count)))))
+  }
+
+  def searchSupplyList(start: Int, count: Int, filter: String) = Action {
+    Ok(JsObject(Seq("SupplyList" -> toJson(SupplyService.searchSupplyList(start, count, filter)))))
+  }
+
+  def submitSupplyAddForm = Action {
+    implicit request =>
+      val id = ""
+      val name = request.body.asFormUrlEncoded.get("name").headOption
+      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val price = request.body.asFormUrlEncoded.get("price").headOption
+      val quantity = request.body.asFormUrlEncoded.get("quantity").headOption
+      val patientId = request.body.asFormUrlEncoded.get("patient_id").headOption
+      val pl = SupplyList("", patientId, name, description, quantity, price)
+
+      if (SupplyService.addSupply(pl) >= 1) {
+        //Redirect("/dental_supplies")
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+
+  }
+
+  def submitSupplyUpdateForm = Action {
+    implicit request =>
+      val id = request.body.asFormUrlEncoded.get("id").head
+      val name = request.body.asFormUrlEncoded.get("name").headOption
+      val description = request.body.asFormUrlEncoded.get("description").headOption
+      val price = request.body.asFormUrlEncoded.get("price").headOption
+      val quantity = request.body.asFormUrlEncoded.get("quantity").headOption
+      val patientId = request.body.asFormUrlEncoded.get("patient_id").headOption
+      val pl = SupplyList(id, patientId, name, description, quantity, price)
+
+      if (SupplyService.updateSupply(pl) >= 1) {
+        Status(200)
+      } else {
+        BadRequest
+        Status(500)
+      }
+  }
 }

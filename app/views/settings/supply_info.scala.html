@@ -1,0 +1,78 @@
+@(supplyList: List[ws.services.SupplyList])
+
+@main("Supply Information") {
+
+<header class="grid_12 head">
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li><a href="#">Supply</a> <span class="divider"></span></li><li class="last"><a href="#">@supplyList.map { dl => @dl.name Information }</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                @supplyList.map { dl =>
+                <h1>@dl.name</h1>
+                }
+            </div>
+            <div class="right">
+                <nav style="display: none;">
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="columns">
+                <div class="form-details right mode-1">
+                    @supplyList.map { dl =>
+                    <div class="field left">
+                        <ul>
+                            <li>
+                                <label>Supply ID:</label>
+                                <label class="form-label">@dl.id</label>
+                            </li>
+                            <li>
+                                <label>Supply Name:</label>
+                                <label class="form-label">@dl.name</label>
+                            </li>
+                            <li>
+                                <label>Description:</label>
+                                <label class="form-label">@dl.description</label>
+                            </li>
+                            <li>
+                                <label>Price:</label>
+                                <label class="form-label">@dl.price</label>
+                            </li>
+                            <li>
+                                <label>Quantity:</label>
+                                <label class="form-label">@dl.quantity</label>
+                            </li>
+                            }
+                    </div>
+                </div>
+            </div>
+            <footer class="pane">
+                @supplyList.map { d =>
+
+                @if((play.cache.Cache.get("role")) == 0) {
+                <a class="bt blue right" href="@routes.Supply.getUpdateForm(d.id)">@Messages("button.edit")</a>
+                } else {
+                <a href="#"></a>
+                }
+                }
+            </footer>
+        </div>
+        <!-- /Profile, Dental Chart, Medical History -->
+        }
