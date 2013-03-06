@@ -7,8 +7,27 @@
     </div>
     <div class="dental-services ui-box dental-services-details">
         <p class="center dental-service-name"></p>
-        <p>Price:</p>
-        <input class="small" name="price" type="text">
+        <div>
+            <div class="left" style="width: 48%; padding-right: 5px;">
+                <p>Price:</p>
+                <input name="price" value="0.00" type="text" disabled="disabled" style="width: 100%;">
+            </div>
+            <div class="left" style="width: 48%; padding-left: 5px;">
+                <p>Discount:</p>
+                <select class="discount" style="width: 100%;">
+                    <option value="1" selected="selected">original price</option>
+                    <option value=".05">5%</option>
+                    <option value=".1">10%</option>
+                    <option value=".15">15%</option>
+                    <option value=".2">20%</option>
+                    <option value=".25">25%</option>
+                    <option value=".3">30%</option>
+                    <option value=".4">40%</option>
+                    <option value=".5">50%</option>
+                    <option value=".75">75%</option>
+                </select>
+            </div>
+        </div>
         <p>Dentist:</p>
         <select class="large" name="dentist_id">
             @dentists.map { d =>
