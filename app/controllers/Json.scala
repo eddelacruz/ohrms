@@ -149,18 +149,26 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
 
   def submitAnnouncementAddForm = Action {
     implicit request =>
-      println(request.body)
       val description = request.body.asFormUrlEncoded.get("description").headOption
       val dateCreated = request.body.asFormUrlEncoded.get("date_created").headOption
       val pl = AnnouncementList("", Some(""), description, dateCreated)
 
-      if (AnnouncementService.addAnnouncement(pl) >= 1) {
-        Redirect("/reminders")
-        Status(200)
+      val df: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+
+      if(df.parseDateTime(dateCreated.get+":00").isAfter(df.parseDateTime(DateWithTime.dateNow))){
+        if (AnnouncementService.addAnnouncement(pl) >= 1 ) {
+          Redirect("/reminders")
+          Status(200)
+        } else {
+          BadRequest
+          Status(500)
+        }
       } else {
+        println("Cannot add reminder on previous dates.")
         BadRequest
         Status(500)
       }
+
 
   }
 
@@ -392,9 +400,8 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
   def addTreatmentPlan = Action {
     implicit request =>
       val treatmentPlan = request.body.asFormUrlEncoded.get; //request.body.asJson.get.\("Treatment_Plan")
+      val df: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
       var index = 0
-      //println(treatmentPlan)
-      //var flag = 0
 
       try{
         while (treatmentPlan.get("Treatment_Plan["+index+"][service_id]").get.head != null) {
@@ -409,10 +416,10 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
           val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethId, Some(""), Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
 
           val abc = teethId.get.charAt(0)
-          if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2) {
+          if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
             tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)
-          } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1){
+          } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))){
             TreatmentPlanService.addTreatment(tp)
           }
           index+=1

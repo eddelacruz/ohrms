@@ -988,6 +988,12 @@ function res() {
     	stepMinute: 15
     });
 
+    $('.box-content .form-details input[name=date_created]').datetimepicker({
+        hourMin: opening,
+        hourMax: 18,
+        stepMinute: 15
+    });
+
     /*Typeahead add appointment*/
     $.getJSON("/json/patients/all/names", function(data){
         $('#addAppointmentModal input[name=first_name]').typeahead({
