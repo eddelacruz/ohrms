@@ -190,6 +190,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
 
   def submitPatientAddForm = Action {
     implicit request =>
+      println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>."+request.body)
       val id = ""
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption

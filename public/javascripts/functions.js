@@ -276,7 +276,6 @@ $(document).ready(function() {
             myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
             myObject.image =  $("#canvas"+a)[0].toDataURL();
             myArray.push(myObject);
-
         }
         var json = {Treatment_Plan : myArray};
         //console.log(JSON.stringify(json));
@@ -441,6 +440,42 @@ $(document).ready(function() {
             }
           },
           success: window.location = "/settings/teeth_naming"
+        });
+    });
+
+    /*add patient from appointment*/
+    $('#add_patient').click(function(e){
+        e.preventDefault();
+        var myObject = new Object();
+        var myArray = new Array();
+
+        myObject.first_name = $('.appointment_update_form input[name=first_name]').val();
+        myObject.middle_name = $('.appointment_update_form input[name=middle_name]').val();
+        myObject.last_name = $('.appointment_update_form input[name=last_name]').val();
+        myObject.gender = $('.appointment_update_form input[name=gender]').val();
+        myObject.medical_history = "";
+        myObject.address = $('.appointment_update_form textarea[name=address]').val();
+        myObject.contact_no = $('.appointment_update_form input[name=contact_no]').val();
+        myObject.date_of_birth = "2012-02-02";
+        myObject.gender = "u";
+
+        //myArray.push(myObject);
+
+        //var json = {PatientList : myArray};
+
+        console.log(JSON.stringify(myObject));
+        //(json);
+        $.ajax({
+          type: "POST",
+          url: "/json/patients",
+          dataType: "json",
+          data: myObject,
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: window.location = "/patients"
         });
     });
 
