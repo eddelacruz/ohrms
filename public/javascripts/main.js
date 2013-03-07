@@ -1112,5 +1112,13 @@ function res() {
        $('input[name=price]').val(price);
     });
 
+    /*teeth naming*/
+    $('.tooth_label').each(function(i, d){
+        var toothId = $(d).parent().attr('id');
+        $.getJSON("/json/dental_services/tooth/name/"+toothId, function(data){
+            $(d).attr('value', data);
+        });
+    });
+
 
 });

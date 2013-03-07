@@ -184,4 +184,14 @@ object TreatmentPlanService {
     }
   }
 
+  def updateTeethNaming(teethId: String, teethName: String): Long = {
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """
+            |UPDATE `ohrms`.`teeth_affected` SET `name`={teeth_name} WHERE `id`={teeth_id};
+          """.stripMargin).on('teeth_id -> teethId, 'teeth_name -> teethName).executeUpdate()
+    }
+  }
+
 }

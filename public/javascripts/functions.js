@@ -412,7 +412,36 @@ $(document).ready(function() {
     });
 
 
+    /*updating of teeth naming*/
 
+    //for saving treatment plan
+    $('#update_teeth_name').click(function(e){
+        e.preventDefault();
+        var teeth = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','F13','F14','F15','F16','F17','F18','F19','F20','F21','F22','F23','F24','F25','F26','F27','F28','F29','F30','F31','F32','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','M13','M14','M15','M16','M17','M18','M19','M20','M21','M22','M23','M24','M25','M26','M27','M28','M29','M30','M31','M32','FA','FB','FC','FD','FE','FF','FG','FH','FI','FJ','FK','FL','FM','FN','FO','FP','FQ','FR','FS','FT','MA','MB','MC','MD','ME','MF','MG','MH','MI','MJ','ML','MM','MN','MO','MP','MQ','MR','MS','MT']
+        var myArray = new Array();
 
+        for(var i = 0 ; i<teeth.length; i++){
+            var teethId = teeth[i];
+            var teethName = $('#'+teethId+' input.tooth_label').val()
+            myArray.push([teethId, teethName]);
+
+        }
+        var json = {Teeth : myArray};
+
+        //alert(JSON.stringify(json));
+
+        $.ajax({
+          type: "POST",
+          url: "/json/settings/teeth_naming",
+          dataType: "json",
+          data: json,
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: window.location = "/settings/teeth_naming"
+        });
+    });
 
 });

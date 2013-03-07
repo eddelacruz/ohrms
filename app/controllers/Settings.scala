@@ -2,7 +2,7 @@ package controllers
 
 import play.api.mvc._
 import views._
-import ws.delegates.AuditLogDelegate
+import ws.delegates.{TreatmentPlanDelegate, AuditLogDelegate}
 import Application.Secured
 
 /**
@@ -34,4 +34,5 @@ object Settings extends Controller with Secured {
     implicit request =>
       Ok(html.settings.teeth_naming())
   }
+
 }

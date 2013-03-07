@@ -770,4 +770,23 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Ok(toJson(ServicesService.getToothName(toothId)))
   }
 
+  def submitTeethNamingUpdateForm = Action {
+    implicit request =>
+      //println(request.body.asFormUrlEncoded)
+      var index = 0
+      try {
+        while (request.body.asFormUrlEncoded.get("Teeth["+index+"][]").head != null) {
+          val teethId = request.body.asFormUrlEncoded.get("Teeth["+index+"][]").headOption.get
+          val teethName = request.body.asFormUrlEncoded.get("Teeth["+index+"][]").tail.headOption.get
+          TreatmentPlanService.updateTeethNaming(teethId, teethName)
+          index+=1
+        }
+      } catch {
+        case e: Exception =>
+          println("----->>>>> (END OF ITERATION OF "+index+" TEETH_NAME) <<<<<-----")
+          Redirect("/settings/teeth_naming")
+      }
+      Status(200)
+  }
+
 }
