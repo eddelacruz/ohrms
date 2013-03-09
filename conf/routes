@@ -90,6 +90,7 @@ GET     /specializations/:id                 controllers.Specialization.getSpeci
 GET     /specializations/:id/update          controllers.Specialization.getUpdateForm(id: String)
 POST    /specializations/delete            controllers.Specialization.deleteInformation(id: String)
 GET     /settings/teeth_naming              controllers.Settings.teethNaming()
+GET     /reports/patient_list/:startDate/:endDate       controllers.Reports._patientListByDateRange(startDate: String, endDate: String)
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)
@@ -165,6 +166,7 @@ GET     /json/specialization/all/names         controllers.Json.getAllSpecializa
 GET     /json/settings/audit_log/:module/:date_start/:date_end    controllers.Json.getAuditLogReport(module: String, date_start: String, date_end: String)
 GET     /json/dental_services/tooth/name/:toothId       controllers.Json.getToothName(toothId: String)
 POST    /json/settings/teeth_naming        controllers.Json.submitTeethNamingUpdateForm
+GET     /json/patients/:startDate/:endDate      controllers.Json.getPatientsByDateRange(startDate: String, endDate: String)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

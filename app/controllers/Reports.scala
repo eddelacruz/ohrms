@@ -21,8 +21,11 @@ import controllers.Application.Secured
  * To change this template use File | Settings | File Templates.
  */
 object Reports extends Controller with Secured{
-   def _patientList(start: Int, count: Int): Result = {
+  def _patientList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start, count)))
+  }
+  def _patientListByDateRange(startDate: String, endDate: String): Result = {
+    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientListByDateRange(startDate, endDate)))
   }
   def _dentistList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start, count)))

@@ -479,4 +479,13 @@ $(document).ready(function() {
         });
     });
 
+    /*date range for patient list*/
+    $('#patientDateRange').hover(function(){
+        var sd = $('input.startDate').val();
+        var ed = $('input.endDate').val();
+        var url =  '/reports/patient_list/'+sd+'/'+ed;
+        //var url = "/patients";
+        $('#patientDateRange').attr('action', url);
+    });
+
 });

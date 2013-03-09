@@ -4,6 +4,7 @@
     $('.main-nav ul li a[name=Reports]').parent().addClass('active');
 </script>
 
+@modal._date_range("patientDateRangeModal", "patientDateRange")
 
 <!--  Reports -->
 <header class="grid_12 head center">
@@ -14,7 +15,8 @@
 <div class="grid_12">
     <ul>
         <li>
-            <p><a href="@routes.Reports._patientList()" target="_blank">Patients List</a></p>
+            <!--<p><a href="@routes.Reports._patientList()" target="_blank"></a></p>-->
+            <p><a href="#patientDateRangeModal" class="modal">Patients List</a></p>
         </li>
         <li>
             <p><a href="@routes.Reports._individualPatientReport("abc")" target="_blank">Patient Treatments List</a></p>

@@ -792,4 +792,9 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       Status(200)
   }
 
+  def getPatientsByDateRange(start: String, end: String) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientsByDateRange(start, end)))))
+  }
+
 }
