@@ -269,13 +269,18 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val al = AppointmentList(id, dentalServiceId,firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
-      if (AppointmentService.updateAppointment(al) >= 1) {
-        Status(200)
+      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) == 0 ){
+        if (AppointmentService.updateAppointment(al) >= 1) {
+          Status(200)
+        } else {
+          BadRequest
+          Status(500)
+        }
       } else {
+        println("Dentist not available at this time.")
         BadRequest
         Status(500)
       }
-      Status(200)
   }
 
   def submitPatientUpdateForm = Action {
@@ -573,9 +578,6 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
 
       println(dateStart)
       println(dateEnd)
-      println(AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
-      //val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-      //&& (formatter.parseDateTime(DateWithTime.dateNow).isBefore(formatter.parseDateTime(dateStart.get)))
 
       if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) == 0 ){
         if (AppointmentService.addAppointment(pl) >= 1) {
