@@ -1,0 +1,43 @@
+@(id: String, formId: String)
+<!-- MonthRangeModal -->
+<div class="box grid_5" id="@id" hidden="">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1>Select Month and Year</h1>
+            </div>
+            <div class="right">
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+    <div class="box-content">
+        <form id="@formId" action="#">
+            <div class="columns">
+                <table>
+                    <tr>
+                        <td>
+                            <label>Month:</label>
+                        </td>
+                        <td>
+                            <select class="month" id="month" required="required"></select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>Year:</label>
+                        </td>
+                        <td>
+                            <select class="year" id="present_year"  type="text" required="required"></select>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="View Report" target="_blank">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- /MonthRangeModal -->

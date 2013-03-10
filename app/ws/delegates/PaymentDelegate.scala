@@ -8,7 +8,7 @@ import collection.mutable.ListBuffer
 import ws.helper.WsHelper
 import play.api.data.Form
 import play.api.data.Forms._
-import ws.services.PaymentList
+import ws.services.{IncomeList, PaymentList}
 import play.api.libs.ws.Response
 import play.api.data.format.Formatter
 import play.api.data.Mapping
@@ -68,6 +68,17 @@ object PaymentDelegate extends WsHelper{
     )
   }
 
+  def convertToIncomeList (j: JsValue): IncomeList = {
+    new IncomeList(
+      (j \ "id").as[String],
+      (j \ "firstName").asOpt[String],
+      (j \ "lastName").asOpt[String],
+      (j \ "datePerformed").asOpt[String],
+      (j \ "price").asOpt[String],
+      (j \ "serviceName").asOpt[String]
+    )
+  }
+
   def submitUpdatePaymentForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/payments/update", params)
     println()
@@ -90,6 +101,18 @@ object PaymentDelegate extends WsHelper{
     (json \ "PaymentList").as[Seq[JsObject]].map({
       p =>
         pl += convertToPaymentList(p)
+    })
+    pl.toList
+  }
+
+  def getMonthlyIncome(year: Int, month: Int) = {
+    val res: Promise[Response] = doGet("/json/monthly_income/"+year+"/"+month)
+    val json: JsValue = res.await.get.json
+    val pl = ListBuffer[IncomeList]()
+
+    (json \ "IncomeList").as[Seq[JsObject]].map({
+      p =>
+        pl += convertToIncomeList(p)
     })
     pl.toList
   }

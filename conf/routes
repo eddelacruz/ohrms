@@ -61,8 +61,6 @@ POST    /dental_supplies/update            controllers.Supply.submitUpdateForm
 GET     /dental_supplies/:id                 controllers.Supply.getSupplyListById(id: String)
 GET     /dental_supplies/:id/update          controllers.Supply.getUpdateForm(id: String)
 GET     /dental_supplies/search       controllers.Supply.searchSupplyList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
-
-
 POST    /treatment_plan             controllers.TreatmentPlan.addTreatment
 GET     /dental_services                 controllers.DentalService.getList(start : Int ?= 0, count : Int ?= 25)
 GET     /dental_services/:id        controllers.DentalService.getDentalServiceInformationById(id: String)
@@ -87,9 +85,8 @@ GET     /reports/staff_list         controllers.Reports._staffList(start : Int ?
 GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCertificate(patientId)
 GET     /reports/payment_receipt/:id    controllers.Reports._paymentReceipt(id, start : Int ?= 0, count : Int ?= 25)
 GET     /reports/individual_patients/:id    controllers.Reports._individualPatientReport(id, start : Int ?= 0, count : Int ?= 25)
-GET     /reports/monthly_income    controllers.Reports._monthlyIncomeReport(start : Int ?= 0, count : Int ?= 25)
+GET     /reports/monthly_income/:year/:month    controllers.Reports._monthlyIncomeReport(year: Int, month: Int)
 GET     /reports/audit_logs/:module/:dateStart/:dateEnd    controllers.Reports._auditLogReport(module: String, dateStart: String, dateEnd: String)
-
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)
 GET     /specializations/search       controllers.Specialization.searchSpecializationList(start : Int ?= 0, count : Int ?= 25, filter ?= "")
@@ -100,6 +97,7 @@ GET     /specializations/:id                 controllers.Specialization.getSpeci
 GET     /specializations/:id/update          controllers.Specialization.getUpdateForm(id: String)
 POST    /specializations/delete            controllers.Specialization.deleteInformation(id: String)
 GET     /settings/teeth_naming              controllers.Settings.teethNaming()
+GET     /reports/patient_list/:startDate/:endDate       controllers.Reports._patientListByDateRange(startDate: String, endDate: String)
 
 
 GET     /json/patients              controllers.Json.getPatientList(start : Int ?= 0, count : Int ?= 25)
@@ -163,7 +161,6 @@ GET     /json/patients/visits/:year        controllers.Json.getPatientVisitsByYe
 GET     /json/patients/visits/:year/:month        controllers.Json.getPatientVisitsByMonth(year: Int, month: Int)
 GET     /json/teeth/type/:tType/position/:position        controllers.Json.getTeethByPositionAndType(position: String, tType: String)
 GET     /json/patients/all/names                 controllers.Json.getAllPatientNames
-
 GET     /json/payments/:patientId                controllers.Json.getPaymentsByPatientId(start : Int ?= 0, count : Int ?= 25, patientId: String)
 GET     /json/reports/payment_receipt/:id                controllers.Json.getPaymentById(id: String)
 POST    /json/payments/update         controllers.Json.submitPaymentUpdateForm
@@ -171,14 +168,21 @@ POST    /json/payments                controllers.Json.submitPaymentAddForm
 GET     /json/payments/:patientId/total_payments     controllers.Json.getTotalPayments(patientId)
 GET     /json/payments/:patientId/total_prices     controllers.Json.getTotalPrices(patientId)
 GET     /json/payments/:patientId/balance     controllers.Json.getPaymentBalance(patientId)
+GET     /json/payments/total_prices/:year/:month     controllers.Json.getTotalPricesByDateRange(year: Int, month: Int)
 GET     /json/dental_services/all/types         controllers.Json.getAllDentalServiceTypes
 GET     /json/specialization/all/names         controllers.Json.getAllSpecializationNames
 GET     /json/settings/audit_log/:module/:date_start/:date_end    controllers.Json.getAuditLogReport(module: String, date_start: String, date_end: String)
 GET     /json/dental_services/tooth/name/:toothId       controllers.Json.getToothName(toothId: String)
+
 GET     /json/dental_supplies               controllers.Json.getSupplyList(start : Int ?= 0, count : Int ?= 25)
 GET     /json/dental_supplies/:id     controllers.Json.getSupplyListById(id: String)
 POST    /json/dental_supplies/update         controllers.Json.submitSupplyUpdateForm
 POST    /json/dental_supplies                controllers.Json.submitSupplyAddForm
+
+POST    /json/settings/teeth_naming        controllers.Json.submitTeethNamingUpdateForm
+GET     /json/patients/:startDate/:endDate      controllers.Json.getPatientsByDateRange(startDate: String, endDate: String)
+GET     /json/monthly_income/:year/:month       controllers.Json.getMonthlyIncome(year: Int, month: Int)
+
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

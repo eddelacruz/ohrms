@@ -24,6 +24,13 @@ object TreatmentPlanDelegate extends WsHelper{
     println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
   }
 
+  def updateTeethNaming(params: JsValue) = {
+    val res = doPost("/json/settings/teeth_naming/update", params)
+    println()
+    println("POST STATUS: >>>>>>>>>>>>>>> " + res.status)
+    println("POST BODY: >>>>>>>>>>>>>>> " + res.body)
+  }
+
   def getTreatmentPlan(patientId: String, start: Int, count: Int): List[TreatmentPlanType] = {
     val res: Promise[Response] = doGet("/json/treatment_plan/"+patientId+"?start="+start+"&count="+count)
     val json: JsValue = res.await.get.json

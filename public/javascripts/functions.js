@@ -276,7 +276,6 @@ $(document).ready(function() {
             myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
             myObject.image =  $("#canvas"+a)[0].toDataURL();
             myArray.push(myObject);
-
         }
         var json = {Treatment_Plan : myArray};
         //console.log(JSON.stringify(json));
@@ -412,7 +411,89 @@ $(document).ready(function() {
     });
 
 
+    /*updating of teeth naming*/
 
+    //for saving treatment plan
+    $('#update_teeth_name').click(function(e){
+        e.preventDefault();
+        var teeth = ['F1','F2','F3','F4','F5','F6','F7','F8','F9','F10','F11','F12','F13','F14','F15','F16','F17','F18','F19','F20','F21','F22','F23','F24','F25','F26','F27','F28','F29','F30','F31','F32','M1','M2','M3','M4','M5','M6','M7','M8','M9','M10','M11','M12','M13','M14','M15','M16','M17','M18','M19','M20','M21','M22','M23','M24','M25','M26','M27','M28','M29','M30','M31','M32','FA','FB','FC','FD','FE','FF','FG','FH','FI','FJ','FK','FL','FM','FN','FO','FP','FQ','FR','FS','FT','MA','MB','MC','MD','ME','MF','MG','MH','MI','MJ','ML','MM','MN','MO','MP','MQ','MR','MS','MT']
+        var myArray = new Array();
 
+        for(var i = 0 ; i<teeth.length; i++){
+            var teethId = teeth[i];
+            var teethName = $('#'+teethId+' input.tooth_label').val()
+            myArray.push([teethId, teethName]);
+
+        }
+        var json = {Teeth : myArray};
+
+        //alert(JSON.stringify(json));
+
+        $.ajax({
+          type: "POST",
+          url: "/json/settings/teeth_naming",
+          dataType: "json",
+          data: json,
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: window.location = "/settings/teeth_naming"
+        });
+    });
+
+    /*add patient from appointment*/
+    $('#add_patient').click(function(e){
+        e.preventDefault();
+        var myObject = new Object();
+        var myArray = new Array();
+
+        myObject.first_name = $('.appointment_update_form input[name=first_name]').val();
+        myObject.middle_name = $('.appointment_update_form input[name=middle_name]').val();
+        myObject.last_name = $('.appointment_update_form input[name=last_name]').val();
+        myObject.gender = $('.appointment_update_form input[name=gender]').val();
+        myObject.medical_history = "";
+        myObject.address = $('.appointment_update_form textarea[name=address]').val();
+        myObject.contact_no = $('.appointment_update_form input[name=contact_no]').val();
+        myObject.date_of_birth = "2012-02-02";
+        myObject.gender = "u";
+
+        //myArray.push(myObject);
+
+        //var json = {PatientList : myArray};
+
+        console.log(JSON.stringify(myObject));
+        //(json);
+        $.ajax({
+          type: "POST",
+          url: "/json/patients",
+          dataType: "json",
+          data: myObject,
+          beforeSend: function(x) {
+            if (x && x.overrideMimeType) {
+                x.overrideMimeType("application/j-son;charset=UTF-8");
+            }
+          },
+          success: window.location = "/patients"
+        });
+    });
+
+    /*date range for patient list*/
+    $('#patientDateRange').hover(function(){
+        var sd = $('#patientDateRange input.startDate').val();
+        var ed = $('#patientDateRange input.endDate').val();
+        var url =  '/reports/patient_list/'+sd+'/'+ed;
+        //var url = "/patients";
+        $('#patientDateRange').attr('action', url);
+    });
+
+    /*date range for monthly income*/
+    $('#monthlyIncomeDateRange').hover(function(){
+        var m = $('#monthlyIncomeDateRange select.month').val();
+        var y = $('#monthlyIncomeDateRange select.year').val();
+        var url =  '/reports/monthly_income/'+y+'/'+m;
+        $('#monthlyIncomeDateRange').attr('action', url);
+    });
 
 });

@@ -409,10 +409,7 @@ $(document).ready(function() {
                     exists = false;
                 }
             });
-        },
-        eventResize: function( event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ){
-            alert("hi");
-        },*/
+        }, */
         eventClick: function(calEvent, jsEvent, view) {
             var appointmentId = calEvent.id;
             $.ajax({
@@ -435,48 +432,101 @@ $(document).ready(function() {
             })
             $('#updateAppointmentModalForm').modal({top: 'center'});
         },
-        eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc) {
+        eventResize: function( event, dayDelta, minuteDelta, allDay, revertFunc ){
+            var r = confirm("Move this event?");
+            if (r == true){
+                var json = new Object();
 
-            var json = new Object();
+                event.start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd HH:mm:ss');
+                alert(event.end);
+                event.end = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm:ss');
 
-            event.start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd hh:mm:ss');
-            event.end = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd hh:mm:ss');
+                json.id = event.id;
+                json.dental_service_id = event.dentalServiceId;
+                json.first_name = event.firstName;
+                json.middle_name = event.middleName;
+                json.last_name = event.lastName;
+                json.dentist_id = event.dentistId;
+                json.contact_no =  event.contactNo;
+                json.address =  event.address;
+                json.status =  2; //rescheduled
+                json.date_start =  event.start;
+                json.date_end =  event.end;
 
-            json.id = event.id;
-            json.dental_service_id = event.dentalServiceId;
-            json.first_name = event.firstName;
-            json.middle_name = event.middleName;
-            json.last_name = event.lastName;
-            json.dentist_id = event.dentistId;
-            json.contact_no =  event.contactNo;
-            json.address =  event.address;
-            json.status =  2; //rescheduled
-            json.date_start =  event.start;
-            json.date_end =  event.end;
+                console.log(JSON.stringify(json));
 
-            console.log(JSON.stringify(json));
+                $.ajax({
+                  type: "POST",
+                  url: "/json/appointments/update",
+                  dataType: "json",
+                  data: json,
+                  /*error: function(xhr, ajaxOptions, thrownError){
+                    //alert(xhr.status);
+                  },*/
+                  beforeSend: function(x) {
+                    if (x && x.overrideMimeType) {
+                        x.overrideMimeType("application/j-son;charset=UTF-8");
+                    }
+                  },
+                  success:  $.ajax({
+                    type: "GET",
+                    url: "/scheduler",
+                    success: function(res) {
+                        window.location = url;
+                    }
+                  })
+                });
+            } else {
+                window.location = url;
+            };
+        },
+        eventDrop: function( event, dayDelta, minuteDelta, allDay, revertFunc ) {
+            var r = confirm("Move this event?");
+            if (r == true){
+                var json = new Object();
 
-            $.ajax({
-              type: "POST",
-              url: "/json/appointments/update",
-              dataType: "json",
-              data: json,
-              /*error: function(xhr, ajaxOptions, thrownError){
-                //alert(xhr.status);
-              },*/
-              beforeSend: function(x) {
-                if (x && x.overrideMimeType) {
-                    x.overrideMimeType("application/j-son;charset=UTF-8");
-                }
-              },
-              success:  $.ajax({
-                type: "GET",
-                url: "/scheduler",
-                success: function(res) {
-                    window.location = url;
-                }
-              })
-            });
+                event.start = $.fullCalendar.formatDate(event.start, 'yyyy-MM-dd HH:mm:ss');
+                event.end = $.fullCalendar.formatDate(event.end, 'yyyy-MM-dd HH:mm:ss');
+                alert(event.end);
+
+                json.id = event.id;
+                json.dental_service_id = event.dentalServiceId;
+                json.first_name = event.firstName;
+                json.middle_name = event.middleName;
+                json.last_name = event.lastName;
+                json.dentist_id = event.dentistId;
+                json.contact_no =  event.contactNo;
+                json.address =  event.address;
+                json.status =  2; //rescheduled
+                json.date_start =  event.start;
+                json.date_end =  event.end;
+
+                console.log(JSON.stringify(json));
+
+                $.ajax({
+                  type: "POST",
+                  url: "/json/appointments/update",
+                  dataType: "json",
+                  data: json,
+                  /*error: function(xhr, ajaxOptions, thrownError){
+                    //alert(xhr.status);
+                  },*/
+                  beforeSend: function(x) {
+                    if (x && x.overrideMimeType) {
+                        x.overrideMimeType("application/j-son;charset=UTF-8");
+                    }
+                  },
+                  success:  $.ajax({
+                    type: "GET",
+                    url: "/scheduler",
+                    success: function(res) {
+                        window.location = url;
+                    }
+                  })
+                });
+            } else {
+                window.location = url;
+            };
         },
         editable: true
     });

@@ -444,6 +444,40 @@ $('.gum canvas').hover(function() {
     }
 });
 
+/*brace type services*/
+var UPA = ['F1','F2','F3'] //must come from db via ajax call
+
+$('#UPA input[type=checkbox]').click(function(){
+    if($(this).attr("checked") === "checked"){
+        for(var i=0;i<UPA.length;i++){
+            var t = UPA[i];
+            curTooth.push(t);
+            var ot = otherTooth(UPA[i]);
+            curTooth.push(ot);
+            alert(JSON.stringify(curTooth));
+        }
+    } else {
+        for(var i=0;i<UPA.length;i++){
+            var t = UPA[i];
+            var ot = otherTooth(UPA[i]);
+            curTooth.remove($.inArray(t, curTooth));
+            curTooth.remove($.inArray(ot, curTooth));
+            alert(JSON.stringify(curTooth));
+        }
+    }
+});
+
+/*
+$('#UPA input[type=checkbox]').click(function(){
+    for(var i=0;i<UPA.length;i++){
+        var t = UPA[i];
+        toothWithService.push(t);
+        var ot = otherTooth(UPA[i]);
+        toothWithService.push(ot);
+    }
+});
+*/
+
 function checkIfNotBan(tooth){
     console.log("\n"+tooth);
     for(var i=0; i < bannedServices.length; i++){

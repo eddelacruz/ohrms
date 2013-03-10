@@ -139,6 +139,18 @@ object PatientDelegate extends WsHelper{
     pl.toList
   }
 
+  def getPatientListByDateRange(startDate: String, endDate: String) = {
+    val res: Promise[Response] = doGet("/json/patients/"+startDate+"/"+endDate)
+    val json: JsValue = res.await.get.json
+    val pl = ListBuffer[PatientList]()
+
+    (json \ "PatientList").as[Seq[JsObject]].map({
+      p =>
+        pl += convertToPatientList(p)
+    })
+    pl.toList
+  }
+
   def submitAddPatientForm(params: Map[String, Seq[String]]) = {
     val res = doPost("/json/patients", params)
     println()

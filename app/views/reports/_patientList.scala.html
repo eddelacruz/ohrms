@@ -1,4 +1,4 @@
-@(patientList: List[ws.services.PatientList])
+@(patientList: List[ws.services.PatientList], startDate: String, endDate: String)
 @import play.cache.Cache
 @import ws.helper.DateWithTime
 
@@ -87,13 +87,16 @@
     Patient List
 </div>
 <div class="sub-title">
-    List of Patient as of @(DateWithTime.dateWithTimeString)
+    @{if(startDate.length != 0){
+        <span>from {startDate} to {endDate}</span>
+    }
+    }
 </div>
 <div class="br-1"></div>
 <table class="table" border="1">
     <tr class="center table-header">
-        <th>Patient Name</th>
-        <th>Address</th>
+        <th style="width: 40%;">Patient Name</th>
+        <th style="width: 40%;">Address</th>
         <th>Contact Number</th>
 
     </tr>

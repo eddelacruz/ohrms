@@ -1,0 +1,43 @@
+@(id: String, formId: String)
+<!-- DateRangeModal -->
+<div class="box grid_5" id="@id" hidden="">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1>Select Date</h1>
+            </div>
+            <div class="right">
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+    <div class="box-content">
+        <form id="@formId" action="#">
+            <div class="columns">
+                <table>
+                    <tr>
+                        <td>
+                            <label>From:</label>
+                        </td>
+                        <td>
+                            <input class="datepicker startDate" type="text" required="required" type="text"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>To:</label>
+                        </td>
+                        <td>
+                            <input  class="datepicker endDate" type="text" required="required" type="text"/>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="View Report" target="_blank">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- /DateRangeModal -->

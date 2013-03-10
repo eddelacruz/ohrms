@@ -190,6 +190,7 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
 
   def submitPatientAddForm = Action {
     implicit request =>
+      println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>."+request.body)
       val id = ""
       val firstName = request.body.asFormUrlEncoded.get("first_name").headOption
       val middleName = request.body.asFormUrlEncoded.get("middle_name").headOption
@@ -268,13 +269,18 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
       val dentistId = request.body.asFormUrlEncoded.get("dentist_id").headOption
       val al = AppointmentList(id, dentalServiceId,firstName, middleName, lastName, dentistId, contactNo, address, dateStart, dateEnd)
 
-      if (AppointmentService.updateAppointment(al) >= 1) {
-        Status(200)
+      if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) == 0 ){
+        if (AppointmentService.updateAppointment(al) >= 1) {
+          Status(200)
+        } else {
+          BadRequest
+          Status(500)
+        }
       } else {
+        println("Dentist not available at this time.")
         BadRequest
         Status(500)
       }
-      Status(200)
   }
 
   def submitPatientUpdateForm = Action {
@@ -572,9 +578,6 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
 
       println(dateStart)
       println(dateEnd)
-      println(AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get))
-      //val formatter: DateTimeFormatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
-      //&& (formatter.parseDateTime(DateWithTime.dateNow).isBefore(formatter.parseDateTime(dateStart.get)))
 
       if (AppointmentService.checkIfDentistIsAvailable(dentistId.get, dateStart.get, dateEnd.get) == 0 ){
         if (AppointmentService.addAppointment(pl) >= 1) {
@@ -706,6 +709,10 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
     Ok(toJson(PaymentService.getTotalPrices(patientId)))
   }
 
+  def getTotalPricesByDateRange(year: Int, month: Int) = Action {
+    Ok(toJson(PaymentService.getTotalPricesByDateRange(year, month)))
+  }
+
   def getPaymentBalance(patientId: String) = Action {
     Ok(toJson(PaymentService.getPaymentBalance(patientId)))
   }
@@ -770,7 +777,6 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
       Ok(toJson(ServicesService.getToothName(toothId)))
   }
 
-
   def getSupplyListById(id: String) = Action {
     Ok(JsObject(Seq("SupplyList" -> toJson(SupplyService.getSupplyListById(id)))))
   }
@@ -820,4 +826,34 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
         Status(500)
       }
   }
+
+  def submitTeethNamingUpdateForm = Action {
+    implicit request =>
+      //println(request.body.asFormUrlEncoded)
+      var index = 0
+      try {
+        while (request.body.asFormUrlEncoded.get("Teeth["+index+"][]").head != null) {
+          val teethId = request.body.asFormUrlEncoded.get("Teeth["+index+"][]").headOption.get
+          val teethName = request.body.asFormUrlEncoded.get("Teeth["+index+"][]").tail.headOption.get
+          TreatmentPlanService.updateTeethNaming(teethId, teethName)
+          index+=1
+        }
+      } catch {
+        case e: Exception =>
+          println("----->>>>> (END OF ITERATION OF "+index+" TEETH_NAME) <<<<<-----")
+          Redirect("/settings/teeth_naming")
+      }
+      Status(200)
+  }
+
+  def getPatientsByDateRange(start: String, end: String) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientsByDateRange(start, end)))))
+  }
+
+  def getMonthlyIncome(year: Int, month: Int) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("IncomeList" -> toJson(PaymentService.getMonthlyIncome(year, month)))))
+  }
+
 }

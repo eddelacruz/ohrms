@@ -1,19 +1,35 @@
-@(monthlyIncome: List[ws.services.MonthlyIncome])
+@(monthlyIncome: List[ws.services.IncomeList], year: Int, month: Int, totalPrice: Double)
 @import play.cache.Cache
 @import ws.helper.DateWithTime
+
 
 <!DOCTYPE html>
 
 <html>
-<head><title>Sabertooth Dental Clinic</title>
+<head>
+    <title>Monthly Income Report</title>
     <style type="text/css">
+        .right{
+        text-align: right;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 12px;
+        }
         .title {
         text-align: center;
         font-weight: bold;
         font-family: sans-serif;
         font-size: 24px;
+        }
+
+        .title2 {
+        text-align: center;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 18px;
 
         }
+
         .sub-title {
         text-align: center;
         font-size: 11px;
@@ -64,18 +80,69 @@
 </head>
 
 <body>
-<div class="title">Monthly Income Report</div>
-<center>Date Start:  wla pa     Date End: wla pa</center>
-<p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
-<p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
+<div class="title">
+    @(play.cache.Cache.get("clinic-name"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-address"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-contact_no"))
+</div>
+<br/>
+<div class="title2">
+    Monthly Income Report
+</div>
+<div class="sub-title">
+    <span>for month of
+        @{month match {
+            case 1 => {
+                <span>January</span>
+            }
+            case 2 => {
+                <span>February</span>
+            }
+            case 3 => {
+                <span>March</span>
+            }
+            case 4 => {
+                <span>April</span>
+            }
+            case 5 => {
+                <span>May</span>
+            }
+            case 6 => {
+                <span>June</span>
+            }
+            case 7 => {
+                <span>July</span>
+            }
+            case 8 => {
+                <span>August</span>
+            }
+            case 9 => {
+                <span>September</span>
+            }
+            case 10 => {
+                <span>October</span>
+            }
+            case 11 => {
+                <span>November</span>
+            }
+            case 12 => {
+                <span>December</span>
+            }
+        }}
+    @year</span>
+</div>
 
 <div class="br-1"></div>
 <table class="table" border="1">
     <tr class="center table-header">
-        <th>Patient's Name</th>
+        <th>Patient Name</th>
         <th>Service Name</th>
-        <th>Price</th>
         <th>Date Performed</th>
+        <th>Price</th>
 
     </tr>
 
@@ -84,11 +151,22 @@
 <tr class="">
     <td>@mi.firstName @mi.lastName</td>
     <td>@mi.serviceName</td>
-    <td><span class="pesos">P</span> @mi.price</td>
     <td>@mi.datePerformed</td>
+    <td>@mi.price</td>
+
 </tr>
 }
-     </table>
-Total:    wala pa
+
+</table>
+<br/>
+<div class="right">
+    Total Income: @totalPrice
+</div>
+<br/>
+<div class="footer">
+    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
+</div>
+
 </body>
 </html>
+

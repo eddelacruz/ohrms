@@ -381,8 +381,8 @@ object PatientService extends Secured{
   }
 
   def getPatientVisitsByMonth(year: Int, month: Int, day: Int): Long = {
-    //val date = year+"-"+month+"-"+day
-    val date = format("%d-%d-%d", year, month, day)
+    val date = year+"-"+month+"-"+day
+    //val date = format("%d-%d-%d", year, month, day)
     DB.withConnection {
         implicit c =>
           SQL(
@@ -460,6 +460,45 @@ object PatientService extends Secured{
            } *
         }
         searchPatientList
+    }
+  }
+
+  def getPatientsByDateRange(startDate: String, endDate: String): List[PatientList] = {
+    val status = 1
+    DB.withConnection {
+      implicit c =>
+        val patientList: List[PatientList] = SQL(
+          """
+            |select
+            |p.id,
+            |p.first_name,
+            |p.middle_name,
+            |p.last_name,
+            |p.address,
+            |p.contact_no,
+            |p.date_of_birth,
+            |p.medical_history,
+            |p.gender
+            |from
+            |patients p
+            |where status = {status} AND
+            |(date_created between DATE({start_date}) and DATE({end_date})
+            |or date_created = {end_date})
+            |ORDER BY last_name asc
+          """.stripMargin).on('status -> status, 'start_date -> {startDate}, 'end_date -> {endDate}).as {
+            get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("middle_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[String]]("address") ~
+            get[Option[String]]("contact_no") ~
+            get[Date]("date_of_birth") ~
+            get[Option[String]]("medical_history")~
+            get[String]("gender")map {
+            case a ~ b ~ c ~ d ~ f ~ g ~ h ~ j ~ k=> PatientList(a, b, c, d, f, g, Some(h.toString), j, k)
+          } *
+        }
+        patientList
     }
   }
 
