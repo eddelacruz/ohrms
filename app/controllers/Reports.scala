@@ -22,10 +22,10 @@ import controllers.Application.Secured
  */
 object Reports extends Controller with Secured{
   def _patientList(start: Int, count: Int): Result = {
-    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start, count)))
+    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientList(start, count), "", ""))
   }
   def _patientListByDateRange(startDate: String, endDate: String): Result = {
-    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientListByDateRange(startDate, endDate)))
+    return PDF.ok(html.reports._patientList.render(PatientDelegate.getPatientListByDateRange(startDate, endDate), startDate, endDate))
   }
   def _dentistList(start: Int, count: Int): Result = {
     return PDF.ok(html.reports._dentistList.render(DentistDelegate.getDentistList(start, count)))
@@ -41,16 +41,16 @@ object Reports extends Controller with Secured{
     return PDF.ok(html.reports._dental_certificate.render(patientId))
   }
 
-    def _paymentReceipt(id: String, start: Int, count: Int): Result = {
-      return PDF.ok(html.reports._payment_receipt.render(PaymentDelegate.getPaymentById(id), ClinicDelegate.getClinicList(start,count), PaymentService.getPaymentBalance(id)))
-    }
+  def _paymentReceipt(id: String, start: Int, count: Int): Result = {
+    return PDF.ok(html.reports._payment_receipt.render(PaymentDelegate.getPaymentById(id), ClinicDelegate.getClinicList(start,count), PaymentService.getPaymentBalance(id)))
+  }
 
   def _individualPatientReport(id: String, start: Int, count: Int): Result = {
     return PDF.ok(html.reports._individual_patient.render(PatientDelegate.getPatientListById(id), TreatmentPlanDelegate.getTreatmentPlan(id,start,count)))
   }
 
-  def _monthlyIncomeReport(start: Int, count: Int): Result = {
-    return PDF.ok(html.reports._monthly_income.render(PaymentService.getMonthlyIncomeReport(start,count)))
+  def _monthlyIncomeReport(year: Int, month: Int): Result = {
+    return PDF.ok(html.reports._monthly_income.render(PaymentDelegate.getMonthlyIncome(year, month), year, month, PaymentService.getTotalPricesByDateRange(year, month)))
   }
 
   def _auditLogReport(module: String, dateStart: String, dateEnd: String): Result = {

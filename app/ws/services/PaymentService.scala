@@ -20,7 +20,7 @@ import java.math.BigDecimal
  */
 
 case class PaymentList(var id: String, patientId : Option[String], firstName: String, lastName: String, payment: Option[String], dateOfPayment: Option[String], userName: Option[String])
-case class MonthlyIncome(var id: String, firstName : Option[String], lastName : Option[String], datePerformed : Option[String], price : Option[String],serviceName : Option[String])
+case class IncomeList(var id: String, firstName : Option[String], lastName : Option[String], datePerformed : Option[String], price : Option[String],serviceName : Option[String])
 object PaymentService {
 
   def getRowCountOfTable(tableName: String): Long = {
@@ -31,10 +31,10 @@ object PaymentService {
     }
   }
 
-  def getMonthlyIncomeReport(start: Int, count: Int): List[MonthlyIncome] = {
+  def getIncomeByDateRange(start: String, end: String): List[IncomeList] = {
     DB.withConnection {
       implicit c =>
-        val paymentList: List[MonthlyIncome] = SQL(
+        val paymentList: List[IncomeList] = SQL(
           """
             |select
             |tp.id,
@@ -47,16 +47,49 @@ object PaymentService {
             |from treatment_plan tp
             |left outer JOIN patients pat ON  tp.patient_id = pat.id
             |left outer JOIN dental_services s ON tp.service_id = s.id
-            |where date(tp.date_performed) between "2013-02-26" and "2013-02-26"
-            |ORDER BY tp.date_performed desc
-          """.stripMargin).on('start -> start, 'count -> count).as {
+            |where date(tp.date_performed) between DATE({start}) and DATE({end})
+            |ORDER BY tp.date_performed asc
+          """.stripMargin).on('start -> start, 'end -> end).as {
           get[String]("id") ~
             get[Option[String]]("first_name") ~
             get[Option[String]]("last_name") ~
             get[Option[Date]]("date_performed") ~
             get[Option[String]]("price") ~
             get[Option[String]]("name")  map {
-            case a ~ b ~ c  ~ d ~ e ~ f => MonthlyIncome(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e, f)
+            case a ~ b ~ c  ~ d ~ e ~ f => IncomeList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e, f)
+          } *
+        }
+        paymentList
+    }
+  }
+
+  def getMonthlyIncome(year: Int, month: Int): List[IncomeList] = {
+    val date = year+"-"+month+"-01"
+    DB.withConnection {
+      implicit c =>
+        val paymentList: List[IncomeList] = SQL(
+          """
+            |select
+            |tp.id,
+            |pat.first_name,
+            |pat.middle_name,
+            |pat.last_name,
+            |tp.date_performed,
+            |tp.price,
+            |s.name
+            |from treatment_plan tp
+            |left outer JOIN patients pat ON  tp.patient_id = pat.id
+            |left outer JOIN dental_services s ON tp.service_id = s.id
+            |where tp.date_performed between {date} and LAST_DAY({date})
+            |ORDER BY tp.date_performed asc
+          """.stripMargin).on('date -> date).as {
+          get[String]("id") ~
+            get[Option[String]]("first_name") ~
+            get[Option[String]]("last_name") ~
+            get[Option[Date]]("date_performed") ~
+            get[Option[String]]("price") ~
+            get[Option[String]]("name")  map {
+            case a ~ b ~ c  ~ d ~ e ~ f => IncomeList(a, b, c, Some(d.toString.replace("Some", "").replace("(","").replace(".0)","")), e, f)
           } *
         }
         paymentList
@@ -212,6 +245,21 @@ object PaymentService {
             |from treatment_plan tp inner join patients p on tp.patient_id = p.id
             |where tp.patient_id = {patient_id}
           """.stripMargin).on('patient_id -> patientId).as(scalar[Double].single)
+    }
+  }
+
+  def getTotalPricesByDateRange(year: Int, month: Int): Double = {
+    val date = year+"-"+month+"-01"
+    DB.withConnection {
+      implicit c =>
+        SQL(
+          """select
+            |COALESCE(sum(tp.price), 0) as total_price
+            |from treatment_plan tp
+            |left outer JOIN patients pat ON  tp.patient_id = pat.id
+            |left outer JOIN dental_services s ON tp.service_id = s.id
+            |where tp.date_performed between {date} and LAST_DAY({date})
+          """.stripMargin).on('date -> date).as(scalar[Double].single)
     }
   }
 

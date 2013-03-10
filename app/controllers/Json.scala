@@ -709,6 +709,10 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     Ok(toJson(PaymentService.getTotalPrices(patientId)))
   }
 
+  def getTotalPricesByDateRange(year: Int, month: Int) = Action {
+    Ok(toJson(PaymentService.getTotalPricesByDateRange(year, month)))
+  }
+
   def getPaymentBalance(patientId: String) = Action {
     Ok(toJson(PaymentService.getPaymentBalance(patientId)))
   }
@@ -796,5 +800,11 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
     implicit request =>
       Ok(JsObject(Seq("PatientList" -> toJson(PatientService.getPatientsByDateRange(start, end)))))
   }
+
+  def getMonthlyIncome(year: Int, month: Int) = Action {
+    implicit request =>
+      Ok(JsObject(Seq("IncomeList" -> toJson(PaymentService.getMonthlyIncome(year, month)))))
+  }
+
 
 }

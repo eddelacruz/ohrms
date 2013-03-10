@@ -78,7 +78,7 @@ GET     /reports/staff_list         controllers.Reports._staffList(start : Int ?
 GET     /reports/dental_certificate/:patientId     controllers.Reports._dentalCertificate(patientId)
 GET     /reports/payment_receipt/:id    controllers.Reports._paymentReceipt(id, start : Int ?= 0, count : Int ?= 25)
 GET     /reports/individual_patients/:id    controllers.Reports._individualPatientReport(id, start : Int ?= 0, count : Int ?= 25)
-GET     /reports/monthly_income    controllers.Reports._monthlyIncomeReport(start : Int ?= 0, count : Int ?= 25)
+GET     /reports/monthly_income/:year/:month    controllers.Reports._monthlyIncomeReport(year: Int, month: Int)
 GET     /reports/audit_logs/:module/:dateStart/:dateEnd    controllers.Reports._auditLogReport(module: String, dateStart: String, dateEnd: String)
 GET     /sample/billy               controllers.Application.billySample
 GET     /specializations                     controllers.Specialization.getList(start : Int ?= 0, count : Int ?= 25)
@@ -161,12 +161,14 @@ POST    /json/payments                controllers.Json.submitPaymentAddForm
 GET     /json/payments/:patientId/total_payments     controllers.Json.getTotalPayments(patientId)
 GET     /json/payments/:patientId/total_prices     controllers.Json.getTotalPrices(patientId)
 GET     /json/payments/:patientId/balance     controllers.Json.getPaymentBalance(patientId)
+GET     /json/payments/total_prices/:year/:month     controllers.Json.getTotalPricesByDateRange(year: Int, month: Int)
 GET     /json/dental_services/all/types         controllers.Json.getAllDentalServiceTypes
 GET     /json/specialization/all/names         controllers.Json.getAllSpecializationNames
 GET     /json/settings/audit_log/:module/:date_start/:date_end    controllers.Json.getAuditLogReport(module: String, date_start: String, date_end: String)
 GET     /json/dental_services/tooth/name/:toothId       controllers.Json.getToothName(toothId: String)
 POST    /json/settings/teeth_naming        controllers.Json.submitTeethNamingUpdateForm
 GET     /json/patients/:startDate/:endDate      controllers.Json.getPatientsByDateRange(startDate: String, endDate: String)
+GET     /json/monthly_income/:year/:month       controllers.Json.getMonthlyIncome(year: Int, month: Int)
 
 GET     /image                      controllers.Application.imageForm
 POST    /image                      controllers.Application.upload

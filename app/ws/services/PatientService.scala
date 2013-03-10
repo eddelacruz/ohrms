@@ -381,8 +381,8 @@ object PatientService extends Secured{
   }
 
   def getPatientVisitsByMonth(year: Int, month: Int, day: Int): Long = {
-    //val date = year+"-"+month+"-"+day
-    val date = format("%d-%d-%d", year, month, day)
+    val date = year+"-"+month+"-"+day
+    //val date = format("%d-%d-%d", year, month, day)
     DB.withConnection {
         implicit c =>
           SQL(

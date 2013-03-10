@@ -1,7 +1,7 @@
 package ws.deserializer.json
 
 import play.api.libs.json._
-import ws.services.PaymentList
+import ws.services.{PaymentList, IncomeList}
 /**
  * Created with IntelliJ IDEA.
  * User: Robert
@@ -32,6 +32,29 @@ trait PaymentListDeserializer {
         "payment" -> JsString(d.payment.get),
         "dateOfPayment" -> JsString(d.dateOfPayment.get),
         "userName" -> JsString(d.userName.get)
+      )
+    )
+  }
+  case class MonthlyIncome(var id: String, firstName : Option[String], lastName : Option[String], datePerformed : Option[String], price : Option[String],serviceName : Option[String])
+
+  implicit object IncomeListFormat extends Format[IncomeList]{
+    def reads(json: JsValue): IncomeList = IncomeList(
+      (json \ "id").as[String],
+      (json \ "firstName").asOpt[String],
+      (json \ "lastName").asOpt[String],
+      (json \ "datePerformed").asOpt[String],
+      (json \ "price").asOpt[String],
+      (json \ "serviceName").asOpt[String]
+    )
+
+    def writes(d: IncomeList): JsValue = JsObject(
+      Seq(
+        "id" -> JsString(d.id),
+        "firstName" -> JsString(d.firstName.get),
+        "lastName" -> JsString(d.lastName.get),
+        "datePerformed" -> JsString(d.datePerformed.get),
+        "price" -> JsString(d.price.get),
+        "serviceName" -> JsString(d.serviceName.get)
       )
     )
   }

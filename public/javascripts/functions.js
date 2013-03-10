@@ -481,11 +481,19 @@ $(document).ready(function() {
 
     /*date range for patient list*/
     $('#patientDateRange').hover(function(){
-        var sd = $('input.startDate').val();
-        var ed = $('input.endDate').val();
+        var sd = $('#patientDateRange input.startDate').val();
+        var ed = $('#patientDateRange input.endDate').val();
         var url =  '/reports/patient_list/'+sd+'/'+ed;
         //var url = "/patients";
         $('#patientDateRange').attr('action', url);
+    });
+
+    /*date range for monthly income*/
+    $('#monthlyIncomeDateRange').hover(function(){
+        var m = $('#monthlyIncomeDateRange select.month').val();
+        var y = $('#monthlyIncomeDateRange select.year').val();
+        var url =  '/reports/monthly_income/'+y+'/'+m;
+        $('#monthlyIncomeDateRange').attr('action', url);
     });
 
 });

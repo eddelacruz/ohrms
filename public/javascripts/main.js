@@ -758,6 +758,7 @@ function res() {
     var $day = $('select[id=day]');
     var $month = $('select[id=month]');
     var $year = $('select[id=year]');
+    var $presentYear = $('select[id=present_year]');
     var monthArr = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
     function daysInMonth(month, year) {
@@ -777,6 +778,11 @@ function res() {
     //populate year
     for(var i=startYear;i>=earlyYear;i--){
         $year.append('<option value='+i+'>'+i+'</option>');
+    }
+
+    //populate year
+    for(var i=curYear;i>=earlyYear;i--){
+        $presentYear.append('<option value='+i+'>'+i+'</option>');
     }
 
     //set number of days per month

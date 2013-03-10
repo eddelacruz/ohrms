@@ -5,6 +5,7 @@
 </script>
 
 @modal._date_range("patientDateRangeModal", "patientDateRange")
+@modal._month_range("monthlyIncomeDateRangeModal", "monthlyIncomeDateRange")
 
 <!--  Reports -->
 <header class="grid_12 head center">
@@ -22,7 +23,7 @@
             <p><a href="@routes.Reports._individualPatientReport("abc")" target="_blank">Patient Treatments List</a></p>
         </li>
         <li>
-            <p><a href="@routes.Reports._monthlyIncomeReport()" target="_blank">Monthly Income</a></p>
+            <p><a href="#monthlyIncomeDateRangeModal" class="modal">Monthly Income</a></p>
         </li>
         <li>
             <p><a href="@routes.Reports._serviceList()" target="_blank">Services List</a></p>
