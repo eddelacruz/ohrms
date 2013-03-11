@@ -1,0 +1,152 @@
+@(supplyList: List[ws.services.SupplyList])
+
+@main(Messages("supply.title")){
+
+<!-- SUpply List -->
+<header class="grid_12 head center">
+    <h1>@Messages("supply.list.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<!-- Breadcrumb -->
+<script type="text/javascript">
+    $('<div class="extension top inleft breadcrumbs"><nav><ul><li class="first"><a href="#">Settings</a> <span class="divider"></span></li><li class="last"><a href="#">Supply</a></li></ul></nav></div>').prependTo('#content');
+</script>
+<!-- /Breadcrumb -->
+
+@settings._settings_sidebar()
+
+<div class="grid_9">
+    @if((play.cache.Cache.get("role")) == 0){
+    <div class="box">
+        <header>
+            <div class="inner">
+                <div class="left title">
+                    <h1>Add Dental Supplies</h1>
+                </div>
+                <div class="right">
+                    <nav style="display:none;">
+                        <ul>
+                            <li class="active first"><a href="#tab-1">Profile</a></li>
+                        </ul>
+                    </nav>
+                    <a href="#" class="close">close</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="box-content">
+            <div id="tab-1" class="tab">
+                <div class="columns">
+                    <div class="form-details right">
+                        @helper.form(action = routes.Supply.submitAddForm){
+                        <div class="field left">
+                            <input type="hidden" name="id" value="">
+                            <input type="hidden" name="patient_id" value="169a8e5b-0f0e-4808-9093-f773faa40ebf">
+                            <ul>
+                                <li>
+                                    <label class="upper">Name:</label>
+                                    <input type="text" name="name"  required = "required">
+                                </li>
+                                <li>
+                                    <label class="upper">Description:</label>
+                                    <input type="text" name="description"  required = "required">
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="field right">
+                            <ul>
+                                <li>
+                                    <label class="upper">Quantity:</label>
+                                    <input type="text" name="quantity"  required = "required">
+                                </li>
+                                <li>
+                                    <label class="upper">Price:</label>
+                                    <input type="text" name="price"  required = "required">
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <footer class="pane">
+                    <input type="submit" class="bt blue right supply" value="@Messages("button.add")">
+                </footer>
+                }
+            </div>
+        </div>
+    </div>
+    }
+
+    <div class="extension top fullwidth">
+        <div id="DataTables_Table_0_length" class="dataTables_length">
+            <label>
+                <span class="textnode">Show </span>
+                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0">
+                    <option value="0" selected="selected">-</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="textnode"> entries</span>
+            </label>
+        </div>
+        <div class="dataTables_filter" id="DataTables_Table_0_filter">
+
+        </div>
+        <div class="clear"></div></div>
+    <div class="table">
+        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+            <table class="datatable dataTable" id="DataTables_Table_0">
+                <thead>
+                <tr role="row">
+                    <th class="first sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                        <div class="parentsort">Name
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                        <div class="parentsort">Description
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 25%;" aria-sort="ascending" aria-label="Rendering engine: activate to sort column descending">
+                        <div class="parentsort">Quantity
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                    <th class="last sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 30%;" aria-label="Browser: activate to sort column ascending">
+                        <div class="parentsort">Price
+                            <div class="sorticon"></div>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+
+                <tbody role="alert" aria-live="polite" aria-relevant="all">
+                @supplyList.map { dl =>
+                <tr>
+                    <td class="sorting_1"><a href="@routes.Supply.getSupplyListById(dl.id)">@dl.name</a></td>
+                    <td class=" ">@dl.description</td>
+                    <td class=" ">@dl.quantity</td>
+                    <td class=" ">@dl.price</td>
+                </tr>
+                }
+                </tbody>
+            </table>
+            <div class="extension bottom inright pagination">
+                <div class="dataTables_paginate paging_full_numbers" id="DataTables_Table_0_paginate">
+                    <a tabindex="0" class="first previous paginate_button paginate_button_disabled" id="DataTables_Table_0_previous">Previous</a>
+                        <span>
+                            <a tabindex="0" class="paginate_button">1</a>
+                        </span>
+                    <a tabindex="0" class="last next paginate_button" id="DataTables_Table_0_next">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /SupplyList -->
+</div>
+}

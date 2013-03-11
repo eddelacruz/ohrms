@@ -1,0 +1,71 @@
+@(supplyList: List[ws.services.SupplyList])
+
+@main(Messages("supply.title")){
+
+<!-- Update Supply -->
+
+<header class="grid_12 head center">
+    <h1>@Messages("supply.update.title")</h1>
+    <div class="clear"></div><span class="divider"></span>
+</header>
+
+<div class="box grid_12">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1></h1>
+            </div>
+            <div class="right">
+                <nav>
+                    <ul>
+                        <li class="active first"><a href="#tab-1">Profile</a></li>
+                    </ul>
+                </nav>
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="box-content">
+        <div id="tab-1" class="tab">
+            <div class="">
+                <div class="form-details">
+                    @supplyList.map { dl =>
+                    @helper.form(action = routes.Supply.submitUpdateForm){
+                    <div class="field left">
+                        <input type="hidden" name="id" value="@dl.id">
+                        <input type="hidden" name="patient_id" value="@dl.patientId">
+
+                        <ul>
+                            <li>
+                                <label>Name:</label>
+                                <input type="text" name="name" value="@dl.name" required = "required">
+                            </li>
+                            <li>
+                                <label>Description:</label>
+                                <input type="text" name="description" value="@dl.description" required = "required">
+                            </li>
+                            <li>
+                                <label>Price:</label>
+                                <input type="text" name="price" value="@dl.price" required = "required">
+                            </li>
+                            <li>
+                                <label>Quantity:</label>
+                                <input type="text" name="quantity" value="@dl.quantity" required = "required">
+                            </li>
+                         </ul>
+                    </div>
+
+                </div>
+            </div>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="@Messages("button.update")">
+            </footer>
+            }
+            }
+        </div>
+    </div>
+</div>
+
+<!-- /Update Supply -->
+}
