@@ -368,8 +368,7 @@ function redefineFunctions() {
             } else if(toolType === 'selective'){
                 //alert($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked");
                 if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
-                    console.log("if");
-                    //alert(tooth);
+                    //console.log("if");
                     if($.inArray(tooth, UPA) > -1 || $.inArray(otherTooth(tooth), UPA) > -1){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
@@ -391,7 +390,7 @@ function redefineFunctions() {
                         });
                     }
                 } else {
-                    alert("else");
+                    //alert("else");
                     if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
