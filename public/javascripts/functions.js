@@ -327,6 +327,7 @@ $(document).ready(function() {
                     toothWithServiceFromDB.push("canvas"+vl.teethName+"_"+vl.serviceId);
                     toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
 
+                    curColor = vl.color;
                     if(vl.toolType === '1'){
                         $('#'+vl.teethId).prepend("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"' data-service='"+vl.serviceId+"'></canvas></div>");
                         var myCvs = document.getElementById(id);

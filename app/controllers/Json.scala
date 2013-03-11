@@ -443,6 +443,7 @@ object Json extends Controller with WsHelper with PaymentListDeserializer with A
 
   def submitDentalServiceAddForm = Action {
     implicit request =>
+      println(request.body)
       var index = 0
       val id = UUIDGenerator.generateUUID("dental_services")
       val name = request.body.asFormUrlEncoded.get("name").headOption
