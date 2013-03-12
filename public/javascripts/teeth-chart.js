@@ -41,8 +41,7 @@ $(function() {
                 })
         });
 
-        console.log(bannedServices);
-
+        //console.log(bannedServices); print the banned services
 
         if ($toolType === "1" && $id != "ERASER") {
             toolType = "paint";
@@ -71,17 +70,52 @@ $(function() {
     });
 
     //for pushing and removing items in array
-    $('.gum input[type=checkbox]').click(function() {
+    $('.gum input[type=checkbox], .gum2 input[type=checkbox]').click(function() {
         if($(this).attr("checked") === "checked"){
             var tooth = $(this).parent().attr('id');
             $('.selected-tooth').append('<button id="'+tooth+'"class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" role="button" aria-disabled="false" style="margin-right: 5px;"><span class="ui-button-text">'+tooth+'</span></button>');
-            curTooth.push(tooth);
+            var index = $.inArray(tooth, curTooth);
+            (index === -1 )? curTooth.push(tooth): console.log("nag else line 78");
+            if(tooth === "UPA"){
+                for(var i=0;i<UPA.length;i++){
+                    var t = UPA[i];
+                    var ot = otherTooth(UPA[i]);
+                    var idx = $.inArray(t, curTooth);
+                    var idx2 = $.inArray(ot, curTooth);
+                    (idx === -1 )? curTooth.push(t) : "";
+                    (idx2 === -1 )? curTooth.push(ot) : "";
+                }
+            } else if(tooth === "LOWA"){
+                for(var i=0;i<LOWA.length;i++){
+                    var t = LOWA[i];
+                    var ot = otherTooth(LOWA[i]);
+                    var idx = $.inArray(t, curTooth);
+                    var idx2 = $.inArray(ot, curTooth);
+                    (idx === -1 )? curTooth.push(t) : "";
+                    (idx2 === -1 )? curTooth.push(ot) : "";
+                }
+            }
             console.log("if "+curTooth);
         } else {
             var tooth = $(this).parent().attr('id');
             $('.selected-tooth button#'+tooth).remove();
             var index = $.inArray(tooth, curTooth);
             curTooth.remove(index);
+            if(tooth === "UPA"){
+                for(var i=0;i<UPA.length;i++){
+                    var t = UPA[i];
+                    var ot = otherTooth(UPA[i]);
+                    curTooth.remove($.inArray(t, curTooth));
+                    curTooth.remove($.inArray(ot, curTooth));
+                }
+            } else if(tooth === "LOWA"){
+                for(var i=0;i<LOWA.length;i++){
+                    var t = LOWA[i];
+                    var ot = otherTooth(LOWA[i]);
+                    curTooth.remove($.inArray(t, curTooth));
+                    curTooth.remove($.inArray(ot, curTooth));
+                }
+            }
             console.log("else "+curTooth);
         }
     });
@@ -366,9 +400,7 @@ function redefineFunctions() {
                 var cv2 = '#'+otherTooth(tooth)+' div #canvas'+anotherTooth+'_'+toolData;
                 pair = [cv, cv2];
             } else if(toolType === 'selective'){
-                //alert($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked");
                 if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
-                    //console.log("if");
                     if($.inArray(tooth, UPA) > -1 || $.inArray(otherTooth(tooth), UPA) > -1){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
@@ -378,6 +410,7 @@ function redefineFunctions() {
                             pair.push(cv);
                             pair.push(cv2);
                         });
+                        setSymbol("UPA", toolType, toolData);
                     }
                     if($.inArray(tooth, LOWA) > -1 || $.inArray(otherTooth(tooth), LOWA) > -1){
                         $.each(LOWA, function(k, v){
@@ -388,9 +421,9 @@ function redefineFunctions() {
                             pair.push(cv);
                             pair.push(cv2);
                         });
+                        setSymbol("LOWA", toolType, toolData);
                     }
                 } else {
-                    //alert("else");
                     if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
@@ -402,7 +435,7 @@ function redefineFunctions() {
                                 pair.push(cv2);
                             }
                         });
-                        console.log("???????????"+JSON.stringify(toothWithService));
+                        setSymbol("UPA", toolType, toolData);
                     }
                     if($('#LOWA input[type=checkbox]').attr("checked") === "checked"){
                         $.each(LOWA, function(k, v){
@@ -415,28 +448,10 @@ function redefineFunctions() {
                                 pair.push(cv2);
                             }
                         });
-                        console.log("???????????"+JSON.stringify(toothWithService));
+                        setSymbol("LOWA", toolType, toolData);
                     }
                 }
-
-                 /*else {
-                    $.each(UPA, function(k, v){
-                        var i = $.inArray(v);
-                        var i2 = $.inArray(otherTooth(v));
-                        pair.remove(i);
-                        pair.remove(otherTooth(i2));
-                    });
-                    $.each(LOWA, function(k, v){
-                        var i = $.inArray(v);
-                        var i2 = $.inArray(otherTooth(v));
-                        pair.remove(i);
-                        pair.remove(otherTooth(i2));
-                    });
-                }
-                console.log(JSON.stringify(pair)+pair.length);*/
             }
-
-            //console.log(JSON.stringify(pair));
 
             $.each(pair, function(k, v){
                 $(v).each(function() {
@@ -556,28 +571,11 @@ $('.gum canvas').hover(function() {
 
 /*brace type services*/
 
-$('#UPA input[type=checkbox]').click(function(){
+/*$('#UPA input[type=checkbox]').click(function(){
     if($(this).attr("checked") === "checked"){
-        for(var i=0;i<UPA.length;i++){
-            var t = UPA[i];
-            var ot = otherTooth(UPA[i]);
-            curTooth.push(t);
-            curTooth.push(ot);
-            $('#'+t+' input[type=checkbox]').attr("checked","checked");
-            $('#'+ot+' input[type=checkbox]').attr("checked","checked");
-            $('#'+t+' span').addClass('ui-checkbox').addClass('ui-checkbox-checked').addClass('ui-checkbox-state-checked');
-            $('#'+ot+' span').addClass('ui-checkbox').addClass('ui-checkbox-checked').addClass('ui-checkbox-state-checked');
-            //alert(JSON.stringify(curTooth));
-        }
+        curTooth.push("UPA");
     } else {
-        for(var i=0;i<UPA.length;i++){
-            var t = UPA[i];
-            var ot = otherTooth(UPA[i]);
-            $('#'+t+' span').removeClass('ui-checkbox-checked').removeClass('ui-checkbox-state-checked');
-            $('#'+ot+' span').removeClass('ui-checkbox-checked').removeClass('ui-checkbox-state-checked');
-            //alert(JSON.stringify(curTooth));
-        }
-        curTooth = [];
+        u
     }
 });
 
@@ -588,23 +586,9 @@ $('#LOWA input[type=checkbox]').click(function(){
             var ot = otherTooth(LOWA[i]);
             curTooth.push(t);
             curTooth.push(ot);
-            $('#'+t+' input[type=checkbox]').attr("checked","checked");
-            $('#'+ot+' input[type=checkbox]').attr("checked","checked");
-            $('#'+t+' span').addClass('ui-checkbox').addClass('ui-checkbox-checked').addClass('ui-checkbox-state-checked');
-            $('#'+ot+' span').addClass('ui-checkbox').addClass('ui-checkbox-checked').addClass('ui-checkbox-state-checked');
-            //alert(JSON.stringify(curTooth));
         }
-    } else {
-        for(var i=0;i<LOWA.length;i++){
-            var t = LOWA[i];
-            var ot = otherTooth(LOWA[i]);
-            $('#'+t+' span').removeClass('ui-checkbox-checked').removeClass('ui-checkbox-state-checked');
-            $('#'+ot+' span').removeClass('ui-checkbox-checked').removeClass('ui-checkbox-state-checked');
-            //alert(JSON.stringify(curTooth));
-        }
-        curTooth = [];
-    }
-});
+    } else { curTooth = []; }
+});*/
 
 function checkIfNotBan(tooth){
     //console.log("\n"+tooth);
@@ -648,8 +632,9 @@ function setPaint(tooth, toolType, toolData) {
 function setSymbol(tooth, toolType, toolData) {
     var cvs = 'canvas'+tooth+'_'+toolData;
 
+    var group = '#'+tooth+' #canvas'+tooth+'_'+toolData;
     var c = '#'+tooth+' div #canvas'+tooth+'_'+toolData;
-    var c2 = '#'+otherTooth(tooth)+' div #canvas'+otherTooth(tooth)+'_'+toolData;
+    //var c2 = '#'+otherTooth(tooth)+' div #canvas'+otherTooth(tooth)+'_'+toolData;
     var t = tooth+"_"+toolData;
 
     //price
@@ -659,18 +644,27 @@ function setSymbol(tooth, toolType, toolData) {
 
 
     if (checkIfNotBan(tooth) && checkIfNotBan(anotherTooth)) {
-        console.log("==========================> setSymbol: "+tooth);
+        //console.log("==========================> setSymbol: "+tooth);
         if ($(c).length <= 0) {
             width = $('#'+tooth+' canvas').attr('width');
             height = $('#'+tooth+' canvas').attr('height');
             $('#'+tooth+' div').filter(':last').before("<div class='absolute'><canvas id='canvas"+t+"' width='"+width+"' height='"+height+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
+
+            //special cases
+            if(tooth === "UPA" && $(group).length <= 0){
+                $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
+            }
+            if(tooth === "LOWA" && $(group).length <= 0){
+                $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
+            }
+
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
-                //console.log(">>> toothWithService"+toothWithService);
             }
         } else {
             $(c).parent().remove();
-            var index = $.inArray(tooth, toothWithService);
+            var t = tooth+"_"+toolData;
+            var index = $.inArray(t, toothWithService);
             toothWithService.remove(index);
             //symbol only has remove from toothWithService
         }
@@ -708,7 +702,6 @@ function drawTemplate(template, id){
             ctx.fillStyle = curColor;
             ctx.stroke();
             ctx.closePath();
-
             ctx.font = "bold 20px Verdana";
             ctx.textBaseline = "right";
             ctx.fillText("B", ctxWidth/2, ctxHeight/2);
@@ -717,7 +710,6 @@ function drawTemplate(template, id){
             ctx.fillStyle = curColor;
             ctx.stroke();
             ctx.closePath();
-
             ctx.font = "bold 20px Verdana";
             ctx.textBaseline = "right";
             ctx.fillText("A", ctxWidth/2, ctxHeight/2);
@@ -726,7 +718,6 @@ function drawTemplate(template, id){
             ctx.fillStyle = curColor;
             ctx.stroke();
             ctx.closePath();
-
             ctx.font = "bold 20px Verdana";
             ctx.textBaseline = "right";
             ctx.fillText("C", ctxWidth/2, ctxHeight/2);
@@ -735,7 +726,6 @@ function drawTemplate(template, id){
             ctx.fillStyle = curColor;
             ctx.stroke();
             ctx.closePath();
-
             ctx.font = "bold 20px Verdana";
             ctx.textBaseline = "right";
             ctx.fillText("D", ctxWidth/2, ctxHeight/2);

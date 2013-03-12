@@ -344,6 +344,56 @@ $(document).ready(function() {
                         drawTemplate(vl.imageTemplate, id2);
                     }
 
+                    if(vl.teethId === "UPA"){
+                        $.each(UPA, function(kk, vv){
+                            var tn = $('#'+vv+' > canvas');
+                            var ot = otherTooth(vv);
+                            var atn = $('#'+ot+' > canvas');
+                            var id = "canvas"+vv+"_"+vl.serviceId+"_"+vl.id;
+                            var id2 = "canvas"+ot+"_"+vl.serviceId+"_"+vl.id;
+                            imageWidth = tn.attr("width");
+                            imageWidth2 = atn.attr("width");
+                            imageHeight = tn.attr("height");
+                            imageHeight2 = atn.attr("height");
+
+                            toothWithServiceFromDB.push("canvas"+vl.teethName+"_"+vl.serviceId);
+                            toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
+
+                            console.log(vl.imageTemplate);
+                            curColor = vl.color;
+                            if(vl.toolType === '3') {
+                                $('#'+vv+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id);
+                                $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id2);
+                            }
+                        })
+                    }
+                    if(vl.teethId === "LOWA"){
+                        $.each(LOWA, function(kk, vv){
+                            var tn = $('#'+vv+' > canvas');
+                            var ot = otherTooth(vv);
+                            var atn = $('#'+ot+' > canvas');
+                            var id = "canvas"+vv+"_"+vl.serviceId+"_"+vl.id;
+                            var id2 = "canvas"+ot+"_"+vl.serviceId+"_"+vl.id;
+                            imageWidth = tn.attr("width");
+                            imageWidth2 = atn.attr("width");
+                            imageHeight = tn.attr("height");
+                            imageHeight2 = atn.attr("height");
+
+                            toothWithServiceFromDB.push("canvas"+vl.teethName+"_"+vl.serviceId);
+                            toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
+
+                            console.log(vl.imageTemplate);
+                            curColor = vl.color;
+                            if(vl.toolType === '3') {
+                                $('#'+vv+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id);
+                                $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id2);
+                            }
+                        })
+                    }
 
                 })
             })

@@ -421,14 +421,17 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
 
           val tp = TreatmentPlanType("", serviceId, Some(""), Some(""), Some(""),Some(""), servicePrice, Some(""), datePerformed, teethId, Some(""), Some(""), Some(""),Some(""), patientId, dentistId, Some(""), image, Some(""))
 
+          tp.image = Some("")
+
           val abc = teethId.get.charAt(0)
-          if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 3 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
+
+          if( (tp.teethId.get == "UPA" || tp.teethId.get == "LOWA") && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 3 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
             tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)
-          } else if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
+          } else if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow))) ) {
             tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)
-          } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))){
+          } else if(TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 1 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow))) ){
             TreatmentPlanService.addTreatment(tp)
           }
           index+=1
