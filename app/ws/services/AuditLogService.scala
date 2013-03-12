@@ -714,11 +714,10 @@ object AuditLogService {
             |    users as u
             |ON
             |	a.user_name = u.user_name
-            |WHERE a.module = {module}
             |and (a.date_created BETWEEN {date_start} AND {date_end})
             |ORDER BY
             | a.date_created asc
-          """.stripMargin).on('module -> module, 'date_start -> dateStart, 'date_end -> dateEnd).as {
+          """.stripMargin).on( 'date_start -> dateStart, 'date_end -> dateEnd).as {
             get[String]("id") ~
             get[String]("task") ~
             get[String]("description") ~

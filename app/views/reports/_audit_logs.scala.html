@@ -14,6 +14,15 @@
         font-size: 24px;
 
         }
+
+
+        .title2 {
+        text-align: center;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 18px;
+
+        }
         .sub-title {
         text-align: center;
         font-size: 11px;
@@ -64,10 +73,25 @@
 </head>
 
 <body>
-<div class="title">Audit Log Report</div>
-<center>from @dateStart to @dateEnd</center>
-<p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
-<p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
+<div class="title">
+    @(play.cache.Cache.get("clinic-name"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-address"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-contact_no"))
+</div>
+<br/>
+<div class="title2">
+    Audit Log Report
+</div>
+<div class="sub-title">
+    @{if(dateStart.length != 0){
+    <span>from {dateStart} to {dateEnd}</span>
+    }
+    }
+</div>
 
 <div class="br-1"></div>
 <table class="table" border="1">
@@ -88,5 +112,9 @@
 </tr>
 }
      </table>
+<br/>
+<div class="footer">
+    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
+</div>
 </body>
 </html>

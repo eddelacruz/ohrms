@@ -547,4 +547,13 @@ $(document).ready(function() {
         $('#monthlyIncomeDateRange').attr('action', url);
     });
 
+    /*date range for monthly income*/
+    $('#auditLogDateRange').hover(function(){
+        var sd = $('#auditLogDateRange input.startDate').val();
+        var ed = $('#auditLogDateRange input.endDate').val();
+        var url =  '/reports/audit_logs/p/'+sd+'/'+ed;
+        $('#auditLogDateRange').attr('action', url);
+    });
+
+
 });
