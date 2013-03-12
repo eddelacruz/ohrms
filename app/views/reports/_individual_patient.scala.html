@@ -9,31 +9,108 @@
     @patientList.map { pl =>
     <title>pl.firstName pl.middleName pl.lastName Dental Report</title>
     }
+    <style type="text/css">
+        .title {
+        text-align: center;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 24px;
+
+        }
+
+        .title2 {
+        text-align: center;
+        font-weight: bold;
+        font-family: sans-serif;
+        font-size: 18px;
+
+        }
+
+        .sub-title {
+        text-align: center;
+        font-size: 11px;
+        font-weight: normal;
+        color: #8E8F92;
+        font-family: sans-serif;
+        }
+        .table {
+        width: 100%;
+        border-collapse: collapse;
+        display: table;
+        white-space: normal;
+        line-height: normal;
+        font-family: sans-serif;
+        font-weight: normal;
+        font-size: 12px;
+        font-variant: normal;
+        font-style: normal;
+        color: #000;
+        text-align: auto;
+        border-spacing: 2px;
+        border-color: #000;
+        }
+        .center {
+        text-align: center;
+        }
+        .medium-font {
+        font-size: 14px;
+        font-weight: medium;
+        }
+        .table-header {
+        color: #09A;
+        background-color: #E4FFFF;
+        padding-left: 10px;
+        padding-right: 10px;
+        }
+        .br-1 {
+        margin-bottom: 15px;
+        }
+        .footer {
+        text-align: right;
+        font-size: 11px;
+        font-weight: normal;
+        color: #8E8F92;
+        font-family: sans-serif;
+        }
+    </style>
 </head>
-
 <body>
-<p>Date Print:  @(DateWithTime.dateWithTimeString)</p>
-<p>Printed By:  @(play.cache.Cache.get("user_name"))</p>
- @patientList.map { pl =>
- @pl.firstName, @pl.middleName, @pl.lastName
-}
-<tr class="center">
-    <td>Service Name</td>
-    <td>Teeth Name</td>
-    <td>Price</td>
-    <td>Date Performed</td>
-    <td>Dentist Name</td>
-</tr>
- @treatmentPlan.map { tp =>
-
- <tr class="center">
-     <td>@tp.serviceName</td>
-     <td>@tp.teethName</td>
-     <td><span class="pesos">P</span> @tp.servicePrice</td>
-     <td>@tp.datePerformed</td>
-     <td>Dr. @tp.dentistName</td>
- </tr>
- }
-
+<div class="title">
+    @(play.cache.Cache.get("clinic-name"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-address"))
+</div>
+<div class="sub-title">
+    @(play.cache.Cache.get("clinic-contact_no"))
+</div>
+<br/>
+<div class="title2">
+    Patient Treatments List
+</div>
+<div class="br-1"></div>
+<table class="table" border="1">
+    <tr class="center table-header">
+        <td>Service Name</td>
+        <td>Teeth Name</td>
+        <td>Price</td>
+        <td>Date Performed</td>
+        <td>Dentist Name</td>
+    </tr>
+    @treatmentPlan.map { tp =>
+    <tr>
+        <td>@tp.serviceName</td>
+        <td>@tp.teethName</td>
+        <td><span class="pesos">P</span> @tp.servicePrice</td>
+        <td>@tp.datePerformed</td>
+        <td>Dr. @tp.dentistName</td>
+    </tr>
+    }
+</table>
+<br/>
+<div class="footer">
+    Printed on @(DateWithTime.dateWithTimeString) by @(play.cache.Cache.get("user_name"))
+</div>
 </body>
+
 </html>

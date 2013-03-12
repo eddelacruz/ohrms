@@ -9,6 +9,8 @@
 <!-- # Treatment Plan -->
 <header class="grid_12 head">
     <h1>Treatment Plan</h1>
+    @patientList.map { pl =>
+    <a class="function-button right" href='@routes.Reports._individualPatientReport(pl.id)'><span class="glyph portrait-view"></span> print treatments</a>
     <div class="clear"></div><span class="divider"></span>
 </header>
 
@@ -17,7 +19,6 @@
 <header>
     <div class="inner">
         <div class="left title">
-            @patientList.map { pl =>
             <h1>@pl.lastName, @pl.firstName @pl.middleName</h1>
             }
         </div>
@@ -145,7 +146,7 @@
                         <tbody>
                         @treatmentPlan.map { tp =>
                         <tr class="center">
-                            <td><input type='checkbox' data-teeth-name="@tp.teethName" data-service-id="@tp.serviceId" data-treat-id="@tp.id"></td>
+                            <td><input type='checkbox' data-teeth-name="@tp.teethId" data-service-id="@tp.serviceId" data-treat-id="@tp.id"></td>
                             <td><span class="label" style="background: @tp.color;">@tp.serviceName</span></td>
                             <td>@tp.teethName</td>
                             <td><span class="pesos">P</span> @tp.servicePrice</td>

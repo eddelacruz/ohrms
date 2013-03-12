@@ -1084,6 +1084,7 @@ function res() {
 
     /*tbl-treatment hide/show the service*/
     $('#tbl-treatments').find('input[type=checkbox]').click(function(){
+        //alert("witadsfasfdasdf");
         var dataCanvas = "#canvas"+$(this).attr("data-teeth-name")+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
         var dataCanvas2 = "#canvas"+otherTooth($(this).attr("data-teeth-name"))+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
         if($(this).attr("checked") === "checked"){
