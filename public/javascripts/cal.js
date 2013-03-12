@@ -182,25 +182,34 @@ $(document).ready(function() {
                     //console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>cal.js line 72"+s)
                     var allDay = (s.getHours() === 0) ? true : false;
                     var color, borderColor, textColor;
-                    switch(s.getDay()) {
-                    case 0: //sun
-                        color = '#803e96';
-                        borderColor = '#771d7d';
+
+                    var thisDay = new Date();
+
+                    if(thisDay.getDay() === s.getDay()){
+                        color = '#ee5f5b';
+                        borderColor = '#bd362f';
                         textColor = '#fff';
-                        break;
-                    case 1: //pending blue mon
+                    } else if(thisDay.getDay() < s.getDay()) {
                         color = '#006dcc';
                         borderColor = '#0044cc';
                         textColor = '#fff';
+                    } else {
+                        color = '#808080';
+                        borderColor = '#505050';
+                        textColor = '#fff';
+                    }
+
+                    /*switch(s.getDay()) {
+                    case 0: //sun
+                        color = '#808080';
+                        borderColor = '#505050';
+                        textColor = '#fff';
                         break;
+                    case 1: //pending blue mon
+
                     case 2: //rescheduled yellow tue
                         color = '#f2891e';
                         borderColor = '#cd6619';
-                        textColor = '#fff';
-                        break;
-                    case 3: //cancelled red wed
-                        color = '#ee5f5b';
-                        borderColor = '#bd362f';
                         textColor = '#fff';
                         break;
                     case 4: //completed green thu
@@ -222,7 +231,7 @@ $(document).ready(function() {
                         color = '#006dcc';
                         borderColor = '#0044cc';
                         textColor = '#fff';
-                    }
+                    }*/
                     $calendar.fullCalendar('addEventSource',
                         [{
                             title: vl[0].lastName+", "+vl[0].firstName+" "+vl[0].middleName+" - Dr. "+vl[1].dFirstName+" "+vl[1].dMiddleName+" "+vl[1].dLastName,
