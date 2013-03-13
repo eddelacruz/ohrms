@@ -440,7 +440,7 @@ function redefineFunctions() {
                     if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
                         setSymbol("ALLA", toolType, toolData);
                     }
-                    if($('#UPA input[type=checkbox]').attr("checked") === "checked" /*&& $.inArray("UPA_"+toolData, toothWithService) < 0*/){
+                    if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -453,7 +453,7 @@ function redefineFunctions() {
                         });
                         setSymbol("UPA", toolType, toolData);
                     }
-                    if($('#LOWA input[type=checkbox]').attr("checked") === "checked" /*&& $.inArray("LOWA_"+toolData, toothWithService) < 0*/){
+                    if($('#LOWA input[type=checkbox]').attr("checked") === "checked"){
                         $.each(LOWA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -676,7 +676,6 @@ function setSymbol(tooth, toolType, toolData) {
             }
 
             if(tooth === "ALLA" && $(group).length <= 0){
-                //alert("ahem");
                 $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
             }
 
@@ -689,17 +688,6 @@ function setSymbol(tooth, toolType, toolData) {
             var t = tooth+"_"+toolData;
             var index = $.inArray(t, toothWithService);
             toothWithService.remove(index);
-            /*if( ($('#UPA input[type=checkbox]').attr("checked") !== "checked") || ($('#LOWA input[type=checkbox]').attr("checked") !== "checked") && $.inArray(t, toothWithService) >= 0 ){
-                var t = "ALLA_"+toolData;
-                *//*var index = $.inArray(t, toothWithService);
-                toothWithService.remove(index);*//*
-                alert("alisin ung ALLA");
-                alert($.inArray(t, toothWithService));
-            }*/
-
-           /* if(tooth === "UPA" && $.inArray(z, toothWithService) <= 0){
-                toothWithService = [];
-            }*/
             //symbol only has remove from toothWithService
         }
     };

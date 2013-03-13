@@ -271,7 +271,8 @@ $(document).ready(function() {
                 toothWithService.remove($.inArray(c, toothWithService));
                 toothWithService.remove($.inArray(d, toothWithService));
                 $.inArray("ALLA_"+b[1], toothWithService) < 0? toothWithService.push("ALLA_"+b[1]): "";
-                break;
+            } else if( ($.inArray(d, toothWithService) >= 0) || ($.inArray(c, toothWithService) >=0) ){
+                toothWithService[$.inArray("ALLA_"+b[1], toothWithService)] = "";
             }
         }
 
@@ -293,6 +294,8 @@ $(document).ready(function() {
                     myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
                 }
                 myObject.image = "";
+            } else if (b[0] === ""){
+                ""
             } else {
                 myObject.service_id = b[1];
                 myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
@@ -305,9 +308,8 @@ $(document).ready(function() {
             myArray.push(myObject);
         }
         var json = {Treatment_Plan : myArray};
-        console.log
 
-        $.ajax({
+       $.ajax({
           type: "POST",
           url: "/json/treatment_plan",
           dataType: "json",
