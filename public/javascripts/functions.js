@@ -265,30 +265,53 @@ $(document).ready(function() {
         for(var i = 0 ; i<toothWithService.length; i++){
             var a = toothWithService[i];
             var b = a.split("_");
-            var myObject = new Object();
+            var c = "UPA_"+b[1];
+            var d = "LOWA_"+b[1];
+            if( ($.inArray(d, toothWithService) >= 0) && ($.inArray(c, toothWithService) >=0) ){
+                toothWithService.remove($.inArray(c, toothWithService));
+                toothWithService.remove($.inArray(d, toothWithService));
+                $.inArray("ALLA_"+b[1], toothWithService) < 0? toothWithService.push("ALLA_"+b[1]): "";
+                break;
+            }
+        }
 
-            myObject.service_id = b[1];
-            myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
-            //myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
-            myObject.date_performed = $("#canvas"+b[0]+"_"+b[1]).attr('data-date-performed');
-            myObject.teeth_name = b[0];
-            myObject.patient_id = $('.patient_information input[name=id]').val();
-            myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
-            myObject.image =  $("#canvas"+a)[0].toDataURL();
+        console.log(JSON.stringify(toothWithService));
+
+        for(var i = 0 ; i<toothWithService.length; i++){
+            var a = toothWithService[i];
+            var b = a.split("_");
+
+            var myObject = new Object();
+            if(b[0] === "ALLA" || b[0] === "ALLC"){
+                if(b[0]){
+                    myObject.service_id = b[1];
+                    myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
+                    //myObject.date_performed = y+"-"+(m+1)+"-"+d+" "+h+":"+min+":"+s;
+                    myObject.date_performed = $("#canvas"+b[0]+"_"+b[1]).attr('data-date-performed');
+                    myObject.teeth_name = b[0];
+                    myObject.patient_id = $('.patient_information input[name=id]').val();
+                    myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
+                }
+                myObject.image = "";
+            } else {
+                myObject.service_id = b[1];
+                myObject.service_price = $("#canvas"+b[0]+"_"+b[1]).attr('data-price');
+                myObject.date_performed = $("#canvas"+b[0]+"_"+b[1]).attr('data-date-performed');
+                myObject.teeth_name = b[0];
+                myObject.patient_id = $('.patient_information input[name=id]').val();
+                myObject.dentist_id = $("#canvas"+b[0]+"_"+b[1]).attr('data-dentist');
+                myObject.image =  $("#canvas"+a)[0].toDataURL();
+            }
             myArray.push(myObject);
         }
         var json = {Treatment_Plan : myArray};
-        //console.log(JSON.stringify(json));
+        console.log
 
         $.ajax({
           type: "POST",
           url: "/json/treatment_plan",
           dataType: "json",
           data: json,
-          error: function(xhr, ajaxOptions, thrownError){
-            /*alert(xhr.status);
-            alert(ajaxOptions);*/
-          },
           beforeSend: function(x) {
             if (x && x.overrideMimeType) {
                 x.overrideMimeType("application/j-son;charset=UTF-8");
@@ -299,9 +322,6 @@ $(document).ready(function() {
             url: "/patients/"+myObject.patient_id+"/treatment_plan/update",
             success: function(res) {
                 window.location = "/patients/"+myObject.patient_id+"/treatment_plan";
-//                console.log(res);
-                //$('.grid_11 table').html($(res).find('.grid_11 table').html());
-                //$('.mouth.child').html($(res).find('.mouth.child').html());
             }
           })
         });
@@ -371,6 +391,31 @@ $(document).ready(function() {
                     }
                     if(vl.teethId === "LOWA"){
                         $.each(LOWA, function(kk, vv){
+                            var tn = $('#'+vv+' > canvas');
+                            var ot = otherTooth(vv);
+                            var atn = $('#'+ot+' > canvas');
+                            var id = "canvas"+vv+"_"+vl.serviceId+"_"+vl.id;
+                            var id2 = "canvas"+ot+"_"+vl.serviceId+"_"+vl.id;
+                            imageWidth = tn.attr("width");
+                            imageWidth2 = atn.attr("width");
+                            imageHeight = tn.attr("height");
+                            imageHeight2 = atn.attr("height");
+
+                            toothWithServiceFromDB.push("canvas"+vl.teethName+"_"+vl.serviceId);
+                            toothWithServiceFromDB.push("canvas"+ot+"_"+vl.serviceId);
+
+                            console.log(vl.imageTemplate);
+                            curColor = vl.color;
+                            if(vl.toolType === '3') {
+                                $('#'+vv+'>canvas').before("<div class='absolute'><canvas id='"+id+"' width='"+imageWidth+"' height='"+imageHeight+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id);
+                                $('#'+ot+'>canvas').before("<div class='absolute'><canvas id='"+id2+"' width='"+imageWidth2+"' height='"+imageHeight2+"'></canvas></div>");
+                                drawTemplate(vl.imageTemplate, id2);
+                            }
+                        })
+                    }
+                    if(vl.teethId === "ALLA"){
+                        $.each(UPA.concat(LOWA), function(kk, vv){
                             var tn = $('#'+vv+' > canvas');
                             var ot = otherTooth(vv);
                             var atn = $('#'+ot+' > canvas');

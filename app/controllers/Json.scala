@@ -424,8 +424,9 @@ object Json extends Controller with WsHelper with SupplyDeserializer with Paymen
           tp.image = Some("")
 
           val abc = teethId.get.charAt(0)
+          println(tp.teethId.get)
 
-          if( (tp.teethId.get == "UPA" || tp.teethId.get == "LOWA") && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 3 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
+          if( (tp.teethId.get == "UPA" || tp.teethId.get == "LOWA" || tp.teethId.get == "ALLA" ) && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 3 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow)))) {
             tp.image = Some("")
             TreatmentPlanService.addTreatment(tp)
           } else if(abc == 'F' && TreatmentPlanService.checkDentalServiceToolType(serviceId.get) == 2 && (df.parseDateTime(datePerformed.get+":00").isBefore(df.parseDateTime(DateWithTime.dateNow))) ) {

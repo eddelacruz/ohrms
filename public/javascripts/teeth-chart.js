@@ -400,8 +400,8 @@ function redefineFunctions() {
                 var cv2 = '#'+otherTooth(tooth)+' div #canvas'+anotherTooth+'_'+toolData;
                 pair = [cv, cv2];
             } else if(toolType === 'selective'){
-                if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
-                    if($.inArray(tooth, UPA) > -1 || $.inArray(otherTooth(tooth), UPA) > -1){
+                /*if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
+                    if($.inArray("UPA_"+toolData, toothWithService) < 0){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -411,8 +411,13 @@ function redefineFunctions() {
                             pair.push(cv2);
                         });
                         setSymbol("UPA", toolType, toolData);
+                    } else {
+                        $('#UPA div #canvasUPA_'+toolData).parent().remove();
+                        var t = "UPA_"+toolData;
+                        var index = $.inArray(t, toothWithService);
+                        index >= 0 ? toothWithService.remove(index): "";
                     }
-                    if($.inArray(tooth, LOWA) > -1 || $.inArray(otherTooth(tooth), LOWA) > -1){
+                    if($.inArray("LOWA_"+toolData, toothWithService) < 0){
                         $.each(LOWA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -422,9 +427,20 @@ function redefineFunctions() {
                             pair.push(cv2);
                         });
                         setSymbol("LOWA", toolType, toolData);
+                    } else {
+                        $('#LOWA div #canvasLOWA_'+toolData).parent().remove();
+                        var t = "LOWA_"+toolData;
+                        var index = $.inArray(t, toothWithService);
+                        index >= 0 ? toothWithService.remove(index): "";
                     }
-                } else {
-                    if($('#UPA input[type=checkbox]').attr("checked") === "checked"){
+
+                    setSymbol("ALLA", toolType, toolData);
+                } else {*/
+                    //setSymbol("ALLA", toolType, toolData);
+                    if($('#UPA input[type=checkbox]').attr("checked") === "checked" && $('#LOWA input[type=checkbox]').attr("checked") === "checked"){
+                        setSymbol("ALLA", toolType, toolData);
+                    }
+                    if($('#UPA input[type=checkbox]').attr("checked") === "checked" /*&& $.inArray("UPA_"+toolData, toothWithService) < 0*/){
                         $.each(UPA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -437,7 +453,7 @@ function redefineFunctions() {
                         });
                         setSymbol("UPA", toolType, toolData);
                     }
-                    if($('#LOWA input[type=checkbox]').attr("checked") === "checked"){
+                    if($('#LOWA input[type=checkbox]').attr("checked") === "checked" /*&& $.inArray("LOWA_"+toolData, toothWithService) < 0*/){
                         $.each(LOWA, function(k, v){
                             setSymbol(v, toolType, toolData);
                             setSymbol(otherTooth(v), toolType, toolData);
@@ -450,7 +466,7 @@ function redefineFunctions() {
                         });
                         setSymbol("LOWA", toolType, toolData);
                     }
-                }
+                /*}*/
             }
 
             $.each(pair, function(k, v){
@@ -654,9 +670,16 @@ function setSymbol(tooth, toolType, toolData) {
             if(tooth === "UPA" && $(group).length <= 0){
                 $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
             }
+
             if(tooth === "LOWA" && $(group).length <= 0){
                 $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
             }
+
+            if(tooth === "ALLA" && $(group).length <= 0){
+                //alert("ahem");
+                $('#'+tooth).append("<div class='absolute'><canvas id='canvas"+t+"' data-price='"+price+"' data-dentist='"+dentist+"' data-date-performed='"+datePerformed+"'></div>");
+            }
+
 
             if($.inArray(tooth+"_"+toolData, toothWithService) <= -1){
                 toothWithService.push(tooth+"_"+toolData); //end of symbol
@@ -666,6 +689,17 @@ function setSymbol(tooth, toolType, toolData) {
             var t = tooth+"_"+toolData;
             var index = $.inArray(t, toothWithService);
             toothWithService.remove(index);
+            /*if( ($('#UPA input[type=checkbox]').attr("checked") !== "checked") || ($('#LOWA input[type=checkbox]').attr("checked") !== "checked") && $.inArray(t, toothWithService) >= 0 ){
+                var t = "ALLA_"+toolData;
+                *//*var index = $.inArray(t, toothWithService);
+                toothWithService.remove(index);*//*
+                alert("alisin ung ALLA");
+                alert($.inArray(t, toothWithService));
+            }*/
+
+           /* if(tooth === "UPA" && $.inArray(z, toothWithService) <= 0){
+                toothWithService = [];
+            }*/
             //symbol only has remove from toothWithService
         }
     };
