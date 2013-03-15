@@ -437,6 +437,16 @@ $(document).ready(function() {
                         $('#updateAppointmentModalForm select[name=dentist_id] option[value='+defaultDentistId+']').attr('selected','selected')
                         $('#updateAppointmentModalForm select[name=status] option[value='+defaultStatus+']').attr('selected','selected')
                         $('#updateAppointmentModalForm header>.inner>.left.title').html('<h1>Update Appointment for </h1>'+$(res).find('.main-box #updateAppointmentModal header>.inner>.left.title').html());
+                        var getDay = new Date($('#updateAppointmentModalForm input[name=date_end]').val());
+                        var thisDay = new Date();
+                        thisDay = new Date(thisDay.getFullYear()+"-"+thisDay.getMonth()+"-"+thisDay.getDate()+" 00:00:00").toString();
+                        getDay = new Date(getDay.getFullYear()+"-"+getDay.getMonth()+"-"+getDay.getDate()+" 00:00:00").toString();
+                        //alert(thisDay + getDay);
+                        if(thisDay === getDay){
+                            $('#add_patient').show();
+                        } else {
+                            $('#add_patient').hide();
+                        }
                     }
             })
             $('#updateAppointmentModalForm').modal({top: 'center'});

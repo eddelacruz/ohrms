@@ -1062,6 +1062,7 @@ function res() {
         }
     });
 
+    /*contact number validation*/
     $('input[name=contact_no]#contact_no').on("blur", function(e){
         var len = $(this).val().length;
         if($(this).val().length < 6 || $(this).val().length > 12){
@@ -1115,7 +1116,8 @@ function res() {
     $('select[class=discount]').change(function(){
        var multiplier = parseFloat($(this).val());
        var price = origPrice;
-       price = (price * multiplier).toFixed(2);
+       discount = (price * multiplier).toFixed(2);
+       price = price - discount;
        $('input[name=price]').val(price);
     });
 

@@ -100,7 +100,7 @@ object TreatmentPlanService {
             |s.`code` as 'service_code',
             |s.`tool_type`,
             |s.`type` as 'service_type',
-            |tp.`price` as 'service_price',
+            |FORMAT(tp.price, 2) as 'service_price',
             |s.`color`,
             |tp.`date_performed`,
             |ttha.`id` as 'teeth_id',
@@ -131,7 +131,7 @@ object TreatmentPlanService {
             get[Option[String]]("dental_services.code") ~
             get[Int]("dental_services.tool_type") ~
             get[Option[String]]("dental_services.type") ~
-            get[Option[String]]("treatment_plan.price") ~
+            get[Option[String]]("service_price") ~
             get[Option[String]]("dental_services.color") ~
             get[Date]("treatment_plan.date_performed") ~
             get[Option[String]]("teeth_affected.id") ~

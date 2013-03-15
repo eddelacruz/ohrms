@@ -42,7 +42,7 @@ object PaymentService {
             |pat.middle_name,
             |pat.last_name,
             |tp.date_performed,
-            |tp.price,
+            |FORMAT(tp.price, 2) as price,
             |s.name
             |from treatment_plan tp
             |left outer JOIN patients pat ON  tp.patient_id = pat.id
@@ -75,7 +75,7 @@ object PaymentService {
             |pat.middle_name,
             |pat.last_name,
             |tp.date_performed,
-            |tp.price,
+            |FORMAT(tp.price, 2) as price,
             |s.name
             |from treatment_plan tp
             |left outer JOIN patients pat ON  tp.patient_id = pat.id
