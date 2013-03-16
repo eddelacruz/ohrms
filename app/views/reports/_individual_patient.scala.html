@@ -7,7 +7,7 @@
 <html>
 <head>
     @patientList.map { pl =>
-    <title>pl.firstName pl.middleName pl.lastName Dental Report</title>
+    <title>@pl.firstName @pl.middleName @pl.lastName Dental Report</title>
     }
     <style type="text/css">
         .title {
@@ -15,17 +15,18 @@
         font-weight: bold;
         font-family: sans-serif;
         font-size: 24px;
-
         }
-
         .title2 {
         text-align: center;
         font-weight: bold;
         font-family: sans-serif;
         font-size: 18px;
-
         }
-
+        .title3 {
+        text-align: left;
+        font-family: sans-serif;
+        font-size: 12px;
+        }
         .sub-title {
         text-align: center;
         font-size: 11px;
@@ -85,8 +86,14 @@
     @(play.cache.Cache.get("clinic-contact_no"))
 </div>
 <br/>
+@patientList.map { pl =>
+<div class="title3">Patient Name: @pl.firstName @pl.middleName @pl.lastName</div>
+<div class="title3">Contact No.: @pl.contactNo</div>
+<div class="title3">Address: @pl.address</div>
+}
+<br/>
 <div class="title2">
-    Patient Treatments List
+    Dental History
 </div>
 <div class="br-1"></div>
 <table class="table" border="1">
