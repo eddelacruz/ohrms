@@ -74,7 +74,21 @@
                     <td>@pl.p.contactNo</td>
                     <td>@{pl.dateLastVisit match {
                         case Some("None") => "---"
-                        case _ => pl.dateLastVisit
+                        case _ =>
+                            pl.dateLastVisit.get.split(" ")(0).split("-")(1) match {
+                                case "01" => "Jan"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "02" => "Feb"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "03" => "Mar"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "04" => "Apr"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "05" => "May"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "06" => "Jun"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "07" => "Jul"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "08" => "Aug"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "09" => "Sep"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "10" => "Oct"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "11" => "Nov"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                                case "12" => "Dec"+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(2)+"-"+pl.dateLastVisit.get.split(" ")(0).split("-")(0)+" "+pl.dateLastVisit.get.split(" ")(1).split(":")(0)+":"+pl.dateLastVisit.get.split(" ")(1).split(":")(1)
+                            }
                     }}</td>
                     <td style="width: 15%;"><a href="@routes.Patient.getUpdateForm(pl.p.id)">edit</a></td>
                 </tr>

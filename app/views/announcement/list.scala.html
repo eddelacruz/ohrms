@@ -104,7 +104,22 @@
                 @announcementList.map { al =>
                 <tr>
                     <td class="sorting_1"><a href="@routes.Announcement.getAnnouncementListById(al.id)">@al.description</a></td>
-                    <td>@al.dateCreated</td>
+                    <td>@{al.dateCreated.get.split(" ")(0).split("-")(1) match {
+                        case "01" => "Jan"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "02" => "Feb"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "03" => "Mar"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "04" => "Apr"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "05" => "May"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "06" => "Jun"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "07" => "Jul"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "08" => "Aug"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "09" => "Sep"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "10" => "Oct"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "11" => "Nov"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        case "12" => "Dec"+"-"+al.dateCreated.get.split(" ")(0).split("-")(2)+"-"+al.dateCreated.get.split(" ")(0).split("-")(0)+" "+al.dateCreated.get.split(" ")(1).split(":")(0)+":"+al.dateCreated.get.split(" ")(1).split(":")(1)
+                        }
+                    }
+                    </td>
                     <td>@al.username</td>
                 </tr>
                 }
