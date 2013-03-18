@@ -1,0 +1,27 @@
+@(id: String, formId: String, patientList: List[ws.services.PatientList])
+<!-- PatientsModal -->
+<div class="box grid_5" id="@id" hidden="">
+    <header>
+        <div class="inner">
+            <div class="left title">
+                <h1>Type patient</h1>
+            </div>
+            <div class="right">
+                <a href="#" class="close">close</a>
+            </div>
+        </div>
+    </header>
+    <div class="box-content">
+        <form id="@formId" action="#">
+            <select name="patient_names" id="" multiple style="width: 100%;">
+                @patientList.map { pl =>
+                <option value="@pl.id">@pl.lastName, @pl.firstName @pl.middleName</option>
+                }
+            </select>
+            <footer class="pane">
+                <input type="submit" class="bt blue right" value="View Report" target="_blank">
+            </footer>
+        </form>
+    </div>
+</div>
+<!-- /PatientsModal -->

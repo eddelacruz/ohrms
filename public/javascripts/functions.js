@@ -594,7 +594,7 @@ $(document).ready(function() {
         $('#monthlyIncomeDateRange').attr('action', url);
     });
 
-    /*date range for monthly income*/
+    /*audit log range*/
     $('#auditLogDateRange').hover(function(){
         var sd = $('#auditLogDateRange input.startDate').val();
         var ed = $('#auditLogDateRange input.endDate').val();
@@ -602,5 +602,11 @@ $(document).ready(function() {
         $('#auditLogDateRange').attr('action', url);
     });
 
+    /*select patients, for reports*/
+    $('select[name=patient_names] option').click(function(){
+        var optionName = $(this).val();
+        var url =  '/reports/individual_patients/'+optionName;
+        $('#patients').attr('action', url);
+    });
 
 });

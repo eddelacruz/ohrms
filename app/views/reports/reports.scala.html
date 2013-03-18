@@ -1,3 +1,4 @@
+@import ws.services.PatientService
 @main("Reports"){
 <script type="text/javascript">
     $('.main-nav ul').children().removeClass('active');
@@ -7,6 +8,7 @@
 @modal._date_range("patientDateRangeModal", "patientDateRange")
 @modal._month_range("monthlyIncomeDateRangeModal", "monthlyIncomeDateRange")
 @modal._date_range("auditLogDateRangeModal", "auditLogDateRange")
+@modal._patients("patientsModal", "patients", PatientService.getAllPatients)
 
 <!--  Reports -->
 <header class="grid_12 head center">
@@ -35,6 +37,9 @@
         <li>
             <p><a href="#auditLogDateRangeModal" class="modal">Audit Log</a></p>
             <!--<p><a href='@routes.Reports._auditLogReport("p", "2013-02-27 06:22:05", "2013-09-27 06:24:52")' target="_blank">Audit Log</a></p>-->
+        </li>
+        <li>
+            <p><a href="#patientsModal" class="modal">Dental History</a></p>
         </li>
     </ul>
 </div>

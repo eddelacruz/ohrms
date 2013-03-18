@@ -169,8 +169,8 @@ var curColor;
 var serviceName;
 var paint;
 var ex;
-var UPA = ['F1','F2','F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16']; //must come from db via ajax call
-var LOWA = ['F17','F18','F19', 'F20', 'F21', 'F22', 'F23', 'F24', 'F25', 'F26', 'F27', 'F28', 'F29', 'F30', 'F31', 'F32'];
+//var UPA = ['F1','F2','F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16']; //must come from db via ajax call
+//var LOWA = ['F17','F18','F19', 'F20', 'F21', 'F22', 'F23', 'F24', 'F25', 'F26', 'F27', 'F28', 'F29', 'F30', 'F31', 'F32'];
 
 function setVariables(tooth, toolType, toolData) {
     //dito may error dapat ifix to, ang nanyayare ay if wala pang canvasFA_EXT or shit like dat, sinesave nya muna ung paint area...
@@ -704,18 +704,6 @@ function setSymbol(tooth, toolType, toolData) {
         }
     };
 };
-
-function otherTooth(tooth){
-    var word = tooth;
-    var len = word.length;
-    var fLetter = word.substr(0, 1);
-    var rLetters = word.substr(1, len);
-
-    var newWord = (fLetter === 'M') ? 'F' : 'M';
-    newWord = newWord + rLetters;
-
-    return newWord;
-}
 
 function drawTemplate(template, id){
     var c = document.getElementById(id);

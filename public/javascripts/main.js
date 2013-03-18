@@ -1,3 +1,19 @@
+var UPA = ['F1','F2','F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12', 'F13', 'F14', 'F15', 'F16']; //must come from db via ajax call
+var LOWA = ['F17','F18','F19', 'F20', 'F21', 'F22', 'F23', 'F24', 'F25', 'F26', 'F27', 'F28', 'F29', 'F30', 'F31', 'F32'];
+
+
+function otherTooth(tooth){
+    var word = tooth;
+    var len = word.length;
+    var fLetter = word.substr(0, 1);
+    var rLetters = word.substr(1, len);
+
+    var newWord = (fLetter === 'M') ? 'F' : 'M';
+    newWord = newWord + rLetters;
+
+    return newWord;
+}
+
 // onready
 jQuery(function($){
 
@@ -1085,9 +1101,52 @@ function res() {
 
     /*tbl-treatment hide/show the service*/
     $('#tbl-treatments').find('input[type=checkbox]').click(function(){
-        //alert("witadsfasfdasdf");
         var dataCanvas = "#canvas"+$(this).attr("data-teeth-name")+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
         var dataCanvas2 = "#canvas"+otherTooth($(this).attr("data-teeth-name"))+"_"+$(this).attr("data-service-id")+"_"+$(this).attr("data-treat-id");
+        var array = [];
+        var teethName = $(this).attr("data-teeth-name");
+        var serviceId = $(this).attr("data-service-id");
+        var treatId = $(this).attr("data-treat-id");
+        var status = $(this).attr("checked");
+
+        switch(teethName){
+            case "UPA":
+              array = UPA;
+              break;
+            case "LOWA":
+              array = LOWA;
+              break;
+            case "UPC":
+              array = UPA;
+              break;
+            case "LOWC":
+              array = LOWA;
+              break;
+            case "ALLA":
+              array = UPA.concat(LOWA);
+              break;
+            case "ALLC":
+              array = UPA.concat(LOWA);
+              break;
+            default:
+              console.log("teeth name not exists");
+        }
+
+        if( teethName === "UPA" || teethName === "LOWA" || teethName === "UPC" || teethName === "LOWC" || teethName === "ALLA" || teethName === "ALLC" ){
+            $.each(array, function(key, value){
+                var dataCanvas = "#canvas"+value+"_"+serviceId+"_"+treatId;
+                var dataCanvas2 = "#canvas"+otherTooth(value)+"_"+serviceId+"_"+treatId;
+                if(status === "checked"){
+                    $(dataCanvas).fadeOut();
+                    $(dataCanvas2).fadeOut();
+                } else {
+                    $(dataCanvas).fadeIn()
+                    $(dataCanvas2).fadeIn()
+                }
+            })
+        }
+
+
         if($(this).attr("checked") === "checked"){
             $(dataCanvas).fadeOut();
             $(dataCanvas2).fadeOut();
@@ -1129,5 +1188,8 @@ function res() {
         });
     });
 
+    /*$('.upper').hover(function(){
+        $(this).css("background-color","red");
+    });*/
 
 });

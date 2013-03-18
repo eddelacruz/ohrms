@@ -7,7 +7,7 @@
 <html>
 <head>
     @patientList.map { pl =>
-    <title>@pl.firstName @pl.middleName @pl.lastName Dental Report</title>
+    <title>@pl.lastName, @pl.firstName @pl.middleName  Dental Report</title>
     }
     <style type="text/css">
         .title {
@@ -87,7 +87,7 @@
 </div>
 <br/>
 @patientList.map { pl =>
-<div class="title3">Patient Name: @pl.firstName @pl.middleName @pl.lastName</div>
+<div class="title3">Patient Name: @pl.lastName, @pl.firstName @pl.middleName</div>
 <div class="title3">Contact No.: @pl.contactNo</div>
 <div class="title3">Address: @pl.address</div>
 }
